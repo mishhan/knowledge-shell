@@ -1,0 +1,19 @@
+<div class="frame-editor">
+  <ul class="frame-editor__navbar">
+    <li class="frame-editor__navbar-link-container">
+      <LinkTo @route="frame-base.index" class="frame-editor__navbar-link">Information</LinkTo>
+    </li>
+    <li class="frame-editor__navbar-link-container">
+      <LinkTo @route="frame-base.editor" class="frame-editor__navbar-link">Editor</LinkTo>
+    </li>
+    <li class="frame-editor__navbar-link-container">
+      <LinkTo @route="frame-base.domains" class="frame-editor__navbar-link">Domains</LinkTo>
+    </li>
+    <li class="frame-editor__navbar-link-container">
+      <LinkTo @route="frame-base.play" class="frame-editor__navbar-link">Play</LinkTo>
+    </li>
+  </ul>
+  <div class="frame-editor__content">
+    {{outlet}}
+  </div>
+</div>

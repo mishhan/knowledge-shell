@@ -1,0 +1,38 @@
+<DraggableObject @overrideClass='table__row' @content={{@slot}} @isSortable={{true}} @sortingScope="slotList">
+  <div class="table__cell slot-table__cell">
+    <span class="table__cell-value" data-test-slot-name>{{@slot.name}}</span>
+  </div>
+  <div class="table__cell slot-table__cell">
+    <span class="table__cell-value"
+      data-test-slot-domain>{{if (is-empty @slot.domain.name) "Not Set" @slot.domain.name}}</span>
+  </div>
+  <div class="table__cell slot-table__cell">
+    <span class="table__cell-value"
+      data-test-slot-value>{{if (is-empty @slot.value.valueStr) "Not Set" @slot.value.valueStr}}</span>
+  </div>
+  <div class="table__cell slot-table__cell">
+    <span class="table__cell-value">
+      <FaIcon @icon={{if @slot.hasProduction "check-square" "square"}} />
+    </span>
+  </div>
+  <div class="table__cell slot-table__cell">
+    <span class="table__cell-value">
+      <FaIcon @icon={{if @slot.isInherited "check-square" "square"}} />
+    </span>
+  </div>
+  <div class="table__cell slot-table__cell">
+    <button type="button" class="btn" {{on 'click' this.editSlot}} data-test-slot-edit>
+      <FaIcon @icon="edit" />
+    </button>
+    <button type="button" class="btn" disabled={{@slot.isInherited}} {{on 'click' (fn @deleteSlot @slot)}}
+      data-test-slot-delete>
+      <FaIcon @icon="trash" />
+    </button>
+  </div>
+</DraggableObject>
+{{#if @slot.isEditing}}
+<ModalDialog>
+  <Slot::Form @slot={{@slot}} @domains={{@domains}} @onSave={{this.onSaveSlot}}
+    @onCancelChanges={{this.onCancelSlotChanges}} />
+</ModalDialog>
+{{/if}}

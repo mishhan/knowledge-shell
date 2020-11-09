@@ -1,0 +1,20 @@
+<div class="table__row">
+  <div class="table__cell domain-table__cell" data-test-domain-name>{{@domain.name}}</div>
+  <div class="table__cell domain-table__cell" data-test-domain-values-length>{{@domain.domainValues.length}} values..
+  </div>
+  <div class="table__cell domain-table__cell">
+    <button type="button" disabled={{@domain.isReadOnly}} class="btn" {{on 'click' this.editDomain}}
+      data-test-domain-edit>
+      <FaIcon @icon="edit" />
+    </button>
+    <button type="button" disabled={{@domain.isReadOnly}} class="btn" {{on 'click' (fn @deleteDomain @domain)}}
+      data-test-domain-delete>
+      <FaIcon @icon="trash" />
+    </button>
+  </div>
+</div>
+{{#if @domain.isEditing}}
+<ModalDialog>
+  <Domain::Form @domain={{@domain}} onSave={{@onSave}} onCancelChanges={{@onCancelChanges}} />
+</ModalDialog>
+{{/if}}

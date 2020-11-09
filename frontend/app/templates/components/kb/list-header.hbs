@@ -1,0 +1,29 @@
+<div class="table__header">
+  <div class="table__header-item kb-table__item">
+    <span class="table__header-text">Name</span>
+  </div>
+  <div class="table__header-item kb-table__item">
+    <span class="table__header-text">Description</span>
+  </div>
+  <div class="table__header-item kb-table__item">
+    <span class="table__header-text">Creation Date</span>
+  </div>
+  <div class="table__header-item kb-table__item">
+    <span class="table__header-text">Modify Date</span>
+  </div>
+  <div class="table__header-item kb-table__item">
+    <span class="table__header-text">Actions</span>
+  </div>
+</div>
+{{#if @showActionBar}}
+<div class="table__bar">
+  <div class="table__search-container kb-table__search-container">
+    <Input placeholder="Filter" @class="input table__search-input" @type="text" @value={{@query}} />
+  </div>
+  <div class="table__actions kb-table__actions">
+    <button type="button" class="table__add-btn" {{on 'click' @addKb}}>
+      <FaIcon @icon="plus-square" />
+    </button>
+  </div>
+</div>
+{{/if}}

@@ -1,0 +1,23 @@
+<div class="table__header">
+  <div class="table__header-item domain-table__item">
+    <span class="table__header-text">Name</span>
+  </div>
+  <div class="table__header-item domain-table__item">
+    <span class="table__header-text">Values</span>
+  </div>
+  <div class="table__header-item domain-table__item">
+    <span class="table__header-text">Actions</span>
+  </div>
+</div>
+{{#if @showActionBar}}
+<div class="table__bar">
+  <div class="table__search-container domain-table__search-container">
+    <Input placeholder="Filter" @class="input table__search-input" @type="text" @value={{@query}} />
+  </div>
+  <div class="table__actions domain-table__actions">
+    <button type="button" class="table__add-btn" {{on 'click' @addDomain}}>
+      <FaIcon @icon="plus-square" />
+    </button>
+  </div>
+</div>
+{{/if}}
