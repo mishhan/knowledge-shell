@@ -1,0 +1,39 @@
+<div class="form domain-form">
+  <div class="form__field">
+    <label for="domain_name" class="form__field-label">Name</label>
+    <Input @type="text" id="domain_name" placeholder="Name" @value={{@domain.name}}
+      @class="input input_labeled {{if @domain.validations.attrs.name.isValid 'input_valid' 'input_invalid'}}" />
+  </div>
+  <div class="form__field">
+    <label for="new_value" class="form__field-label">New Value</label>
+    <Input @type="text" id="new_value" placeholder="Value" @value={{this.newValue}}
+      @class="input input_labeled {{if this.isNewValueValid 'input_valid' 'input_invalid'}}" />
+    <button type="button" class="btn form__field-button" disabled={{not this.isNewValueValid}}
+      {{on 'click' (fn this.addValue)}}>
+      <FaIcon @icon="check" />
+    </button>
+  </div>
+  <SortableObjects @sortableObjectList={{@domain.domainValuesOrdered}} @useSwap={{false}} @inPlace={{true}}
+    @sortingScope="domainValueList" @enableSort={{true}}
+    @sortEndAction={{fn this.reorderValues @domain.domainValuesOrdered}}>
+    {{#each @domain.domainValuesOrdered as |domainValue index|}}
+    <DraggableObject @overrideClass='form__field' @content={{domainValue}} @isSortable={{true}}
+      @sortingScope="domainValueList">
+      <label class="form__field-label">Value {{index}}</label>
+      <Input @type="text" placeholder="Value" @value={{domainValue.value}}
+        @class="input input_labeled {{if domainValue.validations.attrs.value.isValid 'input_valid' 'input_invalid'}}" />
+      <button type="button" class="btn form__field-button" {{on 'click' (fn this.deleteValue domainValue)}}>
+        <FaIcon @icon="trash" />
+      </button>
+    </DraggableObject>
+    {{/each}}
+  </SortableObjects>
+  <div class="form__panel">
+    <button type="button" class="btn" {{on 'click' @onSave}}>
+      <FaIcon @icon="check" />
+    </button>
+    <button type="button" class="btn" {{on 'click' @onCancelChanges}}>
+      <FaIcon @icon="window-close" />
+    </button>
+  </div>
+</div>

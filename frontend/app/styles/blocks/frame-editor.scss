@@ -1,0 +1,79 @@
+.frame-editor {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  &__navbar {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    background-color: $frame-editor-nav-bg-color;
+  }
+
+  &__navbar-link-container {
+    padding: 12px;
+    margin: 6px 0px;
+  }
+
+  &__navbar-link {
+    padding: 12px;
+    color: $frame-editor-nav-link-color;
+
+    &.active {
+      background-color: $frame-editor-nav-ling-active-bg-color;
+      color: white;
+      border-radius: 5px;
+    }
+
+    &:hover {
+      background-color: $frame-editor-nav-ling-hover-bg-color;
+      color: white;
+      border-radius: 5px;
+    }
+  }
+
+  &__content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__graph {
+    border: $default-border;
+  }
+
+  &__selected-frame {
+    flex-grow: 1;
+  }
+
+  &__frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: flex-end;
+
+    margin: 0px 5px;
+  }
+
+  &__name-container {
+    margin-right: 20px;
+    margin-left: 5px;
+    padding: 5px 0px;
+  }
+
+  &__actions-container {
+    padding: 5px 0px;
+  }
+
+  &__game-panel {
+    display: flex;
+    flex-direction: row;
+    margin: 5px 10%;
+  }
+
+  &__log {
+    margin: 0 10%;
+  }
+}

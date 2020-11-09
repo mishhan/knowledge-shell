@@ -1,0 +1,25 @@
+<div class="table__row">
+  <div class="table__cell kb-table__cell" data-test-kb-name>{{@kb.name}}</div>
+  <div class="table__cell kb-table__cell" data-test-kb-description>{{@kb.description}}</div>
+  <div class="table__cell kb-table__cell" data-test-kb-createdAt>{{format-date @kb.createdAt 'MM/dd/yyyy'}}</div>
+  <div class="table__cell kb-table__cell" data-test-kb-updatedAt>{{format-date @kb.updatedAt 'MM/dd/yyyy'}}</div>
+  <div class="table__cell kb-table__cell">
+    <button type="button" class="btn" {{on 'click' @view}} data-test-kb-view>
+      <FaIcon @icon="eye" />
+    </button>
+    <button type="button" class="btn" {{on 'click' @play}} data-test-kb-play>
+      <FaIcon @icon="play" />
+    </button>
+    <button type="button" class="btn" {{on 'click' @edit}} data-test-kb-edit>
+      <FaIcon @icon="edit" />
+    </button>
+    <button type="button" class="btn" {{on 'click' @delete}} data-test-kb-delete>
+      <FaIcon @icon="trash" />
+    </button>
+  </div>
+</div>
+{{#if @kb.isEditing}}
+<ModalDialog>
+  <Kb::Form @kb={{@kb}} @onSave={{@onSave}} @onCancelChanges={{@onCancelChanges}} />
+</ModalDialog>
+{{/if}}
