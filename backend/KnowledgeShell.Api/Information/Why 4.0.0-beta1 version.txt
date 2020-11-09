@@ -1,0 +1,19 @@
+﻿There's a problem using latest version of https://github.com/json-api-dotnet/JsonApiDotNetCore
+See issue and posible solution: https://github.com/json-api-dotnet/JsonApiDotNetCore/issues/726
+However it's easier just to deprecate version to 2.1 and everything works fine!
+
+After some work I realized that version 2.1 doesn't patch relations.. 
+(in my case doesn't patch parent for model Frame)
+I've tried to use a lot of versions for example 2.3;2.4;2.5... and higher but I've got an error with
+System.Interactive.Async
+possible solutions:
+https://github.com/dotnet/aspnetcore/issues/1818
+https://github.com/dotnet/efcore/issues/8541
+but it didn't work out, so I've tried 2.2.5 and it works! (hope not only for today :D)
+
+After a bit more work I realized that 2.2.5 didn't support nested relations (comments.author.info)
+so I tried a lot of versions and come to the conclusion that I should try current version and after some
+refactoring it works! (you have to manually install all dependencies... build current version and add as dependency in your project)
+
+Filters don't work in 4.0.0-alpha so after releasing new 4.0.0-beta1 everything is fine
+see: https://github.com/json-api-dotnet/JsonApiDotNetCore/releases/tag/v4.0.0-beta1

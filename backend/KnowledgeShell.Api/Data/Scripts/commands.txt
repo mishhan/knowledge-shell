@@ -1,0 +1,2 @@
+﻿pg_dump --dbname knowledge_shell --username postgres --create > db.sql
+psql -U postgres -d knowledge_shell -1 -f db.sql
