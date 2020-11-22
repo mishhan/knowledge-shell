@@ -1,33 +1,32 @@
 .game-panel {
-  width: 40%;
+	width: 40%;
 
-  &__element {
-    display: flex;
-    flex-direction: row;
-    border-top: $default-border;
-    border-right: $default-border;
-  }
+	&__element {
+		display: flex;
+		flex-direction: row;
+		border-top: $default-border;
+		border-right: $default-border;
+	}
 
-  &__service-panel {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 10px;
-    border: $default-border;
-  }
+	&__service-panel {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		padding: 10px;
+		border: $default-border;
+	}
 
-  &__element-avatar {
-    border-left: $default-border;
-    border-right: $default-border;
-  }
+	&__element-avatar {
+		border-left: $default-border;
+		border-right: $default-border;
+	}
 
-  &__element-info {
-    flex-grow: 1;
-    overflow-y: scroll;
-  }
+	&__element-info {
+		flex-grow: 1;
+	}
 
-  &__element-attr {
-    text-align: left;
-    margin: 10px;
-  }
+	&__element-attr {
+		text-align: left;
+		margin: 10px;
+	}
 }

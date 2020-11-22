@@ -9,11 +9,13 @@ export default class FrameGetSlotNode extends BinarNode {
     super(leftNode, rightNode, production);
   }
 
-  public evaluate(): Slot | undefined {
+  public evaluate(): Slot {
     const frame: Frame = this.leftNode.evaluateR();
     if (frame) {
-      return frame.getSlot(this.rightNode.evaluateR());
+      const rightNodeValue = this.rightNode.evaluateR();
+      return frame.getSlot(rightNodeValue);
     }
-    return undefined;
+
+    throw new Error(`${typeof(FrameGetSlotNode)} frame is undefined`);
   }
 }

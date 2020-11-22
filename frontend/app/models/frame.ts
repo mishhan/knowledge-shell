@@ -81,8 +81,8 @@ export default class Frame extends Model {
     return -1;
   }
 
-  public getSlot(slotName: string): Slot | undefined {
-    return this.ownSlots.find((slot) => isEqual(slot.name, slotName));
+  public getSlot(slotName: string): Slot {
+    return this.ownSlots.find((slot) => isEqual(slot.name, slotName)) as Slot;
   }
 }
 
