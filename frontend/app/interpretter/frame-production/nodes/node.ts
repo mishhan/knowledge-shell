@@ -8,6 +8,7 @@ export default abstract class Node {
   }
 
   public evaluate(): any {};
+  
   public toRValue(value: any): any {
     if (value === null) {
       return null;
@@ -21,6 +22,8 @@ export default abstract class Node {
   }
 
   public evaluateR(): any {
-    return this.toRValue(this.evaluate());
+    const evaluatedValue = this.evaluate();
+    const rValue = this.toRValue(evaluatedValue);
+    return rValue;
   }
 }

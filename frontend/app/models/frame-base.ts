@@ -69,12 +69,24 @@ export default class FrameBase extends Model {
     });
   }
 
+  getFrame(frameName: string): Frame {
+    return this.frames.find((frame: Frame) => frame.name === frameName) as Frame;
+  }
+
+  getDomain(domainName: string): Domain {
+    return this.domains.find((domain: Domain) => domain.name === domainName) as Domain;
+  }
+
   addFrame({ x, y }: { x: number, y: number }): void {
     this.frameObserver.addFrame(this, { x, y });
   }
 
-  addFrameSample(framePrototype: Frame): Frame {
+  addFrameSample(framePrototype?: Frame): Frame {
     return this.frameObserver.addFrameSample(this, framePrototype);
+  }
+
+  addEmptySlot(): Slot {
+    return this.frameObserver.addEmptySlot();
   }
 
   setParent(frame: Frame, parentFrame: Frame | null): void {

@@ -246,7 +246,7 @@ export default class Interpretter {
       return currentSlot;
     }
 
-    throw new Error('Unreachable code...');
+    throw new Error("Unreachable code...");
   }
 
   private isRelationToken(tokenType: TokenType): boolean {

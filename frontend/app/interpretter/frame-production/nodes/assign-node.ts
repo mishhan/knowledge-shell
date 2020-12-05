@@ -8,14 +8,14 @@ export default class AssignNode extends BinarNode {
   }
 
   public evaluate() {
-    const leftNodeValue = this.leftNode.evaluateR();
-    const rightNodeValue = this.rightNode.evaluateR();
+    let leftNodeValue = this.leftNode.evaluate();
+    const rightNodeValue = this.rightNode.evaluate();
 
     if (leftNodeValue == null || rightNodeValue == null) {
       return null;
     }
 
-    leftNodeValue.value = leftNodeValue.domain.getValue(rightNodeValue.valueStr);
+    leftNodeValue.value = leftNodeValue.domain.getDomainValueStringByName(rightNodeValue.valueStr);
     return rightNodeValue;
   }
 }

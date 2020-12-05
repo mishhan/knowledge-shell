@@ -2,7 +2,7 @@ import Model, { attr, belongsTo, hasMany } from "@ember-data/model";
 import { isEqual } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { computed } from "@ember/object";
-import { DomainValue, DomainValueFrame, FrameBase } from ".";
+import { DomainValue, DomainValueFrame, DomainValueString, Frame, FrameBase } from ".";
 
 export default class Domain extends Model {
   @attr("string") name!: string;
@@ -17,15 +17,27 @@ export default class Domain extends Model {
   @computed("domainValues.[]", function () {
     return this.domainValues.sortBy("order");
   })
-  domainValuesOrdered!: Domain[];
+  domainValuesOrdered!: DomainValue[];
+
+  @computed.oneWay("domainValues.length")
+  length!: number;
 
   @tracked
   isEditing!: boolean;
 
-  public getFrameDomainValue(frameName: string): DomainValueFrame | undefined {
-    return this
-    .domainValues
-    .find((dv) => isEqual((dv as DomainValueFrame).valueStr, frameName)) as DomainValueFrame;
+  getDomainValueFrameByFrameName(frameName: string): DomainValueFrame {
+    return this.domainValues
+      .find((dv: DomainValueFrame) => isEqual(dv.valueStr, frameName)) as DomainValueFrame;
+  }
+
+  getDomainValueStringByName(valueName: string): DomainValueString {
+    return this.domainValues
+      .find((dv: DomainValueString) => isEqual(dv.value, valueName)) as DomainValueString;
+  }
+
+  getDomainValueFrameByFrame(frame: Frame): DomainValueFrame {
+    return this.domainValues
+      .find((dv: DomainValueFrame) => isEqual(dv.value, frame)) as DomainValueFrame;
   }
 
   addValue(newValue: string): void {
