@@ -13,11 +13,6 @@ export default class FrameBasePlayController extends Controller {
   @computed.oneWay("battleCore.x") x!: number;
   @computed.oneWay("battleCore.y") y!: number;
 
-  @computed("x", "y", function () {
-    return `grid-template-columns: repeat(${this.x}, 100px); grid-template-rows: repeat(${this.y}, 100px)`;
-  })
-  fieldStyle!: string;
-
   @tracked battleCore!: BattleCore;
 
   initGame(): void {

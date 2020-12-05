@@ -1,0 +1,43 @@
+<div class="game-panel">
+  {{#each @panelObjects as |panelObject|}}
+  <div class="game-panel__element">
+    <DraggableObject @overrideClass="game-panel__element-avatar" @content={{panelObject}}>
+      <img src={{this.defaultHeroAvatar}} alt={{panelObject.name}} width="100" height="100">
+    </DraggableObject>
+    <div class="game-panel__element-info">
+      <div class="game-panel__element-attr">
+        <span class="game-panel__element-attr-text">{{panelObject.name}}</span>
+      </div>
+      <div class="game-panel__element-attr">
+        <span class="game-panel__element-attr-text">Attributes</span>
+      </div>
+      <div class="game-panel__element-attr">
+        <span class="game-panel__element-attr-text">{{panelObject.slotNames}}</span>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+  <div class="game-panel__service-panel">
+    <button type="button" {{on 'click' @playStep}}>
+      <FaIcon @icon="play" />
+    </button>
+  </div>
+</div>
+<div class="game-field">
+  {{!-- template-lint-disable  --}}
+  <div class="game-field__field" style={{this.fieldStyle}}>
+    {{#each @battleField.sortedSlots as |slot|}}
+    <DraggableObjectTarget @overrideClass='game-field__cell' @action={{@addMoveObjectOnField}} @slotName={{slot.name}}>
+      {{#let (get-slot-value slot "Picture") as |slotPicture|}}
+      {{#if (not (is-empty slotPicture))}}
+      <DraggableObject @content={{slot}} @overrideClass='game-field__cell-draggable'>
+        <img class="game-field__cell-image" src={{this.defaultHeroAvatar}} alt="Hero" width="100" height="100">
+      </DraggableObject>
+      {{else}}
+      <img class="game-field__cell-image" src={{this.defaultCellImage}} alt="Grass" width="100" height="100">
+      {{/if}}
+      {{/let}}
+    </DraggableObjectTarget>
+    {{/each}}
+  </div>
+</div>
