@@ -3,8 +3,8 @@ import { inject as service } from "@ember/service";
 import { computed } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 import { hash } from "rsvp";
-import FrameObserver from "knowledge-shell/services/frame-observer";
 import { Frame, Domain, Slot } from ".";
+import FrameObserver from "knowledge-shell/services/frame-observer";
 
 export default class FrameBase extends Model {
   @service("frame-observer") frameObserver!: FrameObserver;

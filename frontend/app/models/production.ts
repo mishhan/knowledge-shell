@@ -1,5 +1,5 @@
 import Model, { attr, belongsTo } from "@ember-data/model";
-import Slot from "./slot";
+import { Slot } from ".";
 
 export default class Production extends Model {
   @attr("string") text!: string;

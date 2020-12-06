@@ -1,0 +1,15 @@
+.frame-base {
+	margin: 0 10%;
+
+	&__name {
+		text-align: center;
+	}
+
+	&__table-item {
+		width: 50%;
+	}
+
+	&__table-cell {
+		width: 50%;
+	}
+}

@@ -1,7 +1,6 @@
 import { belongsTo } from "@ember-data/model";
 import { computed } from "@ember/object";
-import DomainValue from "./domain-value";
-import Frame from "./frame";
+import { DomainValue, Frame } from ".";
 
 export default class DomainValueFrame extends DomainValue {
   @belongsTo("frame", { async: false })

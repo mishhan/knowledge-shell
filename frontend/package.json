@@ -84,6 +84,7 @@
   "dependencies": {
     "@types/ember-data__model": "^3.16.1",
     "date-fns": "^2.16.1",
+    "microtip": "^0.2.2",
     "vis-data": "^7.1.0",
     "vis-network": "^8.5.2",
     "vis-util": "^4.3.4"
