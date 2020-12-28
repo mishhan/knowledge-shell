@@ -2,7 +2,11 @@ import Model, { attr, belongsTo, hasMany } from "@ember-data/model";
 import { isEqual } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { computed } from "@ember/object";
-import { DomainValue, DomainValueFrame, DomainValueString, Frame, FrameBase } from ".";
+import DomainValue from "./domain-value";
+import DomainValueFrame from "./domain-value-frame";
+import DomainValueString from "./domain-value-string";
+import Frame from "./frame";
+import FrameBase from "./frame-base";
 
 export default class Domain extends Model {
   @attr("string") name!: string;
