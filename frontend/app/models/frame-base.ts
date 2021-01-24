@@ -33,8 +33,8 @@ export default class FrameBase extends Model {
   domains!: Domain[];
 
   @computed("domains")
-  get frameDomain() : Domain | undefined {
-    return this.domains.findBy("isReadOnly", true);
+  get frameDomain() : Domain {
+    return this.domains.findBy("isReadOnly", true) as Domain;
   }
 
   @tracked
@@ -63,6 +63,10 @@ export default class FrameBase extends Model {
       domainValueString: this.store.query("domain-value-string", {
         filter: `equals(domain.frameBase.id,'${this.id}')`,
         include: "domain",
+      }),
+      domainValueNumbers: this.store.query("domain-value-number", {
+        filter: `equals(domain.frameBase.id,'${this.id}')`,
+        include: "domain"
       }),
       domainValueFrames: this.store.query("domain-value-frame", {
         filter: `equals(domain.frameBase.id,'${this.id}')`,

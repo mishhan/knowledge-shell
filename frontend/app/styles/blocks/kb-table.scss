@@ -1,17 +1,19 @@
 .kb-table {
-  &__item {
-    width: 20%;
-  }
+	$column-width: 20%;
 
-  &__search-container {
-    width: 80%;
-  }
+	&__item {
+		width: $column-width;
+	}
 
-  &__actions {
-    width: 20%;
-  }
+	&__search-container {
+		width: $column-width;
+	}
 
-  &__cell {
-    width: 20%;
-  }
+	&__actions {
+		width: $column-width;
+	}
+
+	&__cell {
+		width: $column-width;
+	}
 }

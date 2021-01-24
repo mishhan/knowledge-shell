@@ -6,12 +6,16 @@ import { Domain, DomainValue, FrameBase } from "knowledge-shell/models";
 export default class FrameBaseDomains extends Controller {
   @tracked search = "";
 
-  @computed.oneWay("model")
+  @computed.oneWay("model") 
   frameBase!: FrameBase;
 
+  @computed("model.domains.[]")
   get orderedDomains(): Domain[] {
-    return this.model.domains.sortBy("name");
-  }
+    const frameDomain = this.frameBase.frameDomain;
+    const domains = this.frameBase.domains.filter((domain: Domain) => !domain.isReadOnly);
+    const sortedDomains = domains.sortBy("name");
+    return [frameDomain].concat(sortedDomains);
+  };
 
   @action
   addDomain() {
@@ -42,6 +46,7 @@ export default class FrameBaseDomains extends Controller {
     domain.domainValues.forEach((domainValue: DomainValue) => {
       domainValue.destroyRecord();
     });
+    this.frameBase.domains.removeObject(domain);
     domain.destroyRecord();
   }
 

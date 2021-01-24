@@ -16,6 +16,7 @@
         public DbSet<DomainValue> DomainValues { get; set; }
         public DbSet<DomainValueString> DomainValueStrings { get; set; }
         public DbSet<DomainValueFrame> DomainValueFrames { get; set; }
+        public DbSet<DomainValueNumber> DomainValueNumbers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

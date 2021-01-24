@@ -2,6 +2,7 @@ import Model, { attr, belongsTo, hasMany } from "@ember-data/model";
 import { isEqual } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { computed } from "@ember/object";
+import { DomainType } from "./domain-type";
 import DomainValue from "./domain-value";
 import DomainValueFrame from "./domain-value-frame";
 import DomainValueString from "./domain-value-string";
@@ -9,8 +10,10 @@ import Frame from "./frame";
 import FrameBase from "./frame-base";
 
 export default class Domain extends Model {
-  @attr("string") name!: string;
-  @attr("boolean") isReadOnly!: boolean;
+  @attr("string", { defaultValue: "New Domain" }) name!: string;
+  @attr("string", { defaultValue: "New Domain Description" }) description!: string;
+  @attr("number", { defaultValue: 0 }) domainType!: DomainType;
+  @attr("boolean", { defaultValue: false }) isReadOnly!: boolean;
 
   @belongsTo("frame-base", { async: false })
   frameBase!: FrameBase;
@@ -18,13 +21,18 @@ export default class Domain extends Model {
   @hasMany("domain-value", { async: false, inverse: "domain", polymorphic: true })
   domainValues!: DomainValue[];
 
-  @computed("domainValues.[]", function () {
+  @computed("domainValues.[]")
+  get domainValuesOrdered(): DomainValue[] {
     return this.domainValues.sortBy("order");
-  })
-  domainValuesOrdered!: DomainValue[];
+  };
 
   @computed.oneWay("domainValues.length")
   length!: number;
+
+  @computed("domainType")
+  get domainTypeName(): string {
+    return DomainType[this.domainType];
+  };
 
   @tracked
   isEditing!: boolean;
@@ -53,6 +61,7 @@ export default class Domain extends Model {
 
   deleteValue(value: DomainValue) {
     this.domainValues.removeObject(value);
+    value.destroyRecord();
   }
 }
 

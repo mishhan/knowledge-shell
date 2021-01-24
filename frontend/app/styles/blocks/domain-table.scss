@@ -1,17 +1,19 @@
 .domain-table {
-  &__item {
-    width: 33.3%;
-  }
+	$column-width: 20%;
 
-  &__search-container {
-    width: 66.6%;
-  }
+	&__header-item {
+		width: $column-width;
+	}
 
-  &__actions {
-    width: 33.3%;
-  }
+	&__search-container {
+		width: $column-width;
+	}
 
-  &__cell {
-    width: 33.3%;
-  }
+	&__actions {
+		width: $column-width;
+	}
+
+	&__cell {
+		width: $column-width;
+	}
 }

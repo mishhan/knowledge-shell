@@ -7,7 +7,7 @@
     public class DomainValueFrame : DomainValue
     {
         [HasOne(PublicName = "value")]
-        public virtual Frame Value { get; set; }
-        public Guid ValueId { get; set; }
+        public virtual Frame FrameValue { get; set; }
+        public Guid FrameValueId { get; set; }
     }
 }
