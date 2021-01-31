@@ -52,9 +52,9 @@ export default class BattleCore extends EmberObject {
       const { x, y } = this.getXY(cellName);
       const frameSample = this.frameBase.addFrameSample(panelObject);
       frameSample.getSlot(BATTLE_SETTINGS.xDomainName).value = 
-        this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).getDomainValueStringByName(x);
+        this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).getDomainValue(x);
       frameSample.getSlot(BATTLE_SETTINGS.yDomainName).value = 
-        this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).getDomainValueStringByName(y);
+        this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).getDomainValue(y);
 
       const nullSlots = frameSample.ownSlots.filter((sl) => isEmpty(sl.value));
       for (const nullSlot of nullSlots) {
@@ -77,9 +77,9 @@ export default class BattleCore extends EmberObject {
       const { x, y } = this.getXY(newCellName);
 
       frameSample.getSlot(BATTLE_SETTINGS.xDomainName).value = 
-        this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).getDomainValueStringByName(x);
+        this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).getDomainValue(x);
       frameSample.getSlot(BATTLE_SETTINGS.yDomainName).value = 
-        this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).getDomainValueStringByName(y);
+        this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).getDomainValue(y);
       
       gameObjectCell.value = 
         this.frameDomain.getDomainValueFrameByFrame((battleCell.value as DomainValueFrame).value);
@@ -150,8 +150,8 @@ export default class BattleCore extends EmberObject {
     for (const slot of this.battleField.sortedSlots) {
       const freeCellSample = this.frameBase.addFrameSample(this.freeCell);
       const { x, y } = this.getXY(slot.name);
-      freeCellSample.getSlot(BATTLE_SETTINGS.xDomainName).value = this.frameDomain.getDomainValueStringByName(x);
-      freeCellSample.getSlot(BATTLE_SETTINGS.yDomainName).value = this.frameDomain.getDomainValueStringByName(y);
+      freeCellSample.getSlot(BATTLE_SETTINGS.xDomainName).value = this.frameDomain.getDomainValue(x);
+      freeCellSample.getSlot(BATTLE_SETTINGS.yDomainName).value = this.frameDomain.getDomainValue(y);
       
       slot.value = this.frameDomain.getDomainValueFrameByFrame(freeCellSample);
     } 
@@ -168,9 +168,9 @@ export default class BattleCore extends EmberObject {
     }
   }
 
-  private getXY(slotName: string): { x: string, y: string } {
+  private getXY(slotName: string): { x: number, y: number } {
     const splittedSlotName = slotName.split("_");
-    return { x: splittedSlotName[1], y: splittedSlotName[2] };
+    return { x: Number(splittedSlotName[1]), y: Number(splittedSlotName[2]) };
   }
 
   private isPanelObject(frame: Frame): boolean {

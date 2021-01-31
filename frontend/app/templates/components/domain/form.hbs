@@ -13,8 +13,8 @@
   {{#if (eq @domain.domainType 2)}}
   <div class="form__field">
     <label for="value" class="form__field-label">New Value</label>
-    <Input id="value" @type="text" class="input input_labeled" placeholder="Value" @value={{this.newValue}} />
-    <button type="button" class="btn form__field-button" {{on 'click' this.addValue}}>
+    <Input id="value" @type="text" class="input input_labeled" placeholder="Value" @value={{this.newValueString}} />
+    <button type="button" class="btn form__field-button" {{on 'click' this.addStringValue}}>
       <FaIcon @icon="plus-square" />
     </button>
   </div>
@@ -34,14 +34,25 @@
   {{/if}}
   {{#if (eq @domain.domainType 3)}}
   <div class="form__field">
-    <label for="min" class="form__field-label">Min</label>
-    <Input id="min" @type="number" class="input input_labeled" placeholder="Min" @value={{this.minValue}} />
-    <label for="max" class="form__field-label">Min</label>
-    <Input id="max" @type="number" class="input input_labeled" placeholder="Max" @value={{this.maxValue}} />
-    <button type="button" class="btn form__field-button">
-      <FaIcon @icon="trash" />
+    <label for="value" class="form__field-label">New Value</label>
+    <Input id="value" @type="number" class="input input_labeled" placeholder="Value" @value={{this.newValueNumber}} />
+    <button type="button" class="btn form__field-button" {{on 'click' this.addNumberValue}}>
+      <FaIcon @icon="plus-square" />
     </button>
   </div>
+  <SortableObjects @sortableObjectList={{@domain.domainValuesOrdered}} @useSwap={{false}} @inPlace={{true}}
+    @sortingScope="domainValueList" @enableSort={{true}} @sortEndAction={{fn this.reorderValues
+    @domain.domainValuesOrdered}}>
+    {{#each @domain.domainValuesOrdered as |domainValue|}}
+    <DraggableObject @overrideClass='form__field' @content={{domainValue}} @isSortable={{true}}
+      @sortingScope="domainValueList">
+      <Input @type="number" placeholder="Value" @value={{domainValue.value}} @class="input input_labeled" />
+      <button type="button" class="btn form__field-button" {{on 'click' (fn this.deleteValue domainValue)}}>
+        <FaIcon @icon="trash" />
+      </button>
+    </DraggableObject>
+    {{/each}}
+  </SortableObjects>
   {{/if}}
   <div class="form__panel">
     <button type="button" class="btn" {{on 'click' @onSave}}>

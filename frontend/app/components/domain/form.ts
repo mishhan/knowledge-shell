@@ -29,18 +29,21 @@ export default class DomainForm extends Component<DomainFormArgs> {
   }
 
   @tracked
-  newValue!: string;
+  newValueString!: string;
 
   @tracked
-  minValue!: number;
-
-  @tracked
-  maxValue!: number;
+  newValueNumber!: number;
 
   @action
-  addValue(): void {
-    this.currentDomain.addValue(this.newValue);
-    this.newValue = "";
+  addStringValue(): void {
+    this.currentDomain.addValue(this.newValueString);
+    this.newValueString = "";
+  }
+
+  @action
+  addNumberValue(): void {
+    this.currentDomain.addValue(this.newValueNumber);
+    this.newValueNumber = 0;
   }
 
   @action

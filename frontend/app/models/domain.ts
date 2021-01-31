@@ -8,6 +8,7 @@ import DomainValueFrame from "./domain-value-frame";
 import DomainValueString from "./domain-value-string";
 import Frame from "./frame";
 import FrameBase from "./frame-base";
+import { DomainValueNumber } from ".";
 
 export default class Domain extends Model {
   @attr("string", { defaultValue: "New Domain" }) name!: string;
@@ -37,6 +38,23 @@ export default class Domain extends Model {
   @tracked
   isEditing!: boolean;
 
+  getDomainValue(value: string | number): DomainValue {
+    switch(this.domainType) {
+      case DomainType.String: {
+        return this.domainValues.find((dv: DomainValueString) => isEqual(dv.value, value)) as DomainValueString;
+      }
+      case DomainType.Number: {
+        return this.domainValues.find((dv: DomainValueNumber) => isEqual(dv.value, value)) as DomainValueNumber;
+      }
+      case DomainType.Frame: {
+        return this.domainValues.find((dv: DomainValueFrame) => isEqual(dv.valueStr, value)) as DomainValueFrame;
+      }
+      default: {
+        throw Error();
+      }
+    }
+  }
+
   getDomainValueFrameByFrameName(frameName: string): DomainValueFrame {
     return this.domainValues
       .find((dv: DomainValueFrame) => isEqual(dv.valueStr, frameName)) as DomainValueFrame;
@@ -52,11 +70,19 @@ export default class Domain extends Model {
       .find((dv: DomainValueFrame) => isEqual(dv.value, frame)) as DomainValueFrame;
   }
 
-  addValue(newValue: string): void {
-    const newDomainValue = this.store.createRecord("domain-value-string", {
-      value: newValue,
-    });
-    this.domainValues.pushObject(newDomainValue);
+  addValue(newValue: string | number): void {
+    if (this.domainType === DomainType.String) {
+      const newDomainValue = this.store.createRecord("domain-value-string", {
+        value: newValue,
+      });
+      this.domainValues.pushObject(newDomainValue);
+    }
+    if (this.domainType === DomainType.Number) {
+      const newDomainValue = this.store.createRecord("domain-value-number", {
+        value: newValue
+      });
+      this.domainValues.pushObject(newDomainValue);
+    }
   }
 
   deleteValue(value: DomainValue) {

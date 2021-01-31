@@ -1,7 +1,7 @@
 import Node from "./node";
 import BinarNode from "./binar-node";
 import Production from "knowledge-shell/models/production";
-import { DomainValueString } from "knowledge-shell/models";
+import { DomainValueNumber, DomainValueString } from "knowledge-shell/models";
 
 export default class PlusNode extends BinarNode {
   constructor(leftNode: Node, rightNode: Node, production: Production) {
@@ -9,21 +9,45 @@ export default class PlusNode extends BinarNode {
   }
 
   evaluate(): any {
-    //TYPE CHECKING
-    const leftNodeValue = this.leftNode.evaluateR();
-    const rightNodeValue = this.rightNode.evaluateR();
+    const leftNode = this.leftNode.evaluateR();
+    const rightNode = this.rightNode.evaluateR();
 
-    const rightNodeValueInt = parseInt(rightNodeValue);
-    if (leftNodeValue instanceof DomainValueString && Number.isInteger(rightNodeValueInt)) {
-      const leftNodeDomainValues = leftNodeValue.domain.domainValuesOrdered.toArray();
-      const leftNodeValueIndex = leftNodeDomainValues.findIndex((value) => value === leftNodeValue);
+    if (this.isNumberNode(leftNode) && this.isNumberNode(rightNode)) {
+      const leftNodeValue = this.getNodeValueNumber(leftNode);
+      const rightNodeValue = this.getNodeValueNumber(rightNode);
+      const nodeValueNumber = leftNodeValue + rightNodeValue;
+      if (leftNode instanceof DomainValueNumber) {
+        const nodeValue = leftNode.domain.getDomainValue(nodeValueNumber);
+        return nodeValue;
+      }
 
-      return leftNodeDomainValues.objectAt(leftNodeValueIndex + rightNodeValueInt);
+      return nodeValueNumber;
     }
 
-    if (rightNodeValue instanceof DomainValueString) {
-      return leftNodeValue + rightNodeValue.valueStr;
+    if (this.isStringNode(leftNode) && this.isNumberNode(rightNode)) {
+      const leftNodeValue = this.getNodeValueString(leftNode);
+      const rightNodeValue = this.getNodeValueNumber(rightNode);
+      const nodeValueString = leftNodeValue + rightNodeValue;
+      if (leftNode instanceof DomainValueString) {
+        const nodeValue = leftNode.domain.getDomainValue(nodeValueString);
+        return nodeValue;
+      }
+
+      return nodeValueString;
     }
-    return leftNodeValue + rightNodeValue;
+
+    if (this.isStringNode(leftNode) && this.isStringNode(rightNode)) {
+      const leftNodeValue = this.getNodeValueString(leftNode);
+      const rightNodeValue = this.getNodeValueString(rightNode);
+      const nodeValueString = leftNodeValue + rightNodeValue;
+      if (leftNode instanceof DomainValueString) {
+        const nodeValue = leftNode.domain.getDomainValue(nodeValueString);
+        return nodeValue;
+      }
+
+      return nodeValueString;
+    }
+
+    throw new Error("PlusNode nodes must have type (DomainValueNumber and number) or (DomainValueString and string or number)");
   }
 }

@@ -1,7 +1,7 @@
 import Node from "./node";
 import BinarNode from "./binar-node";
 import Production from "knowledge-shell/models/production";
-import { DomainValueString } from "knowledge-shell/models";
+import { DomainValueNumber } from "knowledge-shell/models";
 
 export default class MinusNode extends BinarNode {
   constructor(leftNode: Node, rightNode: Node, production: Production) {
@@ -9,19 +9,21 @@ export default class MinusNode extends BinarNode {
   }
 
   evaluate() {
-    //TODO TYPE CHECKING
-    const leftNodeValue = this.leftNode.evaluateR();
-    const rightNodeValue = this.rightNode.evaluateR();
+    const leftNode = this.leftNode.evaluateR();
+    const rightNode = this.rightNode.evaluateR();
 
-    const rightNodeValueInt = parseInt(rightNodeValue);
-    if (leftNodeValue instanceof DomainValueString && Number.isInteger(rightNodeValueInt)) {
-      const leftNodeDomainValues = leftNodeValue.domain.domainValuesOrdered.toArray();
-      const leftNodeValueIndex = leftNodeDomainValues.findIndex((x) => x === leftNodeValue);
+    if (this.isNumberNode(leftNode) && this.isNumberNode(rightNode)) {
+      const leftNodeValue = this.getNodeValueNumber(leftNode);
+      const rightNodeValue = this.getNodeValueNumber(rightNode);
+      const nodeValueNumber = leftNodeValue - rightNodeValue;
+      if (leftNode instanceof DomainValueNumber) {
+        const nodeValue = leftNode.domain.getDomainValue(nodeValueNumber);
+        return nodeValue;
+      }
 
-      return leftNodeDomainValues.objectAt(leftNodeValueIndex - rightNodeValueInt);
+      return nodeValueNumber;
     }
 
-    const leftNodeValueInt = parseInt(leftNodeValue);
-    return leftNodeValueInt - rightNodeValueInt;
+    throw new Error("MinusNode nodes must have type DomainValueNumber or number");
   }
 }
