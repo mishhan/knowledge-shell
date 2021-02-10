@@ -5,7 +5,7 @@ import { module, test } from "qunit";
 module("Unit | Utility | interpretter", function () {
   test("it determines each token in sequence", function (assert) {
     const sequence =
-      "if then else this and or not is as frame . > >= < <= = == ! != + - ( ) [ ] 'asd' 12345";
+      "if then else this and or not is as frame . > >= < <= = == ! != + - ( ) [ ] 'asd' '12345' 12345";
     const interpretter = getInterpretter(sequence);
     assert.equal(interpretter.nextToken().TokenType, TokenType.If, "if");
     assert.equal(interpretter.nextToken().TokenType, TokenType.Then, "then");
@@ -32,6 +32,7 @@ module("Unit | Utility | interpretter", function () {
     assert.equal(interpretter.nextToken().TokenType, TokenType.RightPair, ")");
     assert.equal(interpretter.nextToken().TokenType, TokenType.LeftBracket, "[");
     assert.equal(interpretter.nextToken().TokenType, TokenType.RightBracket, "]");
+    assert.equal(interpretter.nextToken().TokenType, TokenType.StringConst, "string constant");
     assert.equal(interpretter.nextToken().TokenType, TokenType.StringConst, "string constant");
     assert.equal( interpretter.nextToken().TokenType, TokenType.IntConst, "int constant");
     assert.equal(interpretter.nextToken().TokenType, TokenType.End, "end token");

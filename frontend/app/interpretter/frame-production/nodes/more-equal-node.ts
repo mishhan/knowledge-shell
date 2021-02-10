@@ -7,10 +7,16 @@ export default class MoreEqualNode extends BinarNode {
     super(leftNode, rightNode, production);
   }
 
-  evaluate(): boolean {
-    //TODO TYPE CHECKING
+  public evaluate(): boolean {
     const leftNodeValue = this.leftNode.evaluateR();
     const rightNodeValue = this.rightNode.evaluateR();
-    return leftNodeValue >= rightNodeValue;
+
+    if (this.isNumberNode(leftNodeValue) && this.isNumberNode(rightNodeValue)) {
+      const leftNodeValueNumber = this.getNodeValueNumber(leftNodeValue);
+      const rightNodeValueNumber = this.getNodeValueNumber(rightNodeValue);
+      return leftNodeValueNumber >= rightNodeValueNumber;
+    }
+
+    throw new Error("MoreEqualNode nodes must have type DomainValueNumber or number");
   }
 }

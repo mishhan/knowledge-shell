@@ -1,10 +1,9 @@
 import Node from "./node";
-import Production from "knowledge-shell/models/production";
-import { DomainValueNumber, DomainValueString } from "knowledge-shell/models";
+import { Production, DomainValueNumber, DomainValueString } from "knowledge-shell/models";
 
 export default abstract class BinarNode extends Node {
-  public leftNode!: Node;
-  public rightNode!: Node;
+  protected leftNode!: Node;
+  protected rightNode!: Node;
 
   constructor(leftNode: Node, rightNode: Node, production: Production) {
     super(production);
@@ -13,7 +12,7 @@ export default abstract class BinarNode extends Node {
   }
 
   public isNumberNode(nodeValue: any): boolean {
-    if (nodeValue instanceof DomainValueNumber || (typeof(nodeValue) === 'string' && !isNaN(parseInt(nodeValue)))) {
+    if (nodeValue instanceof DomainValueNumber || (typeof(nodeValue) === 'number')) {
       return true;
     }
 
@@ -32,15 +31,11 @@ export default abstract class BinarNode extends Node {
     if (nodeValue instanceof DomainValueNumber) {
       return nodeValue.value;
     }
-    if (typeof(nodeValue) === 'string') {
-      const isNumber = !isNaN(parseInt(nodeValue));
-      if (isNumber) {
-        const nodeValueNumber = parseInt(nodeValue);
-        return nodeValueNumber;
-      }
+    if (typeof(nodeValue) === 'number') {
+      return nodeValue;
     }
 
-    throw new Error("nodeValue must be DomainValueNumber or number string");
+    throw new Error("nodeValue must be DomainValueNumber or number");
   }
 
   public getNodeValueString(nodeValue: any): string {
@@ -52,6 +47,5 @@ export default abstract class BinarNode extends Node {
     }
 
     throw new Error("nodeValue must be DomainValueString or string");
-    
   }
 }

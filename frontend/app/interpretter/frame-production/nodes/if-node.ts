@@ -1,5 +1,5 @@
 import Node from "./node";
-import Production from "knowledge-shell/models/production";
+import { Production } from "knowledge-shell/models";
 
 export default class IfNode extends Node {
   protected question!: Node;
