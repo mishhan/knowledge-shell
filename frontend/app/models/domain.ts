@@ -6,9 +6,9 @@ import { DomainType } from "./domain-type";
 import DomainValue from "./domain-value";
 import DomainValueFrame from "./domain-value-frame";
 import DomainValueString from "./domain-value-string";
+import DomainValueNumber from "./domain-value-number";
 import Frame from "./frame";
 import FrameBase from "./frame-base";
-import { DomainValueNumber } from ".";
 
 export default class Domain extends Model {
   @attr("string", { defaultValue: "New Domain" }) name!: string;
