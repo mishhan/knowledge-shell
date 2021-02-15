@@ -50,7 +50,10 @@ export default class FrameBaseEditor extends Controller {
 
   @action
   deleteFrame(frame: Frame): void {
-    this.frameBase.deleteFrame(frame);
+    const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${frame.name}?`);
+    if (shouldBeDeleted) {
+      this.frameBase.deleteFrame(frame);
+    }
   }
 
   @action
@@ -103,8 +106,11 @@ export default class FrameBaseEditor extends Controller {
 
   @action
   deleteSlot(slot: Slot): void {
-    if (this.selectedFrame) {
-      this.frameBase.removeSlot(this.selectedFrame, slot);
+    const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${slot.name}?`);
+    if (shouldBeDeleted) {
+      if (this.selectedFrame) {
+        this.frameBase.removeSlot(this.selectedFrame, slot);
+      }
     }
   }
 

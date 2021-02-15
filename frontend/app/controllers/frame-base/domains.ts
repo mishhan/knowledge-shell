@@ -43,13 +43,15 @@ export default class FrameBaseDomains extends Controller {
 
   @action
   deleteDomain(domain: Domain): void {
-    domain.domainValues.forEach((domainValue: DomainValue) => {
-      domainValue.destroyRecord();
-    });
-    this.frameBase.domains.removeObject(domain);
-    domain.destroyRecord();
+    const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${domain.name}?`);
+    if (shouldBeDeleted) {
+      domain.domainValues.forEach((domainValue: DomainValue) => {
+        domainValue.destroyRecord();
+      });
+      this.frameBase.domains.removeObject(domain);
+      domain.destroyRecord();
+    }
   }
-
 }
 
 declare module "@ember/controller" {
