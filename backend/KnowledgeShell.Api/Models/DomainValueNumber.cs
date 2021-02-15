@@ -2,10 +2,10 @@
 {
     using JsonApiDotNetCore.Resources.Annotations;
 
-    [Resource("domain-value-strings")]
-    public class DomainValueString : DomainValue
+    [Resource("domain-value-numbers")]
+    public class DomainValueNumber : DomainValue
     {
         [Attr(PublicName = "value")]
-        public string StringValue { get; set; }
+        public double NumberValue { get; set; }
     }
 }

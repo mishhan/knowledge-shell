@@ -7,8 +7,8 @@ export default class NotNode extends UnarNode {
     super(operand, production);
   }
 
-  evaluate(): boolean {
-    const result = this.operand.evaluateR();
+  public evaluate(): boolean {
+    const result = this.operand.evaluateR() as boolean;
     return !result;
   }
 }

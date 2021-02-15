@@ -3,15 +3,17 @@ using System;
 using KnowledgeShell.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace KnowledgeShell.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201228130905_AddDomainValueNumber")]
+    partial class AddDomainValueNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,14 +27,6 @@ namespace KnowledgeShell.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("description")
-                        .HasColumnType("text");
-
-                    b.Property<int>("DomainType")
-                        .HasColumnName("domain_type")
-                        .HasColumnType("integer");
 
                     b.Property<Guid>("FrameBaseId")
                         .HasColumnName("frame_base_id")

@@ -74,9 +74,10 @@ CREATE TABLE public.domain_values (
     id uuid NOT NULL,
     domain_id uuid NOT NULL,
     discriminator text NOT NULL,
-    value_id uuid,
-    value text,
-    "order" integer DEFAULT 0 NOT NULL
+    frame_value_id uuid,
+    string_value text,
+    "order" integer DEFAULT 0 NOT NULL,
+    number_value double precision
 );
 
 
@@ -90,7 +91,9 @@ CREATE TABLE public.domains (
     id uuid NOT NULL,
     name text,
     is_read_only boolean DEFAULT false NOT NULL,
-    frame_base_id uuid DEFAULT '00000000-0000-0000-0000-000000000000'::uuid NOT NULL
+    frame_base_id uuid DEFAULT '00000000-0000-0000-0000-000000000000'::uuid NOT NULL,
+    description text,
+    domain_type integer DEFAULT 0 NOT NULL
 );
 
 
@@ -184,6 +187,8 @@ COPY public."__EFMigrationsHistory" (migration_id, product_version) FROM stdin;
 20200730152022_DomainValueOrder	3.1.6
 20200902150233_AddOrderFieldToSlot	3.1.7
 20200905122134_AddFrameBaseEntity	3.1.7
+20201228130905_AddDomainValueNumber	3.1.8
+20201228134341_AddDomainTypeAndDescription	3.1.8
 \.
 
 
@@ -191,63 +196,63 @@ COPY public."__EFMigrationsHistory" (migration_id, product_version) FROM stdin;
 -- Data for Name: domain_values; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.domain_values (id, domain_id, discriminator, value_id, value, "order") FROM stdin;
-e4ee09bd-e5e6-47d2-96cf-b23b5a2ce0c3	75544b8f-0248-45d4-b77e-3622686b2bc9	DomainValueString	\N	1	0
-20901781-44bf-4571-9886-96826c847d5f	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	5b3a2dfb-dcb1-45fb-8921-40f44e759754	\N	0
-575b482a-6a81-42d6-83ec-03eeaa93c9f2	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	f1202893-3507-4d5f-838c-4aacfbe616da	\N	0
-558fd008-34eb-441c-9604-d6dcfb9c839a	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	33158b80-8545-4c1e-8c6d-c94694106161	\N	0
-0af4bb53-e137-46d7-b2ad-ce3df2eedb5a	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	4cbe9761-6894-43df-9794-1fbd03802ca5	\N	0
-bac389e1-65b1-4b53-94ec-8dff035617ef	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	3bec3d4a-7716-4308-b7e3-69308c70994a	\N	0
-2e606c16-d5e6-4e60-adaf-ef6d6a2a2981	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	92c27b44-a319-462b-9994-fbab3782c1e0	\N	0
-125aaabf-acd5-42ff-9359-6e63533854a1	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	8fca3b12-bcc0-49b7-a5e0-fcd0429bd417	\N	0
-c6051ec2-c662-4b05-9526-64a2be30a3bf	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	120de4fd-defd-4575-84a3-94507ee6b3ac	\N	0
-18e4052a-0f06-47a8-885e-65e620fc3dce	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	1ee6703e-add7-440b-9852-dd019782cc1e	\N	0
-96ee3767-d98f-4632-8a0a-3867e6fabe18	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	7beb8b44-0e70-4b33-98af-a9a827c6ff7f	\N	0
-68f45726-e81c-4036-82ae-f233ffcb3937	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	ef3f9bb0-6c4c-4c94-9f4b-2513f2669d7f	\N	0
-4578b81e-f754-498e-9d71-b5131535c6d1	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	2962fbc1-147c-4049-b8c4-e044cfa8a671	\N	0
-cdaac813-8258-48b0-a2bd-e2d63b9c0d4c	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	16610855-bc0f-4c5b-9cc0-822104ba5246	\N	0
-ef3a30f8-4bf4-475b-8a23-077ad63b7152	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	3c864766-2f6a-4545-8cff-060413d22cd0	\N	0
-6e8e72eb-1fd0-48eb-9246-12e2474c3471	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueString	\N	0	0
-ba107075-aefa-4e17-9168-b835aee60a7a	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueString	\N	0	0
-ff23de2b-1927-471a-b020-b91e7b3fb1eb	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueString	\N	0	0
-076159c1-43bd-4e25-b251-3285637d87ba	7601554e-1721-4775-a136-25710f4abe65	DomainValueString	\N	White	0
-7db6dbcc-814e-488f-b277-dcf0bd39b422	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	8cba83f7-dd30-4a7e-80bd-e959c269ab05	\N	0
-076f099e-2bfc-4637-98b4-d6e04000cc07	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	f42602c6-3946-4a8f-abe3-091fbad526e7	\N	0
-91da8da3-e7a0-423d-beed-09baa878966c	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	712b1247-d47e-47ab-a89c-d2730b01c884	\N	0
-500ae894-c5fd-47f9-92a8-837942f8eda3	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	7d9d6812-63d9-44ea-a429-03ef61dacb3d	\N	0
-899747fa-6189-4e6f-aab7-13f0dee0061f	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	3618f087-0918-4cc7-9a01-8a82a4906b4c	\N	0
-c47fe03b-c048-46d0-b778-3d1ea21b0b9d	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	d255a782-9a81-4341-9d07-51e761f130af	\N	0
-49eba104-7a21-46ad-b47d-da1d28c066a7	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	9a7d38d9-399a-4ba9-ad36-a0252b435d53	\N	0
-1db4cd7d-8406-4200-a2dc-59b9b957adb9	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	8065a1ff-bca0-42c1-bbda-187bc952c06e	\N	0
-c5fe043e-a856-40b2-b5dd-0a4fdcac3a0f	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	63f25dd2-c3e4-4429-abfb-643b4c7165c2	\N	0
-431656c1-6a08-425d-856c-570e7c81da39	b03c6bb0-6fdd-4fbb-a919-37c4ee2625f7	DomainValueString	\N	white_witch.png	0
-ad032b4f-c3e5-43cb-9978-cd32619a198f	b03c6bb0-6fdd-4fbb-a919-37c4ee2625f7	DomainValueString	\N	white_warrior.png	1
-2f0af187-e21e-421f-8729-9a363f72756a	b03c6bb0-6fdd-4fbb-a919-37c4ee2625f7	DomainValueString	\N	red_witch.png	2
-82e2ab48-1fdd-4ba0-a039-81c201199774	b03c6bb0-6fdd-4fbb-a919-37c4ee2625f7	DomainValueString	\N	red_warrior.png	3
-34e46adc-214c-4b2c-8bc3-03d55f741db1	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueString	\N	1	1
-9a43d981-791b-48f5-ae62-ae1387223763	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueString	\N	2	2
-abab0e6d-a479-4726-bae5-dd647c767b62	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueString	\N	3	3
-3d0069be-f580-4208-9690-275b5e05d457	7601554e-1721-4775-a136-25710f4abe65	DomainValueString	\N	Red	1
-4ef27dd0-2a5c-4fc1-b9f5-333ed6840284	75544b8f-0248-45d4-b77e-3622686b2bc9	DomainValueString	\N	2	1
-8eb5b7cf-e7e6-4903-9505-54a63b5f7e79	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueString	\N	1	1
-65bfc4ac-84bf-4b6c-b9d1-614a1aaf5b03	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueString	\N	2	2
-3a8637e3-6f64-43a5-a235-652f17352e4f	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueString	\N	3	3
-c476ab01-2e09-4d81-8b70-938369d34918	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueString	\N	4	4
-345a30dd-7fcd-4a07-a2a1-9959f2d8cf71	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueString	\N	5	5
-f578b841-1b82-48db-ac2e-73aecaee378e	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueString	\N	1	1
-8cbed052-09b7-4865-9bbc-e34453da520a	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueString	\N	2	2
-6104742f-3b4b-4ee8-b456-38e9c86a8deb	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueString	\N	3	3
-0976cd4d-df16-4e52-b3fa-4f95b4415c03	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	1c452e5a-d2ae-4275-b3c2-d7736f26957c	\N	0
-7df28af5-d9de-48e7-979b-3692dc3575e2	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueString	\N	4	4
-51883bd9-8298-414c-bf38-e6b281a9888d	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueString	\N	5	5
-417dd12d-a9fd-4c47-bc06-482fbff6e2a1	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueString	\N	4	4
-945e6fcb-b0c1-4136-a639-3dc12ee704f5	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueString	\N	5	5
-b2fc19b0-e2c9-4667-a106-f58b2fa44a3a	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	f499a0f4-11a3-40fa-8b4b-c8e31c0b0365	\N	0
-88e52e0f-02e9-454f-b7d0-5b1060618ed6	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	d7b65df6-1396-48de-87c4-9e53693664cf	\N	0
-f712fc46-f5c2-4f34-b8ae-4dbfb2ea8472	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	58c168db-813c-4bc9-99f7-667f00a8ded2	\N	0
-08e6ef9e-9918-4bc3-99f9-92778fa90202	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	66ea626b-bc79-441a-a2d4-3f5b2c72a180	\N	0
-fff33057-b3c3-481c-a1d3-fdb5bb072161	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	e5da8b2b-6347-4661-a531-351f4b487e99	\N	0
-e06687fe-943c-40b4-af45-054dfcf423e2	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	09d758a8-7390-4e00-8e3c-de3e632b089d	\N	0
+COPY public.domain_values (id, domain_id, discriminator, frame_value_id, string_value, "order", number_value) FROM stdin;
+e4ee09bd-e5e6-47d2-96cf-b23b5a2ce0c3	75544b8f-0248-45d4-b77e-3622686b2bc9	DomainValueString	\N	1	0	\N
+20901781-44bf-4571-9886-96826c847d5f	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	5b3a2dfb-dcb1-45fb-8921-40f44e759754	\N	0	\N
+575b482a-6a81-42d6-83ec-03eeaa93c9f2	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	f1202893-3507-4d5f-838c-4aacfbe616da	\N	0	\N
+558fd008-34eb-441c-9604-d6dcfb9c839a	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	33158b80-8545-4c1e-8c6d-c94694106161	\N	0	\N
+0af4bb53-e137-46d7-b2ad-ce3df2eedb5a	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	4cbe9761-6894-43df-9794-1fbd03802ca5	\N	0	\N
+bac389e1-65b1-4b53-94ec-8dff035617ef	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	3bec3d4a-7716-4308-b7e3-69308c70994a	\N	0	\N
+2e606c16-d5e6-4e60-adaf-ef6d6a2a2981	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	92c27b44-a319-462b-9994-fbab3782c1e0	\N	0	\N
+125aaabf-acd5-42ff-9359-6e63533854a1	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	8fca3b12-bcc0-49b7-a5e0-fcd0429bd417	\N	0	\N
+c6051ec2-c662-4b05-9526-64a2be30a3bf	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	120de4fd-defd-4575-84a3-94507ee6b3ac	\N	0	\N
+18e4052a-0f06-47a8-885e-65e620fc3dce	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	1ee6703e-add7-440b-9852-dd019782cc1e	\N	0	\N
+96ee3767-d98f-4632-8a0a-3867e6fabe18	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	7beb8b44-0e70-4b33-98af-a9a827c6ff7f	\N	0	\N
+68f45726-e81c-4036-82ae-f233ffcb3937	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	ef3f9bb0-6c4c-4c94-9f4b-2513f2669d7f	\N	0	\N
+4578b81e-f754-498e-9d71-b5131535c6d1	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	2962fbc1-147c-4049-b8c4-e044cfa8a671	\N	0	\N
+cdaac813-8258-48b0-a2bd-e2d63b9c0d4c	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	16610855-bc0f-4c5b-9cc0-822104ba5246	\N	0	\N
+ef3a30f8-4bf4-475b-8a23-077ad63b7152	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	3c864766-2f6a-4545-8cff-060413d22cd0	\N	0	\N
+076159c1-43bd-4e25-b251-3285637d87ba	7601554e-1721-4775-a136-25710f4abe65	DomainValueString	\N	White	0	\N
+7db6dbcc-814e-488f-b277-dcf0bd39b422	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	8cba83f7-dd30-4a7e-80bd-e959c269ab05	\N	0	\N
+076f099e-2bfc-4637-98b4-d6e04000cc07	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	f42602c6-3946-4a8f-abe3-091fbad526e7	\N	0	\N
+91da8da3-e7a0-423d-beed-09baa878966c	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	712b1247-d47e-47ab-a89c-d2730b01c884	\N	0	\N
+500ae894-c5fd-47f9-92a8-837942f8eda3	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	7d9d6812-63d9-44ea-a429-03ef61dacb3d	\N	0	\N
+899747fa-6189-4e6f-aab7-13f0dee0061f	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	3618f087-0918-4cc7-9a01-8a82a4906b4c	\N	0	\N
+c47fe03b-c048-46d0-b778-3d1ea21b0b9d	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	d255a782-9a81-4341-9d07-51e761f130af	\N	0	\N
+49eba104-7a21-46ad-b47d-da1d28c066a7	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	9a7d38d9-399a-4ba9-ad36-a0252b435d53	\N	0	\N
+1db4cd7d-8406-4200-a2dc-59b9b957adb9	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	8065a1ff-bca0-42c1-bbda-187bc952c06e	\N	0	\N
+c5fe043e-a856-40b2-b5dd-0a4fdcac3a0f	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	63f25dd2-c3e4-4429-abfb-643b4c7165c2	\N	0	\N
+431656c1-6a08-425d-856c-570e7c81da39	b03c6bb0-6fdd-4fbb-a919-37c4ee2625f7	DomainValueString	\N	white_witch.png	0	\N
+ad032b4f-c3e5-43cb-9978-cd32619a198f	b03c6bb0-6fdd-4fbb-a919-37c4ee2625f7	DomainValueString	\N	white_warrior.png	1	\N
+2f0af187-e21e-421f-8729-9a363f72756a	b03c6bb0-6fdd-4fbb-a919-37c4ee2625f7	DomainValueString	\N	red_witch.png	2	\N
+82e2ab48-1fdd-4ba0-a039-81c201199774	b03c6bb0-6fdd-4fbb-a919-37c4ee2625f7	DomainValueString	\N	red_warrior.png	3	\N
+3d0069be-f580-4208-9690-275b5e05d457	7601554e-1721-4775-a136-25710f4abe65	DomainValueString	\N	Red	1	\N
+4ef27dd0-2a5c-4fc1-b9f5-333ed6840284	75544b8f-0248-45d4-b77e-3622686b2bc9	DomainValueString	\N	2	1	\N
+0976cd4d-df16-4e52-b3fa-4f95b4415c03	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	1c452e5a-d2ae-4275-b3c2-d7736f26957c	\N	0	\N
+b2fc19b0-e2c9-4667-a106-f58b2fa44a3a	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	f499a0f4-11a3-40fa-8b4b-c8e31c0b0365	\N	0	\N
+88e52e0f-02e9-454f-b7d0-5b1060618ed6	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	d7b65df6-1396-48de-87c4-9e53693664cf	\N	0	\N
+f712fc46-f5c2-4f34-b8ae-4dbfb2ea8472	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	58c168db-813c-4bc9-99f7-667f00a8ded2	\N	0	\N
+08e6ef9e-9918-4bc3-99f9-92778fa90202	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	66ea626b-bc79-441a-a2d4-3f5b2c72a180	\N	0	\N
+fff33057-b3c3-481c-a1d3-fdb5bb072161	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	e5da8b2b-6347-4661-a531-351f4b487e99	\N	0	\N
+e06687fe-943c-40b4-af45-054dfcf423e2	a1bdf469-5010-453b-a554-a1fb2b1150de	DomainValueFrame	09d758a8-7390-4e00-8e3c-de3e632b089d	\N	0	\N
+67fb86ff-7085-47f4-894a-b657ed292750	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueNumber	\N	\N	0	0
+d61eea72-00a7-4f0c-a633-14463f7ff778	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueNumber	\N	\N	5	5
+f9953101-3090-4131-883b-2ab6379732b7	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueNumber	\N	\N	3	3
+65d8aaa8-1ae0-4a2d-90a2-108f4bc8e83b	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueNumber	\N	\N	4	4
+1342889f-f96d-4788-b53f-d5501e634feb	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueNumber	\N	\N	1	1
+41cc8ec7-649d-4b7a-83ab-c4a91cfaef1a	3f336d1f-4622-4ff9-9fe7-d28e8f527a82	DomainValueNumber	\N	\N	2	2
+7fefe38e-6458-495f-b8e0-d65635f3bd98	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueNumber	\N	\N	0	0
+fdc8d008-2f6f-4f87-a69a-d30887f2610b	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueNumber	\N	\N	4	4
+a61d0e1f-ddd2-44ab-9943-9d559f4c8c80	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueNumber	\N	\N	3	3
+47756889-ea7e-4a39-93c2-6749cb48f4c8	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueNumber	\N	\N	1	1
+298b21b3-f8c4-4f5f-a6ad-141f6a18e9d3	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueNumber	\N	\N	5	5
+1da0d8ae-3d1f-4bbe-9b68-ce1a6bb47fec	41b08c0c-ae32-4589-9272-a9e33477879a	DomainValueNumber	\N	\N	2	2
+668c2db9-53f2-460c-bf9b-94abc371db1e	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueNumber	\N	\N	0	0
+9e7eef80-e223-4b4e-9d33-7d384b2ebce3	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueNumber	\N	\N	3	3
+92825168-7039-41a6-8d64-334b66146e49	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueNumber	\N	\N	5	5
+ac4feb19-d8df-48a2-9c0a-c9bbc4657758	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueNumber	\N	\N	2	2
+6c6497d4-61fa-4a77-bbd6-a95569a90795	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueNumber	\N	\N	4	4
+99944238-0f2e-43fb-9ea5-e59cfc7cf10c	36e69d89-acb0-4579-ac98-4571f28c407c	DomainValueNumber	\N	\N	1	1
 \.
 
 
@@ -255,14 +260,14 @@ e06687fe-943c-40b4-af45-054dfcf423e2	a1bdf469-5010-453b-a554-a1fb2b1150de	Domain
 -- Data for Name: domains; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.domains (id, name, is_read_only, frame_base_id) FROM stdin;
-36e69d89-acb0-4579-ac98-4571f28c407c	Health	f	b5f27702-89a5-418a-9af8-8a438f794ad2
-41b08c0c-ae32-4589-9272-a9e33477879a	Y	f	b5f27702-89a5-418a-9af8-8a438f794ad2
-3f336d1f-4622-4ff9-9fe7-d28e8f527a82	X	f	b5f27702-89a5-418a-9af8-8a438f794ad2
-a1bdf469-5010-453b-a554-a1fb2b1150de	Frame	t	b5f27702-89a5-418a-9af8-8a438f794ad2
-75544b8f-0248-45d4-b77e-3622686b2bc9	Strength	f	b5f27702-89a5-418a-9af8-8a438f794ad2
-7601554e-1721-4775-a136-25710f4abe65	Color	f	b5f27702-89a5-418a-9af8-8a438f794ad2
-b03c6bb0-6fdd-4fbb-a919-37c4ee2625f7	Picture	f	b5f27702-89a5-418a-9af8-8a438f794ad2
+COPY public.domains (id, name, is_read_only, frame_base_id, description, domain_type) FROM stdin;
+a1bdf469-5010-453b-a554-a1fb2b1150de	Frame	t	b5f27702-89a5-418a-9af8-8a438f794ad2	Contains all the frames in current base	1
+7601554e-1721-4775-a136-25710f4abe65	Color	f	b5f27702-89a5-418a-9af8-8a438f794ad2	\N	2
+b03c6bb0-6fdd-4fbb-a919-37c4ee2625f7	Picture	f	b5f27702-89a5-418a-9af8-8a438f794ad2	\N	2
+36e69d89-acb0-4579-ac98-4571f28c407c	Health	f	b5f27702-89a5-418a-9af8-8a438f794ad2	\N	3
+41b08c0c-ae32-4589-9272-a9e33477879a	Y	f	b5f27702-89a5-418a-9af8-8a438f794ad2	\N	3
+3f336d1f-4622-4ff9-9fe7-d28e8f527a82	X	f	b5f27702-89a5-418a-9af8-8a438f794ad2	\N	3
+75544b8f-0248-45d4-b77e-3622686b2bc9	Strength	f	b5f27702-89a5-418a-9af8-8a438f794ad2	\N	3
 \.
 
 
@@ -674,10 +679,10 @@ CREATE INDEX ix_domain_values_domain_id ON public.domain_values USING btree (dom
 
 
 --
--- Name: ix_domain_values_value_id; Type: INDEX; Schema: public; Owner: postgres
+-- Name: ix_domain_values_frame_value_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX ix_domain_values_value_id ON public.domain_values USING btree (value_id);
+CREATE INDEX ix_domain_values_frame_value_id ON public.domain_values USING btree (frame_value_id);
 
 
 --
@@ -752,11 +757,11 @@ ALTER TABLE ONLY public.domain_values
 
 
 --
--- Name: domain_values fk_domain_values_frames_value_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: domain_values fk_domain_values_frames_frame_value_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.domain_values
-    ADD CONSTRAINT fk_domain_values_frames_value_id FOREIGN KEY (value_id) REFERENCES public.frames(id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_domain_values_frames_frame_value_id FOREIGN KEY (frame_value_id) REFERENCES public.frames(id) ON DELETE CASCADE;
 
 
 --

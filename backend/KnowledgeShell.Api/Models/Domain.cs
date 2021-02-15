@@ -10,11 +10,17 @@
         [Attr(PublicName = "name")]
         public string Name { get; set; }
 
-        [HasMany(PublicName = "domainValues")]
-        public virtual List<DomainValue> DomainValues { get; set; }
+        [Attr(PublicName = "domainType")]
+        public EDomainType DomainType { get; set; }
 
         [Attr(PublicName = "isReadOnly")]
         public bool IsReadOnly { get; set; }
+
+        [Attr(PublicName = "description")]
+        public string Description { get; set; }
+
+        [HasMany(PublicName = "domainValues")]
+        public virtual List<DomainValue> DomainValues { get; set; }
 
         [HasOne(PublicName = "frameBase")]
         public virtual FrameBase FrameBase { get; set; }

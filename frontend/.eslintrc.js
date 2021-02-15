@@ -39,7 +39,7 @@ module.exports = {
       ],
       parserOptions: {
         sourceType: "script",
-        project: "./tsconfig.json"
+        project: ["./tsconfig.json"]
       },
       env: {
         browser: false,

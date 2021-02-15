@@ -1,16 +1,22 @@
-<div class="table__header">
-  <div class="table__header-item domain-table__item">
-    <span class="table__header-text">Name</span>
+<div class="table__header domain-table__header">
+  <div class="table__header-item domain-table__header-item">
+    <span class="table__header-text domain-table__header-text">Name</span>
   </div>
-  <div class="table__header-item domain-table__item">
-    <span class="table__header-text">Values</span>
+  <div class="table__header-item domain-table__header-item">
+    <span class="table__header-text domain-table__header-text">Description</span>
   </div>
-  <div class="table__header-item domain-table__item">
-    <span class="table__header-text">Actions</span>
+  <div class="table__header-item domain-table__header-item">
+    <span class="table__header-text domain-table__header-text">Type</span>
+  </div>
+  <div class="table__header-item domain-table__header-item">
+    <span class="table__header-text domain-table__header-text">Count</span>
+  </div>
+  <div class="table__header-item domain-table__header-item">
+    <span class="table__header-text domain-table__header-text">Actions</span>
   </div>
 </div>
 {{#if @showActionBar}}
-<div class="table__bar">
+<div class="table__bar domain-table__bar">
   <div class="table__search-container domain-table__search-container">
     <Input placeholder="Filter" @class="input table__search-input" @type="text" @value={{@query}} />
   </div>

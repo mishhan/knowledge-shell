@@ -2,7 +2,7 @@ import Production from "knowledge-shell/models/production";
 import Slot from "knowledge-shell/models/slot";
 
 export default abstract class Node {
-  public production!: Production;
+  protected production!: Production;
   constructor(production: Production) {
     this.production = production;
   }

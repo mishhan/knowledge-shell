@@ -197,8 +197,9 @@ export default class Interpretter {
 
     if (this.checkToken(TokenType.IntConst)) {
       const result = this.currentToken.Text;
+      const intResult = parseInt(result);
       this.nextToken();
-      return new ValueNode(result, this.production);
+      return new ValueNode(intResult, this.production);
     }
 
     if (this.checkToken(TokenType.StringConst)) {

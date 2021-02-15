@@ -1,7 +1,10 @@
 import Model, { attr, belongsTo, hasMany } from "@ember-data/model";
 import { not, notEmpty } from "@ember/object/computed";
 import { tracked } from "@glimmer/tracking";
-import { Domain, DomainValue, Frame, Production} from ".";
+import Domain from "./domain";
+import DomainValue from "./domain-value";
+import Frame from "./frame";
+import Production from "./production";
 
 export default class Slot extends Model {
   @attr("string") name!: string;

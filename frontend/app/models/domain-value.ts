@@ -1,5 +1,5 @@
 import Model, { attr, belongsTo } from "@ember-data/model";
-import { Domain } from ".";
+import Domain from "./domain";
 
 export default abstract class DomainValue extends Model {
   @attr("number", { defaultValue: 0 }) order!: number;

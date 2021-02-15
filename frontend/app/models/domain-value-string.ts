@@ -1,6 +1,6 @@
 import { attr } from "@ember-data/model";
 import { computed } from "@ember/object";
-import { DomainValue } from ".";
+import DomainValue from "./domain-value";
 
 export default class DomainValueString extends DomainValue {
   @attr("string") value!: string;
