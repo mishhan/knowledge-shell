@@ -1,6 +1,5 @@
 ﻿namespace KnowledgeShell.Api
 {
-    using Microsoft.OpenApi.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
@@ -10,7 +9,6 @@
     using KnowledgeShell.Api.Data;
     using JsonApiDotNetCore.Configuration;
     using JsonApiDotNetCore.Resources.Annotations;
-
 
     public class Startup
     {
