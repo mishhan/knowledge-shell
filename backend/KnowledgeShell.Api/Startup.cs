@@ -1,5 +1,6 @@
 ﻿namespace KnowledgeShell.Api
 {
+    using Microsoft.OpenApi.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@
     using KnowledgeShell.Api.Data;
     using JsonApiDotNetCore.Configuration;
     using JsonApiDotNetCore.Resources.Annotations;
+
 
     public class Startup
     {
@@ -41,11 +43,21 @@
                 options.LoadDatabaseValues = true;
                 options.IncludeExceptionStackTraceInErrors = true;
             }, discovery => discovery.AddCurrentAssembly());
+
             services.AddMvc(options => options.EnableEndpointRouting = false);
+
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Knowledge Shell API V1");
+                config.RoutePrefix = string.Empty;
+            });
+
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseRouting();
             app.UseJsonApi();
