@@ -3,15 +3,17 @@ using System;
 using KnowledgeShell.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace KnowledgeShell.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210221133645_AddIdentity")]
+    partial class AddIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,19 +142,12 @@ namespace KnowledgeShell.Api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("owner_id");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
                         .HasName("pk_frame_bases");
-
-                    b.HasIndex("OwnerId")
-                        .HasDatabaseName("ix_frame_bases_owner_id");
 
                     b.ToTable("frame_bases");
                 });
@@ -586,18 +581,6 @@ namespace KnowledgeShell.Api.Migrations
                     b.Navigation("Position");
                 });
 
-            modelBuilder.Entity("KnowledgeShell.Api.Models.FrameBase", b =>
-                {
-                    b.HasOne("KnowledgeShell.Api.Models.User", "Owner")
-                        .WithMany("FrameBases")
-                        .HasForeignKey("OwnerId")
-                        .HasConstraintName("fk_frame_bases_users_owner_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
-                });
-
             modelBuilder.Entity("KnowledgeShell.Api.Models.Production", b =>
                 {
                     b.HasOne("KnowledgeShell.Api.Models.Slot", "Slot")
@@ -739,11 +722,6 @@ namespace KnowledgeShell.Api.Migrations
                     b.Navigation("Children");
 
                     b.Navigation("Production");
-                });
-
-            modelBuilder.Entity("KnowledgeShell.Api.Models.User", b =>
-                {
-                    b.Navigation("FrameBases");
                 });
 #pragma warning restore 612, 618
         }
