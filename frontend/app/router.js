@@ -7,10 +7,13 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function() {
-  this.route("knowledge-bases");
-  this.route("frame-base", { path: "frame-base/:base_id"}, function() {
-    this.route("domains");
-    this.route("editor");
-    this.route("play");
+  this.route("login");
+  this.route("app", { path: "" }, function() {
+    this.route("knowledge-bases");
+    this.route("frame-base", { path: "frame-base/:base_id"}, function() {
+      this.route("domains");
+      this.route("editor");
+      this.route("play");
+    });
   });
 });

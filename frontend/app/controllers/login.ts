@@ -1,0 +1,34 @@
+import Controller from "@ember/controller";
+import { inject as service } from "@ember/service";
+import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
+
+export default class Login extends Controller {
+  @service session!: any;
+
+  @tracked identification!: string;
+  @tracked password!: string;
+  @tracked errorMessage!: string;
+
+  @action
+  async authenticate(): Promise<void> {
+    let { identification, password } = this;
+    try {
+      await this.session.authenticate('authenticator:oauth2', identification, password);
+    } catch(error) {
+      this.errorMessage = error.errorText || error;
+    }
+
+    if (this.session.isAuthenticated) {
+      this.transitionToRoute("app.knowledge-bases");
+    }
+  }
+
+}
+
+
+declare module "@ember/controller" {
+  interface Registry {
+    "login": Login;
+  }
+}
