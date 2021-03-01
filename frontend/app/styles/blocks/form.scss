@@ -1,14 +1,12 @@
 .form {
-  width: 400px;
+	&__field {
+		margin: 10px;
+	}
 
-  &__field {
-    margin: 10px;
-  }
-
-  &__panel {
-    display: flex;
-    flex-direction: row;
-    margin: 10px;
-    justify-content: space-between;
-  }
+	&__panel {
+		display: flex;
+		flex-direction: row;
+		margin: 10px;
+		justify-content: space-between;
+	}
 }
