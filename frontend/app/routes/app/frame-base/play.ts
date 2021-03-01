@@ -1,7 +1,7 @@
 import Route from "@ember/routing/route";
 import Model from "@ember-data/model";
 import { action } from "@ember/object";
-import FrameBasePlayController from "knowledge-shell/controllers/frame-base/play";
+import FrameBasePlayController from "knowledge-shell/controllers/app/frame-base/play";
 
 export default class FrameBasePlay extends Route {
   setupController(controller: FrameBasePlayController, model: any, transition: any): void {

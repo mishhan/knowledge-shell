@@ -1,0 +1,16 @@
+<div class="form login-form">
+  <div class="form__field">
+    <label for="login" class="form__field-label">Login or Email</label>
+    <Input @id="login" @type="text" class="input input_labeled" placeholder="Login" @value={{this.identification}} />
+  </div>
+  <div class="form__field">
+    <label for="password" class="form__field-label">Password</label>
+    <Input @id="password" @type="password" class="input input_labeled" @value={{this.password}} />
+  </div>
+  <div class="form__field">
+    <button type="button" {{on "click" this.authenticate}}>Sign In</button>
+    {{#if this.errorMessage}}
+    <span>{{this.errorMessage}}</span>
+    {{/if}}
+  </div>
+</div>

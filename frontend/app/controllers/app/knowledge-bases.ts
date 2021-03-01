@@ -23,12 +23,12 @@ export default class KnowledgeBases extends Controller {
 
   @action
   viewKb(kb: FrameBase): void {
-    this.transitionToRoute("frame-base.editor", kb.id);
+    this.transitionToRoute("app.frame-base.editor", kb.id);
   }
 
   @action
   playKb(kb: FrameBase): void {
-    this.transitionToRoute("frame-base.play", kb.id);
+    this.transitionToRoute("app.frame-base.play", kb.id);
   }
 
   @action

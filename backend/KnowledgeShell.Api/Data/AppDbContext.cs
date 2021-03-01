@@ -1,9 +1,12 @@
 ﻿namespace KnowledgeShell.Api.Data
 {
+    using System;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
     using KnowledgeShell.Api.Models;
 
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User, UserRole, Guid>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -25,6 +28,8 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             // Base-Frame
             modelBuilder
                 .Entity<FrameBase>()
