@@ -16,7 +16,8 @@ export default class Login extends Controller {
     try {
       await this.session.authenticate('authenticator:oauth2', identification, password);
     } catch(error) {
-      this.errorMessage = error.errorText || error;
+      const errorJson = error.responseJSON;
+      this.errorMessage = errorJson.errorText;
     }
 
     if (this.session.isAuthenticated) {
