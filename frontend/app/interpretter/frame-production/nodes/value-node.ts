@@ -8,7 +8,7 @@ export default class ValueNode extends Node {
     this.value = value;
   }
 
-  evaluate(): any {
+  public evaluate(): any {
     return this.value;
   }
 }

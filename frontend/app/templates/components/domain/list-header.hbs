@@ -1,22 +1,27 @@
 <div class="table__header">
-  <div class="table__header-item domain-table__item">
-    <span class="table__header-text">Name</span>
-  </div>
-  <div class="table__header-item domain-table__item">
-    <span class="table__header-text">Values</span>
-  </div>
-  <div class="table__header-item domain-table__item">
-    <span class="table__header-text">Actions</span>
-  </div>
+  <div class="table__header-item domain-table__header-item">Name</div>
+  <div class="table__header-item domain-table__header-item">Description</div>
+  <div class="table__header-item domain-table__header-item">Type</div>
+  <div class="table__header-item domain-table__header-item">Count</div>
+  <div class="table__header-item domain-table__header-item">Actions</div>
 </div>
 {{#if @showActionBar}}
 <div class="table__bar">
   <div class="table__search-container domain-table__search-container">
-    <Input placeholder="Filter" @class="input table__search-input" @type="text" @value={{@query}} />
+    <div class="field">
+      <div class="control has-icons-right">
+        <Input placeholder="Filter" @class="input is-small" @type="text" @value={{@query}} />
+        <span class="icon is-right">
+          <FaIcon @icon="search" />
+        </span>
+      </div>
+    </div>
   </div>
   <div class="table__actions domain-table__actions">
-    <button type="button" class="table__add-btn" {{on 'click' @addDomain}}>
-      <FaIcon @icon="plus-square" />
+    <button type="button" class="button is-primary is-small" {{on 'click' @addDomain}}>
+      <span class="icon">
+        <FaIcon @icon="plus-square" />
+      </span>
     </button>
   </div>
 </div>

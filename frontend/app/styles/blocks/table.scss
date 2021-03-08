@@ -1,50 +1,55 @@
 .table {
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
 
-  &__header {
-    display: flex;
-    flex-direction: row;
-    border-top: $default-border;
-  }
+	&__header {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		border-top: $default-border;
+	}
 
-  &__header-item {
-    padding: 10px 0px;
-    text-align: center;
-  }
+	&__header-item {
+		padding: $cell-padding;
+		text-align: center;
+	}
 
-  &__search-input {
-    margin-left: 10px;
-  }
+	&__search-container {
+		margin-left: 5px;
+		text-align: center;
+	}
 
-  &__bar {
-    display: flex;
-    flex-direction: row;
-    padding: 10px 0px;
-    border-top: $default-border;
-  }
+	&__bar {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding: $cell-padding;
+		border-top: $default-border;
+	}
 
-  &__actions {
-    text-align: center;
-  }
+	&__actions {
+		text-align: center;
+	}
 
-  &__row {
-    display: flex;
-    flex-direction: row;
-    border-top: $default-border;
+	&__row {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		border-top: $default-border;
 
-    &:hover {
-      background-color: $table-hover-color;
-    }
+		&:hover {
+			background-color: $table-hover-color;
+		}
 
-    &:last-child {
-      border-bottom: $default-border;
-    }
-  }
+		&:last-child {
+			border-bottom: $default-border;
+		}
+	}
 
-  &__cell {
-    padding: 10px 0px;
-    text-align: center;
-  }
+	&__cell {
+		padding: $cell-padding;
+		text-align: center;
+	}
 }

@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Ember.JS",
+      "port": 9222,
+      "runtimeArgs": [ "--remote-debugging-port=9222" ],
+      "url": "http://localhost:4200",
+      "sourceMapPathOverrides": {
+        "knowledge-shell/*": "${workspaceFolder}/app/*"
+      }
+    }
+  ]
+}

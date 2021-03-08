@@ -6,6 +6,6 @@
     public class DomainValueString : DomainValue
     {
         [Attr(PublicName = "value")]
-        public string Value { get; set; }
+        public string StringValue { get; set; }
     }
 }

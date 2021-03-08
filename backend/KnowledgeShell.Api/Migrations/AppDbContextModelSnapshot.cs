@@ -15,34 +15,42 @@ namespace KnowledgeShell.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.7")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.Domain", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<int>("DomainType")
+                        .HasColumnType("integer")
+                        .HasColumnName("domain_type");
 
                     b.Property<Guid>("FrameBaseId")
-                        .HasColumnName("frame_base_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("frame_base_id");
 
                     b.Property<bool>("IsReadOnly")
-                        .HasColumnName("is_read_only")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_read_only");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.HasKey("Id")
                         .HasName("pk_domains");
 
                     b.HasIndex("FrameBaseId")
-                        .HasName("ix_domains_frame_base_id");
+                        .HasDatabaseName("ix_domains_frame_base_id");
 
                     b.ToTable("domains");
                 });
@@ -51,27 +59,27 @@ namespace KnowledgeShell.Api.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnName("discriminator")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("discriminator");
 
                     b.Property<Guid>("DomainId")
-                        .HasColumnName("domain_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("domain_id");
 
                     b.Property<int>("Order")
-                        .HasColumnName("order")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("order");
 
                     b.HasKey("Id")
                         .HasName("pk_domain_values");
 
                     b.HasIndex("DomainId")
-                        .HasName("ix_domain_values_domain_id");
+                        .HasDatabaseName("ix_domain_values_domain_id");
 
                     b.ToTable("domain_values");
 
@@ -82,37 +90,37 @@ namespace KnowledgeShell.Api.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid>("FrameBaseId")
-                        .HasColumnName("frame_base_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("frame_base_id");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<Guid?>("ParentId")
-                        .HasColumnName("parent_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("parent_id");
 
                     b.Property<Guid>("PositionId")
-                        .HasColumnName("position_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("position_id");
 
                     b.HasKey("Id")
                         .HasName("pk_frames");
 
                     b.HasIndex("FrameBaseId")
-                        .HasName("ix_frames_frame_base_id");
+                        .HasDatabaseName("ix_frames_frame_base_id");
 
                     b.HasIndex("ParentId")
-                        .HasName("ix_frames_parent_id");
+                        .HasDatabaseName("ix_frames_parent_id");
 
                     b.HasIndex("PositionId")
                         .IsUnique()
-                        .HasName("ix_frames_position_id");
+                        .HasDatabaseName("ix_frames_position_id");
 
                     b.ToTable("frames");
                 });
@@ -121,23 +129,30 @@ namespace KnowledgeShell.Api.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnName("created_at")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("owner_id");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnName("updated_at")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("updated_at");
 
                     b.HasKey("Id")
                         .HasName("pk_frame_bases");
+
+                    b.HasIndex("OwnerId")
+                        .HasDatabaseName("ix_frame_bases_owner_id");
 
                     b.ToTable("frame_bases");
                 });
@@ -146,16 +161,16 @@ namespace KnowledgeShell.Api.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<double>("X")
-                        .HasColumnName("x")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("x");
 
                     b.Property<double>("Y")
-                        .HasColumnName("y")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("y");
 
                     b.HasKey("Id")
                         .HasName("pk_positions");
@@ -167,23 +182,23 @@ namespace KnowledgeShell.Api.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid>("SlotId")
-                        .HasColumnName("slot_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("slot_id");
 
                     b.Property<string>("Text")
-                        .HasColumnName("text")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("text");
 
                     b.HasKey("Id")
                         .HasName("pk_productions");
 
                     b.HasIndex("SlotId")
                         .IsUnique()
-                        .HasName("ix_productions_slot_id");
+                        .HasDatabaseName("ix_productions_slot_id");
 
                     b.ToTable("productions");
                 });
@@ -192,76 +207,328 @@ namespace KnowledgeShell.Api.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid?>("DomainId")
-                        .HasColumnName("domain_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("domain_id");
 
                     b.Property<bool>("IsInherited")
-                        .HasColumnName("is_inherited")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_inherited");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<int>("Order")
-                        .HasColumnName("order")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("order");
 
                     b.Property<Guid>("OwnerId")
-                        .HasColumnName("owner_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("owner_id");
 
                     b.Property<Guid?>("ParentId")
-                        .HasColumnName("parent_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("parent_id");
 
                     b.Property<Guid?>("ValueId")
-                        .HasColumnName("value_id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("value_id");
 
                     b.HasKey("Id")
                         .HasName("pk_slots");
 
                     b.HasIndex("DomainId")
-                        .HasName("ix_slots_domain_id");
+                        .HasDatabaseName("ix_slots_domain_id");
 
                     b.HasIndex("OwnerId")
-                        .HasName("ix_slots_owner_id");
+                        .HasDatabaseName("ix_slots_owner_id");
 
                     b.HasIndex("ParentId")
-                        .HasName("ix_slots_parent_id");
+                        .HasDatabaseName("ix_slots_parent_id");
 
                     b.HasIndex("ValueId")
-                        .HasName("ix_slots_value_id");
+                        .HasDatabaseName("ix_slots_value_id");
 
                     b.ToTable("slots");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("access_failed_count");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text")
+                        .HasColumnName("concurrency_stamp");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("email");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean")
+                        .HasColumnName("email_confirmed");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("lockout_enabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lockout_end");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("normalized_email");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("normalized_user_name");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text")
+                        .HasColumnName("phone_number");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean")
+                        .HasColumnName("phone_number_confirmed");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text")
+                        .HasColumnName("security_stamp");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("two_factor_enabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("user_name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_users");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.UserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text")
+                        .HasColumnName("concurrency_stamp");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("normalized_name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_roles");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text")
+                        .HasColumnName("claim_type");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text")
+                        .HasColumnName("claim_value");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_role_claims");
+
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_asp_net_role_claims_role_id");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text")
+                        .HasColumnName("claim_type");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text")
+                        .HasColumnName("claim_value");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_user_claims");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_asp_net_user_claims_user_id");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text")
+                        .HasColumnName("login_provider");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("text")
+                        .HasColumnName("provider_key");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("text")
+                        .HasColumnName("provider_display_name");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("LoginProvider", "ProviderKey")
+                        .HasName("pk_asp_net_user_logins");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_asp_net_user_logins_user_id");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
+
+                    b.HasKey("UserId", "RoleId")
+                        .HasName("pk_asp_net_user_roles");
+
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_asp_net_user_roles_role_id");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text")
+                        .HasColumnName("login_provider");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text")
+                        .HasColumnName("value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name")
+                        .HasName("pk_asp_net_user_tokens");
+
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.DomainValueFrame", b =>
                 {
                     b.HasBaseType("KnowledgeShell.Api.Models.DomainValue");
 
-                    b.Property<Guid>("ValueId")
-                        .HasColumnName("value_id")
-                        .HasColumnType("uuid");
+                    b.Property<Guid>("FrameValueId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("frame_value_id");
 
-                    b.HasIndex("ValueId")
-                        .HasName("ix_domain_values_value_id");
+                    b.HasIndex("FrameValueId")
+                        .HasDatabaseName("ix_domain_values_frame_value_id");
 
                     b.HasDiscriminator().HasValue("DomainValueFrame");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.DomainValueNumber", b =>
+                {
+                    b.HasBaseType("KnowledgeShell.Api.Models.DomainValue");
+
+                    b.Property<double>("NumberValue")
+                        .HasColumnType("double precision")
+                        .HasColumnName("number_value");
+
+                    b.HasDiscriminator().HasValue("DomainValueNumber");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.DomainValueString", b =>
                 {
                     b.HasBaseType("KnowledgeShell.Api.Models.DomainValue");
 
-                    b.Property<string>("Value")
-                        .HasColumnName("value")
-                        .HasColumnType("text");
+                    b.Property<string>("StringValue")
+                        .HasColumnType("text")
+                        .HasColumnName("string_value");
 
                     b.HasDiscriminator().HasValue("DomainValueString");
                 });
@@ -274,6 +541,8 @@ namespace KnowledgeShell.Api.Migrations
                         .HasConstraintName("fk_domains_frame_bases_frame_base_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FrameBase");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.DomainValue", b =>
@@ -284,6 +553,8 @@ namespace KnowledgeShell.Api.Migrations
                         .HasConstraintName("fk_domain_values_domains_domain_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Domain");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.Frame", b =>
@@ -307,6 +578,24 @@ namespace KnowledgeShell.Api.Migrations
                         .HasConstraintName("fk_frames_positions_position_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FrameBase");
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("Position");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.FrameBase", b =>
+                {
+                    b.HasOne("KnowledgeShell.Api.Models.User", "Owner")
+                        .WithMany("FrameBases")
+                        .HasForeignKey("OwnerId")
+                        .HasConstraintName("fk_frame_bases_users_owner_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.Production", b =>
@@ -317,6 +606,8 @@ namespace KnowledgeShell.Api.Migrations
                         .HasConstraintName("fk_productions_slots_slot_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Slot");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.Slot", b =>
@@ -345,16 +636,114 @@ namespace KnowledgeShell.Api.Migrations
                         .HasForeignKey("ValueId")
                         .HasConstraintName("fk_slots_domain_values_value_id")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Domain");
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("Value");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.HasOne("KnowledgeShell.Api.Models.UserRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_asp_net_role_claims_asp_net_roles_role_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.HasOne("KnowledgeShell.Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_asp_net_user_claims_asp_net_users_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.HasOne("KnowledgeShell.Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_asp_net_user_logins_asp_net_users_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.HasOne("KnowledgeShell.Api.Models.UserRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_asp_net_user_roles_asp_net_roles_role_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KnowledgeShell.Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_asp_net_user_roles_asp_net_users_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.HasOne("KnowledgeShell.Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.DomainValueFrame", b =>
                 {
-                    b.HasOne("KnowledgeShell.Api.Models.Frame", "Value")
+                    b.HasOne("KnowledgeShell.Api.Models.Frame", "FrameValue")
                         .WithMany()
-                        .HasForeignKey("ValueId")
-                        .HasConstraintName("fk_domain_values_frames_value_id")
+                        .HasForeignKey("FrameValueId")
+                        .HasConstraintName("fk_domain_values_frames_frame_value_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FrameValue");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.Domain", b =>
+                {
+                    b.Navigation("DomainValues");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.Frame", b =>
+                {
+                    b.Navigation("Children");
+
+                    b.Navigation("OwnSlots");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.FrameBase", b =>
+                {
+                    b.Navigation("Domains");
+
+                    b.Navigation("Frames");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.Slot", b =>
+                {
+                    b.Navigation("Children");
+
+                    b.Navigation("Production");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.User", b =>
+                {
+                    b.Navigation("FrameBases");
                 });
 #pragma warning restore 612, 618
         }

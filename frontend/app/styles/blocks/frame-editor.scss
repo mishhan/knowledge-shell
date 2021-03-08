@@ -1,79 +1,64 @@
 .frame-editor {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
+	display: flex;
+	flex-direction: column;
 
-  &__navbar {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: row;
-    background-color: $frame-editor-nav-bg-color;
-  }
+	&__navbar {
+		display: flex;
+		flex-direction: column;
+		@include from($tablet) {
+			flex-direction: row;
+		}
+		background-color: $frame-editor-nav-bg-color;
+	}
 
-  &__navbar-link-container {
-    padding: 12px;
-    margin: 6px 0px;
-  }
+	&__navbar-link-container {
+		padding: 0px 12px;
+		margin: 6px 0px;
+	}
 
-  &__navbar-link {
-    padding: 12px;
-    color: $frame-editor-nav-link-color;
+	&__navbar-link {
+		display: block;
+		padding: 12px;
+		color: $frame-editor-nav-link-color;
 
-    &.active {
-      background-color: $frame-editor-nav-ling-active-bg-color;
-      color: white;
-      border-radius: 5px;
-    }
+		&.active {
+			background-color: $frame-editor-nav-ling-active-bg-color;
+			color: white;
+			border-radius: 5px;
+		}
 
-    &:hover {
-      background-color: $frame-editor-nav-ling-hover-bg-color;
-      color: white;
-      border-radius: 5px;
-    }
-  }
+		&:hover {
+			background-color: $frame-editor-nav-ling-hover-bg-color;
+			color: white;
+			border-radius: 5px;
+		}
+	}
 
-  &__content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
+	&__navbar-link-text {
+		margin-left: 5px;
+	}
 
-  &__graph {
-    border: $default-border;
-  }
+	&__content {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+	}
 
-  &__selected-frame {
-    flex-grow: 1;
-  }
+	&__graph {
+		border: $default-border;
+	}
 
-  &__frame {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: flex-end;
+	&__selected-frame {
+		flex-grow: 1;
+	}
 
-    margin: 0px 5px;
-  }
+	&__frame {
+		margin: 0px 20px;
+	}
 
-  &__name-container {
-    margin-right: 20px;
-    margin-left: 5px;
-    padding: 5px 0px;
-  }
-
-  &__actions-container {
-    padding: 5px 0px;
-  }
-
-  &__game-panel {
-    display: flex;
-    flex-direction: row;
-    margin: 5px 10%;
-  }
-
-  &__log {
-    margin: 0 10%;
-  }
+	&__game-panel {
+		display: flex;
+		flex-direction: row;
+		margin: 5px 10%;
+	}
 }

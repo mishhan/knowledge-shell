@@ -197,8 +197,9 @@ export default class Interpretter {
 
     if (this.checkToken(TokenType.IntConst)) {
       const result = this.currentToken.Text;
+      const intResult = parseInt(result);
       this.nextToken();
-      return new ValueNode(result, this.production);
+      return new ValueNode(intResult, this.production);
     }
 
     if (this.checkToken(TokenType.StringConst)) {
@@ -212,10 +213,6 @@ export default class Interpretter {
     }
 
     if (this.checkToken(TokenType.This)) {
-      /* IMPORTANT: Since Ember Data is used and models which are interpreted aren't saved
-       * we must use model.get('value') instead of model.value
-       * But it would be great if this code will be independent from data layer
-       */
       currentFrame = new ValueNode(this.production.slot.owner, this.production);
       this.nextToken();
     } else if (currentFrame === null) {
@@ -246,7 +243,7 @@ export default class Interpretter {
       return currentSlot;
     }
 
-    throw new Error('Unreachable code...');
+    throw new Error("Unreachable code...");
   }
 
   private isRelationToken(tokenType: TokenType): boolean {

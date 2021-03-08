@@ -2,7 +2,11 @@ import Model, { attr, belongsTo, hasMany } from "@ember-data/model";
 import { computed } from "@ember/object";
 import { isEqual } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
-import { FrameBase, Slot, Domain, Position } from ".";
+import FrameBase from "./frame-base";
+import Slot from "./slot";
+import Domain from "./domain";
+import Position from "./position";
+import DomainValueString from "./domain-value-string";
 
 export default class Frame extends Model {
   @attr("string") name!: string;
@@ -32,6 +36,15 @@ export default class Frame extends Model {
   @computed("sortedSlots")
   get slotNames(): string {
     return `[${this.sortedSlots.map((slot: Slot) => slot.name).join(", ")}]`;
+  }
+
+  @computed("ownSlots.@each.value")
+  get slotValues(): string {
+    let slotValues = "";
+    for (const slot of this.sortedSlots) {
+      slotValues += `${slot.name}: ${(slot.value as DomainValueString).valueStr}\n`;
+    }
+    return slotValues;
   }
 
   @computed.oneWay("frameBase.frameDomain")
@@ -81,8 +94,8 @@ export default class Frame extends Model {
     return -1;
   }
 
-  public getSlot(slotName: string): Slot | undefined {
-    return this.ownSlots.find((slot) => isEqual(slot.name, slotName));
+  public getSlot(slotName: string): Slot {
+    return this.ownSlots.find((slot) => isEqual(slot.name, slotName)) as Slot;
   }
 }
 

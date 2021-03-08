@@ -1,6 +1,6 @@
 import Node from "./node";
 import BinarNode from "./binar-node";
-import Production from "knowledge-shell/models/production";
+import { Production } from "knowledge-shell/models";
 
 export default class EqualNode extends BinarNode {
   constructor(leftNode: Node, rightNode: Node, production: Production) {
@@ -10,6 +10,19 @@ export default class EqualNode extends BinarNode {
   public evaluate(): boolean {
     const leftNodeValue = this.leftNode.evaluateR();
     const rightNodeValue = this.rightNode.evaluateR();
-    return leftNodeValue == rightNodeValue;
+
+    if (this.isNumberNode(leftNodeValue) && this.isNumberNode(rightNodeValue)) {
+      const leftNodeValueNumber = this.getNodeValueNumber(leftNodeValue);
+      const rightNodeValueNumber = this.getNodeValueNumber(rightNodeValue);
+      return leftNodeValueNumber === rightNodeValueNumber;
+    }
+
+    if (this.isStringNode(leftNodeValue) && this.isStringNode(rightNodeValue)) {
+      const leftNodeValueNumber = this.getNodeValueNumber(leftNodeValue);
+      const rightNodeValueNumber = this.getNodeValueNumber(rightNodeValue);
+      return leftNodeValueNumber === rightNodeValueNumber;
+    }
+
+    throw new Error("EqualNode nodes must have same type");
   }
 }

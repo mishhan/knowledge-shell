@@ -34,7 +34,7 @@ export default class FrameObserver extends Service {
     });
   }
 
-  public addFrameSample(frameBase: FrameBase, framePrototype: Frame): Frame {
+  public addFrameSample(frameBase: FrameBase, framePrototype?: Frame): Frame {
     const sample: Frame = this.store.createRecord("frame", { isSample: true });
     if (framePrototype) {
       sample.name = `${framePrototype.name} #sample`;
@@ -85,6 +85,10 @@ export default class FrameObserver extends Service {
   public setParent(childFrame: Frame, parentFrame: Frame | null): void {
     childFrame.parent = parentFrame;
     this.propagateFrameParentChanged(childFrame);
+  }
+
+  public addEmptySlot(): Slot {
+    return this.store.createRecord("slot");
   }
 
   public addSlot(frame: Frame): void {

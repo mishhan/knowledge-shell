@@ -1,3 +1,7 @@
 .ember-basic-dropdown-trigger {
-  margin-top: 8px;
+	margin-top: 8px;
+}
+
+[aria-label][role~="tooltip"]::after {
+	white-space: pre-line;
 }

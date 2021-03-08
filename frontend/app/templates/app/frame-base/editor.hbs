@@ -1,0 +1,44 @@
+<div class="frame-editor__graph">
+  <Frame::Graph @frames={{this.frames}} @addFrame={{this.addFrame}} @deleteFrame={{this.deleteFrame}}
+    @unsetParent={{this.unsetParent}} @setParent={{this.setParent}} @changeFramePosition={{this.changeFramePosition}} />
+</div>
+{{#if this.selectedFrame}}
+<div class="block"></div>
+<div class="frame-editor__selected-frame">
+  <div class="box">
+    <div class="field">
+      <label for="frame-name">Name</label>
+      <div class="control has-icons-left">
+        <Input @id="frame-name" @type="text" class="input" @value={{this.selectedFrame.name}} />
+        <span class="icon is-small is-left">
+          <FaIcon @icon="crop-alt" />
+        </span>
+      </div>
+    </div>
+    <button type="button" class="button is-info is-small" disabled={{this.selectedFrame.validations.isInvalid}}
+      {{on 'click' this.saveFrame}}>
+      <span class="icon">
+        <FaIcon @icon="check" />
+      </span>
+    </button>
+    <button type="button" class="button is-warning is-small" {{on 'click' this.cancelFrameChanges}}>
+      <span class="icon">
+        <FaIcon @icon="window-close" />
+      </span>
+    </button>
+  </div>
+  <div class="table">
+    <Slot::ListHeader @showActionBar={{true}} @query={{this.search}} @addSlot={{this.addSlot}} />
+    <Provider::Filter @model={{this.selectedFrame.sortedSlots}} @field="name" @query={{this.search}} as |filteredSlots|>
+      <SortableObjects @sortableObjectList={{filteredSlots}} @useSwap={{false}} @inPlace={{true}}
+        @sortingScope="slotList" @enableSort={{this.canReorderSlots}} @sortEndAction={{fn this.reorderSlots
+        filteredSlots}}>
+        {{#each filteredSlots as |slot|}}
+        <Slot::ListItem @slot={{slot}} @domains={{this.domains}} @onSave={{fn this.saveSlotChanges slot}}
+          @onCancelChanges={{fn this.cancelSlotChanges slot}} @deleteSlot={{fn this.deleteSlot slot}} />
+        {{/each}}
+      </SortableObjects>
+    </Provider::Filter>
+  </div>
+</div>
+{{/if}}

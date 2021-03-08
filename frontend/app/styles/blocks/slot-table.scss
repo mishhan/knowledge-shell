@@ -1,17 +1,19 @@
 .slot-table {
-  &__item {
-    width: 16.6%;
-  }
+	$column-width: 16.6%;
 
-  &__search-container {
-    width: 83%;
-  }
+	&__item {
+		width: $column-width;
+	}
 
-  &__actions {
-    width: 16.6%;
-  }
+	&__search-container {
+		width: $column-width;
+	}
 
-  &__cell {
-    width: 16.6%;
-  }
+	&__actions {
+		width: $column-width;
+	}
+
+	&__cell {
+		width: $column-width;
+	}
 }

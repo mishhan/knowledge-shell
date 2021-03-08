@@ -1,9 +1,12 @@
 ﻿namespace KnowledgeShell.Api.Data
 {
+    using System;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
     using KnowledgeShell.Api.Models;
 
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User, UserRole, Guid>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -16,6 +19,7 @@
         public DbSet<DomainValue> DomainValues { get; set; }
         public DbSet<DomainValueString> DomainValueStrings { get; set; }
         public DbSet<DomainValueFrame> DomainValueFrames { get; set; }
+        public DbSet<DomainValueNumber> DomainValueNumbers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,6 +28,8 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             // Base-Frame
             modelBuilder
                 .Entity<FrameBase>()
