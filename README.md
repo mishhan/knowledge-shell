@@ -2,7 +2,7 @@
 
 ## About
 
-[Frame](<https://en.wikipedia.org/wiki/Frame_(artificial_intelligence)> "Frame") and [production rules](<https://en.wikipedia.org/wiki/Production_system_(computer_science)> "production rules") based expert system shell.
+[Frame](<https://en.wikipedia.org/wiki/Frame_(artificial_intelligence)> "Frame") and ~~[production rules]~~(https://en.wikipedia.org/wiki/Production_system_(computer_science) "production rules") based expert system shell.
 
 ### Backend
 
