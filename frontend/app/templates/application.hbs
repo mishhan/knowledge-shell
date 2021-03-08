@@ -1,10 +1,4 @@
-<div class="menu">
-  {{#if this.session.isAuthenticated}}
-  <a {{on "click" this.invalidateSession}}>Logout</a>
-  {{else}}
-  <LinkTo @route="login" />
-  {{/if}}
-</div>
-<div class="main">
+<NavBar />
+<div>
   {{outlet}}
 </div>

@@ -1,25 +1,12 @@
-<div class="frame-base">
-  <h1 class="frame-base__name">{{this.frameBase.name}}</h1>
-  <hr>
-  <p class="frame-base__description">{{this.frameBase.description}}</p>
-  <div class="table">
-    <div class="table__header">
-      <div class="table__header-item frame-base__table-item">
-        <span class="table__header-text">Name</span>
-      </div>
-      <div class="table__header-item frame-base__table-item">
-        <span class="table__header-text">Value</span>
-      </div>
+<div class="box">
+  <article class="message is-info">
+    <div class="message-header">
+      <p>{{this.frameBase.name}}</p>
     </div>
-    {{#each this.baseInformation as |infoSlot|}}
-    <div class="table__row">
-      <div class="table__cell frame-base__table-cell">
-        <span class="table__cell-value">{{infoSlot.name}}</span>
-      </div>
-      <div class="table__cell frame-base__table-cell">
-        <span class="table__cell-value">{{infoSlot.value}}</span>
-      </div>
+    <div class="message-body">
+      {{#each this.baseInformation as |infoSlot|}}
+      <p><strong>{{infoSlot.name}}</strong>: <span>{{infoSlot.value}}</span></p>
+      {{/each}}
     </div>
-    {{/each}}
-  </div>
+  </article>
 </div>

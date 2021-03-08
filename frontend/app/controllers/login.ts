@@ -12,7 +12,7 @@ export default class Login extends Controller {
 
   @action
   async authenticate(): Promise<void> {
-    let { identification, password } = this;
+    const { identification, password } = this;
     try {
       await this.session.authenticate('authenticator:oauth2', identification, password);
     } catch(error) {

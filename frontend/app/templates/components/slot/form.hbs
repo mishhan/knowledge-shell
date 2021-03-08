@@ -1,48 +1,36 @@
-<div class="form slot-form">
-  <div class="form__field">
-    <label for="slot_name" class="form__field-label">Name</label>
-    <Input @type="text" id="slot_name" placeholder="Name" @value={{@slot.name}}
-      @class="input input_labeled {{if @slot.validations.attrs.name.isValid 'input_valid' 'input_invalid'}}"
-      disabled={{not @slot.canEditName}} data-test-slot-name />
-  </div>
-  <div class="form__field">
-    <label for="domain" class="form__field-label">Domain</label>
-    <PowerSelect @options={{@domains}} @selected={{@slot.domain}} @disabled={{not @slot.canEditDomain}}
-      @onChange={{this.setDomain}} as |domain|>
-      {{domain.name}}
-    </PowerSelect>
-  </div>
-  <div class="form__field">
-    <label for="value" class="form__field-label">Default Value</label>
-    <PowerSelect @options={{@slot.domain.domainValues}} @allowClear={{true}} @selected={{@slot.value}}
-      @onChange={{this.setValue}} as |domainValue|>
-      {{domainValue.valueStr}}
-    </PowerSelect>
-  </div>
-  <div class="form__field">
-    <label for="production" class="form__field-label">Production</label>
-    {{#if @slot.hasProduction}}
-    <Textarea id="production" placeholder="Production" class="input input-labeled" @value={{@slot.production.text}}
-      data-test-slot-production />
-    <div>
-      <button type="button" class="form__field-button" {{on 'click' this.deleteProduction}}>
-        <FaIcon @icon="trash" />
-      </button>
-    </div>
-    {{else}}
-    <div>
-      <button type="button" class="form__field-button" {{on 'click' this.addProduction}}>
-        <FaIcon @icon="plus-square" />
-      </button>
-    </div>
-    {{/if}}
-  </div>
-  <div class="form__panel">
-    <button type="button" class="btn-small waves-effect waves-light left teal" {{on 'click' @onSave}} data-test-slot-save>
-      <FaIcon @icon="check" />
-    </button>
-    <button type="button" class="btn-small waves-effect waves-light right red" {{on 'click' @onCancelChanges}} data-test-slot-cancelchanges>
-      <FaIcon @icon="window-close" />
-    </button>
-  </div>
+<div class="field">
+  <label for="name" class="label">Name</label>
+  <Input id="name" @type="text" placeholder="Name" @value={{@slot.name}} @class="input is-small" disabled={{not
+    @slot.canEditName}} />
 </div>
+<div class="field">
+  <label for="domain" class="label">Domain</label>
+  <PowerSelect @options={{@domains}} @selected={{@slot.domain}} @disabled={{not @slot.canEditDomain}}
+    @onChange={{this.setDomain}} as |domain|>
+    {{domain.name}}
+  </PowerSelect>
+</div>
+<div class="field">
+  <label for="value" class="label">Default Value</label>
+  <PowerSelect @options={{@slot.domain.domainValues}} @allowClear={{true}} @selected={{@slot.value}}
+    @onChange={{this.setValue}} as |domainValue|>
+    {{domainValue.valueStr}}
+  </PowerSelect>
+</div>
+{{#if @slot.hasProduction}}
+<div class="field">
+  <label for="production" class="label">Production</label>
+  <Textarea id="production" placeholder="Production" class="textarea is-small" @value={{@slot.production.text}} />
+</div>
+<button type="button" class="button is-danger is-small" {{on 'click' this.deleteProduction}}>
+  <span class="icon">
+    <FaIcon @icon="trash" />
+  </span>
+</button>
+{{else}}
+<button type="button" class="button is-primary is-small" {{on 'click' this.addProduction}}>
+  <span class="icon">
+    <FaIcon @icon="plus-square" />
+  </span>
+</button>
+{{/if}}

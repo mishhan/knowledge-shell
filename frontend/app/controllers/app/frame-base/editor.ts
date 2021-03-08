@@ -7,7 +7,7 @@ import { FrameBase, Frame, Domain, Slot } from "knowledge-shell/models";
 export default class FrameBaseEditor extends Controller {
   @computed.oneWay("model") frameBase!: FrameBase;
   @computed.alias("model.frames") frames!: Frame[];
-  @computed.oneWay("model.domains") domain!: Domain[];
+  @computed.oneWay("model.domains") domains!: Domain[];
 
   @tracked search = "";
 

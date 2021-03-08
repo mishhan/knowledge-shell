@@ -1,23 +1,23 @@
 .frame-editor {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	height: 100%;
 
 	&__navbar {
-		margin: 0;
-		padding: 0;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
+		@include from($tablet) {
+			flex-direction: row;
+		}
 		background-color: $frame-editor-nav-bg-color;
 	}
 
 	&__navbar-link-container {
-		padding: 12px;
+		padding: 0px 12px;
 		margin: 6px 0px;
 	}
 
 	&__navbar-link {
+		display: block;
 		padding: 12px;
 		color: $frame-editor-nav-link-color;
 
@@ -53,22 +53,7 @@
 	}
 
 	&__frame {
-		display: flex;
-		flex-direction: row;
-		justify-content: start;
-		align-items: flex-end;
-
-		margin: 0px 5px;
-	}
-
-	&__name-container {
-		margin-right: 20px;
-		margin-left: 5px;
-		padding: 5px 0px;
-	}
-
-	&__actions-container {
-		padding: 5px 0px;
+		margin: 0px 20px;
 	}
 
 	&__game-panel {

@@ -1,37 +1,24 @@
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
 @import "ember-power-select";
+@import "bulma";
 
-@import "./scss/global.scss";
+@import "./scss/global";
 @import "./scss/variables";
 
-@import "./common/input.scss";
-@import "./common/label.scss";
+@import "./overrides/overrides";
 
-@import "./overrides/overrides.scss";
+@import "./blocks/spinner-cube";
+@import "./blocks/frame-editor";
+@import "./blocks/game-panel";
+@import "./blocks//game-field";
 
-@import "./blocks/navbar.scss";
-@import "./blocks/login-form.scss";
-
-@import "./blocks/spinner-cube.scss";
-@import "./blocks/frame-editor.scss";
-@import "./blocks/frame-base.scss";
-@import "./blocks/game-panel.scss";
-@import "./blocks//game-field.scss";
-
-@import "./blocks/table.scss";
-@import "./blocks/kb-table.scss";
-@import "./blocks/domain-table.scss";
-@import "./blocks/slot-table.scss";
-
-@import "./blocks/form.scss";
+@import "./blocks/table";
+@import "./blocks/kb-table";
+@import "./blocks/domain-table";
+@import "./blocks/slot-table";
 
 #graph {
 	height: 300px;
 	width: 100%;
-}
-
-.slot__production {
-	width: 380px;
-	height: 120px;
 }

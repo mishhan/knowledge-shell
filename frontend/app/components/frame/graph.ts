@@ -1,7 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { Data, Network, Edge, Node } from "vis-network";
-import options from "knowledge-shell/vis-network/options";
+import options from "./vis-network/options";
 import { Frame } from "knowledge-shell/models";
 
 interface FrameGraphArgs {

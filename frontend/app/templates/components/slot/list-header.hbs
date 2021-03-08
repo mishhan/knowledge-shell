@@ -1,31 +1,28 @@
 <div class="table__header">
-  <div class="table__header-item slot-table__item">
-    <span class="table__header-text">Name</span>
-  </div>
-  <div class="table__header-item slot-table__item">
-    <span class="table__header-text">Domain</span>
-  </div>
-  <div class="table__header-item slot-table__item">
-    <span class="table__header-text">Default Value</span>
-  </div>
-  <div class="table__header-item slot-table__item">
-    <span class="table__header-text">Production</span>
-  </div>
-  <div class="table__header-item slot-table__item">
-    <span class="table__header-text">Inherited</span>
-  </div>
-  <div class="table__header-item slot-table__item">
-    <span class="table__header-text">Actions</span>
-  </div>
+  <div class="table__header-item slot-table__item">Name</div>
+  <div class="table__header-item slot-table__item">Domain</div>
+  <div class="table__header-item slot-table__item">Default Value</div>
+  <div class="table__header-item slot-table__item">Production</div>
+  <div class="table__header-item slot-table__item">Inherited</div>
+  <div class="table__header-item slot-table__item">Actions</div>
 </div>
 {{#if @showActionBar}}
 <div class="table__bar">
   <div class="table__search-container slot-table__search-container">
-    <Input id="search_str" placeholder="Filter" @class="input table__search-input" @type="text" @value={{@query}} />
+    <div class="field">
+      <div class="control has-icons-right">
+        <Input placeholder="Filter" @class="input is-small" @type="text" @value={{@query}} />
+        <span class="icon is-right">
+          <FaIcon @icon="search" />
+        </span>
+      </div>
+    </div>
   </div>
   <div class="table__actions slot-table__actions">
-    <button type="button" class="table__add-btn" {{on 'click' @addSlot}}>
-      <FaIcon @icon="plus-square" />
+    <button type="button" class="button is-primary is-small" {{on 'click' @addSlot}}>
+      <span class="icon">
+        <FaIcon @icon="plus-square" />
+      </span>
     </button>
   </div>
 </div>
