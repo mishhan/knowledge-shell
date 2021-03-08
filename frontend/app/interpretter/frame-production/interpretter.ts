@@ -213,10 +213,6 @@ export default class Interpretter {
     }
 
     if (this.checkToken(TokenType.This)) {
-      /* IMPORTANT: Since Ember Data is used and models which are interpreted aren't saved
-       * we must use model.get('value') instead of model.value
-       * But it would be great if this code will be independent from data layer
-       */
       currentFrame = new ValueNode(this.production.slot.owner, this.production);
       this.nextToken();
     } else if (currentFrame === null) {
