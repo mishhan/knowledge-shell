@@ -1,16 +1,26 @@
-<div class="form login-form">
-  <div class="form__field">
-    <label for="login" class="form__field-label">Login or Email</label>
-    <Input @id="login" @type="text" class="input input_labeled" placeholder="Login" @value={{this.identification}} />
-  </div>
-  <div class="form__field">
-    <label for="password" class="form__field-label">Password</label>
-    <Input @id="password" @type="password" class="input input_labeled" @value={{this.password}} />
-  </div>
-  <div class="form__field">
-    <button type="button" {{on "click" this.authenticate}}>Sign In</button>
+<div class="container">
+  <form class="box">
+    <div class="field">
+      <label for="login" class="label">Login or Email</label>
+      <div class="control has-icons-left">
+        <Input @id="login" @type="text" class="input" placeholder="Login" @value={{this.identification}} />
+        <span class="icon is-small is-left">
+          <FaIcon @icon="user" />
+        </span>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Password</label>
+      <div class="control has-icons-left">
+        <Input @id="password" @type="password" class="input" placeholder="********" @value={{this.password}} />
+        <span class="icon is-small is-left">
+          <FaIcon @icon="lock" />
+        </span>
+      </div>
+    </div>
+    <button type="button" class="button is-primary" {{on "click" this.authenticate}}>Sign in</button>
     {{#if this.errorMessage}}
-    <span>{{this.errorMessage}}</span>
+    <p class="is-danger">{{this.errorMessage}}</p>
     {{/if}}
-  </div>
+  </form>
 </div>
