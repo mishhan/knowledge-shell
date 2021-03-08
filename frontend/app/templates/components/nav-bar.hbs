@@ -1,0 +1,25 @@
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <LinkTo class="navbar-item" @route="application">
+      <FaIcon @icon="bread-slice" />
+    </LinkTo>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bar">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="bar" class="navbar-menu">
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          {{#if this.session.isAuthenticated}}
+          <button type="button" class="button is-primary" {{on "click" this.invalidateSession}}>Sign Out</button>
+          {{else}}
+          <LinkTo class="button is-primary" @route="login">Sign In</LinkTo>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

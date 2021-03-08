@@ -1,20 +1,8 @@
-<div class="form kb-form">
-  <div class="form__field">
-    <label for="name" class="form__field-label">Name</label>
-    <Input @type="text" @id="name" placeholder="Name" @value={{@kb.name}} @class="input input_labeled"
-      data-test-kb-name />
-  </div>
-  <div class="form__field">
-    <label for="description" class="form__field-label">Name</label>
-    <Textarea id="description" placeholder="Description" @value={{@kb.description}} @class="input input_labeled "
-      data-test-kb-description />
-    </div>
-  <div class="form__panel">
-    <button type="button" class="btn" {{on 'click' @onSave}} data-test-kb-save>
-      <i class="fas fa-check"></i>
-    </button>
-    <button type="button" class="btn" {{on 'click' @onCancelChanges}} data-test-kb-cancelchanges>
-      <i class="far fa-window-close"></i>
-    </button>
-  </div>
+<div class="field">
+  <label for="name" class="label">Name</label>
+  <Input id="name" @type="text" placeholder="Name" @value={{@kb.name}} @class="input is-small" />
+</div>
+<div class="field">
+  <label for="description" class="label">Name</label>
+  <Textarea id="description" placeholder="Description" @value={{@kb.description}} @class="textarea is-small" />
 </div>

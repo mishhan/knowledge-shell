@@ -16,6 +16,7 @@
 	}
 
 	&__search-container {
+		margin-left: 5px;
 		text-align: center;
 	}
 
@@ -23,6 +24,7 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
+		align-items: center;
 		padding: $cell-padding;
 		border-top: $default-border;
 	}
