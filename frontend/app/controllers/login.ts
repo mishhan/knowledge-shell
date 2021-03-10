@@ -19,10 +19,6 @@ export default class Login extends Controller {
       const errorJson = error.responseJSON;
       this.errorMessage = errorJson.errorText;
     }
-
-    if (this.session.isAuthenticated) {
-      this.transitionToRoute("app.knowledge-bases");
-    }
   }
 
 }

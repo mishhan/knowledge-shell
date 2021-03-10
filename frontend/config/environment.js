@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 module.exports = function(environment) {
   let ENV = {
@@ -15,6 +15,14 @@ module.exports = function(environment) {
 
     "ember-cli-uuid": {
       defaultUUID: true,
+    },
+
+    "ember-simple-auth": {
+      authenticationRoute: "login",
+      routeAfterAuthentication: "app.knowledge-bases",
+      routeIfAlreadyAuthenticated: "app.knowledge-bases",
+      authorizer: "authorizer:token",
+      authenticator: "authenticator:oauth2"
     },
 
     APP: {

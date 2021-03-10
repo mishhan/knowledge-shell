@@ -4,7 +4,7 @@ import { inject as service } from "@ember/service";
 export default class Application extends Route {
   @service session: any;
 
-  beforeModel() {
+  beforeModel(): void {
     if (this.session.isAuthenticated) {
       this.transitionTo("app.knowledge-bases");
     } else {
