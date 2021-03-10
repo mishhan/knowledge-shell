@@ -17,9 +17,16 @@
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        public string GetUserId()
+        public string GetStringUserId()
         {
             return _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
+        }
+
+        public Guid GetUserId()
+        {
+            var userIdString = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
+            var userId = Guid.Parse(userIdString);
+            return userId;
         }
     }
 }
