@@ -1,5 +1,3 @@
-@import "ember-modal-dialog/ember-modal-structure";
-@import "ember-modal-dialog/ember-modal-appearance";
 @import "ember-power-select";
 @import "bulma";
 
@@ -19,6 +17,6 @@
 @import "./blocks/slot-table";
 
 #graph {
-	height: 300px;
-	width: 100%;
+	height: $graph-height;
+	width: $graph-width;
 }
