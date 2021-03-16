@@ -35,7 +35,7 @@
   </div>
 </DraggableObject>
 {{#if @slot.isEditing}}
-<ModalCard @header={{@slot.name}} @onClose={{this.onCancelSlotChanges}} @onSuccessClose={{this.onSaveSlot}}
+<ModalCard @header="Slot" @onClose={{this.onCancelSlotChanges}} @onSuccessClose={{this.onSaveSlot}}
   @onCancelClose={{this.onCancelSlotChanges}}>
   <Slot::Form @slot={{@slot}} @domains={{@domains}} />
 </ModalCard>
