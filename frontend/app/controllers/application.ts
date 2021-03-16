@@ -6,7 +6,7 @@ export default class Application extends Controller {
   @service session!: any;
 
   @action
-  invalidateSession() {
+  invalidateSession(): void {
     this.session.invalidate();
   }
 }
