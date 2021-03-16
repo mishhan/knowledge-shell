@@ -14,14 +14,10 @@ export default class Login extends Controller {
   async authenticate(): Promise<void> {
     const { identification, password } = this;
     try {
-      await this.session.authenticate('authenticator:oauth2', identification, password);
+      await this.session.authenticate("authenticator:oauth2", identification, password);
     } catch(error) {
       const errorJson = error.responseJSON;
       this.errorMessage = errorJson.errorText;
-    }
-
-    if (this.session.isAuthenticated) {
-      this.transitionToRoute("app.knowledge-bases");
     }
   }
 

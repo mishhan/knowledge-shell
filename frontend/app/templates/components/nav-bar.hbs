@@ -3,13 +3,19 @@
     <LinkTo class="navbar-item" @route="application">
       <FaIcon @icon="bread-slice" />
     </LinkTo>
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bar">
+    <a role="button" class="navbar-burger" {{on "click" this.toggleMenu}} aria-label="menu" aria-expanded="false"
+      data-target="burger-navbar">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </a>
   </div>
-  <div id="bar" class="navbar-menu">
+  <div id="burger-navbar" class="navbar-menu {{if this.isMenuOpen 'is-active'}}">
+    <div class="navbar-start">
+      {{#if this.session.isAuthenticated}}
+      <LinkTo class="navbar-item" @route="app.knowledge-bases">Knowledge Bases</LinkTo>
+      {{/if}}
+    </div>
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
