@@ -5,7 +5,7 @@ import ENV from "knowledge-shell/config/environment";
 
 export default class Application extends DS.JSONAPIAdapter.extend(DataAdapterMixin) {
   host = ENV.APP.host;
-  namespace = ENV.APP.namesapce;
+  namespace = ENV.APP.namespace;
 
   @computed("session.{data.authenticated.access_token,isAuthenticated}")
   get headers() {

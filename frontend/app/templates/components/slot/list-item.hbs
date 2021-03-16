@@ -3,11 +3,11 @@
     <span class="table__cell-value">{{@slot.name}}</span>
   </div>
   <div class="table__cell slot-table__cell">
-    <span class="table__cell-value">{{if (is-empty @slot.domain.name) "Not Set"
+    <span class="table__cell-value">{{if (is-empty @slot.domain.name) (t "slot.fields.field_not_set")
       @slot.domain.name}}</span>
   </div>
   <div class="table__cell slot-table__cell">
-    <span class="table__cell-value">{{if (is-empty @slot.value.valueStr) "Not Set"
+    <span class="table__cell-value">{{if (is-empty @slot.value.valueStr) (t "slot.fields.field_not_set")
       @slot.value.valueStr}}</span>
   </div>
   <div class="table__cell slot-table__cell">
@@ -35,7 +35,7 @@
   </div>
 </DraggableObject>
 {{#if @slot.isEditing}}
-<ModalCard @header="Slot" @onClose={{this.onCancelSlotChanges}} @onSuccessClose={{this.onSaveSlot}}
+<ModalCard @header={{t "slot.name" }} @onClose={{this.onCancelSlotChanges}} @onSuccessClose={{this.onSaveSlot}}
   @onCancelClose={{this.onCancelSlotChanges}}>
   <Slot::Form @slot={{@slot}} @domains={{@domains}} />
 </ModalCard>

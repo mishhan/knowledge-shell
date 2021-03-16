@@ -1,9 +1,9 @@
 <div class="field">
-  <label for="name" class="label">Name</label>
+  <label for="name" class="label">{{t "domain.fields.name"}}</label>
   <Input id="name" @type="text" class="input is-small" placeholder="Name" @value={{@domain.name}} />
 </div>
 <div class="field">
-  <label for="type" class="label">Type</label>
+  <label for="type" class="label">{{t "domain.fields.type"}}</label>
   <PowerSelect @options={{this.domainTypes}} @allowClear={{false}} @selected={{this.selectedDomainType}}
     @disabled={{this.domainHasValues}} @onChange={{this.setDomainType}} as |domainType|>
     {{domainType.value}}
@@ -11,7 +11,7 @@
 </div>
 {{#if (eq @domain.domainType 2)}}
 <div class="field">
-  <label for="value" class="label">New Value</label>
+  <label for="value" class="label">{{t "domain.fields.new_value"}}</label>
   <Input id="value" @type="text" class="input is-small" placeholder="Value" @value={{this.newValueString}} />
 </div>
 <button type="button" class="button is-primary is-small" {{on 'click' this.addStringValue}}>
@@ -40,7 +40,7 @@
 {{/if}}
 {{#if (eq @domain.domainType 3)}}
 <div class="field">
-  <label for="value" class="label">New Value</label>
+  <label for="value" class="label">{{t "domain.fields.new_value"}}</label>
   <Input id="value" @type="number" class="input is-small" placeholder="Value" @value={{this.newValueNumber}} />
   <button type="button" class="button is-primary is-small" {{on 'click' this.addNumberValue}}>
     <span class="icon">

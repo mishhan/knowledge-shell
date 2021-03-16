@@ -28,6 +28,7 @@ module.exports = function(environment) {
     APP: {
       host: "http://localhost:55836",
       namespace: "",
+      defaultLocale: "en-us"
     }
   };
 

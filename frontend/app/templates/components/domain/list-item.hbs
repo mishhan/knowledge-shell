@@ -15,7 +15,7 @@
   </div>
 </div>
 {{#if @domain.isEditing}}
-<ModalCard @header="Domain" @onClose={{this.cancelChanges}} @onSuccessClose={{this.saveDomain}}
+<ModalCard @header={{t "domain.name" }} @onClose={{this.cancelChanges}} @onSuccessClose={{this.saveDomain}}
   @onCancelClose={{this.cancelChanges}}>
   <Domain::Form @domain={{@domain}} />
 </ModalCard>

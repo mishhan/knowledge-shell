@@ -1,16 +1,16 @@
 <div class="table__header">
-  <div class="table__header-item domain-table__header-item">Name</div>
-  <div class="table__header-item domain-table__header-item">Description</div>
-  <div class="table__header-item domain-table__header-item">Type</div>
-  <div class="table__header-item domain-table__header-item">Count</div>
-  <div class="table__header-item domain-table__header-item">Actions</div>
+  <div class="table__header-item domain-table__header-item">{{t "domain.fields.name"}}</div>
+  <div class="table__header-item domain-table__header-item">{{t "domain.fields.description"}}</div>
+  <div class="table__header-item domain-table__header-item">{{t "domain.fields.type"}}</div>
+  <div class="table__header-item domain-table__header-item">{{t "domain.fields.count"}}</div>
+  <div class="table__header-item domain-table__header-item">{{t "common.actions"}}</div>
 </div>
 {{#if @showActionBar}}
 <div class="table__bar">
   <div class="table__search-container domain-table__search-container">
     <div class="field">
       <div class="control has-icons-right">
-        <Input placeholder="Filter" @class="input is-small" @type="text" @value={{@query}} />
+        <Input placeholder={{t "common.filter" }} @class="input is-small" @type="text" @value={{@query}} />
         <span class="icon is-right">
           <FaIcon @icon="search" />
         </span>

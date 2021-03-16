@@ -1,0 +1,54 @@
+sign_in: Sign In
+sign_out: Sign Out
+language: Language
+
+knowledge_bases: Knowledge Bases
+
+common:
+  actions: Actions
+  filter: Filter
+  search: Search
+
+fields:
+  login: Login
+  login_or_email: Login or Email
+  password: Password
+
+slot:
+  name: Slot
+  fields:
+    name: Name
+    domain: Domain
+    default_value: Default value
+    production: Production
+    production_example: if fame[slot_name] == "red" then frame[other_slot_name] = "black"
+    inherited: Inherited
+    field_not_set: Not set
+
+domain:
+  name: Domain
+  fields:
+    name: Name
+    description: Description
+    type: Type
+    count: Count
+    new_value: New value
+
+frame:
+  name: Frame
+  fields:
+    name: Name
+
+kb:
+  name: Knowledge base
+  fields:
+    name: Name
+    description: Description
+    creation_date: Creation date
+    modify_date: Modify date
+
+frame_editor:
+  information: Information
+  editor: Editor
+  domains: Domains
+  play: Play
