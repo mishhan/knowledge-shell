@@ -21,15 +21,21 @@
         <div class="buttons">
           {{#if this.session.isAuthenticated}}
           <button type="button" class="button is-primary" {{on "click" this.invalidateSession}}>
-            {{t "sign_out"}}
+            {{t "sign_out"}}&nbsp;
+            <FaIcon @icon="sign-out-alt" />
           </button>
           {{else}}
-          <LinkTo class="button is-primary" @route="login">{{t "sign_in"}}</LinkTo>
+          <LinkTo class="button is-primary" @route="login">
+            {{t "sign_in"}}&nbsp;
+            <FaIcon @icon="sign-in-alt" />
+          </LinkTo>
           {{/if}}
         </div>
       </div>
       <div class="navbar-item has-dropdown is-hoverable">
-        <a role="button" class="navbar-link">{{t "language"}}</a>
+        <a role="button" class="navbar-link">
+          <FaIcon @icon="language" />
+        </a>
         <div class="navbar-dropdown">
           {{#each this.supportedLanguages as |language|}}
           <a role="button" class="navbar-item" {{on "click" (fn this.setLanguage language)}}>

@@ -16,8 +16,8 @@ export default class NavBar extends Component {
   }
 
   @action
-  setLanguage(selectedLanguage: string) {
-    this.intl.setLocale(selectedLanguage);
+  setLanguage(selectedLocale: string) {
+    this.intl.setLocale(selectedLocale);
   }
 
   @action
@@ -26,7 +26,7 @@ export default class NavBar extends Component {
   }
 
   @action
-  invalidateSession() {
+  async invalidateSession(): Promise<void> {
     this.session.invalidate();
   }
 }

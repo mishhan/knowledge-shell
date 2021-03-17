@@ -20,3 +20,13 @@
 	height: $graph-height;
 	width: $graph-width;
 }
+
+.ember-application {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+
+	.main {
+		flex: 1;
+	}
+}
