@@ -7,8 +7,8 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
     ecmaFeatures: {
-      legacyDecorators: true
-    }
+      legacyDecorators: true,
+    },
   },
   plugins: [
     "ember",
@@ -21,7 +21,7 @@ module.exports = {
     "prettier/@typescript-eslint",
   ],
   env: {
-    browser: true
+    browser: true,
   },
   rules: {},
   overrides: [
@@ -43,7 +43,7 @@ module.exports = {
       },
       env: {
         browser: false,
-        node: true
+        node: true,
       },
       plugins: ["node"],
       extends: ["plugin:node/recommended"],
