@@ -49,6 +49,7 @@
     "ember-cli-terser": "^4.0.0",
     "ember-cli-typescript": "^4.1.0",
     "ember-cli-typescript-blueprints": "^3.0.0",
+    "ember-cli-update": "^0.56.0",
     "ember-cli-uuid": "^0.15.1",
     "ember-data": "~3.25.0",
     "ember-drag-drop": "^0.8.2",
