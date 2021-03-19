@@ -1,8 +1,10 @@
 import Component from "@glimmer/component";
+import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
+import { Frame } from "knowledge-shell/models";
 import { Data, Network, Edge, Node } from "vis-network";
 import options from "./vis-network/options";
-import { Frame } from "knowledge-shell/models";
+import type IntlService from "ember-intl/services/intl";
 
 interface FrameGraphArgs {
   frames: Frame[];
@@ -16,6 +18,8 @@ interface FrameGraphArgs {
 const RELATIONS = { isA: "isA" };
 
 export default class FrameGraph extends Component<FrameGraphArgs> {
+  @service intl!: IntlService;
+
   container!: HTMLDivElement;
   network!: Network;
   networkData!: Data;
@@ -27,6 +31,8 @@ export default class FrameGraph extends Component<FrameGraphArgs> {
   @action
   initGraph(): void {
     this.container = document.getElementById("graph") as HTMLDivElement;
+    options.locale = this.intl.primaryLocale;
+
     const manipulation = {
       enabled: true,
       initiallyActive: true,

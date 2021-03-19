@@ -27,7 +27,7 @@
   </div>
 </div>
 {{#if @kb.isEditing}}
-<ModalCard @header="Knowledge Base" @onClose={{@onCancelChanges}} @onSuccessClose={{@onSave}}
+<ModalCard @header={{t "kb.name" }} @onClose={{@onCancelChanges}} @onSuccessClose={{@onSave}}
   @onCancelClose={{@onCancelChanges}}>
   <Kb::Form @kb={{@kb}} />
 </ModalCard>

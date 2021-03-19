@@ -1,18 +1,18 @@
 <div class="table__header">
   <div class="table__header-item kb-table__item">
-    <span class="table__header-text">Name</span>
+    <span class="table__header-text">{{t "kb.fields.name"}}</span>
   </div>
   <div class="table__header-item kb-table__item">
-    <span class="table__header-text">Description</span>
+    <span class="table__header-text">{{t "kb.fields.description"}}</span>
   </div>
   <div class="table__header-item kb-table__item">
-    <span class="table__header-text">Creation Date</span>
+    <span class="table__header-text">{{t "kb.fields.creation_date"}}</span>
   </div>
   <div class="table__header-item kb-table__item">
-    <span class="table__header-text">Modify Date</span>
+    <span class="table__header-text">{{t "kb.fields.modify_date"}}</span>
   </div>
   <div class="table__header-item kb-table__item">
-    <span class="table__header-text">Actions</span>
+    <span class="table__header-text">{{t "common.actions"}}</span>
   </div>
 </div>
 {{#if @showActionBar}}
@@ -20,7 +20,7 @@
   <div class="table__search-container kb-table__search-container">
     <div class="field">
       <div class="control has-icons-right">
-        <Input placeholder="Filter" @class="input is-small" @type="text" @value={{@query}} />
+        <Input placeholder={{t "common.filter" }} @class="input is-small" @type="text" @value={{@query}} />
         <span class="icon is-right">
           <FaIcon @icon="search" />
         </span>

@@ -16,6 +16,24 @@ const locales = {
     createEdgeError: "Cannot link edges to a cluster.",
     deleteClusterError: "Clusters cannot be deleted.",
     editClusterError: "Clusters cannot be edited."
+  },
+  ru: {
+    edit: "Редактировать",
+    del: "Удалить",
+    back: "Назад",
+    addNode: "Добавить фрейм",
+    addEdge: "Добавить связь",
+    editNode: "Редактировать",
+    editEdge: "Редактировать",
+    addDescription:
+      "Кликлните по пустому пространству чтобы добавить новый фрейм",
+    edgeDescription:
+      "Кликните по фрейму и ведите к другому фрейму для установления связи",
+    editEdgeDescription:
+      "Кликните по точкам управления и перенесите их к новому фрейму для установления связи",
+    createEdgeError: "Ошибка установления связи",
+    deleteClusterError: "Не удалось удалить кластер",
+    editClusterError: "Кластер не редактируется"
   }
 };
 

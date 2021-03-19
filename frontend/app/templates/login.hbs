@@ -1,16 +1,17 @@
 <div class="container">
   <form class="box">
     <div class="field">
-      <label for="login" class="label">Login or Email</label>
+      <label for="login" class="label">{{t "fields.login_or_email"}}</label>
       <div class="control has-icons-left">
-        <Input @id="login" @type="text" class="input" placeholder="Login" @value={{this.identification}} />
+        <Input @id="login" @type="text" class="input" placeholder={{t "fields.login" }}
+          @value={{this.identification}} />
         <span class="icon is-small is-left">
           <FaIcon @icon="user" />
         </span>
       </div>
     </div>
     <div class="field">
-      <label class="label">Password</label>
+      <label class="label">{{t "fields.password"}}</label>
       <div class="control has-icons-left">
         <Input @id="password" @type="password" class="input" placeholder="********" @value={{this.password}} />
         <span class="icon is-small is-left">
@@ -18,7 +19,7 @@
         </span>
       </div>
     </div>
-    <button type="button" class="button is-primary" {{on "click" this.authenticate}}>Sign in</button>
+    <button type="button" class="button is-primary" {{on "click" this.authenticate}}>{{t "sign_in"}}</button>
     {{#if this.errorMessage}}
     <p class="is-danger">{{this.errorMessage}}</p>
     {{/if}}

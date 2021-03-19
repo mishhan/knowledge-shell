@@ -1,0 +1,53 @@
+sign_in: Войти
+sign_out: Выйти
+
+knowledge_bases: Базы знаний
+
+common:
+  actions: Действия
+  filter: Фильтр
+  search: Поиск
+
+fields:
+  login: Логин
+  login_or_email: Логин или Почтовый адрес
+  password: Пароль
+
+slot:
+  name: Слот
+  fields:
+    name: Название
+    domain: Домен
+    default_value: Значение по умолочанию
+    production: Продукция
+    production_example: if фрейм[слот] == "красный" then фрейм[другой_слот] = "черный"
+    inherited: Унаследован
+    field_not_set: Не задано
+
+domain:
+  name: Домен
+  fields:
+    name: Название
+    description: Описание
+    type: Тип
+    count: Количество значений
+    new_value: Новое значение
+
+frame:
+  name: Фрейм
+  fields:
+    name: Название
+
+kb:
+  name: База знаний
+  fields:
+    name: Название
+    description: Описание
+    creation_date: Дата создания
+    modify_date: Дата изменения
+
+frame_editor:
+  information: Описание
+  editor: Редактор
+  domains: Домены
+  play: Играть
