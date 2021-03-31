@@ -1,6 +1,6 @@
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
-import { action } from "@ember/object";
+import { dropTask } from 'ember-concurrency';
 import { tracked } from "@glimmer/tracking";
 
 export default class Login extends Controller {
@@ -10,11 +10,11 @@ export default class Login extends Controller {
   @tracked password!: string;
   @tracked errorMessage!: string;
 
-  @action
-  async authenticate(): Promise<void> {
+  @dropTask
+  *authenticate() {
     const { identification, password } = this;
     try {
-      await this.session.authenticate("authenticator:oauth2", identification, password);
+      yield this.session.authenticate("authenticator:oauth2", identification, password);
     } catch(error) {
       const errorJson = error.responseJSON;
       this.errorMessage = errorJson.errorText;
