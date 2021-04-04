@@ -83,7 +83,7 @@ export default class FrameObserver extends Service {
   }
 
   public setParent(childFrame: Frame, parentFrame: Frame | null): void {
-    childFrame.parent = parentFrame;
+    childFrame.parent = parentFrame as Frame;
     this.propagateFrameParentChanged(childFrame);
   }
 

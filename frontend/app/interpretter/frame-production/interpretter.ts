@@ -2,6 +2,8 @@ import Lexer from "./lexer";
 import TokenType from "./token-type";
 import Token from "./token";
 import FrameKeyWord from "./constants";
+import { Production } from "knowledge-shell/models";
+import { UndefinedFrameError, UndefinedFrameSlotError } from "./error";
 import {
   AndNode,
   AsNode,
@@ -23,8 +25,6 @@ import {
   Node
 } from "./nodes/index";
 
-import Production from "knowledge-shell/models/production";
-
 export default class Interpretter {
   private lexer!: Lexer;
   private currentToken!: Token;
@@ -41,7 +41,20 @@ export default class Interpretter {
 
     this.nextToken();
     const statement = this.statement();
-    return statement.evaluateR();
+    try {
+      const result = statement.evaluateR();
+      return result;
+    }
+    catch (error) {
+      if (error instanceof UndefinedFrameError) {
+        return undefined;
+      }
+      if (error instanceof UndefinedFrameSlotError) {
+        return undefined;
+      }
+
+      return undefined;
+    }
   }
 
   public get Lexer(): Lexer {

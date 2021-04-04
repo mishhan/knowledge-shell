@@ -1,6 +1,7 @@
 import Node from "./node";
 import BinarNode from "./binar-node";
 import { Frame, Production, Slot } from "knowledge-shell/models";
+import { UndefinedFrameError, UndefinedFrameSlotError } from "../error";
 
 export default class FrameGetSlotNode extends BinarNode {
   constructor(leftNode: Node, rightNode: Node, production: Production) {
@@ -11,9 +12,14 @@ export default class FrameGetSlotNode extends BinarNode {
     const frame: Frame = this.leftNode.evaluateR();
     if (frame) {
       const rightNodeValue = this.rightNode.evaluateR();
-      return frame.getSlot(rightNodeValue);
+      const frameSlot = frame.getSlot(rightNodeValue);
+      if (frameSlot) {
+        return frameSlot;
+      }
+
+      throw new UndefinedFrameSlotError(frame.name, rightNodeValue, `Undefined slot ${rightNodeValue} in frame ${frame.name}`);
     }
 
-    throw new Error(`${typeof(FrameGetSlotNode)} frame is undefined`);
+    throw new UndefinedFrameError(`Undefined frame in FrameGetSlotNode`);
   }
 }

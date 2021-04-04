@@ -17,7 +17,7 @@ export default class Frame extends Model {
   frameBase!: FrameBase;
 
   @belongsTo("frame", { async: false, inverse: "children" })
-  parent!: Frame | null;
+  parent!: Frame;
 
   @hasMany("frame", { async: false, inverse: "parent" })
   children!: Frame[];
@@ -26,7 +26,7 @@ export default class Frame extends Model {
   ownSlots!: Slot[];
 
   @belongsTo("position", { async: false })
-  position!: Position | null;
+  position!: Position;
 
   @computed("ownSlots.[]")
   get sortedSlots(): Slot[] {
@@ -42,7 +42,9 @@ export default class Frame extends Model {
   get slotValues(): string {
     let slotValues = "";
     for (const slot of this.sortedSlots) {
-      slotValues += `${slot.name}: ${(slot.value as DomainValueString).valueStr}\n`;
+      const slotName = slot.name;
+      const slotValue = slot.value ? (slot.value as DomainValueString).valueStr : "";
+      slotValues += `${slotName}: ${slotValue}\n`;
     }
     return slotValues;
   }
@@ -94,8 +96,19 @@ export default class Frame extends Model {
     return -1;
   }
 
-  public getSlot(slotName: string): Slot {
-    return this.ownSlots.find((slot) => isEqual(slot.name, slotName)) as Slot;
+  public getSlot(slotName: string): Slot | undefined {
+    const slot = this.ownSlots.find((slot: Slot) => isEqual(slot.name, slotName));
+    return slot;
+  }
+
+  public getSlotNameValueCollection(): string {
+    const nameValueCollection = this.sortedSlots.map((slot: Slot) => {
+      const slotName = slot.name;
+      const slotValue = slot.value ? (slot.value as DomainValueString).valueStr : "none";
+      return `${slotName} = ${slotValue}`;
+    });
+    const slotValues =  "[" + nameValueCollection.join(", ") + "]";
+    return slotValues;
   }
 }
 
