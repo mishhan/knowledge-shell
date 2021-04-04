@@ -18,9 +18,18 @@ export default class EqualNode extends BinarNode {
     }
 
     if (this.isStringNode(leftNodeValue) && this.isStringNode(rightNodeValue)) {
-      const leftNodeValueNumber = this.getNodeValueNumber(leftNodeValue);
-      const rightNodeValueNumber = this.getNodeValueNumber(rightNodeValue);
-      return leftNodeValueNumber === rightNodeValueNumber;
+      const leftNodeValueString = this.getNodeValueString(leftNodeValue);
+      const rightNodeValueString = this.getNodeValueString(rightNodeValue);
+      return leftNodeValueString === rightNodeValueString;
+    }
+
+    /**
+     * in some situations it's possible that leftNodeValue or rightNodeValue is undefined
+     * for example: when we're trying to access non existing frame slot
+     * this['left']['health'] but this['left'] doesn't have ['health]
+    */
+    if (leftNodeValue === undefined || rightNodeValue === undefined) {
+      return false;
     }
 
     throw new Error("EqualNode nodes must have same type");

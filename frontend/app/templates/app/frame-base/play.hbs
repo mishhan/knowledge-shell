@@ -2,3 +2,14 @@
   <Game::GameHtml @panelObjects={{this.panelObjects}} @battleField={{this.battleField}} @x={{this.x}} @y={{this.y}}
     @playStep={{this.playStep}} @addMoveObjectOnField={{this.addMoveObjectOnField}} />
 </div>
+<div>
+  <p>
+  <pre>
+      <code>
+        {{#each this.battleLogger.messages as |message|}}
+        {{message}}
+        {{/each}}
+      </code>
+    </pre>
+  </p>
+</div>

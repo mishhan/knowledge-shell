@@ -1,11 +1,14 @@
 import Controller from "@ember/controller";
-import { tracked } from "@glimmer/tracking";
+import { inject as service } from "@ember/service";
 import { computed, action } from "@ember/object";
-import { getOwner } from "@ember/application";
 import { Frame, FrameBase, Slot } from "knowledge-shell/models";
-import BattleCore from "knowledge-shell/objects/battle-game/battle-core";
+import BattleCore from "knowledge-shell/services/battle-core";
+import BattleLogger from "knowledge-shell/services/battle-logger";
 
 export default class FrameBasePlayController extends Controller {
+  @service("battle-core") battleCore!: BattleCore;
+  @service("battle-logger") battleLogger!: BattleLogger;
+  
   @computed.oneWay("model") frameBase!: FrameBase;
 
   @computed.oneWay("battleCore.panelObjects") panelObjects!: Frame[];
@@ -13,21 +16,10 @@ export default class FrameBasePlayController extends Controller {
   @computed.oneWay("battleCore.x") x!: number;
   @computed.oneWay("battleCore.y") y!: number;
 
-  @tracked battleCore!: BattleCore;
-
   initGame(): void {
-    const owner: any = getOwner(this);
-    this.battleCore = BattleCore.create({
-      owner: owner,
-      frameBase: this.frameBase
-    });
+    this.battleCore.frameBase = this.frameBase;
     this.battleCore.initialize();
   }
-
-  destroyGame(): void {
-    this.battleCore.destroy();
-  }
-
 
   @action
   playStep(): void {

@@ -11,7 +11,6 @@ export default class FrameBasePlay extends Route {
 
   @action
   willTransition(){
-    (<FrameBasePlayController>this.controller).destroyGame();
     [
       "frame",
       "slot",

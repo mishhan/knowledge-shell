@@ -24,7 +24,7 @@
   </div>
 </div>
 <div class="game-field">
-  {{!-- template-lint-disable  --}}
+  {{!-- template-lint-disable --}}
   <div class="game-field__field" style={{this.fieldStyle}}>
     {{#each @battleField.sortedSlots as |slot|}}
     <DraggableObjectTarget @overrideClass='game-field__cell' @action={{@addMoveObjectOnField}} @slotName={{slot.name}}>
@@ -36,7 +36,10 @@
         <img class="game-field__cell-image" src={{this.defaultHeroAvatar}} alt="Hero" width="100" height="100">
       </DraggableObject>
       {{else}}
-      <img class="game-field__cell-image" src={{this.defaultCellImage}} alt="Grass" width="100" height="100">
+      <div aria-label={{slot.value.value.slotValues}} data-microtip-position="top" data-microtip-size="medium"
+        role="tooltip">
+        <img class="game-field__cell-image" src={{this.defaultCellImage}} alt="Grass" width="100" height="100">
+      </div>
       {{/if}}
       {{/let}}
     </DraggableObjectTarget>
