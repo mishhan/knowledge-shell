@@ -25,8 +25,7 @@ jobs:
     - name: install dependencies
       run: npm install
 
-    - name: cache node modules
-      id: cache-node-modules
+    - id: cache-node-modules
       uses: actions/cache@v2
       with:
         path: ./node_modules
@@ -45,7 +44,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./node_modules
-        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
+        key: cached_node_modules_${{ hashFiles('**/package-lock.json') }}
         restore-keys: cached_node_modules_
 
     - name: lint ts
@@ -68,7 +67,7 @@ jobs:
     - id: cache-node-modules
       with:
         path: ./node_modules
-        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
+        key: cached_node_modules_${{ hashFiles('**/package-lock.json') }}
         restore-keys: cached_node_modules_
 
       - name: run tests
