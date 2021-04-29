@@ -1,12 +1,22 @@
 <div class="box">
-  <article class="message is-info">
-    <div class="message-header">
-      <p>{{this.frameBase.name}}</p>
-    </div>
-    <div class="message-body">
-      {{#each this.baseInformation as |infoSlot|}}
-      <p><strong>{{infoSlot.name}}</strong>: <span>{{infoSlot.value}}</span></p>
-      {{/each}}
-    </div>
-  </article>
+	<article class="message is-info">
+		<div class="message-header">
+			<p>
+				{{this.frameBase.name}}
+			</p>
+		</div>
+		<div class="message-body">
+			{{#each this.baseInformation as |infoSlot|}}
+				<p>
+					<strong>
+						{{infoSlot.name}}
+					</strong>
+					:
+					<span>
+						{{infoSlot.value}}
+					</span>
+				</p>
+			{{/each}}
+		</div>
+	</article>
 </div>

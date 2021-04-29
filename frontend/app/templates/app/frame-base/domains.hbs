@@ -1,9 +1,13 @@
 <div class="table domain-table">
-  <Domain::ListHeader @showActionBar={{true}} @query={{this.search}} @addDomain={{this.addDomain}} />
-  <Provider::Filter @model={{this.orderedDomains}} @field="name" @query={{this.search}} as |filteredDomains|>
-    {{#each filteredDomains as |domain|}}
-    <Domain::ListItem @domain={{domain}} @onSave={{fn this.saveDomain domain}}
-      @onCancelChanges={{fn this.cancelDomainChanges domain}} @deleteDomain={{fn this.deleteDomain domain}} />
-    {{/each}}
-  </Provider::Filter>
+	<Domain::ListHeader @showActionBar={{true}} @query={{this.search}} @addDomain={{this.addDomain}} />
+	<Provider::Filter @model={{this.orderedDomains}} @field="name" @query={{this.search}} as |filteredDomains|>
+		{{#each filteredDomains as |domain|}}
+			<Domain::ListItem
+				@domain={{domain}}
+				@onSave={{fn this.saveDomain domain}}
+				@onCancelChanges={{fn this.cancelDomainChanges domain}}
+				@deleteDomain={{fn this.deleteDomain domain}}
+			/>
+		{{/each}}
+	</Provider::Filter>
 </div>
