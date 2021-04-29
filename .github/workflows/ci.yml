@@ -25,6 +25,14 @@ jobs:
     - name: install dependencies
       run: npm install
 
+    - name: cache node modules
+      id: cache-node-modules
+      uses: actions/cache@v2
+      with:
+        path: ./node_modules
+        key: cached_node_modules_${{ hashFiles('**/package-lock.json') }}
+        restore-keys: cached_node_modules_
+
   lint:
     runs-on: ubuntu-latest
     needs: fetch-dependencies
@@ -33,8 +41,12 @@ jobs:
         working-directory: frontend
     steps:
     - uses: actions/checkout@v2
+    - id: cache-node-modules
+      uses: actions/cache@v2
       with:
         path: ./node_modules
+        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_
 
     - name: lint ts
       run: npm run lint:ts
@@ -52,5 +64,13 @@ jobs:
       run:
         working-directory: frontend
     steps:
+    - uses: actions/checkout@v2
+    - id: cache-node-modules
+      uses: actions/cache@v2
+      with:
+        path: ./node_modules
+        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_
+
       - name: run tests
         run: npm run test:ember
