@@ -66,7 +66,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - id: cache-node-modules
-      uses: actions/cache@v2
       with:
         path: ./node_modules
         key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
