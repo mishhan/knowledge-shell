@@ -18,6 +18,8 @@
     "lint:hbs": "ember-template-lint . --max-warnings 0",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "format:hbs": "prettier **/*.hbs --write --parser=glimmer",
+    "lint:scss": "stylelint app/styles/**/*.scss --max-warnings 0",
+    "lint:scss:fix": "stylelint app/styles/**/*.scss --fix",
     "start": "ember serve",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test"
@@ -88,6 +90,8 @@
     "qunit": "^2.14.0",
     "qunit-dom": "^1.6.0",
     "sass": "^1.32.8",
+    "stylelint": "^13.13.0",
+    "stylelint-config-sass-guidelines": "^8.0.0",
     "typescript": "^4.2.3"
   },
   "engines": {

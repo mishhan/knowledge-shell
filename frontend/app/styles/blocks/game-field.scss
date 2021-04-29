@@ -1,11 +1,11 @@
 .game-field {
-  flex-grow: 1;
+	flex-grow: 1;
 
-  &__field {
-    display: grid;
-  }
+	&__field {
+		display: grid;
+	}
 
-  &__cell {
-    border: $default-border;
-  }
+	&__cell {
+		border: $default-border;
+	}
 }

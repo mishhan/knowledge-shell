@@ -1,7 +1,7 @@
 .frame-editor {
 	$frame-editor-nav-bg-color: #252f3f;
 	$frame-editor-nav-link-color: #d2d6dc;
-	$frame-editor-nav-link-active-color: white;
+	$frame-editor-nav-link-active-color: #fff;
 	$frame-editor-nav-ling-active-bg-color: #2d3748;
 	$frame-editor-nav-ling-hover-bg-color: #4a5568;
 
@@ -9,34 +9,34 @@
 	flex-direction: column;
 
 	&__navbar {
+		background-color: $frame-editor-nav-bg-color;
 		display: flex;
 		flex-direction: column;
 		@include from($tablet) {
 			flex-direction: row;
 		}
-		background-color: $frame-editor-nav-bg-color;
 	}
 
 	&__navbar-link-container {
-		padding: 0px 12px;
-		margin: 6px 0px;
+		margin: 6px 0;
+		padding: 0 12px;
 	}
 
 	&__navbar-link {
+		color: $frame-editor-nav-link-color;
 		display: block;
 		padding: 12px;
-		color: $frame-editor-nav-link-color;
 
 		&.active {
 			background-color: $frame-editor-nav-ling-active-bg-color;
-			color: $frame-editor-nav-link-active-color;
 			border-radius: 5px;
+			color: $frame-editor-nav-link-active-color;
 		}
 
 		&:hover {
 			background-color: $frame-editor-nav-ling-hover-bg-color;
-			color: $frame-editor-nav-link-active-color;
 			border-radius: 5px;
+			color: $frame-editor-nav-link-active-color;
 		}
 	}
 
@@ -45,9 +45,9 @@
 	}
 
 	&__content {
-		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
+		flex-grow: 1;
 	}
 
 	&__graph {
@@ -59,7 +59,7 @@
 	}
 
 	&__frame {
-		margin: 0px 20px;
+		margin: 0 20px;
 	}
 
 	&__game-panel {
