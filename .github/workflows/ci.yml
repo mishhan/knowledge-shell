@@ -7,13 +7,12 @@ on:
       - develop
       - master
 
-defaults:
-  run:
-    working-directory: frontend
-
 jobs:
   fetch-dependencies:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     steps:
     - name: checkout
       uses: actions/checkout@v2
@@ -29,6 +28,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     needs: fetch-dependencies
+    defaults:
+      run:
+        working-directory: frontend
     steps:
     - name: lint ts
       run: npm run lint:ts
@@ -42,6 +44,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: fetch-dependencies
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: run tests
         run: npm run test:ember
