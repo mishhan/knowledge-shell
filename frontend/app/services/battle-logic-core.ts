@@ -1,131 +1,137 @@
-import Service from "@ember/service";
-import { inject as service } from "@ember/service";
+import Service, { inject as service } from "@ember/service";
 import { isEmpty, isEqual } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { DomainValueFrame, DomainValueString, Frame, FrameBase, Slot } from "knowledge-shell/models";
-import BattleLogger from "./battle-logger";
 import Interpretter from "knowledge-shell/interpretter/frame-production/interpretter";
+import BattleLogger from "./battle-logger";
 
 export default class BattleLogicCore extends Service {
-  private productionInterpretter!: Interpretter;
-  
-  @service("battle-logger") battleLogger!: BattleLogger;
+	private productionInterpretter!: Interpretter;
 
-  @tracked frameBase!: FrameBase;
+	@service("battle-logger") battleLogger!: BattleLogger;
 
-  init() {
-    super.init();
-    this.productionInterpretter = new Interpretter();
-  }
+	@tracked frameBase!: FrameBase;
 
-  public attachToFrameOrChildren(framePrototype: Frame, frameSample: Frame): Frame[] {
-    let result: Frame[] = [];
-    const attachedFrame = this.attachToFrame(framePrototype, frameSample);
-    if (attachedFrame) {
-      result.pushObject(attachedFrame);
-    }
+	constructor() {
+		super();
+		this.productionInterpretter = new Interpretter();
+	}
 
-    framePrototype.children.forEach((childPrototype: Frame) => {
-      if (!childPrototype.isSample) {
-        const attachedChildren = this.attachToFrameOrChildren(childPrototype, frameSample);
-        result = result.concat(attachedChildren);
-      }
-    });
+	public attachToFrameOrChildren(framePrototype: Frame, frameSample: Frame): Frame[] {
+		let result: Frame[] = [];
+		const attachedFrame = this.attachToFrame(framePrototype, frameSample);
+		if (attachedFrame) {
+			result.pushObject(attachedFrame);
+		}
 
-    return result;
-  }
+		framePrototype.children.forEach((childPrototype: Frame) => {
+			if (!childPrototype.isSample) {
+				const attachedChildren = this.attachToFrameOrChildren(childPrototype, frameSample);
+				result = result.concat(attachedChildren);
+			}
+		});
 
-  /**
-   * Creates sample based on framePrototype and attaches this sample to frameSample
-   * @param framePrototype 
-   * @param frameSample 
-   * @returns true if prototypeSample is attached to frameSample
-   */
-   public attachToFrame(framePrototype: Frame, frameSample: Frame): Frame | undefined {
-    const prototypeSample = this.frameBase.addFrameSample(framePrototype);
-    const prototypeSampleSlots = prototypeSample.sortedSlots.toArray();
+		return result;
+	}
 
-    this.battleLogger.addMessage(`Attaching frame [${prototypeSample.name}]: ${prototypeSample.getSlotNameValueCollection()}`);
-    this.battleLogger.addMessage(`To ${frameSample.getSlotNameValueCollection()}`);
+	/**
+	 * Creates sample based on framePrototype and attaches this sample to frameSample
+	 * @param framePrototype
+	 * @param frameSample
+	 * @returns true if prototypeSample is attached to frameSample
+	 */
+	public attachToFrame(framePrototype: Frame, frameSample: Frame): Frame | undefined {
+		const prototypeSample = this.frameBase.addFrameSample(framePrototype);
+		const prototypeSampleSlots = prototypeSample.sortedSlots.toArray();
 
-    let isAttached = false;
-    for (const prototypeSampleSlot of prototypeSampleSlots) {
-      const sampleSlot = frameSample.getSlot(prototypeSampleSlot.name);
-      this.battleLogger.addMessage(`Attaching slot [${prototypeSampleSlot.name}]`);
+		this.battleLogger.addMessage(
+			`Attaching frame [${prototypeSample.name}]: ${prototypeSample.getSlotNameValueCollection()}`,
+		);
+		this.battleLogger.addMessage(`To ${frameSample.getSlotNameValueCollection()}`);
 
-      isAttached = this.attachToSlot(prototypeSampleSlot, sampleSlot);
-      if (isAttached) {
-        this.battleLogger.addMessage(`Slot [${prototypeSampleSlot.name}] is attached. Value: [${(prototypeSampleSlot.value as DomainValueString).valueStr}]`);
-      } else {
-        this.battleLogger.addMessage(`Slot ${prototypeSampleSlot.name} isn't attached`);
-        break;
-      }
-    }
+		let isAttached = false;
+		// eslint-disable-next-line no-restricted-syntax
+		for (const prototypeSampleSlot of prototypeSampleSlots) {
+			const sampleSlot = frameSample.getSlot(prototypeSampleSlot.name);
+			this.battleLogger.addMessage(`Attaching slot [${prototypeSampleSlot.name}]`);
 
-    if (!isAttached) {
-      this.battleLogger.addMessage(`[${prototypeSample.name}] isn't attached to [${frameSample.name}]`);
-      return undefined;
-    }
-    this.battleLogger.addMessage(`[${prototypeSample.name}] is attached to [${frameSample.name}]`);
-    return prototypeSample;
-  }
+			isAttached = this.attachToSlot(prototypeSampleSlot, sampleSlot);
+			if (isAttached) {
+				this.battleLogger.addMessage(
+					`Slot [${prototypeSampleSlot.name}] is attached. Value: [${
+						(prototypeSampleSlot.value as DomainValueString).valueStr
+					}]`,
+				);
+			} else {
+				this.battleLogger.addMessage(`Slot ${prototypeSampleSlot.name} isn't attached`);
+				break;
+			}
+		}
 
-  private attachToSlot(slotPrototype: Slot, sampleSlot: Slot | undefined): boolean {
-    if (slotPrototype.hasProduction) {
-      this.battleLogger.addMessage(`Slot [${slotPrototype.name}] has production: ${slotPrototype.production.text}`);
+		if (!isAttached) {
+			this.battleLogger.addMessage(`[${prototypeSample.name}] isn't attached to [${frameSample.name}]`);
+			return undefined;
+		}
+		this.battleLogger.addMessage(`[${prototypeSample.name}] is attached to [${frameSample.name}]`);
+		return prototypeSample;
+	}
 
-      const result = this.productionInterpretter.evaluate(slotPrototype.production);
-      if (isEmpty(result)) return false;
+	private attachToSlot(slotPrototype: Slot, sampleSlot: Slot | undefined): boolean {
+		if (slotPrototype.hasProduction) {
+			this.battleLogger.addMessage(`Slot [${slotPrototype.name}] has production: ${slotPrototype.production.text}`);
 
-      let newValue: DomainValueString | DomainValueFrame | undefined;
-      if (typeof(result) === "string") {
-        newValue = slotPrototype.domain.getDomainValueFrameByFrameName(result);
-      } else {
-        newValue = result;
-      }
+			const result = this.productionInterpretter.evaluate(slotPrototype.production);
+			if (isEmpty(result)) return false;
 
-      if (isEmpty(newValue)) return false;
+			let newValue: DomainValueString | DomainValueFrame | undefined;
+			if (typeof result === "string") {
+				newValue = slotPrototype.domain.getDomainValueFrameByFrameName(result);
+			} else {
+				newValue = result;
+			}
 
-      if (!isEmpty(slotPrototype.value) && slotPrototype.value instanceof DomainValueFrame) {
-        if (!slotPrototype.value.value.isParentOf((newValue as DomainValueFrame).value)) {
-          return false;
-        }
-      }
+			if (isEmpty(newValue)) return false;
 
-      if (newValue) {
-        slotPrototype.value = newValue;
-        return !isEmpty(slotPrototype.value);
-      }
-    }
+			if (!isEmpty(slotPrototype.value) && slotPrototype.value instanceof DomainValueFrame) {
+				if (!slotPrototype.value.value.isParentOf((newValue as DomainValueFrame).value)) {
+					return false;
+				}
+			}
 
-    if (sampleSlot) {
-      if (!isEqual(slotPrototype.domain, sampleSlot.domain)) {
-        return false;
-      }
+			if (newValue) {
+				slotPrototype.value = newValue;
+				return !isEmpty(slotPrototype.value);
+			}
+		}
 
-      if ((slotPrototype.value as DomainValueFrame)?.value instanceof Frame) {
-        const slotPrototypeValue = (slotPrototype.value as DomainValueFrame).value;
-        const sampleSlotValue = (sampleSlot.value as DomainValueFrame).value;
+		if (sampleSlot) {
+			if (!isEqual(slotPrototype.domain, sampleSlot.domain)) {
+				return false;
+			}
 
-        if (!slotPrototypeValue.isParentOf(sampleSlotValue)) {
-          return false;
-        }
+			if ((slotPrototype.value as DomainValueFrame)?.value instanceof Frame) {
+				const slotPrototypeValue = (slotPrototype.value as DomainValueFrame).value;
+				const sampleSlotValue = (sampleSlot.value as DomainValueFrame).value;
 
-        const attachedSubFrame = this.attachToFrame(slotPrototypeValue, sampleSlotValue);
-        if (attachedSubFrame) {
-          slotPrototype.value = attachedSubFrame.domain.getDomainValueFrameByFrameName(attachedSubFrame.name);
-        }
-      } else {
-        slotPrototype.value = sampleSlot.value;
-      }
-    }
+				if (!slotPrototypeValue.isParentOf(sampleSlotValue)) {
+					return false;
+				}
 
-    return !isEmpty(slotPrototype.value);
-  }
+				const attachedSubFrame = this.attachToFrame(slotPrototypeValue, sampleSlotValue);
+				if (attachedSubFrame) {
+					slotPrototype.value = attachedSubFrame.domain.getDomainValueFrameByFrameName(attachedSubFrame.name);
+				}
+			} else {
+				slotPrototype.value = sampleSlot.value;
+			}
+		}
+
+		return !isEmpty(slotPrototype.value);
+	}
 }
 
 declare module "@ember/service" {
-  interface Registry {
-    "battle-logic-core": BattleLogicCore;
-  }
+	interface Registry {
+		"battle-logic-core": BattleLogicCore;
+	}
 }

@@ -1,8 +1,9 @@
 import Model, { attr, belongsTo, hasMany } from "@ember-data/model";
 import { isEqual } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
-import { DomainType } from "./domain-type";
+import DomainType from "./domain-type";
 import DomainValue from "./domain-value";
 import DomainValueFrame from "./domain-value-frame";
 import DomainValueString from "./domain-value-string";
@@ -11,88 +12,88 @@ import Frame from "./frame";
 import FrameBase from "./frame-base";
 
 export default class Domain extends Model {
-  @attr("string", { defaultValue: "New Domain" }) name!: string;
-  @attr("string", { defaultValue: "New Domain Description" }) description!: string;
-  @attr("number", { defaultValue: 0 }) domainType!: DomainType;
-  @attr("boolean", { defaultValue: false }) isReadOnly!: boolean;
+	@attr("string", { defaultValue: "New Domain" }) name!: string;
 
-  @belongsTo("frame-base", { async: false })
-  frameBase!: FrameBase;
+	@attr("string", { defaultValue: "New Domain Description" }) description!: string;
 
-  @hasMany("domain-value", { async: false, inverse: "domain", polymorphic: true })
-  domainValues!: DomainValue[];
+	@attr("number", { defaultValue: 0 }) domainType!: DomainType;
 
-  @computed("domainValues.[]")
-  get domainValuesOrdered(): DomainValue[] {
-    return this.domainValues.sortBy("order");
-  };
+	@attr("boolean", { defaultValue: false }) isReadOnly!: boolean;
 
-  @computed.oneWay("domainValues.length")
-  length!: number;
+	@belongsTo("frame-base", { async: false })
+	frameBase!: FrameBase;
 
-  @computed("domainType")
-  get domainTypeName(): string {
-    return DomainType[this.domainType];
-  };
+	@hasMany("domain-value", { async: false, inverse: "domain", polymorphic: true })
+	domainValues!: DomainValue[];
 
-  @tracked
-  isEditing!: boolean;
+	@computed("domainValues.[]")
+	get domainValuesOrdered(): DomainValue[] {
+		return this.domainValues.sortBy("order");
+	}
 
-  getDomainValue(value: string | number): DomainValue {
-    switch(this.domainType) {
-      case DomainType.String: {
-        return this.domainValues.find((dv: DomainValueString) => isEqual(dv.value, value)) as DomainValueString;
-      }
-      case DomainType.Number: {
-        return this.domainValues.find((dv: DomainValueNumber) => isEqual(dv.value, value)) as DomainValueNumber;
-      }
-      case DomainType.Frame: {
-        return this.domainValues.find((dv: DomainValueFrame) => isEqual(dv.valueStr, value)) as DomainValueFrame;
-      }
-      default: {
-        throw Error();
-      }
-    }
-  }
+	@computed.oneWay("domainValues.length")
+	length!: number;
 
-  getDomainValueFrameByFrameName(frameName: string): DomainValueFrame {
-    return this.domainValues
-      .find((dv: DomainValueFrame) => isEqual(dv.valueStr, frameName)) as DomainValueFrame;
-  }
+	@computed("domainType")
+	get domainTypeName(): string {
+		return DomainType[this.domainType];
+	}
 
-  getDomainValueStringByName(valueName: string): DomainValueString {
-    return this.domainValues
-      .find((dv: DomainValueString) => isEqual(dv.value, valueName)) as DomainValueString;
-  }
+	@tracked
+	isEditing!: boolean;
 
-  getDomainValueFrameByFrame(frame: Frame): DomainValueFrame {
-    return this.domainValues
-      .find((dv: DomainValueFrame) => isEqual(dv.value, frame)) as DomainValueFrame;
-  }
+	getDomainValue(value: string | number): DomainValue {
+		switch (this.domainType) {
+			case DomainType.String: {
+				return this.domainValues.find((dv: DomainValueString) => isEqual(dv.value, value)) as DomainValueString;
+			}
+			case DomainType.Number: {
+				return this.domainValues.find((dv: DomainValueNumber) => isEqual(dv.value, value)) as DomainValueNumber;
+			}
+			case DomainType.Frame: {
+				return this.domainValues.find((dv: DomainValueFrame) => isEqual(dv.valueStr, value)) as DomainValueFrame;
+			}
+			default: {
+				throw Error();
+			}
+		}
+	}
 
-  addValue(newValue: string | number): void {
-    if (this.domainType === DomainType.String) {
-      const newDomainValue = this.store.createRecord("domain-value-string", {
-        value: newValue,
-      });
-      this.domainValues.pushObject(newDomainValue);
-    }
-    if (this.domainType === DomainType.Number) {
-      const newDomainValue = this.store.createRecord("domain-value-number", {
-        value: newValue
-      });
-      this.domainValues.pushObject(newDomainValue);
-    }
-  }
+	getDomainValueFrameByFrameName(frameName: string): DomainValueFrame {
+		return this.domainValues.find((dv: DomainValueFrame) => isEqual(dv.valueStr, frameName)) as DomainValueFrame;
+	}
 
-  deleteValue(value: DomainValue) {
-    this.domainValues.removeObject(value);
-    value.destroyRecord();
-  }
+	getDomainValueStringByName(valueName: string): DomainValueString {
+		return this.domainValues.find((dv: DomainValueString) => isEqual(dv.value, valueName)) as DomainValueString;
+	}
+
+	getDomainValueFrameByFrame(frame: Frame): DomainValueFrame {
+		return this.domainValues.find((dv: DomainValueFrame) => isEqual(dv.value, frame)) as DomainValueFrame;
+	}
+
+	addValue(newValue: string | number): void {
+		if (this.domainType === DomainType.String) {
+			const newDomainValue = this.store.createRecord("domain-value-string", {
+				value: newValue,
+			});
+			this.domainValues.pushObject(newDomainValue);
+		}
+		if (this.domainType === DomainType.Number) {
+			const newDomainValue = this.store.createRecord("domain-value-number", {
+				value: newValue,
+			});
+			this.domainValues.pushObject(newDomainValue);
+		}
+	}
+
+	deleteValue(value: DomainValue) {
+		this.domainValues.removeObject(value);
+		value.destroyRecord();
+	}
 }
 
 declare module "ember-data/types/registries/model" {
-  export default interface ModelRegistry {
-    "domain": Domain;
-  }
+	export default interface ModelRegistry {
+		domain: Domain;
+	}
 }

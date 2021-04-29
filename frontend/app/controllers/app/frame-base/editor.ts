@@ -1,134 +1,147 @@
 import Controller from "@ember/controller";
 import { isEmpty } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
-import { action, computed } from "@ember/object";
+import { action, set } from "@ember/object";
 import { FrameBase, Frame, Domain, Slot } from "knowledge-shell/models";
 
 export default class FrameBaseEditor extends Controller {
-  @computed.oneWay("model") frameBase!: FrameBase;
-  @computed.alias("model.frames") frames!: Frame[];
-  @computed.oneWay("model.domains") domains!: Domain[];
+	get frameBase(): FrameBase {
+		return this.model;
+	}
 
-  @tracked search = "";
+	get frames(): Frame[] {
+		return this.frameBase.frames;
+	}
 
-  get canReorderSlots(): boolean {
-    return isEmpty(this.search) && !this.selectedFrame?.hasParent;
-  }
+	get domains(): Domain[] {
+		return this.frameBase.domains;
+	}
 
-  get selectedFrame(): Frame | undefined {
-    return this.frames.findBy("isSelected", true);
-  }
+	@tracked search = "";
 
-  @action
-  addFrame(coordinates: { x: number, y: number }): void {
-    this.frameBase.addFrame(coordinates);
-  }
+	get canReorderSlots(): boolean {
+		const selectedFrameHasParent = this.selectedFrame?.hasParent;
+		return isEmpty(this.search) && !selectedFrameHasParent;
+	}
 
-  @action
-  saveFrame(): void {
-    const selectedFrame = this.selectedFrame;
-    if (selectedFrame) {
-      selectedFrame.save();
-      /* slots can be reordered and we must propagate changes to children */
-      selectedFrame.ownSlots
-        .filter((sl) => sl.hasDirtyAttributes)
-        .forEach((sl) => this.frameBase.propagateSlotChanged(sl));
-      selectedFrame.isSelected = false;
-      this.resetFrames();
-    }
-  }
+	get selectedFrame(): Frame | undefined {
+		return this.frames.findBy("isSelected", true);
+	}
 
-  @action
-  cancelFrameChanges(): void {
-    const selectedFrame = this.selectedFrame;
-    if (selectedFrame) {
-      selectedFrame.rollbackAttributes();
-      selectedFrame.isSelected = false;
-      this.resetFrames();
-    }
-  }
+	@action
+	addFrame(coordinates: { x: number; y: number }): void {
+		this.frameBase.addFrame(coordinates);
+	}
 
-  @action
-  deleteFrame(frame: Frame): void {
-    const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${frame.name}?`);
-    if (shouldBeDeleted) {
-      this.frameBase.deleteFrame(frame);
-    }
-  }
+	@action
+	saveFrame(): void {
+		const { selectedFrame } = this;
+		if (selectedFrame) {
+			selectedFrame.save();
+			/* slots can be reordered and we must propagate changes to children */
+			selectedFrame.ownSlots
+				.filter((sl) => sl.hasDirtyAttributes)
+				.forEach((sl) => this.frameBase.propagateSlotChanged(sl));
+			selectedFrame.isSelected = false;
+			this.resetFrames();
+		}
+	}
 
-  @action
-  unsetParent(frame: Frame): void {
-    this.frameBase.setParent(frame, null);
-    frame.save();
-  }
+	@action
+	cancelFrameChanges(): void {
+		const { selectedFrame } = this;
+		if (selectedFrame) {
+			selectedFrame.rollbackAttributes();
+			selectedFrame.isSelected = false;
+			this.resetFrames();
+		}
+	}
 
-  @action
-  setParent(childFrame: Frame, parentFrame: Frame): void {
-    this.frameBase.setParent(childFrame, parentFrame);
-    childFrame.save();
-  }
+	@action
+	deleteFrame(frame: Frame): void {
+		// eslint-disable-next-line no-alert
+		const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${frame.name}?`);
+		if (shouldBeDeleted) {
+			this.frameBase.deleteFrame(frame);
+		}
+	}
 
-  @action
-  changeFramePosition(frame: Frame, newPosition: { x: number, y: number }): void {
-    const framePosition = frame.position;
-    if (framePosition) {
-      framePosition.setProperties({
-        x: newPosition.x,
-        y: newPosition.y,
-      });
-      framePosition.save();
-    }
-  }
+	@action
+	unsetParent(frame: Frame): void {
+		this.frameBase.setParent(frame, null);
+		frame.save();
+	}
 
-  @action
-  addSlot(): void {
-    if (this.selectedFrame) {
-      this.frameBase.addSlot(this.selectedFrame);
-    }
-  }
+	@action
+	setParent(childFrame: Frame, parentFrame: Frame): void {
+		this.frameBase.setParent(childFrame, parentFrame);
+		childFrame.save();
+	}
 
-  @action
-  saveSlotChanges(slot: Slot): void {
-    slot.save();
-    if (slot.hasProduction) {
-      slot.production.save();
-    }
-    this.frameBase.propagateSlotChanged(slot);
-  }
+	@action
+	changeFramePosition(frame: Frame, newPosition: { x: number; y: number }): void {
+		const framePosition = frame.position;
+		if (framePosition) {
+			framePosition.setProperties({
+				x: newPosition.x,
+				y: newPosition.y,
+			});
+			framePosition.save();
+		}
+	}
 
-  @action
-  cancelSlotChanges(slot: Slot): void {
-    slot.rollbackAttributes();
-    if (slot.hasProduction) {
-      slot.production.rollbackAttributes();
-    }
-  }
+	@action
+	addSlot(): void {
+		if (this.selectedFrame) {
+			this.frameBase.addSlot(this.selectedFrame);
+		}
+	}
 
-  @action
-  deleteSlot(slot: Slot): void {
-    const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${slot.name}?`);
-    if (shouldBeDeleted) {
-      if (this.selectedFrame) {
-        this.frameBase.removeSlot(this.selectedFrame, slot);
-      }
-    }
-  }
+	@action
+	saveSlotChanges(slot: Slot): void {
+		slot.save();
+		if (slot.hasProduction) {
+			slot.production.save();
+		}
+		this.frameBase.propagateSlotChanged(slot);
+	}
 
-  @action
-  reorderSlots(reorderedSlots: Slot[]): void {
-    reorderedSlots.forEach((slot, index) => (slot.order = index));
-  }
+	@action
+	cancelSlotChanges(slot: Slot): void {
+		slot.rollbackAttributes();
+		if (slot.hasProduction) {
+			slot.production.rollbackAttributes();
+		}
+	}
 
-  /**
-   * @see https://stackoverflow.com/questions/57468327/why-wont-my-tracked-array-update-in-ember-octane
-   */
-  resetFrames(): void {
-    this.frames = this.frames;
-  }
+	@action
+	deleteSlot(slot: Slot): void {
+		// eslint-disable-next-line no-alert
+		const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${slot.name}?`);
+		if (shouldBeDeleted) {
+			if (this.selectedFrame) {
+				this.frameBase.removeSlot(this.selectedFrame, slot);
+			}
+		}
+	}
+
+	@action
+	reorderSlots(reorderedSlots: Slot[]): void {
+		reorderedSlots.forEach((slot: Slot, index: number) => {
+			slot.order = index;
+		});
+	}
+
+	/**
+	 * @see https://stackoverflow.com/questions/57468327/why-wont-my-tracked-array-update-in-ember-octane
+	 */
+	resetFrames(): void {
+		set(this.frameBase, "frames", this.frames);
+	}
 }
 
 declare module "@ember/controller" {
-  interface Registry {
-    "frame-base/editor": FrameBaseEditor;
-  }
+	interface Registry {
+		"frame-base/editor": FrameBaseEditor;
+	}
 }

@@ -1,238 +1,255 @@
-import Service from "@ember/service";
-import { inject as service } from "@ember/service";
-import { computed } from "@ember/object";
+import Service, { inject as service } from "@ember/service";
 import { isEmpty } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
-import { Domain, DomainValue, DomainValueFrame, DomainValueNumber, DomainValueString, Frame, FrameBase, Slot } from "knowledge-shell/models";
+import {
+	Domain,
+	DomainValue,
+	DomainValueFrame,
+	DomainValueNumber,
+	DomainValueString,
+	Frame,
+	FrameBase,
+	Slot,
+} from "knowledge-shell/models";
 import getRandomInt from "knowledge-shell/utils/get-random-int";
 import BattleLogger from "./battle-logger";
 import BattleLogicCore from "./battle-logic-core";
 
 const BATTLE_SETTINGS = {
-  fieldFrameName: "Game Field",
-  freeCellFrameName: "Empty Cell",
-  cellName: "Cell",
+	fieldFrameName: "Game Field",
+	freeCellFrameName: "Empty Cell",
+	cellName: "Cell",
 
-  xDomainName: "X",
-  yDomainName: "Y",
+	xDomainName: "X",
+	yDomainName: "Y",
 
-  pictureSlotName: "Picture",
-  agentSlotName: "Agent",
-  resultSlotName: "Result",
+	pictureSlotName: "Picture",
+	agentSlotName: "Agent",
+	resultSlotName: "Result",
 
-  baseSituation: "Situation",
-  baseHero: "Character",
+	baseSituation: "Situation",
+	baseHero: "Character",
 };
 
 export default class BattleCore extends Service {
-  @service("battle-logger") battleLogger!: BattleLogger;
-  @service("battle-logic-core") battleLogicCore!: BattleLogicCore;
+	@service("battle-logger") battleLogger!: BattleLogger;
 
-  @tracked frameBase!: FrameBase;
+	@service("battle-logic-core") battleLogicCore!: BattleLogicCore;
 
-  @computed.oneWay("frameBase.frames") frames!: Frame[];
-  @computed.oneWay("frameBase.domains") domains!: Domain[];
-  @computed.oneWay("frameBase.frameDomain") frameDomain!: Domain;
+	@tracked frameBase!: FrameBase;
 
-  @tracked panelObjects: Frame[] = [];
-  @tracked gameObjects: Frame[] = [];
+	get frames(): Frame[] {
+		return this.frameBase.frames;
+	}
 
-  @tracked x!: number;
-  @tracked y!: number;
-  @tracked battleField!: Frame;
-  @tracked freeCell!: Frame;
+	get domains(): Domain[] {
+		return this.frameBase.domains;
+	}
 
-  public initialize(): void {
-    this.battleLogicCore.frameBase = this.frameBase;
-    this.x = this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).length;
-    this.y = this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).length
-    this.battleField = this.frameBase.getFrame(BATTLE_SETTINGS.fieldFrameName);
-    this.freeCell = this.frameBase.getFrame(BATTLE_SETTINGS.freeCellFrameName);
+	get frameDomain(): Domain {
+		return this.frameBase.frameDomain;
+	}
 
-    this.initializePanel();
-    this.initializeField();
-  }
+	@tracked panelObjects: Frame[] = [];
 
-  public addObjectOnField(panelObject: Frame, cellName: string):void {
-    const battleCell = this.battleField.getSlot(cellName);
-    if (battleCell) {
-      const { x, y } = this.getXY(cellName);
-      const frameSample = this.frameBase.addFrameSample(panelObject);
+	@tracked gameObjects: Frame[] = [];
 
-      const frameSampleX = frameSample.getSlot(BATTLE_SETTINGS.xDomainName);
-      if (frameSampleX) {
-        frameSampleX.value = this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).getDomainValue(x);
-      }
+	@tracked x!: number;
 
-      const frameSampleY = frameSample.getSlot(BATTLE_SETTINGS.yDomainName);
-      if (frameSampleY) {
-        frameSampleY.value = this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).getDomainValue(y);
-      }      
+	@tracked y!: number;
 
-      const nullSlots = frameSample.ownSlots.filter((sl) => isEmpty(sl.value));
-      for (const nullSlot of nullSlots) {
-        const number = getRandomInt(0, nullSlot.domain.length - 1);
-        nullSlot.value = nullSlot.domain.domainValuesOrdered.objectAt(number) as DomainValue;
-      }
+	@tracked battleField!: Frame;
 
-      this.gameObjects.pushObject(frameSample);
-      battleCell.value = this.frameDomain.getDomainValueFrameByFrame(frameSample);
+	@tracked freeCell!: Frame;
 
-      this.battleLogger.addMessage(`${frameSample.name} in [${x}, ${y}]: ${frameSample.getSlotNameValueCollection()}`);
-    }
-  }
+	public initialize(): void {
+		this.battleLogicCore.frameBase = this.frameBase;
+		this.x = this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).length;
+		this.y = this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).length;
+		this.battleField = this.frameBase.getFrame(BATTLE_SETTINGS.fieldFrameName);
+		this.freeCell = this.frameBase.getFrame(BATTLE_SETTINGS.freeCellFrameName);
 
-  public moveObjectOnField(gameObjectCell: Slot, newCellName: string): void {
-    const battleCell = this.battleField.getSlot(newCellName);
-    if (battleCell) {
-      const targetCellValue = (battleCell.value as DomainValueFrame).value;
-      const sourceCellValue = (gameObjectCell.value as DomainValueFrame).value;
+		this.initializePanel();
+		this.initializeField();
+	}
 
-      const targetCellValueX = targetCellValue.getSlot(BATTLE_SETTINGS.xDomainName);
-      const targetCellValueY = targetCellValue.getSlot(BATTLE_SETTINGS.yDomainName);
-      const sourceCellValueX = sourceCellValue.getSlot(BATTLE_SETTINGS.xDomainName);
-      const sourceCellValueY = sourceCellValue.getSlot(BATTLE_SETTINGS.yDomainName);
-      if (targetCellValueX && targetCellValueY && sourceCellValueX && sourceCellValueY) {
-        targetCellValueX.value = sourceCellValueX.value;
-        targetCellValueY.value = sourceCellValueY.value;
+	public addObjectOnField(panelObject: Frame, cellName: string): void {
+		const battleCell = this.battleField.getSlot(cellName);
+		if (battleCell) {
+			const { x, y } = this.getXY(cellName);
+			const frameSample = this.frameBase.addFrameSample(panelObject);
 
-        const { x, y } = this.getXY(newCellName);
-        const xValue = this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).getDomainValue(x);
-        const yValue = this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).getDomainValue(y);
-        sourceCellValueX.value = xValue;
-        sourceCellValueY.value = yValue;
-      }
+			const frameSampleX = frameSample.getSlot(BATTLE_SETTINGS.xDomainName);
+			if (frameSampleX) {
+				frameSampleX.value = this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).getDomainValue(x);
+			}
 
-      gameObjectCell.value = 
-        this.frameDomain.getDomainValueFrameByFrame((battleCell.value as DomainValueFrame).value);
-      battleCell.value = this.frameDomain.getDomainValueFrameByFrame(sourceCellValue);
-    }
-  }
+			const frameSampleY = frameSample.getSlot(BATTLE_SETTINGS.yDomainName);
+			if (frameSampleY) {
+				frameSampleY.value = this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).getDomainValue(y);
+			}
 
-  public playStep(): boolean {
-    this.battleLogger.addMessage(`-----Playing new step-----`);
+			const nullSlots = frameSample.ownSlots.filter((sl) => isEmpty(sl.value));
+			nullSlots.forEach((nullSlot: Slot) => {
+				const number = getRandomInt(0, nullSlot.domain.length - 1);
+				nullSlot.value = nullSlot.domain.domainValuesOrdered.objectAt(number) as DomainValue;
+			});
 
-    let hasAttachedSituations = false;
-    const baseSituation = this.frameBase.getFrame(BATTLE_SETTINGS.baseSituation);
-    for (const gameObject of this.gameObjects) {
-      this.battleLogger.addMessage(`Attaching ${gameObject.name} to situation...`);
+			this.gameObjects.pushObject(frameSample);
+			battleCell.value = this.frameDomain.getDomainValueFrameByFrame(frameSample);
 
-      const gameObjectSituation = this.frameBase.addFrameSample();
-      const agentSlot = this.frameBase.addEmptySlot();
+			this.battleLogger.addMessage(`${frameSample.name} in [${x}, ${y}]: ${frameSample.getSlotNameValueCollection()}`);
+		}
+	}
 
-      agentSlot.setProperties({
-        name: BATTLE_SETTINGS.agentSlotName,
-        owner: gameObjectSituation,
-        domain: this.frameDomain,
-        value: this.frameDomain.getDomainValueFrameByFrame(gameObject)
-      });
+	public moveObjectOnField(gameObjectCell: Slot, newCellName: string): void {
+		const battleCell = this.battleField.getSlot(newCellName);
+		if (battleCell) {
+			const targetCellValue = (battleCell.value as DomainValueFrame).value;
+			const sourceCellValue = (gameObjectCell.value as DomainValueFrame).value;
 
-      this.battleLogger.addMessage(`Initial situation: ${gameObjectSituation.getSlotNameValueCollection()}`);
-      this.battleLogger.addMessage(`Attaching to ${baseSituation.getSlotNameValueCollection()}`);
+			const targetCellValueX = targetCellValue.getSlot(BATTLE_SETTINGS.xDomainName);
+			const targetCellValueY = targetCellValue.getSlot(BATTLE_SETTINGS.yDomainName);
+			const sourceCellValueX = sourceCellValue.getSlot(BATTLE_SETTINGS.xDomainName);
+			const sourceCellValueY = sourceCellValue.getSlot(BATTLE_SETTINGS.yDomainName);
+			if (targetCellValueX && targetCellValueY && sourceCellValueX && sourceCellValueY) {
+				targetCellValueX.value = sourceCellValueX.value;
+				targetCellValueY.value = sourceCellValueY.value;
 
-      const attachedSituations = this.battleLogicCore.attachToFrameOrChildren(
-        baseSituation,
-        gameObjectSituation
-      );
+				const { x, y } = this.getXY(newCellName);
+				const xValue = this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).getDomainValue(x);
+				const yValue = this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).getDomainValue(y);
+				sourceCellValueX.value = xValue;
+				sourceCellValueY.value = yValue;
+			}
 
-      this.battleLogger.addMessage(`${gameObject.name} has ${attachedSituations.length} situations`);
-      if (attachedSituations.length > 0) {
-        const situationNames = attachedSituations.map((situation: Frame) => situation.name).join(", ");
-        this.battleLogger.addMessage(`Situations: ${situationNames}`);
+			gameObjectCell.value = this.frameDomain.getDomainValueFrameByFrame((battleCell.value as DomainValueFrame).value);
+			battleCell.value = this.frameDomain.getDomainValueFrameByFrame(sourceCellValue);
+		}
+	}
 
-        //need to choose random situation..
-        const chosenSituation = attachedSituations[0];
+	public playStep(): boolean {
+		this.battleLogger.addMessage(`-----Playing new step-----`);
 
-        /**
-         * what's going on here? :D
-         * we've got the situation
-         * we've got the result of this situation ('go left' for example)
-         * we're creating new agent frame
-         * we're creating new slot - agent and set his owner = agent frame (^^)
-         * we're attaching this new agent frame (with agent slot) to our attached situation result
-         * ^^ - production evaluation (slot values change)
-        */
-        const resultSlot = chosenSituation.getSlot(BATTLE_SETTINGS.resultSlotName);
-        if (resultSlot) {
-          const result = (resultSlot.value as DomainValueFrame).value;
-          const sampleAttachedAgent = this.frameBase.addFrameSample();
-          const sampleAttachedAgentSlot = this.frameBase.addEmptySlot();
+		let hasAttachedSituations = false;
+		const baseSituation = this.frameBase.getFrame(BATTLE_SETTINGS.baseSituation);
 
-          sampleAttachedAgentSlot.setProperties({
-            name: BATTLE_SETTINGS.agentSlotName,
-            owner: sampleAttachedAgent,
-            domain: this.frameDomain,
-            value: this.frameDomain.getDomainValueFrameByFrame(gameObject)
-          });
+		this.gameObjects.forEach((gameObject: Frame) => {
+			this.battleLogger.addMessage(`Attaching ${gameObject.name} to situation...`);
 
-          this.battleLogicCore.attachToFrame(result, sampleAttachedAgent);
+			const gameObjectSituation = this.frameBase.addFrameSample();
+			const agentSlot = this.frameBase.addEmptySlot();
 
-          hasAttachedSituations = true;
-        }
-      }
-    }
+			agentSlot.setProperties({
+				name: BATTLE_SETTINGS.agentSlotName,
+				owner: gameObjectSituation,
+				domain: this.frameDomain,
+				value: this.frameDomain.getDomainValueFrameByFrame(gameObject),
+			});
 
-    this.refreshField();
+			this.battleLogger.addMessage(`Initial situation: ${gameObjectSituation.getSlotNameValueCollection()}`);
+			this.battleLogger.addMessage(`Attaching to ${baseSituation.getSlotNameValueCollection()}`);
 
-    return hasAttachedSituations;
-  }
+			const attachedSituations = this.battleLogicCore.attachToFrameOrChildren(baseSituation, gameObjectSituation);
 
-  private initializePanel(): void {
-    this.panelObjects = this.frames.filter((frame: Frame) => this.isPanelObject(frame));
-  }
+			this.battleLogger.addMessage(`${gameObject.name} has ${attachedSituations.length} situations`);
+			if (attachedSituations.length > 0) {
+				const situationNames = attachedSituations.map((situation: Frame) => situation.name).join(", ");
+				this.battleLogger.addMessage(`Situations: ${situationNames}`);
 
-  private initializeField(): void {
-    for (const slot of this.battleField.sortedSlots) {
-      const freeCellSample = this.frameBase.addFrameSample(this.freeCell);
-      const { x, y } = this.getXY(slot.name);
-      const freeCellX = freeCellSample.getSlot(BATTLE_SETTINGS.xDomainName);
-      const freeCellY = freeCellSample.getSlot(BATTLE_SETTINGS.yDomainName);
-      if (freeCellX && freeCellY) {
-        freeCellX.value = this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).getDomainValue(x);
-        freeCellY.value = this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).getDomainValue(y);
-      }
-      
-      slot.value = this.frameDomain.getDomainValueFrameByFrame(freeCellSample);
-    } 
-  }
+				// need to choose random situation..
+				const chosenSituation = attachedSituations[0];
 
-  private refreshField(): void {
-    this.initializeField();
+				/**
+				 * what's going on here? :D
+				 * we've got the situation
+				 * we've got the result of this situation ('go left' for example)
+				 * we're creating new agent frame
+				 * we're creating new slot - agent and set his owner = agent frame (^^)
+				 * we're attaching this new agent frame (with agent slot) to our attached situation result
+				 * ^^ - production evaluation (slot values change)
+				 */
+				const resultSlot = chosenSituation.getSlot(BATTLE_SETTINGS.resultSlotName);
+				if (resultSlot) {
+					const result = (resultSlot.value as DomainValueFrame).value;
+					const sampleAttachedAgent = this.frameBase.addFrameSample();
+					const sampleAttachedAgentSlot = this.frameBase.addEmptySlot();
 
-    for (const gameObject of this.gameObjects) {
-      const gameObjectSlotX = gameObject.getSlot(BATTLE_SETTINGS.xDomainName);
-      const gameObjectSlotY = gameObject.getSlot(BATTLE_SETTINGS.yDomainName);
-      if (gameObjectSlotX && gameObjectSlotY) {
-        const xValue = (gameObjectSlotX.value as DomainValueNumber).valueStr;
-        const yValue = (gameObjectSlotY.value  as DomainValueNumber).valueStr;
-        const fieldCell = `${BATTLE_SETTINGS.cellName}_${xValue}_${yValue}`;
-        
-        const battleFieldCell = this.battleField.getSlot(fieldCell);
-        if (battleFieldCell) {
-          battleFieldCell.value = this.frameDomain.getDomainValueFrameByFrame(gameObject);
-        }
-      }
-    }
-  }
+					sampleAttachedAgentSlot.setProperties({
+						name: BATTLE_SETTINGS.agentSlotName,
+						owner: sampleAttachedAgent,
+						domain: this.frameDomain,
+						value: this.frameDomain.getDomainValueFrameByFrame(gameObject),
+					});
 
-  private getXY(slotName: string): { x: number, y: number } {
-    const splittedSlotName = slotName.split("_");
-    return { x: Number(splittedSlotName[1]), y: Number(splittedSlotName[2]) };
-  }
+					this.battleLogicCore.attachToFrame(result, sampleAttachedAgent);
 
-  private isPanelObject(frame: Frame): boolean {
-    const pictureSlot = frame.getSlot(BATTLE_SETTINGS.pictureSlotName);
-    const pictureSlotValue = pictureSlot?.value;
-    if (pictureSlotValue) {
-      return !isEmpty((pictureSlotValue as DomainValueString).value);
-    }
+					hasAttachedSituations = true;
+				}
+			}
+		});
 
-    return false;
-  }
+		this.refreshField();
+
+		return hasAttachedSituations;
+	}
+
+	private initializePanel(): void {
+		this.panelObjects = this.frames.filter((frame: Frame) => this.isPanelObject(frame));
+	}
+
+	private initializeField(): void {
+		this.battleField.sortedSlots.forEach((slot: Slot) => {
+			const freeCellSample = this.frameBase.addFrameSample(this.freeCell);
+			const { x, y } = this.getXY(slot.name);
+			const freeCellX = freeCellSample.getSlot(BATTLE_SETTINGS.xDomainName);
+			const freeCellY = freeCellSample.getSlot(BATTLE_SETTINGS.yDomainName);
+			if (freeCellX && freeCellY) {
+				freeCellX.value = this.frameBase.getDomain(BATTLE_SETTINGS.xDomainName).getDomainValue(x);
+				freeCellY.value = this.frameBase.getDomain(BATTLE_SETTINGS.yDomainName).getDomainValue(y);
+			}
+
+			slot.value = this.frameDomain.getDomainValueFrameByFrame(freeCellSample);
+		});
+	}
+
+	private refreshField(): void {
+		this.initializeField();
+
+		this.gameObjects.forEach((gameObject: Frame) => {
+			const gameObjectSlotX = gameObject.getSlot(BATTLE_SETTINGS.xDomainName);
+			const gameObjectSlotY = gameObject.getSlot(BATTLE_SETTINGS.yDomainName);
+			if (gameObjectSlotX && gameObjectSlotY) {
+				const xValue = (gameObjectSlotX.value as DomainValueNumber).valueStr;
+				const yValue = (gameObjectSlotY.value as DomainValueNumber).valueStr;
+				const fieldCell = `${BATTLE_SETTINGS.cellName}_${xValue}_${yValue}`;
+
+				const battleFieldCell = this.battleField.getSlot(fieldCell);
+				if (battleFieldCell) {
+					battleFieldCell.value = this.frameDomain.getDomainValueFrameByFrame(gameObject);
+				}
+			}
+		});
+	}
+
+	private getXY(slotName: string): { x: number; y: number } {
+		const splittedSlotName = slotName.split("_");
+		return { x: Number(splittedSlotName[1]), y: Number(splittedSlotName[2]) };
+	}
+
+	private isPanelObject(frame: Frame): boolean {
+		const pictureSlot = frame.getSlot(BATTLE_SETTINGS.pictureSlotName);
+		const pictureSlotValue = pictureSlot?.value;
+		if (pictureSlotValue) {
+			return !isEmpty((pictureSlotValue as DomainValueString).value);
+		}
+
+		return false;
+	}
 }
 
 declare module "@ember/service" {
-  interface Registry {
-    "battle-core": BattleCore;
-  }
+	interface Registry {
+		"battle-core": BattleCore;
+	}
 }

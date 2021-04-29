@@ -8,18 +8,18 @@ import FrameBase from "./frame-base";
 import Position from "./position";
 import Slot from "./slot";
 import Production from "./production";
-import { DomainType } from "./domain-type";
+import DomainType from "./domain-type";
 
 export {
-  DomainValueFrame,
-  DomainValueNumber,
-  DomainValueString,
-  DomainValue,
-  Domain,
-  DomainType,
-  Frame,
-  FrameBase,
-  Position,
-  Slot,
-  Production
+	DomainValueFrame,
+	DomainValueNumber,
+	DomainValueString,
+	DomainValue,
+	Domain,
+	DomainType,
+	Frame,
+	FrameBase,
+	Position,
+	Slot,
+	Production,
 };

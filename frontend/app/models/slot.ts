@@ -1,4 +1,6 @@
+import { set } from "@ember/object";
 import Model, { attr, belongsTo, hasMany } from "@ember-data/model";
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { not, notEmpty } from "@ember/object/computed";
 import { tracked } from "@glimmer/tracking";
 import Domain from "./domain";
@@ -7,57 +9,58 @@ import Frame from "./frame";
 import Production from "./production";
 
 export default class Slot extends Model {
-  @attr("string") name!: string;
-  @attr("boolean", { defaultValue: false }) isInherited!: boolean;
-  @attr("number") order!: number;
+	@attr("string") name!: string;
 
-  @belongsTo("frame", { async: false, inverse: "ownSlots" })
-  owner!: Frame;
+	@attr("boolean", { defaultValue: false }) isInherited!: boolean;
 
-  @belongsTo("slot", { async: false, inverse: "children" })
-  parent!: Slot;
+	@attr("number") order!: number;
 
-  @hasMany("slot", { async: false, inverse: "parent" })
-  children!: Slot[];
+	@belongsTo("frame", { async: false, inverse: "ownSlots" })
+	owner!: Frame;
 
-  @belongsTo("domain", { async: false })
-  domain!: Domain;
+	@belongsTo("slot", { async: false, inverse: "children" })
+	parent!: Slot;
 
-  @belongsTo("domain-value", { async: false, polymorphic: true })
-  value!: DomainValue;
+	@hasMany("slot", { async: false, inverse: "parent" })
+	children!: Slot[];
 
-  @belongsTo("production", { async: false })
-  production!: Production;
+	@belongsTo("domain", { async: false })
+	domain!: Domain;
 
-  @notEmpty("production")
-  hasProduction!: boolean;
+	@belongsTo("domain-value", { async: false, polymorphic: true })
+	value!: DomainValue;
 
-  @not("isInherited")
-  canEditName!: boolean;
+	@belongsTo("production", { async: false })
+	production!: Production;
 
-  @not("isInherited")
-  canEditDomain!: boolean;
+	@notEmpty("production")
+	hasProduction!: boolean;
 
-  @tracked
-  isEditing!: boolean;
+	@not("isInherited")
+	canEditName!: boolean;
 
-  addProduction(): void {
-    const production: Production = this.store.createRecord("production");
-    this.production = production;
-  }
+	@not("isInherited")
+	canEditDomain!: boolean;
 
-  deleteProduction(): void {
-    if (this.production.get("isNew")) {
-      this.production.rollbackAttributes();
-    } else {
-      this.production.destroyRecord();
-    }
-  }
+	@tracked
+	isEditing!: boolean;
+
+	addProduction(): void {
+		const production: Production = this.store.createRecord("production");
+		set(this, "production", production);
+	}
+
+	deleteProduction(): void {
+		if (this.production.get("isNew")) {
+			this.production.rollbackAttributes();
+		} else {
+			this.production.destroyRecord();
+		}
+	}
 }
 
-
 declare module "ember-data/types/registries/model" {
-  export default interface ModelRegistry {
-    "slot": Slot;
-  }
+	export default interface ModelRegistry {
+		slot: Slot;
+	}
 }
