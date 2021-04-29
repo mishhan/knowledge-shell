@@ -70,5 +70,5 @@ jobs:
         key: cached_node_modules_${{ hashFiles('**/package-lock.json') }}
         restore-keys: cached_node_modules_
 
-      - name: run tests
-        run: npm run test:ember
+    - name: run tests
+      run: npm run test:ember
