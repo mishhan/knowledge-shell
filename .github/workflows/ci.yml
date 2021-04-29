@@ -32,6 +32,9 @@ jobs:
       run:
         working-directory: frontend
     steps:
+    - uses: actions/checkout@v2
+      with:
+        path: ./node_modules
     - name: lint ts
       run: npm run lint:ts
 
@@ -48,5 +51,8 @@ jobs:
       run:
         working-directory: frontend
     steps:
+    - uses: actions/checkout@v2
+    with:
+        path: ./node_modules
       - name: run tests
         run: npm run test:ember
