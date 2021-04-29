@@ -24,7 +24,9 @@ jobs:
         node-version: '12.x'
 
     - name: install dependencies
-      run: yarn install
+      run: |
+        npm install
+        yarn install
 
   lint:
     runs-on: ubuntu-latest
