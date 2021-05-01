@@ -31,7 +31,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        key: cached_node_modules_${{ hashFiles('**/package-lock.json') }}
         restore-keys: cached_node_modules_
 
   lint:
@@ -47,7 +47,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        key: cached_node_modules_${{ hashFiles('**/package-lock.json') }}
         restore-keys: cached_node_modules_
 
     - name: lint ts
@@ -70,8 +70,8 @@ jobs:
     - id: cache-node-modules
       uses: actions/cache@v2
       with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      path: ~/.npm
+        key: cached_node_modules_${{ hashFiles('**/package-lock.json') }}
         restore-keys: cached_node_modules_
 
     - name: run tests
