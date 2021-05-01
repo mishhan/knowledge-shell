@@ -49,6 +49,9 @@ jobs:
         key: cached_node_modules_${{ hashFiles('**/package-lock.json') }}
         restore-keys: cached_node_modules_
 
+    - name: install dependencies
+      run: npm install
+
     - name: lint ts
       run: npm run lint:ts
 
@@ -72,6 +75,9 @@ jobs:
         path: ./node_modules
         key: cached_node_modules_${{ hashFiles('**/package-lock.json') }}
         restore-keys: cached_node_modules_
+
+    - name: install dependencies
+      run: npm install
 
     - name: run tests
       run: npm run test:ember
