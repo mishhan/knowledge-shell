@@ -5,28 +5,29 @@ import { tracked } from "@glimmer/tracking";
 import type IntlService from "ember-intl/services/intl";
 
 export default class NavBar extends Component {
-  @service session!: any;
-  @service intl!: IntlService;
+	@service session!: any;
 
-  @tracked isMenuOpen!: boolean;
+	@service intl!: IntlService;
 
-  get supportedLanguages(): string[] {
-    const locales = this.intl.locales;
-    return locales;
-  }
+	@tracked isMenuOpen!: boolean;
 
-  @action
-  setLanguage(selectedLocale: string) {
-    this.intl.setLocale(selectedLocale);
-  }
+	get supportedLanguages(): string[] {
+		const { locales } = this.intl;
+		return locales;
+	}
 
-  @action
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
+	@action
+	setLanguage(selectedLocale: string) {
+		this.intl.setLocale(selectedLocale);
+	}
 
-  @action
-  async invalidateSession(): Promise<void> {
-    this.session.invalidate();
-  }
+	@action
+	toggleMenu(): void {
+		this.isMenuOpen = !this.isMenuOpen;
+	}
+
+	@action
+	async invalidateSession(): Promise<void> {
+		this.session.invalidate();
+	}
 }

@@ -1,16 +1,17 @@
-import DS from "ember-data";
+import JSONAPISerializer from "@ember-data/serializer/json-api";
 
-export default class Application extends DS.JSONAPISerializer {
-  keyForAttribute(key: string): string {
-    return key;
-  }
-  keyForRelationship(key: string): string {
-    return key;
-  }
+export default class Application extends JSONAPISerializer {
+	keyForAttribute(key: string): string {
+		return key;
+	}
+
+	keyForRelationship(key: string): string {
+		return key;
+	}
 }
 
 declare module "ember-data/types/registries/serializer" {
-  export default interface SerializerRegistry {
-    "application": Application;
-  }
+	export default interface SerializerRegistry {
+		application: Application;
+	}
 }

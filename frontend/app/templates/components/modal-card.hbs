@@ -1,24 +1,26 @@
 <div class="modal is-active">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">{{@header}}</p>
-      <button type="button" class="delete" aria-label="close" {{on "click" @onClose}}></button>
-    </header>
-    <section class="modal-card-body">
-      {{yield}}
-    </section>
-    <footer class="modal-card-foot is-justify-content-space-between">
-      <button type="button" class="button is-success is-small" {{on "click" @onSuccessClose}}>
-        <span class="icon">
-          <FaIcon @icon="check" />
-        </span>
-      </button>
-      <button type="button" class="button is-danger is-small" {{on "click" @onCancelClose}}>
-        <span class="icon">
-          <FaIcon @icon="window-close" />
-        </span>
-      </button>
-    </footer>
-  </div>
+	<div class="modal-background"></div>
+	<div class="modal-card">
+		<header class="modal-card-head">
+			<p class="modal-card-title">
+				{{@header}}
+			</p>
+			<button type="button" class="delete" {{on "click" @onClose}}></button>
+		</header>
+		<section class="modal-card-body">
+			{{yield}}
+		</section>
+		<footer class="modal-card-foot is-justify-content-space-between">
+			<button type="button" class="button is-success is-small" {{on "click" @onSuccessClose}}>
+				<span class="icon">
+					<FaIcon @icon="check" />
+				</span>
+			</button>
+			<button type="button" class="button is-danger is-small" {{on "click" @onCancelClose}}>
+				<span class="icon">
+					<FaIcon @icon="window-close" />
+				</span>
+			</button>
+		</footer>
+	</div>
 </div>

@@ -22,3 +22,17 @@
 
 # ember-electron
 /electron-app/
+
+# linter, prettier and js
+.eslintrc.js
+.template-lintrc.js
+.prettierrc.js
+ember-cli-build.js
+testem.js
+testem-electron.js
+blueprints/*/index.js
+config/**/*.js
+lib/*/index.js
+server/**/*.js
+app/*.js
+tests/*.js

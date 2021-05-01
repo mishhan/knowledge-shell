@@ -1,11 +1,8 @@
-"use strict";
-
 module.exports = {
   root: true,
-  parser: "babel-eslint",
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: "module",
+    project: ["tsconfig.json"],
     ecmaFeatures: {
       legacyDecorators: true,
     },
@@ -17,43 +14,17 @@ module.exports = {
   extends: [
     "plugin:ember/recommended",
     "airbnb-typescript/base",
-    "prettier",
-    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
   ],
   env: {
     browser: true,
   },
-  rules: {},
-  overrides: [
-    // node files
-    {
-      files: [
-        ".eslintrc.js",
-        ".template-lintrc.js",
-        "ember-cli-build.js",
-        "testem.js",
-        'testem-electron.js',
-
-        "blueprints/*/index.js",
-        "config/**/*.js",
-        "lib/*/index.js",
-        "server/**/*.js"
-      ],
-      parserOptions: {
-        sourceType: "script",
-        project: ["./tsconfig.json"]
-      },
-      env: {
-        browser: false,
-        node: true,
-      },
-      plugins: ["node"],
-      extends: ["plugin:node/recommended"],
-      rules: {
-        // this can be removed once the following is fixed
-        // https://github.com/mysticatea/eslint-plugin-node/issues/77
-        "node/no-unpublished-require": "off"
-      }
-    }
-  ]
+  rules: {
+    "class-methods-use-this": "off",
+    "func-names": "off",
+    "no-param-reassign": ["error", {"props": false}],
+    "import/no-cycle": ["off", { ignoreExternal: true }],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "prettier/prettier": ["error", { "endOfLine":"auto" }]
+  }
 };

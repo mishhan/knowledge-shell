@@ -1,18 +1,22 @@
 <NavBar />
 <div class="main">
-  {{outlet}}
+	{{outlet}}
 </div>
 <footer class="footer has-text-centered">
-  <div class="content">
-    <div class="columns">
-      <div class="column">
-        <FaIcon @icon="copyright" /> 2020 Copyright.
-        <a href="https://github.com/mishhan/knowledge-shell/blob/main/LICENSE">MIT License</a>
-      </div>
-      <div class="column">
-        <FaIcon @icon="github" @prefix="fab" />
-        <a href="https://github.com/mishhan/knowledge-shell">Github Project</a>
-      </div>
-    </div>
-  </div>
+	<div class="content">
+		<div class="columns">
+			<div class="column">
+				<FaIcon @icon="copyright" />{{t "copyright"}}
+				<a href="https://github.com/mishhan/knowledge-shell/blob/main/LICENSE">
+					{{t "licence"}}
+				</a>
+			</div>
+			<div class="column">
+				<FaIcon @icon="github" @prefix="fab" />
+				<a href="https://github.com/mishhan/knowledge-shell">
+					{{t "project"}}
+				</a>
+			</div>
+		</div>
+	</div>
 </footer>

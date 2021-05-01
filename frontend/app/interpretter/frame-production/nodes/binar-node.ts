@@ -1,51 +1,53 @@
-import Node from "./node";
 import { Production, DomainValueNumber, DomainValueString } from "knowledge-shell/models";
+import Node from "./node";
+import { InterpretationException } from "../exceptions";
 
 export default abstract class BinarNode extends Node {
-  protected leftNode!: Node;
-  protected rightNode!: Node;
+	protected leftNode!: Node;
 
-  constructor(leftNode: Node, rightNode: Node, production: Production) {
-    super(production);
-    this.leftNode = leftNode;
-    this.rightNode = rightNode;
-  }
+	protected rightNode!: Node;
 
-  public isNumberNode(nodeValue: any): boolean {
-    if (nodeValue instanceof DomainValueNumber || (typeof(nodeValue) === 'number')) {
-      return true;
-    }
+	constructor(leftNode: Node, rightNode: Node, production: Production) {
+		super(production);
+		this.leftNode = leftNode;
+		this.rightNode = rightNode;
+	}
 
-    return false;
-  }
+	public isNumberNode(nodeValue: any): boolean {
+		if (nodeValue instanceof DomainValueNumber || typeof nodeValue === "number") {
+			return true;
+		}
 
-  public isStringNode(nodeValue: any): boolean {
-    if (nodeValue instanceof DomainValueString || typeof(nodeValue) === 'string') {
-      return true;
-    }
+		return false;
+	}
 
-    return false;
-  }
+	public isStringNode(nodeValue: any): boolean {
+		if (nodeValue instanceof DomainValueString || typeof nodeValue === "string") {
+			return true;
+		}
 
-  public getNodeValueNumber(nodeValue: any): number {
-    if (nodeValue instanceof DomainValueNumber) {
-      return nodeValue.value;
-    }
-    if (typeof(nodeValue) === 'number') {
-      return nodeValue;
-    }
+		return false;
+	}
 
-    throw new Error("nodeValue must be DomainValueNumber or number");
-  }
+	public getNodeValueNumber(nodeValue: DomainValueNumber | number): number {
+		if (nodeValue instanceof DomainValueNumber) {
+			return nodeValue.value;
+		}
+		if (typeof nodeValue === "number") {
+			return nodeValue;
+		}
 
-  public getNodeValueString(nodeValue: any): string {
-    if (nodeValue instanceof DomainValueString) {
-      return nodeValue.value;
-    }
-    if (typeof(nodeValue) === 'string') {
-      return nodeValue;
-    }
+		throw new InterpretationException(this.constructor.name, "{nodeValue} must have type DomainValueNumber | number");
+	}
 
-    throw new Error("nodeValue must be DomainValueString or string");
-  }
+	public getNodeValueString(nodeValue: DomainValueString | string): string {
+		if (nodeValue instanceof DomainValueString) {
+			return nodeValue.value;
+		}
+		if (typeof nodeValue === "string") {
+			return nodeValue;
+		}
+
+		throw new InterpretationException(this.constructor.name, "{nodeValue} must have type DomainValueString | string");
+	}
 }

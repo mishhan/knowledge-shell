@@ -1,6 +1,10 @@
 sign_in: Sign In
 sign_out: Sign Out
 
+copyright: 2020 Copyright
+licence: MIT License
+github_project: Github Project
+
 knowledge_bases: Knowledge Bases
 
 common:

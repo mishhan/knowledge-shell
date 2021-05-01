@@ -1,37 +1,63 @@
 <div class="field">
-  <label for="name" class="label">{{t "slot.fields.name"}}</label>
-  <Input id="name" @type="text" placeholder="Name" @value={{@slot.name}} @class="input is-small" disabled={{not
-    @slot.canEditName}} />
+	<label for="name" class="label">
+		{{t "slot.fields.name"}}
+	</label>
+	<Input
+		id="name"
+		class="input is-small"
+		@type="text"
+		placeholder={{t "slot.fields.name"}}
+		@value={{@slot.name}}
+		disabled={{not @slot.canEditName}}
+	/>
 </div>
 <div class="field">
-  <label for="domain" class="label">{{t "slot.fields.domain"}}</label>
-  <PowerSelect @options={{@domains}} @selected={{@slot.domain}} @disabled={{not @slot.canEditDomain}}
-    @onChange={{this.setDomain}} as |domain|>
-    {{domain.name}}
-  </PowerSelect>
+	<label for="domain" class="label">
+		{{t "slot.fields.domain"}}
+	</label>
+	<PowerSelect
+		@options={{@domains}}
+		@selected={{@slot.domain}}
+		@disabled={{not @slot.canEditDomain}}
+		@onChange={{this.setDomain}} as |domain|
+	>
+		{{domain.name}}
+	</PowerSelect>
 </div>
 <div class="field">
-  <label for="value" class="label">{{t "slot.fields.default_value"}}</label>
-  <PowerSelect @options={{@slot.domain.domainValues}} @allowClear={{true}} @selected={{@slot.value}}
-    @onChange={{this.setValue}} as |domainValue|>
-    {{domainValue.valueStr}}
-  </PowerSelect>
+	<label for="value" class="label">
+		{{t "slot.fields.default_value"}}
+	</label>
+	<PowerSelect
+		@options={{@slot.domain.domainValues}}
+		@allowClear={{true}}
+		@selected={{@slot.value}}
+		@onChange={{this.setValue}} as |domainValue|
+	>
+		{{domainValue.valueStr}}
+	</PowerSelect>
 </div>
 {{#if @slot.hasProduction}}
-<div class="field">
-  <label for="production" class="label">{{t "slot.fields.production"}}</label>
-  <Textarea id="production" placeholder={{t "slot.fields.production_example" }} class="textarea is-small"
-    @value={{@slot.production.text}} />
-</div>
-<button type="button" class="button is-danger is-small" {{on 'click' this.deleteProduction}}>
-  <span class="icon">
-    <FaIcon @icon="trash" />
-  </span>
-</button>
+	<div class="field">
+		<label for="production" class="label">
+			{{t "slot.fields.production"}}
+		</label>
+		<Textarea
+			id="production"
+			placeholder={{t "slot.fields.production_example"}}
+			class="textarea is-small"
+			@value={{@slot.production.text}}
+		/>
+	</div>
+	<button type="button" class="button is-danger is-small" {{on "click" this.deleteProduction}}>
+		<span class="icon">
+			<FaIcon @icon="trash" />
+		</span>
+	</button>
 {{else}}
-<button type="button" class="button is-primary is-small" {{on 'click' this.addProduction}}>
-  <span class="icon">
-    <FaIcon @icon="plus-square" />
-  </span>
-</button>
+	<button type="button" class="button is-primary is-small" {{on "click" this.addProduction}}>
+		<span class="icon">
+			<FaIcon @icon="plus-square" />
+		</span>
+	</button>
 {{/if}}

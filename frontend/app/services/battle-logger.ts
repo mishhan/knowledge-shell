@@ -1,20 +1,21 @@
-import Service from '@ember/service';
+import Service from "@ember/service";
 
 export default class BattleLogger extends Service {
-  messages: string[] = [];
-  errors: string[] = [];
+	messages: string[] = [];
 
-  addMessage(message: string): void {
-    this.messages.pushObject(message);
-  }
+	errors: string[] = [];
 
-  addError(error: string): void {
-    this.errors.pushObject(error);
-  }
+	addMessage(message: string): void {
+		this.messages.pushObject(message);
+	}
+
+	addError(error: string): void {
+		this.errors.pushObject(error);
+	}
 }
 
-declare module '@ember/service' {
-  interface Registry {
-    'battle-logger': BattleLogger;
-  }
+declare module "@ember/service" {
+	interface Registry {
+		"battle-logger": BattleLogger;
+	}
 }

@@ -1,49 +1,56 @@
-<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <LinkTo class="navbar-item" @route="application">
-      <FaIcon @icon="bread-slice" />
-    </LinkTo>
-    <a role="button" class="navbar-burger" {{on "click" this.toggleMenu}} aria-label="menu" aria-expanded="false"
-      data-target="burger-navbar">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div id="burger-navbar" class="navbar-menu {{if this.isMenuOpen 'is-active'}}">
-    <div class="navbar-start">
-      {{#if this.session.isAuthenticated}}
-      <LinkTo class="navbar-item" @route="app.knowledge-bases">{{t "knowledge_bases"}}</LinkTo>
-      {{/if}}
-    </div>
-    <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="buttons">
-          {{#if this.session.isAuthenticated}}
-          <button type="button" class="button is-primary" {{on "click" this.invalidateSession}}>
-            {{t "sign_out"}}&nbsp;
-            <FaIcon @icon="sign-out-alt" />
-          </button>
-          {{else}}
-          <LinkTo class="button is-primary" @route="login">
-            {{t "sign_in"}}&nbsp;
-            <FaIcon @icon="sign-in-alt" />
-          </LinkTo>
-          {{/if}}
-        </div>
-      </div>
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a role="button" class="navbar-link">
-          <FaIcon @icon="language" />
-        </a>
-        <div class="navbar-dropdown">
-          {{#each this.supportedLanguages as |language|}}
-          <a role="button" class="navbar-item" {{on "click" (fn this.setLanguage language)}}>
-            {{language}}
-          </a>
-          {{/each}}
-        </div>
-      </div>
-    </div>
-  </div>
+<nav class="navbar is-primary">
+	<div class="navbar-brand">
+		<LinkTo class="navbar-item" @route="application">
+			<FaIcon @icon="bread-slice" />
+		</LinkTo>
+		<a
+			role="button"
+			class="navbar-burger"
+			aria-expanded="false"
+			data-target="burger-navbar"
+			{{on "click" this.toggleMenu}}
+		>
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+		</a>
+	</div>
+	<div id="burger-navbar" class="navbar-menu {{if this.isMenuOpen " is-active"}}">
+		<div class="navbar-start">
+			{{#if this.session.isAuthenticated}}
+				<LinkTo class="navbar-item" @route="app.knowledge-bases">
+					{{t "knowledge_bases"}}
+				</LinkTo>
+			{{/if}}
+		</div>
+		<div class="navbar-end">
+			<div class="navbar-item">
+				<div class="buttons">
+					{{#if this.session.isAuthenticated}}
+						<button type="button" class="button is-primary" {{on "click" this.invalidateSession}}>
+							{{t "sign_out"}}&nbsp;
+							<FaIcon @icon="sign-out-alt" />
+						</button>
+					{{else}}
+						<LinkTo class="button is-primary" @route="login">
+							{{t "sign_in"}}&nbsp;
+							<FaIcon @icon="sign-in-alt" />
+						</LinkTo>
+					{{/if}}
+				</div>
+			</div>
+			<div class="navbar-item has-dropdown is-hoverable">
+				<a role="button" class="navbar-link">
+					<FaIcon @icon="language" />
+				</a>
+				<div class="navbar-dropdown">
+					{{#each this.supportedLanguages as |language|}}
+						<a role="button" class="navbar-item" {{on "click" (fn this.setLanguage language)}}>
+							{{language}}
+						</a>
+					{{/each}}
+				</div>
+			</div>
+		</div>
+	</div>
 </nav>
