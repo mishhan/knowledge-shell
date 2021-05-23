@@ -1,12 +1,19 @@
-<div class="frame-editor__graph">
-	<Frame::Graph
-		@frames={{this.frames}}
-		@addFrame={{this.addFrame}}
-		@deleteFrame={{this.deleteFrame}}
-		@unsetParent={{this.unsetParent}}
-		@setParent={{this.setParent}}
-		@changeFramePosition={{this.changeFramePosition}}
-	/>
+<div class="frame-editor__editor">
+	<div class="frame-editor__editor-tree">
+		{{#each this.rootFrames as |rootFrame|}}
+				<TreeNode @node={{rootFrame}} @isRootNode={{true}} @isLastNode={{false}} />
+		{{/each}}
+	</div>
+	<div class="frame-editor__editor-graph">
+		<Frame::Graph
+			@frames={{this.frames}}
+			@addFrame={{this.addFrame}}
+			@deleteFrame={{this.deleteFrame}}
+			@unsetParent={{this.unsetParent}}
+			@setParent={{this.setParent}}
+			@changeFramePosition={{this.changeFramePosition}}
+		/>
+	</div>
 </div>
 {{#if this.selectedFrame}}
 	<div class="block"></div>

@@ -50,7 +50,23 @@
 		flex-grow: 1;
 	}
 
-	&__graph {
+	&__editor {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	&__editor-tree {
+		padding: 0 5px;
+		margin-top: 4px; //because of vis-navigation margin
+		width: 20%;
+		height: $tree-height;
+		border-bottom: $default-border;
+		overflow: scroll;
+	}
+
+	&__editor-graph {
+		width: 80%;
 		border: $default-border;
 	}
 

@@ -79,8 +79,8 @@ export default class FrameObserver extends Service {
 				this.removeSlot(frame, slot);
 			});
 		}
-		frameBase.frameDomain?.domainValues.findBy("value", frame)?.destroyRecord();
-		frame.position?.destroyRecord();
+		frameBase.frameDomain?.domainValues.findBy("value", frame)?.unloadRecord();
+		frame.position?.unloadRecord();
 		frame.destroyRecord();
 	}
 
