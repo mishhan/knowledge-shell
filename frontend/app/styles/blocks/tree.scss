@@ -5,8 +5,8 @@
 	$last-node-padding-left: 19px;
 
 	&_root {
-		padding: $root-padding;
 		border: $default-border;
+		padding: $root-padding;
 	}
 
 	&__tree-node {
@@ -14,8 +14,8 @@
 		padding-left: $node-padding-left;
 
 		&_root {
-			margin-left: 0px;
-			padding-left: 0px;
+			margin-left: 0;
+			padding-left: 0;
 		}
 
 		&_ordinary {
@@ -30,8 +30,8 @@
 	&__node-line {
 		float: left;
 		height: 20px;
-		width: 10px;
 		margin-left: -18px;
+		width: 10px;
 
 		&_hidden {
 			display: none;
@@ -39,10 +39,10 @@
 	}
 
 	&__node-line-border {
-		height: 13px;
-		margin-left: -1px;
 		border-bottom: $black-border;
 		border-left: $black-border;
+		height: 13px;
+		margin-left: -1px;
 	}
 
 	&__node-content {
@@ -55,9 +55,9 @@
 	}
 
 	&__node-button {
-		width: 18px;
-		height: 18px;
 		float: left;
+		height: 18px;
+		width: 18px;
 	}
 
 	&__node-text {

@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "ember build --environment=production",
-    "lint": "eslint . --max-warnings 0 && ember-template-lint . --max-warnings 0",
+    "lint": "eslint . --max-warnings 0 && ember-template-lint . --max-warnings 0 && stylelint app/styles/**/*.scss --max-warnings 0",
     "lint:ts": "eslint . --max-warnings 0",
     "lint:ts:fix": "eslint . --fix",
     "lint:hbs": "ember-template-lint . --max-warnings 0",
@@ -27,16 +27,14 @@
   },
   "lint-staged": {
     "linters": {
-      "*.js": "eslint --max-warnings=0",
-      "*.ts": "eslint --max-warnings=0",
-      "*.scss": "stylelint",
-      "*.hbs": "ember-template-lint"
+      "*.js": "eslint . --max-warnings=0",
+      "*.ts": "eslint . --max-warnings=0",
+      "*.scss": "stylelint app/styles/**/*.scss --max-warnings=0",
+      "*.hbs": "ember-template-lint . --max-warnings=0"
     },
     "ignore": [
       "vendor/*"
-    ],
-    "*.js": "eslint --cache --fix",
-    "*.css": "stylelint --fix"
+    ]
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",

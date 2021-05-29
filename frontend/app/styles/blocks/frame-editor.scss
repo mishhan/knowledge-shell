@@ -57,17 +57,17 @@
 	}
 
 	&__editor-tree {
-		padding: 0 5px;
-		margin-top: 4px; //because of vis-navigation margin
-		width: 20%;
-		height: $tree-height;
 		border-bottom: $default-border;
+		height: $tree-height;
+		margin-top: 4px; //because of vis-navigation margin
 		overflow: scroll;
+		padding: 0 5px;
+		width: 20%;
 	}
 
 	&__editor-graph {
-		width: 80%;
 		border: $default-border;
+		width: 80%;
 	}
 
 	&__selected-frame {
