@@ -9,13 +9,7 @@
 	/>
 </div>
 <div>
-	<p>
-		<pre>
-			<code>
-				{{#each this.battleLogger.messages as |message|}}
-					{{message}}
-				{{/each}}
-			</code>
-		</pre>
-	</p>
+	<ul class="tree">
+		<TreeNode @node={{this.gameLog}} @isRootNode={{true}} @isLastNode={{false}} />
+	</ul>
 </div>

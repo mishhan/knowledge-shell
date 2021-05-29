@@ -102,16 +102,6 @@ export default class Frame extends Model {
 		const frameSlot = this.ownSlots.find((slot: Slot) => isEqual(slot.name, slotName));
 		return frameSlot;
 	}
-
-	public getSlotNameValueCollection(): string {
-		const nameValueCollection = this.sortedSlots.map((slot: Slot) => {
-			const slotName = slot.name;
-			const slotValue = slot.value ? (slot.value as DomainValueString).valueStr : "none";
-			return `${slotName} = ${slotValue}`;
-		});
-		const slotValues = `[${nameValueCollection.join(", ")}]`;
-		return slotValues;
-	}
 }
 
 declare module "ember-data/types/registries/model" {

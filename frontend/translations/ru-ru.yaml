@@ -55,3 +55,9 @@ frame_editor:
   editor: Редактор
   domains: Домены
   play: Играть
+
+battle:
+  log: Журнал
+  step: Шаг {number}
+  attached_situations: Привязавшиеся ситуации ({count})
+  chosen_situation: Выбранная ситуация - {situation}
