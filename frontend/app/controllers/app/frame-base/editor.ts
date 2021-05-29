@@ -13,6 +13,12 @@ export default class FrameBaseEditor extends Controller {
 		return this.frameBase.frames;
 	}
 
+	get rootFrames(): Frame[] {
+		const { frames } = this.frameBase;
+		const rootFrames = frames.filter((frame: Frame) => !frame.hasParent);
+		return rootFrames;
+	}
+
 	get domains(): Domain[] {
 		return this.frameBase.domains;
 	}
@@ -26,6 +32,16 @@ export default class FrameBaseEditor extends Controller {
 
 	get selectedFrame(): Frame | undefined {
 		return this.frames.findBy("isSelected", true);
+	}
+
+	@action
+	selectFrame(frameName: string): void {
+		this.frameBase.selectFrame(frameName);
+	}
+
+	@action
+	deSelectFrames(): void {
+		this.frameBase.deSelectFrames();
 	}
 
 	@action

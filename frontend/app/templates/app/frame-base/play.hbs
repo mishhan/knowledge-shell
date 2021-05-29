@@ -8,14 +8,8 @@
 		@addMoveObjectOnField={{this.addMoveObjectOnField}}
 	/>
 </div>
-<div>
-	<p>
-		<pre>
-			<code>
-				{{#each this.battleLogger.messages as |message|}}
-					{{message}}
-				{{/each}}
-			</code>
-		</pre>
-	</p>
+<div  class="frame-editor__log">
+	<ul class="tree">
+		<TreeNode @node={{this.gameLog}} @isRootNode={{true}} @isLastNode={{false}} />
+	</ul>
 </div>

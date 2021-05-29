@@ -4,6 +4,7 @@ import JSONAPIAdapter from "@ember-data/adapter/json-api";
 import DataAdapterMixin from "ember-simple-auth/mixins/data-adapter-mixin";
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
+import { v4 } from "uuid";
 import ENV from "knowledge-shell/config/environment";
 
 // @ts-ignore
@@ -20,6 +21,10 @@ export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin)
 		}
 
 		return headers;
+	}
+
+	generateIdForRecord(): string {
+		return v4();
 	}
 }
 

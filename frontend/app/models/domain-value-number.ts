@@ -6,10 +6,8 @@ import DomainValue from "./domain-value";
 export default class DomainValueNumber extends DomainValue {
 	@attr("number") value!: number;
 
-	@computed("value")
-	get valueStr(): string {
-		return this.value.toString();
-	}
+	@computed.oneWay("value")
+	valueStr!: string;
 }
 
 declare module "ember-data/types/registries/model" {

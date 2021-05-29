@@ -50,8 +50,24 @@
 		flex-grow: 1;
 	}
 
-	&__graph {
+	&__editor {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	&__editor-tree {
+		border-bottom: $default-border;
+		height: $tree-height;
+		margin-top: 4px; //because of vis-navigation margin
+		overflow: scroll;
+		padding: 0 5px;
+		width: 20%;
+	}
+
+	&__editor-graph {
 		border: $default-border;
+		width: 80%;
 	}
 
 	&__selected-frame {
@@ -65,6 +81,10 @@
 	&__game-panel {
 		display: flex;
 		flex-direction: row;
+		margin: 5px 10%;
+	}
+
+	&__log {
 		margin: 5px 10%;
 	}
 }

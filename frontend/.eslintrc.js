@@ -25,6 +25,8 @@ module.exports = {
     "no-param-reassign": ["error", {"props": false}],
     "import/no-cycle": ["off", { ignoreExternal: true }],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-    "prettier/prettier": ["error", { "endOfLine":"auto" }]
+    "prettier/prettier": ["error", { "endOfLine":"auto" }],
+    "no-underscore-dangle": "off",
+    "@typescript-eslint/lines-between-class-members": "off",
   }
 };

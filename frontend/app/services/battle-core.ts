@@ -1,6 +1,7 @@
 import Service, { inject as service } from "@ember/service";
 import { isEmpty } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
+import IntlService from "ember-intl/services/intl";
 import {
 	Domain,
 	DomainValue,
@@ -32,8 +33,8 @@ const BATTLE_SETTINGS = {
 };
 
 export default class BattleCore extends Service {
+	@service intl!: IntlService;
 	@service("battle-logger") battleLogger!: BattleLogger;
-
 	@service("battle-logic-core") battleLogicCore!: BattleLogicCore;
 
 	@tracked frameBase!: FrameBase;
@@ -51,15 +52,10 @@ export default class BattleCore extends Service {
 	}
 
 	@tracked panelObjects: Frame[] = [];
-
 	@tracked gameObjects: Frame[] = [];
-
 	@tracked x!: number;
-
 	@tracked y!: number;
-
 	@tracked battleField!: Frame;
-
 	@tracked freeCell!: Frame;
 
 	public initialize(): void {
@@ -69,6 +65,7 @@ export default class BattleCore extends Service {
 		this.battleField = this.frameBase.getFrame(BATTLE_SETTINGS.fieldFrameName);
 		this.freeCell = this.frameBase.getFrame(BATTLE_SETTINGS.freeCellFrameName);
 
+		this.battleLogger.clearLog();
 		this.initializePanel();
 		this.initializeField();
 	}
@@ -97,8 +94,6 @@ export default class BattleCore extends Service {
 
 			this.gameObjects.pushObject(frameSample);
 			battleCell.value = this.frameDomain.getDomainValueFrameByFrame(frameSample);
-
-			this.battleLogger.addMessage(`${frameSample.name} in [${x}, ${y}]: ${frameSample.getSlotNameValueCollection()}`);
 		}
 	}
 
@@ -128,14 +123,17 @@ export default class BattleCore extends Service {
 		}
 	}
 
-	public playStep(): boolean {
-		this.battleLogger.addMessage(`-----Playing new step-----`);
+	public playStep(stepNumber: number): boolean {
+		const treeLog: { name: string; children: any[] } = {
+			name: this.intl.t("battle.step", { number: stepNumber }),
+			children: [],
+		};
 
 		let hasAttachedSituations = false;
 		const baseSituation = this.frameBase.getFrame(BATTLE_SETTINGS.baseSituation);
 
 		this.gameObjects.forEach((gameObject: Frame) => {
-			this.battleLogger.addMessage(`Attaching ${gameObject.name} to situation...`);
+			const gameObjectLog: { name: string; children: any[] } = { name: gameObject.name, children: [] };
 
 			const gameObjectSituation = this.frameBase.addFrameSample();
 			const agentSlot = this.frameBase.addEmptySlot();
@@ -147,18 +145,27 @@ export default class BattleCore extends Service {
 				value: this.frameDomain.getDomainValueFrameByFrame(gameObject),
 			});
 
-			this.battleLogger.addMessage(`Initial situation: ${gameObjectSituation.getSlotNameValueCollection()}`);
-			this.battleLogger.addMessage(`Attaching to ${baseSituation.getSlotNameValueCollection()}`);
-
 			const attachedSituations = this.battleLogicCore.attachToFrameOrChildren(baseSituation, gameObjectSituation);
 
-			this.battleLogger.addMessage(`${gameObject.name} has ${attachedSituations.length} situations`);
 			if (attachedSituations.length > 0) {
-				const situationNames = attachedSituations.map((situation: Frame) => situation.name).join(", ");
-				this.battleLogger.addMessage(`Situations: ${situationNames}`);
-
+				const situationNames = attachedSituations.map((situation: Frame) => situation.name);
 				// need to choose random situation..
 				const chosenSituation = attachedSituations[0];
+
+				gameObjectLog.children.pushObjects([
+					{
+						name: this.intl.t("battle.attached_situations", { count: attachedSituations.length }),
+						children: situationNames.map((sitName: string) => {
+							return { name: sitName, children: [] };
+						}),
+					},
+					{
+						name: this.intl.t("battle.chosen_situation", { situation: chosenSituation.name }),
+						children: [],
+					},
+				]);
+
+				treeLog.children.pushObject(gameObjectLog);
 
 				/**
 				 * what's going on here? :D
@@ -190,6 +197,7 @@ export default class BattleCore extends Service {
 		});
 
 		this.refreshField();
+		this.battleLogger.addMessage(treeLog);
 
 		return hasAttachedSituations;
 	}

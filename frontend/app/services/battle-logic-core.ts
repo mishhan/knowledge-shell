@@ -6,16 +6,11 @@ import Interpretter from "knowledge-shell/interpretter/frame-production/interpre
 import BattleLogger from "./battle-logger";
 
 export default class BattleLogicCore extends Service {
-	private productionInterpretter!: Interpretter;
+	private readonly productionInterpretter: Interpretter = new Interpretter();
 
 	@service("battle-logger") battleLogger!: BattleLogger;
 
 	@tracked frameBase!: FrameBase;
-
-	constructor() {
-		super();
-		this.productionInterpretter = new Interpretter();
-	}
 
 	public attachToFrameOrChildren(framePrototype: Frame, frameSample: Frame): Frame[] {
 		let result: Frame[] = [];
@@ -44,42 +39,22 @@ export default class BattleLogicCore extends Service {
 		const prototypeSample = this.frameBase.addFrameSample(framePrototype);
 		const prototypeSampleSlots = prototypeSample.sortedSlots.toArray();
 
-		this.battleLogger.addMessage(
-			`Attaching frame [${prototypeSample.name}]: ${prototypeSample.getSlotNameValueCollection()}`,
-		);
-		this.battleLogger.addMessage(`To ${frameSample.getSlotNameValueCollection()}`);
-
 		let isAttached = false;
 		// eslint-disable-next-line no-restricted-syntax
 		for (const prototypeSampleSlot of prototypeSampleSlots) {
 			const sampleSlot = frameSample.getSlot(prototypeSampleSlot.name);
-			this.battleLogger.addMessage(`Attaching slot [${prototypeSampleSlot.name}]`);
-
 			isAttached = this.attachToSlot(prototypeSampleSlot, sampleSlot);
-			if (isAttached) {
-				this.battleLogger.addMessage(
-					`Slot [${prototypeSampleSlot.name}] is attached. Value: [${
-						(prototypeSampleSlot.value as DomainValueString).valueStr
-					}]`,
-				);
-			} else {
-				this.battleLogger.addMessage(`Slot ${prototypeSampleSlot.name} isn't attached`);
-				break;
-			}
+			if (!isAttached) break;
 		}
 
 		if (!isAttached) {
-			this.battleLogger.addMessage(`[${prototypeSample.name}] isn't attached to [${frameSample.name}]`);
 			return undefined;
 		}
-		this.battleLogger.addMessage(`[${prototypeSample.name}] is attached to [${frameSample.name}]`);
 		return prototypeSample;
 	}
 
 	private attachToSlot(slotPrototype: Slot, sampleSlot: Slot | undefined): boolean {
 		if (slotPrototype.hasProduction) {
-			this.battleLogger.addMessage(`Slot [${slotPrototype.name}] has production: ${slotPrototype.production.text}`);
-
 			const result = this.productionInterpretter.evaluate(slotPrototype.production);
 			if (isEmpty(result)) return false;
 

@@ -1,20 +1,22 @@
-@import 'ember-power-select';
-@import 'bulma';
+@import "ember-power-select";
+@import "bulma";
 
-@import './scss/global';
-@import './scss/variables';
+@import "./scss/global";
+@import "./scss/variables";
 
-@import './overrides/overrides';
+@import "./overrides/overrides";
 
-@import './blocks/spinner-cube';
-@import './blocks/frame-editor';
-@import './blocks/game-panel';
-@import './blocks//game-field';
+@import "./blocks/spinner-cube";
+@import "./blocks/frame-editor";
+@import "./blocks/game-panel";
+@import "./blocks//game-field";
 
-@import './blocks/table';
-@import './blocks/kb-table';
-@import './blocks/domain-table';
-@import './blocks/slot-table';
+@import "./blocks/table";
+@import "./blocks/kb-table";
+@import "./blocks/domain-table";
+@import "./blocks/slot-table";
+
+@import "./blocks/tree";
 
 .graph {
 	height: $graph-height;

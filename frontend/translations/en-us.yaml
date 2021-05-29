@@ -55,3 +55,9 @@ frame_editor:
   editor: Editor
   domains: Domains
   play: Play
+
+battle:
+  log: Battle Log
+  step: Step {number}
+  attached_situations: Attached situations ({count})
+  chosen_situation: Chosen situation - {situation}

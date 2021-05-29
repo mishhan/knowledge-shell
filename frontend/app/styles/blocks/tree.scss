@@ -1,0 +1,66 @@
+.tree {
+	$root-padding: 10px;
+	$node-margin-left: 7px;
+	$node-padding-left: 18px;
+	$last-node-padding-left: 19px;
+
+	&_root {
+		border: $default-border;
+		padding: $root-padding;
+	}
+
+	&__tree-node {
+		margin-left: $node-margin-left;
+		padding-left: $node-padding-left;
+
+		&_root {
+			margin-left: 0;
+			padding-left: 0;
+		}
+
+		&_ordinary {
+			border-left: $black-border;
+		}
+
+		&_last {
+			padding-left: $last-node-padding-left;
+		}
+	}
+
+	&__node-line {
+		float: left;
+		height: 20px;
+		margin-left: -18px;
+		width: 10px;
+
+		&_hidden {
+			display: none;
+		}
+	}
+
+	&__node-line-border {
+		border-bottom: $black-border;
+		border-left: $black-border;
+		height: 13px;
+		margin-left: -1px;
+	}
+
+	&__node-content {
+		cursor: pointer;
+		user-select: none;
+
+		&:hover {
+			background-color: $tree-node-hover-color;
+		}
+	}
+
+	&__node-button {
+		float: left;
+		height: 18px;
+		width: 18px;
+	}
+
+	&__node-text {
+		white-space: nowrap;
+	}
+}

@@ -1,16 +1,15 @@
 import Service from "@ember/service";
+import { tracked } from "@glimmer/tracking";
 
 export default class BattleLogger extends Service {
-	messages: string[] = [];
+	@tracked fullLog!: any;
 
-	errors: string[] = [];
-
-	addMessage(message: string): void {
-		this.messages.pushObject(message);
+	clearLog(): void {
+		this.fullLog = [];
 	}
 
-	addError(error: string): void {
-		this.errors.pushObject(error);
+	addMessage(message: { name: string; children: any[] }): void {
+		this.fullLog.pushObject(message);
 	}
 }
 

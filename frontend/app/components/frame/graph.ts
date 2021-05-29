@@ -4,10 +4,13 @@ import { action } from "@ember/object";
 import { Frame } from "knowledge-shell/models";
 import { Data, Network, Edge, Node } from "vis-network";
 import type IntlService from "ember-intl/services/intl";
+import FrameObserver from "knowledge-shell/services/frame-observer";
 import options from "./vis-network/options";
 
 interface FrameGraphArgs {
 	frames: Frame[];
+	selectFrame: (frameId: string) => void;
+	deSelectFrames: () => void;
 	addFrame: ({ x, y }: { x: number; y: number }) => void;
 	setParent: (childFrame: Frame, parentFrame: Frame) => void;
 	unsetParent: (childFrame: Frame) => void;
@@ -19,6 +22,7 @@ const RELATIONS = { isA: "isA" };
 
 export default class FrameGraph extends Component<FrameGraphArgs> {
 	@service intl!: IntlService;
+	@service("frame-observer") frameObserver!: FrameObserver;
 
 	container!: HTMLDivElement;
 
@@ -30,10 +34,20 @@ export default class FrameGraph extends Component<FrameGraphArgs> {
 		return this.args.frames;
 	}
 
+	willDestroy(): void {
+		this.frameObserver.off("selectedFrameChanged", this, this.selectedFrameChanged);
+		this.network.off("selectNode");
+		this.network.off("deselectNode");
+		this.network.off("dragEnd");
+		super.willDestroy();
+	}
+
 	@action
 	initGraph(): void {
 		this.container = document.getElementById("graph") as HTMLDivElement;
 		options.locale = this.intl.primaryLocale;
+
+		this.frameObserver.on("selectedFrameChanged", this, this.selectedFrameChanged);
 
 		const manipulation = {
 			enabled: true,
@@ -109,9 +123,7 @@ export default class FrameGraph extends Component<FrameGraphArgs> {
 
 		this.network.on("deselectNode", (data: any) => {
 			if (data.nodes.length > 0) {
-				this.frames.forEach((frame: Frame) => {
-					frame.isSelected = false;
-				});
+				this.args.deSelectFrames();
 			}
 		});
 
@@ -155,6 +167,14 @@ export default class FrameGraph extends Component<FrameGraphArgs> {
 			}
 		});
 		this.network.setData(this.networkData);
+	}
+
+	selectedFrameChanged(): void {
+		const selectedFrame = this.frames.findBy("isSelected", true);
+		if (selectedFrame) {
+			this.network.selectNodes([selectedFrame.id]);
+			this.network.focus(selectedFrame.id, { scale: 1.5 });
+		}
 	}
 
 	addNode({ id, name, position }: { id: string; name: string; position: { x: number; y: number } }): void {
