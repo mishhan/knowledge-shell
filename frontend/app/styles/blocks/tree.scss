@@ -45,10 +45,22 @@
 		border-left: $black-border;
 	}
 
+	&__node-content {
+		cursor: pointer;
+		user-select: none;
+
+		&:hover {
+			background-color: $tree-node-hover-color;
+		}
+	}
+
 	&__node-button {
 		width: 18px;
 		height: 18px;
 		float: left;
-		cursor: pointer;
+	}
+
+	&__node-text {
+		white-space: nowrap;
 	}
 }

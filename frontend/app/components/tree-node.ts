@@ -3,7 +3,9 @@ import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 
 interface TreeNode {
+	id: string;
 	name: string;
+	isSelected: boolean;
 	children: TreeNode[];
 }
 
@@ -11,6 +13,7 @@ interface TreeNodeComponentArgs {
 	node: TreeNode;
 	isRootNode: boolean;
 	isLastNode: boolean;
+	selectNode: (nodeId: string) => void;
 }
 
 export default class TreeNodeComponent extends Component<TreeNodeComponentArgs> {
@@ -34,13 +37,30 @@ export default class TreeNodeComponent extends Component<TreeNodeComponentArgs> 
 		return isOrdinaryNode;
 	}
 
+	get isSelected(): boolean {
+		return this.args.node.isSelected;
+	}
+
+	get hasChildren(): boolean {
+		return this.args.node.children?.length > 0;
+	}
+
 	get shoudShowChildren(): boolean {
-		const hasChildren = this.args.node.children?.length > 0;
-		return hasChildren && this.isOpen;
+		const { hasChildren, isOpen } = this;
+		return hasChildren && isOpen;
 	}
 
 	@action
 	toggleState() {
-		this.isOpen = !this.isOpen;
+		if (this.hasChildren) {
+			this.isOpen = !this.isOpen;
+		}
+	}
+
+	@action
+	selectNode() {
+		if (this.args.selectNode) {
+			this.args.selectNode(this.args.node.id);
+		}
 	}
 }

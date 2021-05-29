@@ -1,12 +1,14 @@
 <div class="frame-editor__editor">
 	<div class="frame-editor__editor-tree">
 		{{#each this.rootFrames as |rootFrame|}}
-				<TreeNode @node={{rootFrame}} @isRootNode={{true}} @isLastNode={{false}} />
+				<TreeNode @node={{rootFrame}} @selectNode={{this.selectFrame}} @isRootNode={{true}} @isLastNode={{false}} />
 		{{/each}}
 	</div>
 	<div class="frame-editor__editor-graph">
 		<Frame::Graph
 			@frames={{this.frames}}
+			@selectFrame={{this.selectFrame}}
+			@deSelectFrames={{this.deSelectFrames}}
 			@addFrame={{this.addFrame}}
 			@deleteFrame={{this.deleteFrame}}
 			@unsetParent={{this.unsetParent}}
@@ -20,7 +22,7 @@
 	<div class="frame-editor__selected-frame">
 		<div class="box">
 			<div class="field">
-				<label for="frame-name">
+				<label for="frame-name" class="label">
 					{{t "frame.fields.name"}}
 				</label>
 				<div class="control has-icons-left">

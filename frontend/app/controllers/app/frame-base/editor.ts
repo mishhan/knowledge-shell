@@ -35,6 +35,16 @@ export default class FrameBaseEditor extends Controller {
 	}
 
 	@action
+	selectFrame(frameName: string): void {
+		this.frameBase.selectFrame(frameName);
+	}
+
+	@action
+	deSelectFrames(): void {
+		this.frameBase.deSelectFrames();
+	}
+
+	@action
 	addFrame(coordinates: { x: number; y: number }): void {
 		this.frameBase.addFrame(coordinates);
 	}

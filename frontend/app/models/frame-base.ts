@@ -87,6 +87,14 @@ export default class FrameBase extends Model {
 		return this.domains.find((domain: Domain) => domain.name === domainName) as Domain;
 	}
 
+	selectFrame(frameId: string): void {
+		this.frameObserver.selectFrame(this, frameId);
+	}
+
+	deSelectFrames(): void {
+		this.frameObserver.deSelectFrames(this);
+	}
+
 	addFrame({ x, y }: { x: number; y: number }): void {
 		this.frameObserver.addFrame(this, { x, y });
 	}

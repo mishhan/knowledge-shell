@@ -1,4 +1,5 @@
 import Service, { inject as service } from "@ember/service";
+import Evented from "@ember/object/evented";
 import Store from "@ember-data/store";
 import Frame from "knowledge-shell/models/frame";
 import FrameBase from "knowledge-shell/models/frame-base";
@@ -7,8 +8,26 @@ import Slot from "knowledge-shell/models/slot";
 
 const DEFAULT_NAMES = { frame: "New Frame", slot: "New Slot" };
 
-export default class FrameObserver extends Service {
+export default class FrameObserver extends Service.extend(Evented) {
 	@service("store") store!: Store;
+
+	public selectFrame(frameBase: FrameBase, frameId: string) {
+		const { frames } = frameBase;
+		const selectedFrame = frames.find((frame: Frame) => frame.id === frameId);
+		if (selectedFrame) {
+			this.deSelectFrames(frameBase);
+			selectedFrame.isSelected = true;
+
+			this.trigger("selectedFrameChanged");
+		}
+	}
+
+	public deSelectFrames(frameBase: FrameBase): void {
+		const { frames } = frameBase;
+		frames.forEach((frame: Frame) => {
+			frame.isSelected = false;
+		});
+	}
 
 	public addFrame(frameBase: FrameBase, coordinates: { x: number; y: number }): void {
 		this.store

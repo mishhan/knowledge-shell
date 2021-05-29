@@ -1,6 +1,6 @@
 $default-border: 1px solid #d3d3d3;
 $black-border: 1px solid #000;
-$table-hover-color: #fffff0;
+$table-row-hover-color: #fffff0;
 
 $cell-padding: 10px 0;
 
@@ -8,3 +8,4 @@ $graph-height: 400px;
 $graph-width: 100%;
 
 $tree-height: $graph-height;
+$tree-node-hover-color: $table-row-hover-color;
