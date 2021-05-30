@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   let ENV = {
     modulePrefix: "knowledge-shell",
     environment,
-    rootURL: "/",
-    locationType: "auto",
+    rootURL: process.env.EMBER_CLI_ELECTRON ? '' : "/",
+    locationType: process.env.EMBER_CLI_ELECTRON ? 'hash' : "auto",
     EmberENV: {
       FEATURES: {},
       EXTEND_PROTOTYPES: {
@@ -17,9 +17,18 @@ module.exports = function(environment) {
       defaultUUID: true,
     },
 
+    "ember-simple-auth": {
+      authenticationRoute: "login",
+      routeAfterAuthentication: "app.knowledge-bases",
+      routeIfAlreadyAuthenticated: "app.knowledge-bases",
+      authorizer: "authorizer:token",
+      authenticator: "authenticator:oauth2"
+    },
+
     APP: {
       host: "http://localhost:55836",
       namespace: "",
+      defaultLocale: "en-us"
     }
   };
 

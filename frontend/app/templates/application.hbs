@@ -1,4 +1,22 @@
 <NavBar />
-<div>
-  {{outlet}}
+<div class="main">
+	{{outlet}}
 </div>
+<footer class="footer has-text-centered">
+	<div class="content">
+		<div class="columns">
+			<div class="column">
+				<FaIcon @icon="copyright" />{{t "copyright"}}
+				<a href="https://github.com/mishhan/knowledge-shell/blob/main/LICENSE">
+					{{t "licence"}}
+				</a>
+			</div>
+			<div class="column">
+				<FaIcon @icon="github" @prefix="fab" />
+				<a href="https://github.com/mishhan/knowledge-shell">
+					{{t "github_project"}}
+				</a>
+			</div>
+		</div>
+	</div>
+</footer>

@@ -7,19 +7,19 @@ import interaction from "./modules/interaction";
 import physics from "./modules/physics";
 
 const options = {
-  autoResize: true,
-  height: "100%",
-  width: "100%",
-  locale: "en",
-  locales: locales,
-  clickToUse: true,
-  configure: configure,
-  edges: edges,
-  nodes: nodes,
-  layout: layout,
-  interaction: interaction,
-  manipulation: {},
-  physics: physics
+	autoResize: true,
+	height: "100%",
+	width: "100%",
+	locale: "en",
+	locales,
+	clickToUse: true,
+	configure,
+	edges,
+	nodes,
+	layout,
+	interaction,
+	manipulation: {},
+	physics,
 };
 
 export default options;

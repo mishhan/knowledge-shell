@@ -27,14 +27,16 @@
 
         protected override IQueryable<FrameBase> GetAll()
         {
-            var userId = Guid.Parse(_authenticationService.GetUserId());
-            return base.GetAll().Where(frameBase => frameBase.Owner.Id == userId);
+            var userId = _authenticationService.GetUserId();
+            var frameBases = base.GetAll();
+            var userFrameBases = frameBases.Where(frameBase => frameBase.OwnerId == userId);
+            return userFrameBases;
         }
 
         public override async Task<FrameBase> GetForCreateAsync(Guid id, CancellationToken cancellationToken)
         {
             var frameBase = await base.GetForCreateAsync(id, cancellationToken);
-            var userId = Guid.Parse(_authenticationService.GetUserId());
+            var userId = _authenticationService.GetUserId();
             frameBase.OwnerId = userId;
             return frameBase;
         }

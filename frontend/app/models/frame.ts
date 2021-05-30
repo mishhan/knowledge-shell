@@ -1,4 +1,5 @@
 import Model, { attr, belongsTo, hasMany } from "@ember-data/model";
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
 import { isEqual } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
@@ -9,98 +10,102 @@ import Position from "./position";
 import DomainValueString from "./domain-value-string";
 
 export default class Frame extends Model {
-  @attr("string") name!: string;
+	@attr("string") name!: string;
 
-  @attr("boolean", { defaultValue: false }) isSample!: boolean;
+	@attr("boolean", { defaultValue: false }) isSample!: boolean;
 
-  @belongsTo("frame-base", { async: false })
-  frameBase!: FrameBase;
+	@belongsTo("frame-base", { async: false })
+	frameBase!: FrameBase;
 
-  @belongsTo("frame", { async: false, inverse: "children" })
-  parent!: Frame | null;
+	@belongsTo("frame", { async: false, inverse: "children" })
+	parent!: Frame;
 
-  @hasMany("frame", { async: false, inverse: "parent" })
-  children!: Frame[];
+	@hasMany("frame", { async: false, inverse: "parent" })
+	children!: Frame[];
 
-  @hasMany("slot", { async: false, inverse: "owner" })
-  ownSlots!: Slot[];
+	@hasMany("slot", { async: false, inverse: "owner" })
+	ownSlots!: Slot[];
 
-  @belongsTo("position", { async: false })
-  position!: Position | null;
+	@belongsTo("position", { async: false })
+	position!: Position;
 
-  @computed("ownSlots.[]")
-  get sortedSlots(): Slot[] {
-    return this.ownSlots.sortBy("order");
-  }
+	@computed("ownSlots.[]")
+	get sortedSlots(): Slot[] {
+		return this.ownSlots.sortBy("order");
+	}
 
-  @computed("sortedSlots")
-  get slotNames(): string {
-    return `[${this.sortedSlots.map((slot: Slot) => slot.name).join(", ")}]`;
-  }
+	@computed("sortedSlots")
+	get slotNames(): string {
+		return `[${this.sortedSlots.map((slot: Slot) => slot.name).join(", ")}]`;
+	}
 
-  @computed("ownSlots.@each.value")
-  get slotValues(): string {
-    let slotValues = "";
-    for (const slot of this.sortedSlots) {
-      slotValues += `${slot.name}: ${(slot.value as DomainValueString).valueStr}\n`;
-    }
-    return slotValues;
-  }
+	@computed("ownSlots.@each.value", "sortedSlots")
+	get slotValues(): string {
+		const nameValueCollection = this.sortedSlots.map((slot: Slot) => {
+			const slotName = slot.name;
+			const slotValue = slot.value ? (slot.value as DomainValueString).valueStr : "none";
+			return `${slotName}: ${slotValue}`;
+		});
 
-  @computed.oneWay("frameBase.frameDomain")
-  domain!: Domain;
+		const slotValues = nameValueCollection.join("\n");
+		return slotValues;
+	}
 
-  @computed.notEmpty("children")
-  hasChildren!: boolean;
+	@computed.oneWay("frameBase.frameDomain")
+	domain!: Domain;
 
-  @computed.notEmpty("parent")
-  hasParent!: boolean;
+	@computed.notEmpty("children")
+	hasChildren!: boolean;
 
-  @computed.notEmpty("ownSlots")
-  hasSlots!: boolean;
+	@computed.notEmpty("parent")
+	hasParent!: boolean;
 
-  @tracked
-  isSelected!: boolean;
+	@computed.notEmpty("ownSlots")
+	hasSlots!: boolean;
 
-  public isParentOf(childFrame: Frame): boolean {
-    let current = childFrame;
-    while(current.hasParent) {
-      if (isEqual(current.parent, this)) {
-        return true;
-      }
+	@tracked
+	isSelected!: boolean;
 
-      if (current.parent) {
-        current = current.parent;
-      }
-    }
+	public isParentOf(childFrame: Frame): boolean {
+		let current = childFrame;
+		while (current.hasParent) {
+			if (isEqual(current.parent, this)) {
+				return true;
+			}
 
-    return false;
-  }
+			if (current.parent) {
+				current = current.parent;
+			}
+		}
 
-  public pathLengthTo(destinationFrame: Frame): number {
-    let pathLength: number = 0;
-    let current: Frame = this;
-    while(current.hasParent) {
-      if (isEqual(current.parent, destinationFrame)) {
-        return pathLength;
-      }
+		return false;
+	}
 
-      if (current.parent) {
-        current = current.parent;
-      }
-      pathLength += 1;
-    }
+	public pathLengthTo(destinationFrame: Frame): number {
+		let pathLength: number = 0;
+		let current: Frame = this;
+		while (current.hasParent) {
+			if (isEqual(current.parent, destinationFrame)) {
+				return pathLength;
+			}
 
-    return -1;
-  }
+			if (current.parent) {
+				current = current.parent;
+			}
+			pathLength += 1;
+		}
 
-  public getSlot(slotName: string): Slot {
-    return this.ownSlots.find((slot) => isEqual(slot.name, slotName)) as Slot;
-  }
+		return -1;
+	}
+
+	public getSlot(slotName: string): Slot | undefined {
+		const frameSlot = this.ownSlots.find((slot: Slot) => isEqual(slot.name, slotName));
+		return frameSlot;
+	}
 }
 
 declare module "ember-data/types/registries/model" {
-  export default interface ModelRegistry {
-    "frame": Frame;
-  }
+	export default interface ModelRegistry {
+		frame: Frame;
+	}
 }

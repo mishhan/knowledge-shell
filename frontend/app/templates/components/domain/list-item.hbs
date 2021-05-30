@@ -1,22 +1,42 @@
 <div class="table__row">
-  <div class="table__cell domain-table__cell">{{@domain.name}}</div>
-  <div class="table__cell domain-table__cell">{{@domain.description}}</div>
-  <div class="table__cell domain-table__cell">{{@domain.domainTypeName}}</div>
-  <div class="table__cell domain-table__cell">{{@domain.domainValues.length}}</div>
-  <div class="table__cell domain-table__cell">
-    <button type="button" class="button is-primary is-small" disabled={{@domain.isReadOnly}} {{on 'click'
-      this.editDomain}}>
-      <FaIcon @icon="edit" />
-    </button>
-    <button type="button" class="button is-danger is-small" disabled={{@domain.isReadOnly}} {{on 'click' (fn
-      @deleteDomain @domain)}}>
-      <FaIcon @icon="trash" />
-    </button>
-  </div>
+	<div class="table__cell domain-table__cell">
+		{{@domain.name}}
+	</div>
+	<div class="table__cell domain-table__cell">
+		{{@domain.description}}
+	</div>
+	<div class="table__cell domain-table__cell">
+		{{@domain.domainTypeName}}
+	</div>
+	<div class="table__cell domain-table__cell">
+		{{@domain.domainValues.length}}
+	</div>
+	<div class="table__cell domain-table__cell">
+		<button
+			type="button"
+			class="button is-primary is-small"
+			disabled={{@domain.isReadOnly}}
+			{{on "click" this.editDomain}}
+		>
+			<FaIcon @icon="edit" />
+		</button>
+		<button
+			type="button"
+			class="button is-danger is-small"
+			disabled={{@domain.isReadOnly}}
+			{{on "click" (fn @deleteDomain @domain)}}
+		>
+			<FaIcon @icon="trash" />
+		</button>
+	</div>
 </div>
 {{#if @domain.isEditing}}
-<ModalCard @header={{@domain.name}} @onClose={{this.cancelChanges}} @onSuccessClose={{this.saveDomain}}
-  @onCancelClose={{this.cancelChanges}}>
-  <Domain::Form @domain={{@domain}} />
-</ModalCard>
+	<ModalCard
+		@header={{t "domain.name"}}
+		@onClose={{this.cancelChanges}}
+		@onSuccessClose={{this.saveDomain}}
+		@onCancelClose={{this.cancelChanges}}
+	>
+		<Domain::Form @domain={{@domain}} />
+	</ModalCard>
 {{/if}}

@@ -1,70 +1,101 @@
 <div class="field">
-  <label for="name" class="label">Name</label>
-  <Input id="name" @type="text" class="input is-small" placeholder="Name" @value={{@domain.name}} />
+	<label for="name" class="label">
+		{{t "domain.fields.name"}}
+	</label>
+	<Input id="name" @type="text" class="input is-small" placeholder={{t "domain.fields.name"}} @value={{@domain.name}} />
 </div>
 <div class="field">
-  <label for="type" class="label">Type</label>
-  <PowerSelect @options={{this.domainTypes}} @allowClear={{false}} @selected={{this.selectedDomainType}}
-    @disabled={{this.domainHasValues}} @onChange={{this.setDomainType}} as |domainType|>
-    {{domainType.value}}
-  </PowerSelect>
+	<label for="type" class="label">
+		{{t "domain.fields.type"}}
+	</label>
+	<PowerSelect
+		@options={{this.domainTypes}}
+		@allowClear={{false}}
+		@selected={{this.selectedDomainType}}
+		@disabled={{this.domainHasValues}}
+		@onChange={{this.setDomainType}} as |domainType|
+	>
+		{{domainType.value}}
+	</PowerSelect>
 </div>
 {{#if (eq @domain.domainType 2)}}
-<div class="field">
-  <label for="value" class="label">New Value</label>
-  <Input id="value" @type="text" class="input is-small" placeholder="Value" @value={{this.newValueString}} />
-</div>
-<button type="button" class="button is-primary is-small" {{on 'click' this.addStringValue}}>
-  <FaIcon @icon="plus-square" />
-</button>
-<div class="block"></div>
-<SortableObjects @sortableObjectList={{@domain.domainValuesOrdered}} @useSwap={{false}} @inPlace={{true}}
-  @sortingScope="domainValueList" @enableSort={{true}} @sortEndAction={{fn this.reorderValues
-  @domain.domainValuesOrdered}}>
-  {{#each @domain.domainValuesOrdered as |domainValue|}}
-  <DraggableObject @overrideClass='field has-addons' @content={{domainValue}} @isSortable={{true}}
-    @sortingScope="domainValueList">
-    <div class="control">
-      <Input @type="text" class="input is-small" placeholder="Value" @value={{domainValue.value}} />
-    </div>
-    <div class="control">
-      <button type="button" class="button is-danger is-small" {{on 'click' (fn this.deleteValue domainValue)}}>
-        <span class="icon">
-          <FaIcon @icon="trash" />
-        </span>
-      </button>
-    </div>
-  </DraggableObject>
-  {{/each}}
-</SortableObjects>
+	<div class="field">
+		<label for="domain_value_string" class="label">
+			{{t "domain.fields.new_value"}}
+		</label>
+		<Input id="domain_value_string" @type="text" class="input is-small" @value={{this.newValueString}} />
+	</div>
+	<button type="button" class="button is-primary is-small" {{on "click" this.addStringValue}}>
+		<FaIcon @icon="plus-square" />
+	</button>
+	<div class="block"></div>
+	<SortableObjects
+		@sortableObjectList={{@domain.domainValuesOrdered}}
+		@useSwap={{false}}
+		@inPlace={{true}}
+		@sortingScope="domainValueList"
+		@enableSort={{true}}
+		@sortEndAction={{fn this.reorderValues @domain.domainValuesOrdered}}
+	>
+		{{#each @domain.domainValuesOrdered as |domainValue|}}
+			<DraggableObject
+				@overrideClass="field has-addons"
+				@content={{domainValue}}
+				@isSortable={{true}}
+				@sortingScope="domainValueList"
+			>
+				<div class="control">
+					<Input @type="text" class="input is-small" @value={{domainValue.value}} />
+				</div>
+				<div class="control">
+					<button type="button" class="button is-danger is-small" {{on "click" (fn this.deleteValue domainValue)}}>
+						<span class="icon">
+							<FaIcon @icon="trash" />
+						</span>
+					</button>
+				</div>
+			</DraggableObject>
+		{{/each}}
+	</SortableObjects>
 {{/if}}
 {{#if (eq @domain.domainType 3)}}
-<div class="field">
-  <label for="value" class="label">New Value</label>
-  <Input id="value" @type="number" class="input is-small" placeholder="Value" @value={{this.newValueNumber}} />
-  <button type="button" class="button is-primary is-small" {{on 'click' this.addNumberValue}}>
-    <span class="icon">
-      <FaIcon @icon="plus-square" />
-    </span>
-  </button>
-</div>
-<SortableObjects @sortableObjectList={{@domain.domainValuesOrdered}} @useSwap={{false}} @inPlace={{true}}
-  @sortingScope="domainValueList" @enableSort={{true}} @sortEndAction={{fn this.reorderValues
-  @domain.domainValuesOrdered}}>
-  {{#each @domain.domainValuesOrdered as |domainValue|}}
-  <DraggableObject @overrideClass='field has-addons' @content={{domainValue}} @isSortable={{true}}
-    @sortingScope="domainValueList">
-    <div class="control">
-      <Input @type="number" @class="input is-small" placeholder="Value" @value={{domainValue.value}} />
-    </div>
-    <div class="control">
-      <button type="button" class="button is-danger is-small" {{on 'click' (fn this.deleteValue domainValue)}}>
-        <span class="icon">
-          <FaIcon @icon="trash" />
-        </span>
-      </button>
-    </div>
-  </DraggableObject>
-  {{/each}}
-</SortableObjects>
+	<div class="field">
+		<label for="domain_value_number" class="label">
+			{{t "domain.fields.new_value"}}
+		</label>
+		<Input id="domain_value_number" @type="number" class="input is-small" @value={{this.newValueNumber}} />
+		<button type="button" class="button is-primary is-small" {{on "click" this.addNumberValue}}>
+			<span class="icon">
+				<FaIcon @icon="plus-square" />
+			</span>
+		</button>
+	</div>
+	<SortableObjects
+		@sortableObjectList={{@domain.domainValuesOrdered}}
+		@useSwap={{false}}
+		@inPlace={{true}}
+		@sortingScope="domainValueList"
+		@enableSort={{true}}
+		@sortEndAction={{fn this.reorderValues @domain.domainValuesOrdered}}
+	>
+		{{#each @domain.domainValuesOrdered as |domainValue|}}
+			<DraggableObject
+				@overrideClass="field has-addons"
+				@content={{domainValue}}
+				@isSortable={{true}}
+				@sortingScope="domainValueList"
+			>
+				<div class="control">
+					<Input @type="number" class="input is-small" @value={{domainValue.value}} />
+				</div>
+				<div class="control">
+					<button type="button" class="button is-danger is-small" {{on "click" (fn this.deleteValue domainValue)}}>
+						<span class="icon">
+							<FaIcon @icon="trash" />
+						</span>
+					</button>
+				</div>
+			</DraggableObject>
+		{{/each}}
+	</SortableObjects>
 {{/if}}

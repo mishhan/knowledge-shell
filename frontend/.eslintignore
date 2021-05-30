@@ -13,8 +13,26 @@
 # misc
 /coverage/
 !.*
+.eslintcache
 
 # ember-try
 /.node_modules.ember-try/
 /bower.json.ember-try
 /package.json.ember-try
+
+# ember-electron
+/electron-app/
+
+# linter, prettier and js
+.eslintrc.js
+.template-lintrc.js
+.prettierrc.js
+ember-cli-build.js
+testem.js
+testem-electron.js
+blueprints/*/index.js
+config/**/*.js
+lib/*/index.js
+server/**/*.js
+app/*.js
+tests/*.js

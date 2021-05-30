@@ -1,9 +1,3 @@
-html,
-body {
-	height: 100%;
-	margin: 0;
-}
-
 body,
 nav,
 div {
@@ -11,10 +5,11 @@ div {
 	padding: 0;
 }
 
-ul {
+ul,
+li {
 	list-style-type: none;
-	padding: 0;
 	margin: 0;
+	padding: 0;
 }
 
 a {

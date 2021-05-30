@@ -1,7 +1,8 @@
-@import "ember-modal-dialog/ember-modal-structure";
-@import "ember-modal-dialog/ember-modal-appearance";
+@use "sass:math";
+
 @import "ember-power-select";
 @import "bulma";
+@import "sweetalert2";
 
 @import "./scss/global";
 @import "./scss/variables";
@@ -18,7 +19,19 @@
 @import "./blocks/domain-table";
 @import "./blocks/slot-table";
 
-#graph {
-	height: 300px;
-	width: 100%;
+@import "./blocks/tree";
+
+.graph {
+	height: $graph-height;
+	width: $graph-width;
+}
+
+.ember-application {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+
+	.main {
+		flex: 1;
+	}
 }

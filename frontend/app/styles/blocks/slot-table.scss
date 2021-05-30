@@ -1,5 +1,5 @@
 .slot-table {
-	$column-width: 16.6%;
+	$column-width: math.div(100%, 6);
 
 	&__item {
 		width: $column-width;

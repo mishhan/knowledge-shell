@@ -1,34 +1,46 @@
 <div class="table__row">
-  <div class="table__cell kb-table__cell">{{@kb.name}}</div>
-  <div class="table__cell kb-table__cell">{{@kb.description}}</div>
-  <div class="table__cell kb-table__cell">{{format-date @kb.createdAt 'MM/dd/yyyy'}}</div>
-  <div class="table__cell kb-table__cell">{{format-date @kb.updatedAt 'MM/dd/yyyy'}}</div>
-  <div class="table__cell kb-table__cell">
-    <button type="button" class="button is-info is-small" {{on 'click' @view}}>
-      <span class="icon">
-        <FaIcon @icon="eye" />
-      </span>
-    </button>
-    <button type="button" class="button is-info is-small" {{on 'click' @play}}>
-      <span class="icon">
-        <FaIcon @icon="play" />
-      </span>
-    </button>
-    <button type="button" class="button is-warning is-small" {{on 'click' @edit}}>
-      <span class="icon">
-        <FaIcon @icon="edit" />
-      </span>
-    </button>
-    <button type="button" class="button is-danger is-small" {{on 'click' @delete}}>
-      <span class="icon">
-        <FaIcon @icon="trash" />
-      </span>
-    </button>
-  </div>
+	<div class="table__cell kb-table__cell">
+		{{@kb.name}}
+	</div>
+	<div class="table__cell kb-table__cell">
+		{{@kb.description}}
+	</div>
+	<div class="table__cell kb-table__cell">
+		{{format-date @kb.createdAt "MM/dd/yyyy"}}
+	</div>
+	<div class="table__cell kb-table__cell">
+		{{format-date @kb.updatedAt "MM/dd/yyyy"}}
+	</div>
+	<div class="table__cell kb-table__cell">
+		<button type="button" class="button is-info is-small" {{on "click" @view}}>
+			<span class="icon">
+				<FaIcon @icon="eye" />
+			</span>
+		</button>
+		<button type="button" class="button is-info is-small" {{on "click" @play}}>
+			<span class="icon">
+				<FaIcon @icon="play" />
+			</span>
+		</button>
+		<button type="button" class="button is-warning is-small" {{on "click" @edit}}>
+			<span class="icon">
+				<FaIcon @icon="edit" />
+			</span>
+		</button>
+		<button type="button" class="button is-danger is-small" {{on "click" @delete}}>
+			<span class="icon">
+				<FaIcon @icon="trash" />
+			</span>
+		</button>
+	</div>
 </div>
 {{#if @kb.isEditing}}
-<ModalCard @header={{@kb.name}} @onClose={{@onCancelChanges}} @onSuccessClose={{@onSave}}
-  @onCancelClose={{@onCancelChanges}}>
-  <Kb::Form @kb={{@kb}} />
-</ModalCard>
+	<ModalCard
+		@header={{t "kb.name"}}
+		@onClose={{@onCancelChanges}}
+		@onSuccessClose={{@onSave}}
+		@onCancelClose={{@onCancelChanges}}
+	>
+		<Kb::Form @kb={{@kb}} />
+	</ModalCard>
 {{/if}}

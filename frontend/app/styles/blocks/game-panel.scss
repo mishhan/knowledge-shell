@@ -2,18 +2,18 @@
 	width: 40%;
 
 	&__element {
+		border-right: $default-border;
+		border-top: $default-border;
 		display: flex;
 		flex-direction: row;
-		border-top: $default-border;
-		border-right: $default-border;
 	}
 
 	&__service-panel {
+		border: $default-border;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		padding: 10px;
-		border: $default-border;
 	}
 
 	&__element-avatar {
@@ -26,7 +26,7 @@
 	}
 
 	&__element-attr {
-		text-align: left;
 		margin: 10px;
+		text-align: left;
 	}
 }

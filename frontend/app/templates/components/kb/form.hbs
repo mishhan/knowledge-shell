@@ -1,8 +1,17 @@
 <div class="field">
-  <label for="name" class="label">Name</label>
-  <Input id="name" @type="text" placeholder="Name" @value={{@kb.name}} @class="input is-small" />
+	<label for="name" class="label">
+		{{t "kb.fields.name"}}
+	</label>
+	<Input id="name" class="input is-small" @type="text" placeholder={{t "kb.fields.name"}} @value={{@kb.name}} />
 </div>
 <div class="field">
-  <label for="description" class="label">Name</label>
-  <Textarea id="description" placeholder="Description" @value={{@kb.description}} @class="textarea is-small" />
+	<label for="description" class="label">
+		{{t "kb.fields.description"}}
+	</label>
+	<Textarea
+		id="description"
+		class="textarea is-small"
+		placeholder={{t "kb.fields.description"}}
+		@value={{@kb.description}}
+	/>
 </div>

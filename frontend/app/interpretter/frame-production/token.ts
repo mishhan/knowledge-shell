@@ -1,19 +1,20 @@
 import TokenType from "./token-type";
 
 export default class Token {
-  private tokenType!: TokenType;
-  private text!: string;
+	private tokenType!: TokenType;
 
-  constructor(tokenType: TokenType, text: string) {
-    this.tokenType = tokenType;
-    this.text = text;
-  }
+	private text!: string;
 
-  public get TokenType(): TokenType {
-    return this.tokenType;
-  }
+	constructor(tokenType: TokenType, text: string) {
+		this.tokenType = tokenType;
+		this.text = text;
+	}
 
-  public get Text(): string {
-    return this.text;
-  }
+	public get TokenType(): TokenType {
+		return this.tokenType;
+	}
+
+	public get Text(): string {
+		return this.text;
+	}
 }

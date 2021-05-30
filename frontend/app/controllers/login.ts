@@ -1,35 +1,31 @@
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
-import { action } from "@ember/object";
+import { dropTask } from "ember-concurrency";
 import { tracked } from "@glimmer/tracking";
 
 export default class Login extends Controller {
-  @service session!: any;
+	@service session!: any;
 
-  @tracked identification!: string;
-  @tracked password!: string;
-  @tracked errorMessage!: string;
+	@tracked identification!: string;
 
-  @action
-  async authenticate(): Promise<void> {
-    const { identification, password } = this;
-    try {
-      await this.session.authenticate('authenticator:oauth2', identification, password);
-    } catch(error) {
-      const errorJson = error.responseJSON;
-      this.errorMessage = errorJson.errorText;
-    }
+	@tracked password!: string;
 
-    if (this.session.isAuthenticated) {
-      this.transitionToRoute("app.knowledge-bases");
-    }
-  }
+	@tracked errorMessage!: string;
 
+	@dropTask
+	*authenticate() {
+		const { identification, password } = this;
+		try {
+			yield this.session.authenticate("authenticator:oauth2", identification, password);
+		} catch (error) {
+			const errorJson = error.responseJSON;
+			this.errorMessage = errorJson.errorText;
+		}
+	}
 }
 
-
 declare module "@ember/controller" {
-  interface Registry {
-    "login": Login;
-  }
+	interface Registry {
+		login: Login;
+	}
 }

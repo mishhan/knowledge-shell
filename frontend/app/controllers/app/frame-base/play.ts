@@ -1,53 +1,66 @@
 import Controller from "@ember/controller";
+import { inject as service } from "@ember/service";
 import { tracked } from "@glimmer/tracking";
-import { computed, action } from "@ember/object";
-import { getOwner } from "@ember/application";
+import { action } from "@ember/object";
 import { Frame, FrameBase, Slot } from "knowledge-shell/models";
-import BattleCore from "knowledge-shell/objects/battle-game/battle-core";
+import BattleCore from "knowledge-shell/services/battle-core";
+import BattleLogger from "knowledge-shell/services/battle-logger";
+import IntlService from "ember-intl/services/intl";
 
 export default class FrameBasePlayController extends Controller {
-  @computed.oneWay("model") frameBase!: FrameBase;
+	@service intl!: IntlService;
+	@service("battle-core") battleCore!: BattleCore;
+	@service("battle-logger") battleLogger!: BattleLogger;
 
-  @computed.oneWay("battleCore.panelObjects") panelObjects!: Frame[];
-  @computed.oneWay("battleCore.battleField") battleField!: Frame;
-  @computed.oneWay("battleCore.x") x!: number;
-  @computed.oneWay("battleCore.y") y!: number;
+	@tracked current: number = 1;
 
-  @tracked battleCore!: BattleCore;
+	get panelObjects(): Frame[] {
+		return this.battleCore.panelObjects;
+	}
 
-  initGame(): void {
-    const owner: any = getOwner(this);
-    this.battleCore = BattleCore.create({
-      owner: owner,
-      frameBase: this.frameBase
-    });
-    this.battleCore.initialize();
-  }
+	get battleField(): Frame {
+		return this.battleCore.battleField;
+	}
 
-  destroyGame(): void {
-    this.battleCore.destroy();
-  }
+	get x(): number {
+		return this.battleCore.x;
+	}
 
+	get y(): number {
+		return this.battleCore.y;
+	}
 
-  @action
-  playStep(): void {
-    this.battleCore.playStep();
-  }
+	get gameLog(): { name: string; children: any } {
+		const battleTitle = this.intl.t("battle.log");
+		const rootNode = { name: battleTitle, children: this.battleLogger.fullLog };
+		return rootNode;
+	}
 
-  @action
-  addMoveObjectOnField(object: Frame | Slot, ops: any): void {
-    const cellName = ops.target.attrs.slotName.value;
-    if (object instanceof Frame) {
-      this.battleCore.addObjectOnField(object, cellName);
-    }
-    if (object instanceof Slot) {
-      this.battleCore.moveObjectOnField(object, cellName);
-    }
-  }
+	initGame(frameBase: FrameBase): void {
+		this.battleCore.frameBase = frameBase;
+		this.battleCore.initialize();
+	}
+
+	@action
+	playStep(): void {
+		this.battleCore.playStep(this.current);
+		this.current += 1;
+	}
+
+	@action
+	addMoveObjectOnField(object: Frame | Slot, ops: any): void {
+		const cellName = ops.target.attrs.slotName.value;
+		if (object instanceof Frame) {
+			this.battleCore.addObjectOnField(object, cellName);
+		}
+		if (object instanceof Slot) {
+			this.battleCore.moveObjectOnField(object, cellName);
+		}
+	}
 }
 
 declare module "@ember/controller" {
-  interface Registry {
-    "frame-base/play": FrameBasePlayController;
-  }
+	interface Registry {
+		"frame-base/play": FrameBasePlayController;
+	}
 }
