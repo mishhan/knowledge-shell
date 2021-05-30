@@ -1,5 +1,8 @@
+@use "sass:math";
+
 @import "ember-power-select";
 @import "bulma";
+@import "sweetalert2";
 
 @import "./scss/global";
 @import "./scss/variables";

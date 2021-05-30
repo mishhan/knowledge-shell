@@ -111,16 +111,16 @@ export default class FrameBase extends Model {
 		this.frameObserver.setParent(frame, parentFrame);
 	}
 
-	deleteFrame(frame: Frame): void {
-		this.frameObserver.deleteFrame(this, frame);
+	deleteFrame(frame: Frame): Promise<Frame> {
+		return this.frameObserver.deleteFrame(this, frame);
 	}
 
 	addSlot(frame: Frame): void {
 		this.frameObserver.addSlot(frame);
 	}
 
-	removeSlot(frame: Frame, slot: Slot): void {
-		this.frameObserver.removeSlot(frame, slot);
+	removeSlot(frame: Frame, slot: Slot): Promise<Slot> {
+		return this.frameObserver.removeSlot(frame, slot);
 	}
 
 	propagateSlotChanged(slot: Slot): void {

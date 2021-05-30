@@ -1,10 +1,15 @@
 import Controller from "@ember/controller";
+import { inject as service } from "@ember/service";
 import { tracked } from "@glimmer/tracking";
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { action, computed } from "@ember/object";
 import { Domain, DomainValue } from "knowledge-shell/models";
+import { allSettled } from "rsvp";
+import IntlService from "ember-intl/services/intl";
+import Swal, { SweetAlertResult } from "sweetalert2";
 
 export default class FrameBaseDomains extends Controller {
+	@service intl!: IntlService;
 	@tracked search = "";
 
 	@computed("model.{domains.[],frameDomain}")
@@ -41,15 +46,27 @@ export default class FrameBaseDomains extends Controller {
 
 	@action
 	deleteDomain(domain: Domain): void {
-		// eslint-disable-next-line no-alert
-		const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${domain.name}?`);
-		if (shouldBeDeleted) {
-			domain.domainValues.forEach((domainValue: DomainValue) => {
-				domainValue.destroyRecord();
-			});
-			this.model.domains.removeObject(domain);
-			domain.destroyRecord();
-		}
+		Swal.fire({
+			icon: "warning",
+			text: this.intl.t("common.delete_confirmation", { item: domain.name }),
+			allowOutsideClick: false,
+			showConfirmButton: true,
+			showCancelButton: true,
+		}).then((result: SweetAlertResult) => {
+			if (result.isConfirmed) {
+				const promises = [];
+				domain.domainValues.forEach((domainValue: DomainValue) => {
+					promises.push(domainValue.destroyRecord());
+				});
+				this.model.domains.removeObject(domain);
+				promises.push(domain.destroyRecord());
+				allSettled(promises).then(() => {
+					Swal.fire({
+						icon: "success",
+					});
+				});
+			}
+		});
 	}
 }
 

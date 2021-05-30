@@ -86,7 +86,7 @@ export default class FrameObserver extends Service.extend(Evented) {
 		return sample;
 	}
 
-	public deleteFrame(frameBase: FrameBase, frame: Frame): void {
+	public deleteFrame(frameBase: FrameBase, frame: Frame): Promise<Frame> {
 		if (frame.hasChildren) {
 			frame.children.forEach((child) => {
 				this.setParent(child, null);
@@ -100,7 +100,7 @@ export default class FrameObserver extends Service.extend(Evented) {
 		}
 		frameBase.frameDomain?.domainValues.findBy("value", frame)?.unloadRecord();
 		frame.position?.unloadRecord();
-		frame.destroyRecord();
+		return frame.destroyRecord();
 	}
 
 	public setParent(childFrame: Frame, parentFrame: Frame | null): void {
@@ -122,9 +122,9 @@ export default class FrameObserver extends Service.extend(Evented) {
 		this.propagateFrameSlotAdded(frame, newSlot);
 	}
 
-	public removeSlot(frame: Frame, slot: Slot): void {
+	public removeSlot(frame: Frame, slot: Slot): Promise<Slot> {
 		this.propagateFrameSlotRemoved(frame, slot);
-		slot.destroyRecord();
+		return slot.destroyRecord();
 	}
 
 	public propagateSlotChanged(slot: Slot): void {

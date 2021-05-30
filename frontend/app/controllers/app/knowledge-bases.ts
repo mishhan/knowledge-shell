@@ -1,9 +1,13 @@
 import Controller from "@ember/controller";
+import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 import { FrameBase } from "knowledge-shell/models";
+import IntlService from "ember-intl/services/intl";
+import Swal, { SweetAlertResult } from "sweetalert2";
 
 export default class KnowledgeBases extends Controller {
+	@service intl!: IntlService;
 	@tracked search = "";
 
 	@action
@@ -40,11 +44,21 @@ export default class KnowledgeBases extends Controller {
 
 	@action
 	deleteKb(kb: FrameBase): void {
-		// eslint-disable-next-line no-alert
-		const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${kb.name}?`);
-		if (shouldBeDeleted) {
-			kb.destroyRecord();
-		}
+		Swal.fire({
+			icon: "warning",
+			text: this.intl.t("common.delete_confirmation", { item: kb.name }),
+			allowOutsideClick: false,
+			showConfirmButton: true,
+			showCancelButton: true,
+		}).then((result: SweetAlertResult) => {
+			if (result.isConfirmed) {
+				kb.destroyRecord().then(() => {
+					Swal.fire({
+						icon: "success",
+					});
+				});
+			}
+		});
 	}
 
 	@action
