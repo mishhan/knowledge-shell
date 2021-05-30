@@ -11,6 +11,7 @@ common:
   actions: Actions
   filter: Filter
   search: Search
+  delete_confirmation: Are you sure you want to delete {item}?
 
 fields:
   login: Login

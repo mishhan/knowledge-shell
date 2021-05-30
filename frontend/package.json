@@ -102,7 +102,7 @@
     "prettier": "^2.2.1",
     "qunit": "^2.14.0",
     "qunit-dom": "^1.6.0",
-    "sass": "^1.32.8",
+    "sass": "^1.34.0",
     "stylelint": "^13.13.0",
     "stylelint-config-sass-guidelines": "^8.0.0",
     "typescript": "^4.2.3",
@@ -125,6 +125,7 @@
     "ember-inflector": "^4.0.1",
     "microtip": "^0.2.2",
     "rsvp": "^4.8.5",
+    "sweetalert2": "^11.0.15",
     "vis-data": "^7.1.2",
     "vis-network": "^9.0.3",
     "vis-util": "^5.0.2"

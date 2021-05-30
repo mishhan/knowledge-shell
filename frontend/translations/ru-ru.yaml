@@ -11,6 +11,7 @@ common:
   actions: Действия
   filter: Фильтр
   search: Поиск
+  delete_confirmation: Вы уверены что хотите удалить {item}?
 
 fields:
   login: Логин

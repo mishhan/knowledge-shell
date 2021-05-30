@@ -1,10 +1,15 @@
 import Controller from "@ember/controller";
+import { inject as service } from "@ember/service";
 import { isEmpty } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { action, set } from "@ember/object";
 import { FrameBase, Frame, Domain, Slot } from "knowledge-shell/models";
+import IntlService from "ember-intl/services/intl";
+import Swal, { SweetAlertResult } from "sweetalert2";
 
 export default class FrameBaseEditor extends Controller {
+	@service intl!: IntlService;
+
 	get frameBase(): FrameBase {
 		return this.model;
 	}
@@ -75,11 +80,21 @@ export default class FrameBaseEditor extends Controller {
 
 	@action
 	deleteFrame(frame: Frame): void {
-		// eslint-disable-next-line no-alert
-		const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${frame.name}?`);
-		if (shouldBeDeleted) {
-			this.frameBase.deleteFrame(frame);
-		}
+		Swal.fire({
+			icon: "warning",
+			text: this.intl.t("common.delete_confirmation", { item: frame.name }),
+			allowOutsideClick: false,
+			showConfirmButton: true,
+			showCancelButton: true,
+		}).then((result: SweetAlertResult) => {
+			if (result.isConfirmed) {
+				this.frameBase.deleteFrame(frame).then(() => {
+					Swal.fire({
+						icon: "success",
+					});
+				});
+			}
+		});
 	}
 
 	@action
@@ -132,13 +147,23 @@ export default class FrameBaseEditor extends Controller {
 
 	@action
 	deleteSlot(slot: Slot): void {
-		// eslint-disable-next-line no-alert
-		const shouldBeDeleted = window.confirm(`Are you sure you want to delete ${slot.name}?`);
-		if (shouldBeDeleted) {
-			if (this.selectedFrame) {
-				this.frameBase.removeSlot(this.selectedFrame, slot);
+		Swal.fire({
+			icon: "warning",
+			text: this.intl.t("common.delete_confirmation", { item: slot.name }),
+			allowOutsideClick: false,
+			showConfirmButton: true,
+			showCancelButton: true,
+		}).then((result: SweetAlertResult) => {
+			if (result.isConfirmed) {
+				if (this.selectedFrame) {
+					this.frameBase.removeSlot(this.selectedFrame, slot).then(() => {
+						Swal.fire({
+							icon: "success",
+						});
+					});
+				}
 			}
-		}
+		});
 	}
 
 	@action
