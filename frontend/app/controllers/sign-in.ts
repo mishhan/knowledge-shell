@@ -9,7 +9,7 @@ export default class SignIn extends Controller {
 	@tracked serverErrorMessage!: string;
 
 	@action
-	async authenticate(identification: string, password: string) {
+	async authenticate(identification: string, password: string): Promise<void> {
 		try {
 			this.isLoading = true;
 			await this.session.authenticate("authenticator:oauth2", identification, password);

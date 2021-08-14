@@ -10,7 +10,7 @@ export default class SignUp extends Controller {
 	@tracked serverErrorMessage!: string;
 
 	@action
-	async registr(userName: string, email: string, password: string) {
+	async registr(userName: string, email: string, password: string): Promise<void> {
 		try {
 			this.isLoading = true;
 			const response = await fetch(`${ENV.APP.host}${ENV.APP.namespace}/sign-up`, {
