@@ -24,7 +24,7 @@ export default class SignUp extends Controller {
 			});
 
 			if (response.ok) {
-				this.session.authenticate("authenticator:oauth2", userName, password);
+				await this.session.authenticate("authenticator:oauth2", userName, password);
 			}
 		} catch (error) {
 			const errorJson = error.responseJSON;
