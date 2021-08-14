@@ -26,7 +26,7 @@
   <div class="field">
     <label class="checkbox">
       <Input @type="checkbox" @checked={{this.acceptTerms}} />
-      {{t "fields.agreement_line"}}<a href="/terms-and-conditions.html" target="_blank">
+      {{t "fields.agreement_line"}}<a href="/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">
         {{t "fields.agreement_terms"}}</a>
     </label>
     {{#each this.acceptTermsValidationErrors as |error|}}
