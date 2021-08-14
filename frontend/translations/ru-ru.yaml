@@ -1,4 +1,5 @@
 sign_in: Войти
+sign_up: Зарегистрироваться
 sign_out: Выйти
 
 copyright: 2020 Copyright
@@ -6,6 +7,10 @@ licence: MIT License
 github_project: Github Project
 
 knowledge_bases: Базы знаний
+
+language:
+  ru-ru: Русский
+  en-us: English
 
 common:
   actions: Действия
@@ -15,8 +20,18 @@ common:
 
 fields:
   login: Логин
+  email: Почтовый адрес
   login_or_email: Логин или Почтовый адрес
   password: Пароль
+  show_password: Отобразить пароль
+  agreement_line: Я согласен с
+  agreement_terms: условиями пользовательского соглашения
+  validation_errors:
+    required: Поле является обязательным
+    gte_3: Длина поля должна быть больше или равна 3
+    email: Некорректный email
+    strong_password: Пароль должен содержать от 8 буквенно-цифровых символов обоих регистров и специальные знаки
+    tof: Вы должны согласиться с условиями пользовательского соглашения
 
 slot:
   name: Слот

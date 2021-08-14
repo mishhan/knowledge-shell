@@ -1,0 +1,11 @@
+<div class="container">
+	<Account::RegistrationForm
+		@registr={{this.registr}}
+		@isLoading={{this.isLoading}}
+	/>
+	{{#if this.serverErrorMessage}}
+		<div class="notification mt-3 is-danger is-light">
+			{{this.serverErrorMessage}}
+		</div>
+  {{/if}}
+</div>

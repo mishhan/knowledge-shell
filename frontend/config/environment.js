@@ -18,7 +18,7 @@ module.exports = function (environment) {
     },
 
     "ember-simple-auth": {
-      authenticationRoute: "login",
+      authenticationRoute: "sign-in",
       routeAfterAuthentication: "app.knowledge-bases",
       routeIfAlreadyAuthenticated: "app.knowledge-bases",
       authorizer: "authorizer:token",

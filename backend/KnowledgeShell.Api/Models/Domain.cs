@@ -11,7 +11,7 @@
         public string Name { get; set; }
 
         [Attr(PublicName = "domainType")]
-        public EDomainType DomainType { get; set; }
+        public DomainType DomainType { get; set; }
 
         [Attr(PublicName = "isReadOnly")]
         public bool IsReadOnly { get; set; }

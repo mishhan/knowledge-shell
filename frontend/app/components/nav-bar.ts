@@ -6,7 +6,6 @@ import type IntlService from "ember-intl/services/intl";
 
 export default class NavBar extends Component {
 	@service session!: any;
-
 	@service intl!: IntlService;
 
 	@tracked isMenuOpen!: boolean;

@@ -16,8 +16,8 @@
     using JsonApiDotNetCore.Resources.Annotations;
     using KnowledgeShell.Api.Data;
     using KnowledgeShell.Api.Models;
-    using KnowledgeShell.Api.Services.Token;
-    using KnowledgeShell.Api.Services.Authentication;
+    using KnowledgeShell.Api.Filters;
+    using KnowledgeShell.Api.Services;
 
     public class Startup
     {
@@ -30,8 +30,12 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options => options.EnableEndpointRouting = false)
-                .SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvc(options => 
+            {
+                options.EnableEndpointRouting = false;
+                options.Filters.Add(new ErrorHandlingFilter());
+            }).SetCompatibilityVersion(CompatibilityVersion.Latest);
+
             services.AddCors();
 
             services.Configure<IISServerOptions>(options =>
@@ -104,8 +108,7 @@
                     };
                 });
 
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<ITokenService, JwtTokenService>();
+            ServiceConfiguration.ConfigureServices(services);
         }
 
         public void Configure(IApplicationBuilder app)

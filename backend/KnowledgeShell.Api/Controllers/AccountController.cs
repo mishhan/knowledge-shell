@@ -3,43 +3,29 @@
     using System;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Identity;
-    using KnowledgeShell.Api.Models;
-    using KnowledgeShell.Api.Services.Token;
+    using KnowledgeShell.Api.Dto;
+    using KnowledgeShell.Api.Services.Account;
 
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly ITokenService _tokenService;
+        private readonly IAccountService _accountService;        
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService)
+        public AccountController(IAccountService accountService)
         {
-            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-            _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
+            _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
+        }
+
+        [HttpPost("/sign-up")]
+        public async Task<IActionResult> SignUp([FromBody] UserRegistrationDto userRegistrationDto)
+        {
+            await _accountService.SignUp(userRegistrationDto.UserName, userRegistrationDto.Email, userRegistrationDto.Password);
+            return Ok();
         }
 
         [HttpPost("/token")]
-        public async Task<IActionResult> Token(string username, string password)
+        public async Task<IActionResult> Token([FromForm] UserAuthenticationDto userAthenticationDto)
         {
-            var userByLogin = await _userManager.FindByNameAsync(username);
-            var userByEmail = await _userManager.FindByEmailAsync(username);
-            if (userByLogin == null && userByEmail == null)
-            {
-                return BadRequest(new { errorText = "Invalid username" });
-            }
-
-            var user = userByLogin ?? userByEmail;
-
-            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, password, false);
-            if (!signInResult.Succeeded)
-            {
-                return BadRequest(new { errorText = "Invalid password" });
-            }
-
-            var userToken = _tokenService.CreateToken(user);
-
+            var userToken = await _accountService.GenerateToken(userAthenticationDto.UserName, userAthenticationDto.Password);
             return Ok(new { access_token = userToken });
         }
     }
