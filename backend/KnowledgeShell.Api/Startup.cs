@@ -11,7 +11,6 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Newtonsoft.Json.Serialization;
-
     using JsonApiDotNetCore.Configuration;
     using JsonApiDotNetCore.Resources.Annotations;
     using KnowledgeShell.Api.Data;
@@ -34,6 +33,7 @@
             {
                 options.EnableEndpointRouting = false;
                 options.Filters.Add(new ErrorHandlingFilter());
+                options.Filters.Add(new ValidateModelFilter());
             }).SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.AddCors();
@@ -49,9 +49,16 @@
                 options.UseNpgsql(Configuration.GetConnectionString("local"));
             });
 
-            services.AddIdentity<User, UserRole>()
-                .AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<User, UserRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireDigit = true;
+
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             services.AddJsonApi<AppDbContext>(options => {
                 options.AllowClientGeneratedIds = true;
