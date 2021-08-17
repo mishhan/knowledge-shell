@@ -1,0 +1,27 @@
+<form id="sign-in" class="box" {{on "submit" this.onSubmit}}>
+  <div class="field">
+    <FormInput @id="login" @labelText={{t "fields.login_or_email" }} @placeholder={{t "fields.login" }} @value={{this.userName}}
+      @isValid={{and this.isSubmitted (eq this.identificationValidationErrors.length 0)}} @isInValid={{and this.isSubmitted
+      (gt this.identificationValidationErrors.length 0)}} @leftIcon="user" @onChange={{this.onIdentificationChange}}
+      @validationErrors={{this.identificationValidationErrors}} />
+  </div>
+  <div class="field">
+    <FormInput @id="password" @type={{if this.showPassword "text" "password"}} @placeholder="********" @labelText={{t "fields.password" }}
+      @value={{this.password}} @isValid={{and this.isSubmitted (eq this.passwordValidationErrors.length 0)}}
+      @isInValid={{and this.isSubmitted (gt this.passwordValidationErrors.length 0)}} @leftIcon="lock"
+      @onChange={{this.onPasswordChange}} @validationErrors={{this.passwordValidationErrors}} />
+      <div class="mt-1">
+        <label class="checkbox">
+          <Input @type="checkbox" @checked={{this.showPassword}} />
+          {{t "fields.show_password"}}
+        </label>
+      </div>
+  </div>
+  <button
+    type="button"
+    class="button is-primary {{if @isLoading "is-loading"}}"
+    {{on "click" this.onSubmit}}
+  >
+    {{t "sign_in"}}
+  </button>
+</form>
