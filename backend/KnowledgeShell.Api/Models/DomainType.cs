@@ -1,6 +1,6 @@
 ﻿namespace KnowledgeShell.Api.Models
 {
-    public enum EDomainType
+    public enum DomainType
     {
         Unknown = 0,
         Frame = 1,

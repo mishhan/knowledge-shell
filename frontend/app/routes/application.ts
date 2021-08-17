@@ -11,7 +11,7 @@ export default class Application extends Route {
 		if (this.session.isAuthenticated) {
 			this.transitionTo("app.knowledge-bases");
 		} else {
-			this.transitionTo("login");
+			this.transitionTo("sign-in");
 		}
 	}
 }

@@ -1,8 +1,5 @@
 <nav class="navbar is-primary">
 	<div class="navbar-brand">
-		<LinkTo class="navbar-item" @route="application">
-			<FaIcon @icon="bread-slice" />
-		</LinkTo>
 		<a
 			role="button"
 			class="navbar-burger"
@@ -32,7 +29,10 @@
 							<FaIcon @icon="sign-out-alt" />
 						</button>
 					{{else}}
-						<LinkTo class="button is-primary" @route="login">
+						<LinkTo class="button is-primary" @route="sign-up">
+							{{t "sign_up"}}
+						</LinkTo>
+						<LinkTo class="button is-primary" @route="sign-in">
 							{{t "sign_in"}}&nbsp;
 							<FaIcon @icon="sign-in-alt" />
 						</LinkTo>
@@ -43,10 +43,11 @@
 				<a role="button" class="navbar-link">
 					<FaIcon @icon="language" />
 				</a>
-				<div class="navbar-dropdown">
+				<div class="navbar-dropdown navbar-language is-right">
 					{{#each this.supportedLanguages as |language|}}
 						<a role="button" class="navbar-item" {{on "click" (fn this.setLanguage language)}}>
-							{{language}}
+							<img class="navbar-language__icon" src="/assets/flags/{{language}}.svg" alt={{language}}>
+							<span class="navbar-language__text">{{t (concat "language." language)}}</span>
 						</a>
 					{{/each}}
 				</div>
