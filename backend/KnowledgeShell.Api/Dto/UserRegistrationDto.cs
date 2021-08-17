@@ -12,7 +12,7 @@
 
         [Required]
         [DataType(DataType.Password)]
-        [RegularExpression(pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", ErrorMessage = "Password must contain at least 8 characters including letters, numbers and characters in both cases")]
+        [RegularExpression(pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", ErrorMessage = "Password must contain at least 8 characters including letters, numbers and special characters in both cases")]
         public string Password { get; set; }
     }
 }

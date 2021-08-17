@@ -30,7 +30,7 @@ fields:
     required: Field is required
     gte_3: Field length must be greater than or equal to 3
     email: Email not valid
-    strong_password: Password must contain at least 8 characters including letters, numbers and characters in both cases
+    strong_password: Password must contain at least 8 characters including letters, numbers and special characters in both cases
     tof: You must agree to the terms of service
 
 slot:
