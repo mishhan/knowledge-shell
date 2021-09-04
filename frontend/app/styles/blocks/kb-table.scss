@@ -1,5 +1,5 @@
 .kb-table {
-	$column-width: 20%;
+	$column-width: math.div(100%, 6);
 
 	&__item {
 		width: $column-width;

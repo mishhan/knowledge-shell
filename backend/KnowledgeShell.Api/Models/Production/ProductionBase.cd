@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="KnowledgeShell.Api.Models.Frame">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAgAAAEQAYAAACAAAAAAgAQAAAAAAA=</HashCode>
+      <FileName>Models\Frame\Frame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnowledgeShell.Api.Models.Domain">
+    <Position X="2.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAQAAAAAAYAAAAAAAAAQCAQAAAAAAA=</HashCode>
+      <FileName>Models\Common\Domain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnowledgeShell.Api.Models.DomainValue">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABEAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Common\DomainValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnowledgeShell.Api.Models.DomainValueFrame">
+    <Position X="8.5" Y="4" Width="1.5" />
+    <InheritanceLine Type="KnowledgeShell.Api.Models.DomainValue" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.25" Y="4.117" />
+        <Point X="7.25" Y="4.301" />
+        <Point X="8.5" Y="4.301" />
+        <Point X="8.5" Y="4.312" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Models\Frame\DomainValueFrame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnowledgeShell.Api.Models.DomainValueString">
+    <Position X="8.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Common\DomainValueString.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnowledgeShell.Api.Models.Position">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Models\Frame\Position.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnowledgeShell.Api.Models.Production">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAgA=</HashCode>
+      <FileName>Models\Frame\Production.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnowledgeShell.Api.Models.Slot">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABEAAACIAAAAAABAAAAEQgQAEgAAAAAAAgAgAAAAAAA=</HashCode>
+      <FileName>Models\Frame\Slot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnowledgeShell.Api.Models.FrameBase">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAE=</HashCode>
+      <FileName>Models\Frame\FrameBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnowledgeShell.Api.Models.DomainValueNumber">
+    <Position X="6.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Common\DomainValueNumber.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KnowledgeShell.Api.Models.KnowledgeBase">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACIAAAACAAAACAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Common\KnowledgeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

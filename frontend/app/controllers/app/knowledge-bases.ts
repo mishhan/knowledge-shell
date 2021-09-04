@@ -2,13 +2,20 @@ import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
-import { FrameBase } from "knowledge-shell/models";
+import { DomainType, FrameBase, KnowledgeBase } from "knowledge-shell/models";
 import IntlService from "ember-intl/services/intl";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
 export default class KnowledgeBases extends Controller {
 	@service intl!: IntlService;
 	@tracked search = "";
+
+	get knowledgeBases(): KnowledgeBase[] {
+		const frameBases = this.store.peekAll("frame-base");
+		const productionBases = this.store.peekAll("production-base");
+		const knowledgeBases = [...frameBases.toArray(), ...productionBases.toArray()];
+		return knowledgeBases;
+	}
 
 	@action
 	addKb() {
@@ -21,7 +28,8 @@ export default class KnowledgeBases extends Controller {
 					.createRecord("domain", {
 						name: "Frame",
 						isReadOnly: true,
-						frameBase,
+						domainType: DomainType.Frame,
+						knowledgeBase: frameBase,
 					})
 					.save();
 			});

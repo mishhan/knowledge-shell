@@ -11,7 +11,6 @@ import DomainValueString from "./domain-value-string";
 
 export default class Frame extends Model {
 	@attr("string") name!: string;
-
 	@attr("boolean", { defaultValue: false }) isSample!: boolean;
 
 	@belongsTo("frame-base", { async: false })

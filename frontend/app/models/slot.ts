@@ -45,12 +45,12 @@ export default class Slot extends Model {
 	@tracked
 	isEditing!: boolean;
 
-	addProduction(): void {
+	public addProduction(): void {
 		const production: Production = this.store.createRecord("production");
 		set(this, "production", production);
 	}
 
-	deleteProduction(): void {
+	public deleteProduction(): void {
 		if (this.production.get("isNew")) {
 			this.production.rollbackAttributes();
 		} else {

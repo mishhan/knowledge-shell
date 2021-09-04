@@ -62,6 +62,7 @@ kb:
   name: Knowledge base
   fields:
     name: Name
+    type: Type
     description: Description
     creation_date: Creation date
     modify_date: Modify date

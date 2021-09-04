@@ -10,6 +10,9 @@
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        public DbSet<KnowledgeBase> KnowledgeBases { get; set; }
+
+        /* FrameBase */
         public DbSet<FrameBase> FrameBases { get; set; }
         public DbSet<Frame> Frames { get; set; }
         public DbSet<Position> Positions { get; set; }
@@ -21,6 +24,11 @@
         public DbSet<DomainValueFrame> DomainValueFrames { get; set; }
         public DbSet<DomainValueNumber> DomainValueNumbers { get; set; }
 
+        /* ProductionBase */
+        public DbSet<ProductionBase> ProductionBases { get; set; }
+        public DbSet<Rule> Rules { get; set; }
+        public DbSet<Variable> Variables { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSnakeCaseNamingConvention();
@@ -30,20 +38,20 @@
         {
             base.OnModelCreating(modelBuilder);
 
-            // Base-Frame
+            // KnowledgeBase-Domain
+            modelBuilder
+                .Entity<KnowledgeBase>()
+                .HasMany(fb => fb.Domains)
+                .WithOne(d => d.KnowledgeBase)
+                .HasForeignKey(d => d.KnowledgeBaseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // FrameBase-Frame
             modelBuilder
                 .Entity<FrameBase>()
                 .HasMany(fb => fb.Frames)
                 .WithOne(fr => fr.FrameBase)
                 .HasForeignKey(fr => fr.FrameBaseId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Base-Domain
-            modelBuilder
-                .Entity<FrameBase>()
-                .HasMany(fb => fb.Domains)
-                .WithOne(d => d.FrameBase)
-                .HasForeignKey(d => d.FrameBaseId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Frame parent-child hierarchy
@@ -118,6 +126,21 @@
                 .WithOne(dv => dv.Domain)
                 .HasForeignKey(dv => dv.DomainId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            //ProductionBase-Rule
+            modelBuilder
+                .Entity<ProductionBase>()
+                .HasMany(pb => pb.Rules)
+                .WithOne(r => r.ProductionBase)
+                .HasForeignKey(r => r.ProductionBaseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //Variable-Domain
+            modelBuilder
+                .Entity<Variable>()
+                .HasOne(v => v.Domain)
+                .WithMany()
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

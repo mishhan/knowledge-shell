@@ -1,40 +1,25 @@
-import Model, { attr, hasMany } from "@ember-data/model";
+import { hasMany } from "@ember-data/model";
 import { inject as service } from "@ember/service";
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 import { hash } from "rsvp";
 import FrameObserver from "knowledge-shell/services/frame-observer";
+import KnowledgeBase from "./knowledge-base";
 import Frame from "./frame";
 import Domain from "./domain";
 import Slot from "./slot";
+import KnowledgeBaseType from "./knowledge-base-type";
 
-export default class FrameBase extends Model {
+export default class FrameBase extends KnowledgeBase {
+	public get knowledgeBaseType(): KnowledgeBaseType {
+		return KnowledgeBaseType.Frame;
+	}
+
 	@service("frame-observer") frameObserver!: FrameObserver;
-
-	@attr("string") name!: string;
-
-	@attr("string") description!: string;
-
-	@attr("date", {
-		defaultValue() {
-			return new Date();
-		},
-	})
-	createdAt!: Date;
-
-	@attr("date", {
-		defaultValue() {
-			return new Date();
-		},
-	})
-	updatedAt!: Date;
 
 	@hasMany("frame", { async: false })
 	frames!: Frame[];
-
-	@hasMany("domain", { async: false })
-	domains!: Domain[];
 
 	@computed("domains")
 	get frameDomain(): Domain {
@@ -50,7 +35,7 @@ export default class FrameBase extends Model {
 	 * filtering - https://json-api-dotnet.github.io/JsonApiDotNetCore/usage/filtering.html
 	 * @summary Returns all data related to current base
 	 */
-	loadData() {
+	public loadData() {
 		return hash({
 			frames: this.store.query("frame", {
 				filter: `equals(frameBase.id,'${this.id}')`,
@@ -61,69 +46,69 @@ export default class FrameBase extends Model {
 				include: "owner,parent,children,domain,value,production",
 			}),
 			domains: this.store.query("domain", {
-				filter: `equals(frameBase.id,'${this.id}')`,
-				include: "frameBase",
+				filter: `equals(knowledgeBase.id,'${this.id}')`,
+				include: "knowledgeBase",
 			}),
 			domainValueString: this.store.query("domain-value-string", {
-				filter: `equals(domain.frameBase.id,'${this.id}')`,
+				filter: `equals(domain.knowledgeBase.id,'${this.id}')`,
 				include: "domain",
 			}),
 			domainValueNumbers: this.store.query("domain-value-number", {
-				filter: `equals(domain.frameBase.id,'${this.id}')`,
+				filter: `equals(domain.knowledgeBase.id,'${this.id}')`,
 				include: "domain",
 			}),
 			domainValueFrames: this.store.query("domain-value-frame", {
-				filter: `equals(domain.frameBase.id,'${this.id}')`,
+				filter: `equals(domain.knowledgeBase.id,'${this.id}')`,
 				include: "domain,value",
 			}),
 		});
 	}
 
-	getFrame(frameName: string): Frame {
+	public getFrame(frameName: string): Frame {
 		return this.frames.find((frame: Frame) => frame.name === frameName) as Frame;
 	}
 
-	getDomain(domainName: string): Domain {
+	public getDomain(domainName: string): Domain {
 		return this.domains.find((domain: Domain) => domain.name === domainName) as Domain;
 	}
 
-	selectFrame(frameId: string): void {
+	public selectFrame(frameId: string): void {
 		this.frameObserver.selectFrame(this, frameId);
 	}
 
-	deSelectFrames(): void {
+	public deSelectFrames(): void {
 		this.frameObserver.deSelectFrames(this);
 	}
 
-	addFrame({ x, y }: { x: number; y: number }): void {
+	public addFrame({ x, y }: { x: number; y: number }): void {
 		this.frameObserver.addFrame(this, { x, y });
 	}
 
-	addFrameSample(framePrototype?: Frame): Frame {
+	public addFrameSample(framePrototype?: Frame): Frame {
 		return this.frameObserver.addFrameSample(this, framePrototype);
 	}
 
-	addEmptySlot(): Slot {
+	public addEmptySlot(): Slot {
 		return this.frameObserver.addEmptySlot();
 	}
 
-	setParent(frame: Frame, parentFrame: Frame | null): void {
+	public setParent(frame: Frame, parentFrame: Frame | null): void {
 		this.frameObserver.setParent(frame, parentFrame);
 	}
 
-	deleteFrame(frame: Frame): Promise<Frame> {
+	public deleteFrame(frame: Frame): Promise<Frame> {
 		return this.frameObserver.deleteFrame(this, frame);
 	}
 
-	addSlot(frame: Frame): void {
+	public addSlot(frame: Frame): void {
 		this.frameObserver.addSlot(frame);
 	}
 
-	removeSlot(frame: Frame, slot: Slot): Promise<Slot> {
+	public removeSlot(frame: Frame, slot: Slot): Promise<Slot> {
 		return this.frameObserver.removeSlot(frame, slot);
 	}
 
-	propagateSlotChanged(slot: Slot): void {
+	public propagateSlotChanged(slot: Slot): void {
 		this.frameObserver.propagateSlotChanged(slot);
 	}
 }
