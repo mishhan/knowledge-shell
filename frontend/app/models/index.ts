@@ -1,4 +1,5 @@
 import KnowledgeBase from "./knowledge-base";
+import KnowledgeBaseType from "./knowledge-base-type";
 import DomainValueFrame from "./domain-value-frame";
 import DomainValueNumber from "./domain-value-number";
 import DomainValueString from "./domain-value-string";
@@ -28,6 +29,7 @@ export {
 	Slot,
 	Production,
 	KnowledgeBase,
+	KnowledgeBaseType,
 	ProductionBase,
 	Rule,
 	Variable,
