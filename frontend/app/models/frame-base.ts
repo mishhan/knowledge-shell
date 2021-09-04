@@ -9,15 +9,17 @@ import KnowledgeBase from "./knowledge-base";
 import Frame from "./frame";
 import Domain from "./domain";
 import Slot from "./slot";
+import KnowledgeBaseType from "./knowledge-base-type";
 
 export default class FrameBase extends KnowledgeBase {
+	public get knowledgeBaseType(): KnowledgeBaseType {
+		return KnowledgeBaseType.Frame;
+	}
+
 	@service("frame-observer") frameObserver!: FrameObserver;
 
 	@hasMany("frame", { async: false })
 	frames!: Frame[];
-
-	@hasMany("domain", { async: false })
-	domains!: Domain[];
 
 	@computed("domains")
 	get frameDomain(): Domain {

@@ -1,9 +1,15 @@
 import Model, { attr, hasMany } from "@ember-data/model";
 import Domain from "./domain";
+import KnowledgeBaseType from "./knowledge-base-type";
 
-export default class KnowledgeBase extends Model {
+export default abstract class KnowledgeBase extends Model {
 	@attr("string") name!: string;
 	@attr("string") description!: string;
+
+	public abstract get knowledgeBaseType(): KnowledgeBaseType;
+	public get knowledgeBaseTypeName(): string {
+		return KnowledgeBaseType[this.knowledgeBaseType];
+	}
 
 	@attr("date", {
 		defaultValue() {

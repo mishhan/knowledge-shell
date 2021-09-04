@@ -62,6 +62,7 @@ kb:
   name: База знаний
   fields:
     name: Название
+    type: Тип
     description: Описание
     creation_date: Дата создания
     modify_date: Дата изменения
