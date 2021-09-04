@@ -8,8 +8,5 @@
     {
         [HasMany(PublicName = "frames")]
         public virtual List<Frame> Frames { get; set; }
-
-        [HasMany(PublicName = "domains")]
-        public virtual List<Domain> Domains { get; set; }
     }
 }

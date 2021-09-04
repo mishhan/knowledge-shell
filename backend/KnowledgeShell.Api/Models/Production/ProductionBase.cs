@@ -5,9 +5,6 @@
 
     public class ProductionBase : KnowledgeBase
     {
-        [HasMany(PublicName = "domains")]
-        public virtual List<Domain> Domains { get; set; }
-
         [HasMany(PublicName = "variables")]
         public virtual List<Variable> Variables { get; set; }
 
