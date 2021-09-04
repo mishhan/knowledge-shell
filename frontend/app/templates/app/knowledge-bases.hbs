@@ -1,6 +1,6 @@
 <div class="table kb-table">
 	<Kb::ListHeader @showActionBar={{true}} @query={{this.search}} @addKb={{this.addKb}} />
-	<Provider::Filter @model={{this.model}} @field="name" @query={{this.search}} as |filteredBases|>
+	<Provider::Filter @model={{this.knowledgeBases}} @field="name" @query={{this.search}} as |filteredBases|>
 		{{#each filteredBases as |kb|}}
 			<Kb::ListItem
 				@kb={{kb}}

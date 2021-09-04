@@ -44,19 +44,19 @@ export default class FrameBase extends KnowledgeBase {
 				include: "owner,parent,children,domain,value,production",
 			}),
 			domains: this.store.query("domain", {
-				filter: `equals(frameBase.id,'${this.id}')`,
-				include: "frameBase",
+				filter: `equals(knowledgeBase.id,'${this.id}')`,
+				include: "knowledgeBase",
 			}),
 			domainValueString: this.store.query("domain-value-string", {
-				filter: `equals(domain.frameBase.id,'${this.id}')`,
+				filter: `equals(domain.knowledgeBase.id,'${this.id}')`,
 				include: "domain",
 			}),
 			domainValueNumbers: this.store.query("domain-value-number", {
-				filter: `equals(domain.frameBase.id,'${this.id}')`,
+				filter: `equals(domain.knowledgeBase.id,'${this.id}')`,
 				include: "domain",
 			}),
 			domainValueFrames: this.store.query("domain-value-frame", {
-				filter: `equals(domain.frameBase.id,'${this.id}')`,
+				filter: `equals(domain.knowledgeBase.id,'${this.id}')`,
 				include: "domain,value",
 			}),
 		});

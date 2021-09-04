@@ -22,7 +22,7 @@
         [HasMany(PublicName = "domainValues")]
         public virtual List<DomainValue> DomainValues { get; set; }
 
-        [HasOne(PublicName = "frameBase")]
+        [HasOne(PublicName = "knowledgeBase")]
         public virtual KnowledgeBase KnowledgeBase { get; set; }
         public Guid KnowledgeBaseId { get; set; }
     }

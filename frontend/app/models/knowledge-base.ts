@@ -1,4 +1,5 @@
-import Model, { attr } from "@ember-data/model";
+import Model, { attr, hasMany } from "@ember-data/model";
+import Domain from "./domain";
 
 export default class KnowledgeBase extends Model {
 	@attr("string") name!: string;
@@ -17,6 +18,9 @@ export default class KnowledgeBase extends Model {
 		},
 	})
 	updatedAt!: Date;
+
+	@hasMany("domain", { async: false })
+	domains!: Domain[];
 }
 
 declare module "ember-data/types/registries/model" {

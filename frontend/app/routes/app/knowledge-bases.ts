@@ -1,10 +1,10 @@
 import Route from "@ember/routing/route";
-import { FrameBase } from "knowledge-shell/models";
+import ArrayProxy from "@ember/array/proxy";
+import { KnowledgeBase } from "knowledge-shell/models";
 
 export default class KnowledgeBases extends Route {
-	model(): FrameBase[] {
-		const frameBases = this.store.findAll("frame-base");
-		// @ts-ignore
-		return frameBases;
+	model(): ArrayProxy<KnowledgeBase> {
+		const knowledgeBases = this.store.findAll("knowledge-base");
+		return knowledgeBases;
 	}
 }

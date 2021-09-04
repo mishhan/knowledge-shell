@@ -9,7 +9,7 @@ import DomainValueFrame from "./domain-value-frame";
 import DomainValueString from "./domain-value-string";
 import DomainValueNumber from "./domain-value-number";
 import Frame from "./frame";
-import FrameBase from "./frame-base";
+import KnowledgeBase from "./knowledge-base";
 
 export default class Domain extends Model {
 	@attr("string", { defaultValue: "New Domain" }) name!: string;
@@ -17,8 +17,8 @@ export default class Domain extends Model {
 	@attr("number", { defaultValue: 0 }) domainType!: DomainType;
 	@attr("boolean", { defaultValue: false }) isReadOnly!: boolean;
 
-	@belongsTo("frame-base", { async: false })
-	frameBase!: FrameBase;
+	@belongsTo("knowledge-base", { async: false, polymorphic: true })
+	knowledgeBase!: KnowledgeBase;
 
 	@hasMany("domain-value", { async: false, inverse: "domain", polymorphic: true })
 	domainValues!: DomainValue[];
