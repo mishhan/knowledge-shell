@@ -14,6 +14,7 @@ export default class AccountAuthenticationForm extends Component<AccountAuthenti
 	@tracked identification!: string;
 	@tracked password!: string;
 	@tracked showPassword = false;
+
 	@tracked validator = userAuthenticationValidator.get();
 
 	get identificationValidationErrors(): string[] {

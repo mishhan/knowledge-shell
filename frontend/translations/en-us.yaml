@@ -17,6 +17,8 @@ common:
   filter: Filter
   search: Search
   delete_confirmation: Are you sure you want to delete {item}?
+  save: Save
+  cancel: Cancel
 
 fields:
   login: Login

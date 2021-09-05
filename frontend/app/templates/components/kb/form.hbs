@@ -1,17 +1,37 @@
-<div class="field">
-	<label for="name" class="label">
-		{{t "kb.fields.name"}}
-	</label>
-	<Input id="name" class="input is-small" @type="text" placeholder={{t "kb.fields.name"}} @value={{@kb.name}} />
-</div>
-<div class="field">
-	<label for="description" class="label">
-		{{t "kb.fields.description"}}
-	</label>
-	<Textarea
-		id="description"
-		class="textarea is-small"
-		placeholder={{t "kb.fields.description"}}
-		@value={{@kb.description}}
-	/>
-</div>
+<form id="knowledge-base" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
+	<div class="field">
+    <FormInput @id="name" @labelText={{t "kb.fields.name"}} @placeholder={{t "kb.fields.name"}} @value={{@kbName}}
+      @isValid={{and this.isSubmitted (eq this.kbNameValidationErrors.length 0)}} @isInValid={{and this.isSubmitted
+      (gt this.kbNameValidationErrors.length 0)}} @onChange={{this.onKbNameChange}}
+      @validationErrors={{this.kbNameValidationErrors}} />
+  </div>
+	<div class="field">
+    <FormInput @id="description" @labelText={{t "kb.fields.description"}} @placeholder={{t "kb.fields.description"}} @value={{@kbDescription}}
+      @isValid={{and this.isSubmitted (eq this.kbDescriptionValidationErrors.length 0)}} @isInValid={{and this.isSubmitted
+      (gt this.kbDescriptionValidationErrors.length 0)}} @onChange={{this.onKbDescriptionChange}}
+      @validationErrors={{this.kbDescriptionValidationErrors}} />
+  </div>
+	<div class="field">
+		<label for="type" class="label">
+  		{{t "kb.fields.type"}}
+		</label>
+		<div class="control">
+			<PowerSelect
+				@triggerClass="input"
+				@options={{this.kbTypes}}
+				@allowClear={{false}}
+				@selected={{this.selectedKbType}}
+				@disabled={{not @canEditKbType}}
+				@onChange={{this.setKbType}} as |kbType|
+			>
+				{{kbType.value}}
+			</PowerSelect>
+		</div>
+	</div>
+	<button type="submit" class="button is-primary" {{on "click" this.onSubmit}}>
+    {{t "common.save"}}
+  </button>
+	<button type="button" class="button is-light" {{on "click" @onCancel}}>
+    {{t "common.cancel"}}
+  </button>
+</form>

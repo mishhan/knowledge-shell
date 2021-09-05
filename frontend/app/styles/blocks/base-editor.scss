@@ -1,15 +1,15 @@
-.frame-editor {
-	$frame-editor-nav-bg-color: #252f3f;
-	$frame-editor-nav-link-color: #d2d6dc;
-	$frame-editor-nav-link-active-color: #fff;
-	$frame-editor-nav-ling-active-bg-color: #2d3748;
-	$frame-editor-nav-ling-hover-bg-color: #4a5568;
+.base-editor {
+	$base-editor-nav-bg-color: #252f3f;
+	$base-editor-nav-link-color: #d2d6dc;
+	$base-editor-nav-link-active-color: #fff;
+	$base-editor-nav-ling-active-bg-color: #2d3748;
+	$base-editor-nav-ling-hover-bg-color: #4a5568;
 
 	display: flex;
 	flex-direction: column;
 
 	&__navbar {
-		background-color: $frame-editor-nav-bg-color;
+		background-color: $base-editor-nav-bg-color;
 		display: flex;
 		flex-direction: column;
 		@include from($tablet) {
@@ -23,20 +23,20 @@
 	}
 
 	&__navbar-link {
-		color: $frame-editor-nav-link-color;
+		color: $base-editor-nav-link-color;
 		display: block;
 		padding: 12px;
 
 		&.active {
-			background-color: $frame-editor-nav-ling-active-bg-color;
+			background-color: $base-editor-nav-ling-active-bg-color;
 			border-radius: 5px;
-			color: $frame-editor-nav-link-active-color;
+			color: $base-editor-nav-link-active-color;
 		}
 
 		&:hover {
-			background-color: $frame-editor-nav-ling-hover-bg-color;
+			background-color: $base-editor-nav-ling-hover-bg-color;
 			border-radius: 5px;
-			color: $frame-editor-nav-link-active-color;
+			color: $base-editor-nav-link-active-color;
 		}
 	}
 
@@ -70,11 +70,11 @@
 		width: 80%;
 	}
 
-	&__selected-frame {
+	&__selected-base {
 		flex-grow: 1;
 	}
 
-	&__frame {
+	&__base {
 		margin: 0 20px;
 	}
 

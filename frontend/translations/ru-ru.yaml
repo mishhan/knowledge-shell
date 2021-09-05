@@ -17,6 +17,8 @@ common:
   filter: Фильтр
   search: Поиск
   delete_confirmation: Вы уверены что хотите удалить {item}?
+  save: Сохранить
+  cancel: Отменить
 
 fields:
   login: Логин

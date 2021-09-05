@@ -2,11 +2,11 @@ import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
-import { DomainType, KnowledgeBase } from "knowledge-shell/models";
+import { KnowledgeBase } from "knowledge-shell/models";
 import IntlService from "ember-intl/services/intl";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
-export default class KnowledgeBases extends Controller {
+export default class AppKnowledgeBasesIndex extends Controller {
 	@service intl!: IntlService;
 	@tracked search = "";
 
@@ -21,20 +21,7 @@ export default class KnowledgeBases extends Controller {
 
 	@action
 	addKb() {
-		this.store
-			.createRecord("frame-base", { name: "New KB" })
-			.save()
-			.then((frameBase) => {
-				// should be done on server..
-				this.store
-					.createRecord("domain", {
-						name: "Frame",
-						isReadOnly: true,
-						domainType: DomainType.Frame,
-						knowledgeBase: frameBase,
-					})
-					.save();
-			});
+		this.transitionToRoute("app.knowledge-bases.new");
 	}
 
 	@action
@@ -51,7 +38,7 @@ export default class KnowledgeBases extends Controller {
 
 	@action
 	editKb(kb: KnowledgeBase): void {
-		kb.isEditing = true;
+		this.transitionToRoute("app.knowledge-bases.edit", kb.id);
 	}
 
 	@action
@@ -88,6 +75,6 @@ export default class KnowledgeBases extends Controller {
 
 declare module "@ember/controller" {
 	interface Registry {
-		"knowledge-bases": KnowledgeBases;
+		"app/knowledge-bases/index": AppKnowledgeBasesIndex;
 	}
 }
