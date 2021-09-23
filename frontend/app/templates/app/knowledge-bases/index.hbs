@@ -1,6 +1,6 @@
 <div class="table kb-table">
-	<Kb::ListHeader @showActionBar={{true}} @query={{this.search}} @addKb={{this.addKb}} />
-	<Provider::Filter @model={{this.knowledgeBases}} @field="name" @query={{this.search}} as |filteredBases|>
+	<Kb::ListHeader @showActionBar={{true}} @query={{this.filter}} @addKb={{this.addKb}} />
+	<Provider::Filter @model={{this.knowledgeBases}} @field="name" @query={{this.filter}} as |filteredBases|>
 		{{#each filteredBases as |kb|}}
 			<Kb::ListItem
 				@kb={{kb}}
@@ -8,8 +8,6 @@
 				@play={{fn this.playKb kb}}
 				@edit={{fn this.editKb kb}}
 				@delete={{fn this.deleteKb kb}}
-				@onSave={{fn this.saveKb kb}}
-				@onCancelChanges={{fn this.cancelChanges kb}}
 			/>
 		{{/each}}
 	</Provider::Filter>

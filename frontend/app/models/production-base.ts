@@ -17,13 +17,13 @@ export default class ProductionBase extends KnowledgeBase {
 
 	public loadData(): RSVP.Promise<any> {
 		return hash({
-			frames: this.store.query("rule", {
+			rules: this.store.query("rule", {
 				filter: `equals(productionBase.id,'${this.id}')`,
-				include: "frameBase,parent,children,position",
+				include: "productionBase",
 			}),
-			slots: this.store.query("variable", {
+			variables: this.store.query("variable", {
 				filter: `equals(productionBase.id,'${this.id}')`,
-				include: "owner,parent,children,domain,value,production",
+				include: "productionBase,domain",
 			}),
 			domains: this.store.query("domain", {
 				filter: `equals(knowledgeBase.id,'${this.id}')`,

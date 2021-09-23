@@ -22,8 +22,10 @@
     </span>
   {{/if}}
 </div>
-{{#each @validationErrors as |error|}}
-<p class="help is-danger">
-  {{t error}}
-</p>
-{{/each}}
+{{#if @isInValid}}
+	{{#each @validationErrors as |error|}}
+	<p class="help is-danger">
+		{{t error}}
+	</p>
+	{{/each}}
+{{/if}}

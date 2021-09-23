@@ -1,4 +1,4 @@
-<div class="table__row">
+<div class="table__row" role="row">
 	<div class="table__cell kb-table__cell">
 		{{@kb.name}}
 	</div>
@@ -37,13 +37,3 @@
 		</button>
 	</div>
 </div>
-{{#if @kb.isEditing}}
-	<ModalCard
-		@header={{t "kb.name"}}
-		@onClose={{@onCancelChanges}}
-		@onSuccessClose={{@onSave}}
-		@onCancelClose={{@onCancelChanges}}
-	>
-		<Kb::Form @kb={{@kb}} />
-	</ModalCard>
-{{/if}}

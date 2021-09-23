@@ -4,7 +4,7 @@ import { action } from "@ember/object";
 import { KnowledgeBaseType } from "knowledge-shell/models";
 import knowledgeBaseValidator from "knowledge-shell/validations/knowledge-base";
 
-interface KbFormComponentmArgs {
+interface KbFormComponentArgs {
 	kbName: string;
 	kbDescription: string;
 	kbType: KnowledgeBaseType;
@@ -13,7 +13,7 @@ interface KbFormComponentmArgs {
 	onCancel: () => void;
 }
 
-export default class KbFormComponent extends Component<KbFormComponentmArgs> {
+export default class KbFormComponent extends Component<KbFormComponentArgs> {
 	@tracked isSubmitted!: boolean;
 
 	@tracked kbName!: string;

@@ -1,34 +1,26 @@
 <div class="base-editor">
 	<ul class="base-editor__navbar">
 		<li class="base-editor__navbar-link-container">
-			<LinkTo @route="app.frame-base.index" class="base-editor__navbar-link">
-				<FaIcon @icon="info" />
-				<span class="base-editor__navbar-link-text">
-					{{t "frame_editor.information"}}
-				</span>
-			</LinkTo>
-		</li>
-		<li class="base-editor__navbar-link-container">
-			<LinkTo @route="app.frame-base.editor" class="base-editor__navbar-link">
+			<LinkTo @route="app.production-base.rules" class="base-editor__navbar-link">
 				<FaIcon @icon="clipboard" />
 				<span class="base-editor__navbar-link-text">
-					{{t "frame_editor.editor"}}
+					{{t "production_editor.rules"}}
 				</span>
 			</LinkTo>
 		</li>
 		<li class="base-editor__navbar-link-container">
-			<LinkTo @route="app.frame-base.domains" class="base-editor__navbar-link">
+			<LinkTo @route="app.production-base.variables" class="base-editor__navbar-link">
 				<FaIcon @icon="th-list" />
 				<span class="base-editor__navbar-link-text">
-					{{t "frame_editor.domains"}}
+					{{t "production_editor.variables"}}
 				</span>
 			</LinkTo>
 		</li>
 		<li class="base-editor__navbar-link-container">
-			<LinkTo @route="app.frame-base.play" class="base-editor__navbar-link">
-				<FaIcon @icon="play" />
+			<LinkTo @route="app.production-base.domains" class="base-editor__navbar-link">
+				<FaIcon @icon="th-list" />
 				<span class="base-editor__navbar-link-text">
-					{{t "frame_editor.play"}}
+					{{t "production_editor.domains"}}
 				</span>
 			</LinkTo>
 		</li>

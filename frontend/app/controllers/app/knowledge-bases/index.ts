@@ -2,15 +2,19 @@ import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
-import { KnowledgeBase } from "knowledge-shell/models";
+import { KnowledgeBase, KnowledgeBaseType } from "knowledge-shell/models";
 import IntlService from "ember-intl/services/intl";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
 export default class AppKnowledgeBasesIndex extends Controller {
-	@service intl!: IntlService;
-	@tracked search = "";
+	queryParams = ["sortBy", "sortDirection", "page"];
 
-	kbRoutes = ["frame-base", "production-base"];
+	@tracked page = 1;
+	@tracked filter = "";
+	@tracked sortBy = "";
+	@tracked sortDirection = "";
+
+	@service intl!: IntlService;
 
 	get knowledgeBases(): KnowledgeBase[] {
 		const frameBases = this.store.peekAll("frame-base");
@@ -26,14 +30,21 @@ export default class AppKnowledgeBasesIndex extends Controller {
 
 	@action
 	viewKb(kb: KnowledgeBase): void {
-		const kbRoute = this.kbRoutes[kb.baseType];
-		this.transitionToRoute(`app.${kbRoute}.editor`, kb.id);
+		switch (kb.baseType) {
+			case KnowledgeBaseType.Frame:
+				this.transitionToRoute("app.frame-base.editor", kb.id);
+				break;
+			case KnowledgeBaseType.Production:
+				this.transitionToRoute("app.production-base.rules", kb.id);
+				break;
+			default:
+				break;
+		}
 	}
 
 	@action
 	playKb(kb: KnowledgeBase): void {
-		const kbRoute = this.kbRoutes[kb.baseType];
-		this.transitionToRoute(`app.${kbRoute}.play`, kb.id);
+		this.transitionToRoute(`app.frame-base.play`, kb.id);
 	}
 
 	@action

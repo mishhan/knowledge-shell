@@ -9,7 +9,7 @@ export default class Variable extends Model {
 	@attr("string") name!: string;
 	@attr("string") description!: string;
 	@attr("string") question!: string;
-	@attr("number", { defaultValue: 0 }) variableType!: VariableType;
+	@attr("number", { defaultValue: VariableType.Requested }) variableType!: VariableType;
 
 	@belongsTo("domain", { async: false })
 	domain!: Domain;

@@ -1,0 +1,50 @@
+<div class="box">
+	<div class="table-container">
+  	<table class="table rule-table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+			<thead>
+				<tr>
+					<th class="rule-table__index-column has-text-centered">#</th>
+					<th class="rule-table__name-column">{{t "rule.fields.name"}}</th>
+					<th class="rule-table__rule-column">{{t "rule.fields.full_rule"}}</th>
+					<th class="rule-table__actions-column has-text-centered">{{t "common.actions"}}</th>
+				</tr>
+				<tr>
+					<th class="rule-table__index-column"></th>
+					<th class="rule-table__name-column"></th>
+					<th class="rule-table__rule-column">
+						<div class="control has-icons-right">
+							<Input placeholder={{t "common.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+							<span class="icon is-right">
+								<FaIcon @icon="search" />
+							</span>
+						</div>
+					</th>
+					<th class="rule-table__actions-column has-text-centered">
+						<LinkTo @route="app.production-base.variables.new" class="button is-primary is-small">
+							<FaIcon @icon="plus-square" />
+						</LinkTo>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<Provider::Filter @model={{this.variables}} @field="name" @query={{this.filter}} as |filteredVariables|>
+					{{#each filteredVariables as |variable|}}
+						<tr>
+							<td class="rule-table__index-column has-text-centered">{{variable.name}}</td>
+							<td class="rule-table__name-column">{{variable.domain.name}}</td>
+							<td class="rule-table__rule-column">{{variable.variableType}}</td>
+							<td class="rule-table__actions-column has-text-centered">
+								<LinkTo @route="app.production-base.variables.edit" @model={{variable.id}} class="button is-warning is-small">
+									<FaIcon @icon="edit" />
+								</LinkTo>
+								<button type="button" class="button is-danger is-small" {{on "click" (fn this.deleteVariable variable)}}>
+									<FaIcon @icon="trash" />
+								</button>
+							</td>
+						</tr>
+					{{/each}}
+				</Provider::Filter>
+			</tbody>
+		</table>
+	</div>
+</div>
