@@ -84,7 +84,7 @@ variable:
     name: Название
     description: Описание
     question: Вопрос
-    variableType: Тип
+    variable_type: Тип
     domain: Домен
 
 frame_editor:

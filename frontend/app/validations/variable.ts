@@ -1,11 +1,11 @@
 import vest, { test, enforce } from "vest";
-import { Domain } from "knowledge-shell/models";
+import { Domain, VariableType } from "knowledge-shell/models";
 
 interface IVariable {
 	name: string;
 	description: string;
 	question: string;
-	variableType: number;
+	variableType: VariableType;
 	domain: Domain;
 }
 
@@ -20,9 +20,11 @@ export default vest.create((data: IVariable, cnahgedField: string) => {
 		enforce(data.description).isNotEmpty();
 	});
 
-	test("question", "fields.validation_errors.required", () => {
-		enforce(data.question).isNotEmpty();
-	});
+	if (data.variableType !== VariableType.Derrivable) {
+		test("question", "fields.validation_errors.required", () => {
+			enforce(data.question).isNotEmpty();
+		});
+	}
 
 	test("variableType", "fields.validation_errors.required", () => {
 		enforce(data.variableType).isNumber();

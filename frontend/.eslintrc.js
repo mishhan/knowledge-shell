@@ -28,5 +28,6 @@ module.exports = {
     "prettier/prettier": ["error", { "endOfLine":"auto" }],
     "no-underscore-dangle": "off",
     "@typescript-eslint/lines-between-class-members": "off",
+		"ember/no-controller-access-in-routes": "off",
   }
 };

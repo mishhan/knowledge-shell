@@ -84,7 +84,7 @@ variable:
     name: Name
     description: Description
     question: Question
-    variableType: Variable type
+    variable_type: Variable type
     domain: Domain
 
 frame_editor:

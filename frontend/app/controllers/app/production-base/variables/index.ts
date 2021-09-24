@@ -11,7 +11,7 @@ export default class AppProductionBaseVariablesIndex extends Controller {
 	}
 
 	@action
-	async deleteVariables(variable: Variable): Promise<void> {
+	async deleteVariable(variable: Variable): Promise<void> {
 		await variable.destroyRecord();
 	}
 }

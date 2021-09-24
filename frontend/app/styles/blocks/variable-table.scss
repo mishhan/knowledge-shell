@@ -1,0 +1,73 @@
+.variable-table {
+	$name-column-width-mobile: 30%;
+	$domain-column-width-mobile: 20%;
+	$type-column-width-mobile: 20%;
+	$actions-column-width-mobile: 30%;
+
+	$index-column-width: 5%;
+	$name-column-width: 15%;
+	$description-column-width: 20%;
+	$domain-column-width: 20%;
+	$type-column-width: 20%;
+	$actions-column-width: 20%;
+
+	@include until($tablet) {
+		&__index-column {
+			display: none;
+		}
+
+		&__name-column {
+			width: $name-column-width-mobile;
+		}
+
+		&__description-column {
+			display: none;
+		}
+
+		&__domain-column {
+			width: $domain-column-width-mobile;
+		}
+
+		&__type-column {
+			width: $type-column-width-mobile;
+		}
+
+		&__question-column {
+			display: none;
+		}
+
+		&__actions-column {
+			width: $actions-column-width-mobile;
+		}
+	}
+
+	@include from($tablet) {
+		&__index-column {
+			width: $index-column-width;
+		}
+
+		&__name-column {
+			width: $name-column-width;
+		}
+
+		&__description-column {
+			width: $description-column-width;
+		}
+
+		&__domain-column {
+			width: $domain-column-width;
+		}
+
+		&__type-column {
+			width: $type-column-width;
+		}
+
+		&__question-column {
+			display: none;
+		}
+
+		&__actions-column {
+			width: $actions-column-width;
+		}
+	}
+}

@@ -1,4 +1,5 @@
 import Route from "@ember/routing/route";
+import { action } from "@ember/object";
 import { ProductionBase } from "knowledge-shell/models";
 
 export default class extends Route {
@@ -14,5 +15,13 @@ export default class extends Route {
 			rule,
 			variables,
 		};
+	}
+
+	@action
+	willTransition(): void {
+		const model = this.controller.model.rule;
+		if (model?.hasDirtyAttributes) {
+			model.rollbackAttributes();
+		}
 	}
 }

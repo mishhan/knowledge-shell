@@ -1,15 +1,8 @@
 import Controller from "@ember/controller";
 import { action } from "@ember/object";
-import { tracked } from "@glimmer/tracking";
 import { Rule } from "knowledge-shell/models";
 
 export default class AppProductionBaseRulesIndex extends Controller {
-	@tracked filter = "";
-
-	get canReorderRules(): boolean {
-		return this.filter === "";
-	}
-
 	get rules(): Rule[] {
 		return this.model.rules;
 	}
