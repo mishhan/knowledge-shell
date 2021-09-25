@@ -70,18 +70,6 @@ export default class AppKnowledgeBasesIndex extends Controller {
 			}
 		});
 	}
-
-	@action
-	saveKb(kb: KnowledgeBase): void {
-		kb.isEditing = false;
-		kb.save();
-	}
-
-	@action
-	cancelChanges(kb: KnowledgeBase): void {
-		kb.isEditing = false;
-		kb.rollbackAttributes();
-	}
 }
 
 declare module "@ember/controller" {

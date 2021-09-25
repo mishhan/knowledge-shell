@@ -1,6 +1,5 @@
 import Model, { attr, belongsTo, hasMany } from "@ember-data/model";
 import { isEqual } from "@ember/utils";
-import { tracked } from "@glimmer/tracking";
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
 import DomainType from "./domain-type";
@@ -35,9 +34,6 @@ export default class Domain extends Model {
 	get domainTypeName(): string {
 		return DomainType[this.domainType];
 	}
-
-	@tracked
-	isEditing!: boolean;
 
 	public getDomainValue(value: string | number): DomainValue {
 		switch (this.domainType) {

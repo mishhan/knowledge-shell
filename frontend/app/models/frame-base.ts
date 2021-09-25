@@ -104,8 +104,8 @@ export default class FrameBase extends KnowledgeBase {
 		return this.frameObserver.removeSlot(frame, slot);
 	}
 
-	public propagateSlotChanged(slot: Slot): void {
-		this.frameObserver.propagateSlotChanged(slot);
+	public async propagateSlotChanged(slot: Slot): Promise<void> {
+		await this.frameObserver.propagateSlotChanged(slot);
 	}
 }
 

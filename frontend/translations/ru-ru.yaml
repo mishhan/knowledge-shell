@@ -19,6 +19,7 @@ common:
   delete_confirmation: Вы уверены что хотите удалить {item}?
   save: Сохранить
   cancel: Отменить
+  add: Добавить
 
 fields:
   login: Логин

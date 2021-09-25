@@ -1,14 +1,9 @@
-<div class="table kb-table">
-	<Kb::ListHeader @showActionBar={{true}} @query={{this.filter}} @addKb={{this.addKb}} />
-	<Provider::Filter @model={{this.knowledgeBases}} @field="name" @query={{this.filter}} as |filteredBases|>
-		{{#each filteredBases as |kb|}}
-			<Kb::ListItem
-				@kb={{kb}}
-				@view={{fn this.viewKb kb}}
-				@play={{fn this.playKb kb}}
-				@edit={{fn this.editKb kb}}
-				@delete={{fn this.deleteKb kb}}
-			/>
-		{{/each}}
-	</Provider::Filter>
+<div class="box">
+	<Kb::List
+		@knowledgeBases={{this.knowledgeBases}}
+		@view={{this.viewKb}}
+		@play={{this.playKb}}
+		@edit={{this.editKb}}
+		@delete={{this.deleteKb}}
+	/>
 </div>

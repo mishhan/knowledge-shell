@@ -1,14 +1,12 @@
-<div class="container">
-	<Kb::Form
-		@kbName=""
-		@kbDescipriotn=""
-		@kbType={{this.defaultKbType}}
-		@canEditKbType={{true}}
-		@onSubmit={{this.saveKb}}
-		@onCancel={{this.cancelKbChanges}} />
-	{{#if this.serverErrorMessage}}
-		<div class="notification mt-3 is-danger is-light">
-			{{this.serverErrorMessage}}
-		</div>
-  {{/if}}
-</div>
+<Kb::Form
+	@kbName=""
+	@kbDescipriotn=""
+	@kbType={{this.defaultKbType}}
+	@canEditKbType={{true}}
+	@onSubmit={{this.saveKb}}
+	@onCancel={{this.cancelKbChanges}} />
+{{#if this.serverErrorMessage}}
+	<div class="notification mt-3 is-danger is-light">
+		{{this.serverErrorMessage}}
+	</div>
+{{/if}}

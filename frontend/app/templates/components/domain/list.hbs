@@ -21,7 +21,11 @@
 				<th class="domain-table__description-column"></th>
 				<th class="domain-table__type-column"></th>
 				<th class="domain-table__actions-column has-text-centered">
-					<button type="button" class="button is-primary is-small" {{on "click" @addDomain}}>
+					<button type="button" class="button is-primary is-small" {{on "click" @addDomain}}
+						aria-label={{t "common.add"}}
+						data-microtip-position="top"
+						data-microtip-size="small"
+						role="tooltip">
 						<FaIcon @icon="plus-square" />
 					</button>
 				</th>

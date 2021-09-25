@@ -1,5 +1,4 @@
 import Model, { attr, hasMany } from "@ember-data/model";
-import { tracked } from "@glimmer/tracking";
 import Domain from "./domain";
 import KnowledgeBaseType from "./knowledge-base-type";
 
@@ -28,9 +27,6 @@ export default abstract class KnowledgeBase extends Model {
 
 	@hasMany("domain", { async: false })
 	domains!: Domain[];
-
-	@tracked
-	isEditing!: boolean;
 }
 
 declare module "ember-data/types/registries/model" {

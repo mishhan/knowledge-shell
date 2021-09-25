@@ -1,0 +1,75 @@
+<div class="table-container">
+	<table class="table kb-table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+		<thead>
+			<tr>
+				<th class="kb-table__index-column has-text-centered">#</th>
+				<th class="kb-table__name-column">{{t "kb.fields.name"}}</th>
+				<th class="kb-table__description-column">{{t "kb.fields.description"}}</th>
+				<th class="kb-table__type-column">{{t "kb.fields.type"}}</th>
+				<th class="kb-table__creation-column">{{t "kb.fields.creation_date"}}</th>
+				<th class="kb-table__modify-column">{{t "kb.fields.modify_date"}}</th>
+				<th class="kb-table__actions-column has-text-centered">{{t "common.actions"}}</th>
+			</tr>
+			<tr>
+				<th class="kb-table__index-column has-text-centered"></th>
+				<th class="kb-table__name-column">
+					<div class="control has-icons-right">
+						<Input placeholder={{t "common.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+						<span class="icon is-right">
+							<FaIcon @icon="search" />
+						</span>
+					</div>
+				</th>
+				<th class="kb-table__description-column"></th>
+				<th class="kb-table__type-column"></th>
+				<th class="kb-table__creation-column"></th>
+				<th class="kb-table__modify-column"></th>
+				<th class="kb-table__actions-column has-text-centered">
+					<LinkTo @route="app.knowledge-bases.new" class="button is-primary is-small"
+						aria-label={{t "common.add"}}
+						data-microtip-position="top"
+						data-microtip-size="small"
+						role="tooltip">
+						<FaIcon @icon="plus-square" />
+					</LinkTo>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<Provider::Filter @model={{@knowledgeBases}} @field="name" @query={{this.filter}} as |filteredBases|>
+				{{#each filteredBases as |kb index|}}
+					<tr>
+						<td class="kb-table__index-column has-text-centered">{{inc index}}</td>
+						<td class="kb-table__name-column">{{kb.name}}</td>
+						<th class="kb-table__description-column">{{kb.description}}</th>
+						<td class="kb-table__type-column">{{kb.baseTypeName}}</td>
+						<td class="kb-table__creation-column">{{format-date kb.createdAt}}</td>
+						<td class="kb-table__modify-column">{{format-date kb.updatedAt}}</td>
+						<td class="kb-table__actions-column has-text-centered">
+							<button type="button" class="button is-info is-small" {{on "click" (fn @view kb)}}>
+								<span class="icon">
+									<FaIcon @icon="eye" />
+								</span>
+							</button>
+							<button type="button" class="button is-info is-small" {{on "click" (fn @play kb)}}>
+								<span class="icon">
+									<FaIcon @icon="play" />
+								</span>
+							</button>
+							<button type="button" class="button is-warning is-small" {{on "click" (fn @edit kb)}}>
+								<span class="icon">
+									<FaIcon @icon="edit" />
+								</span>
+							</button>
+							<button type="button" class="button is-danger is-small" {{on "click" (fn @delete kb)}}>
+								<span class="icon">
+									<FaIcon @icon="trash" />
+								</span>
+							</button>
+						</td>
+					</tr>
+				{{/each}}
+			</Provider::Filter>
+		</tbody>
+	</table>
+</div>
