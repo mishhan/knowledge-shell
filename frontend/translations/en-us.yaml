@@ -54,6 +54,7 @@ domain:
     type: Type
     count: Count
     new_value: New value
+    value: Value
 
 frame:
   name: Frame

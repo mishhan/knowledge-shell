@@ -20,7 +20,7 @@ export default class extends Route {
 	@action
 	willTransition(): void {
 		const model = this.controller.model.rule;
-		if (model?.hasDirtyAttributes) {
+		if (model?.get("hasDirtyAttributes")) {
 			model.rollbackAttributes();
 		}
 	}

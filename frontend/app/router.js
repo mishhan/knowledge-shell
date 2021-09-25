@@ -24,10 +24,13 @@ Router.map(function () {
 					this.route("new");
 					this.route("edit", { path: "edit/:rule_id" });
 				});
-				this.route("domains");
-				this.route("variables", function() {
+				this.route("domains", function() {
 					this.route("new");
-					this.route("edit", { path: "edit/:varialbe_id"});
+					this.route("edit", { path: "edit/:domain_id" });
+				});
+				this.route("variables", function() {
+						this.route("new");
+						this.route("edit", { path: "edit/:varialbe_id"});
 				});
 			});
     });

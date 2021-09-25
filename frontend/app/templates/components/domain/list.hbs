@@ -1,0 +1,51 @@
+<div class="table-container">
+	<table class="table domain-table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+		<thead>
+			<tr>
+				<th class="domain-table__index-column has-text-centered">#</th>
+				<th class="domain-table__name-column">{{t "domain.fields.name"}}</th>
+				<th class="domain-table__description-column">{{t "domain.fields.description"}}</th>
+				<th class="domain-table__type-column">{{t "domain.fields.type"}}</th>
+				<th class="domain-table__actions-column has-text-centered">{{t "common.actions"}}</th>
+			</tr>
+			<tr>
+				<th class="domain-table__index-column has-text-centered"></th>
+				<th class="domain-table__name-column">
+					<div class="control has-icons-right">
+						<Input placeholder={{t "common.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+						<span class="icon is-right">
+							<FaIcon @icon="search" />
+						</span>
+					</div>
+				</th>
+				<th class="domain-table__description-column"></th>
+				<th class="domain-table__type-column"></th>
+				<th class="domain-table__actions-column has-text-centered">
+					<LinkTo @route="app.production-base.domains.new" class="button is-primary is-small">
+						<FaIcon @icon="plus-square" />
+					</LinkTo>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<Provider::Filter @model={{@domains}} @field="name" @query={{this.filter}} as |filteredDomains|>
+				{{#each filteredDomains as |domain index|}}
+					<tr>
+						<td class="domain-table__index-column has-text-centered">{{index}}</td>
+						<td class="domain-table__name-column">{{domain.name}}</td>
+						<td class="domain-table__description-column">{{domain.description}}</td>
+						<td class="domain-table__type-column">{{domain.domainTypeName}}</td>
+						<td class="domain-table__actions-column has-text-centered">
+							<button type="button" class="button is-warning is-small" disabled={{domain.isReadOnly}} {{on "click" (fn @editDomain domain)}}>
+								<FaIcon @icon="edit" />
+							</button>
+							<button type="button" class="button is-danger is-small" disabled={{domain.isReadOnly}} {{on "click" (fn @deleteDomain domain)}}>
+								<FaIcon @icon="trash" />
+							</button>
+						</td>
+					</tr>
+				{{/each}}
+			</Provider::Filter>
+		</tbody>
+	</table>
+</div>

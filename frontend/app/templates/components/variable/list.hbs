@@ -33,9 +33,9 @@
 		</thead>
 		<tbody>
 			<Provider::Filter @model={{@variables}} @field="name" @query={{this.filter}} as |filteredVariables|>
-				{{#each filteredVariables as |variable|}}
+				{{#each filteredVariables as |variable index|}}
 					<tr>
-						<td class="variable-table__index-column has-text-centered">{{variable.name}}</td>
+						<td class="variable-table__index-column has-text-centered">{{index}}</td>
 						<td class="variable-table__description-column">{{variable.description}}</td>
 						<td class="variable-table__name-column">{{variable.domain.name}}</td>
 						<td class="variable-table__domain-column">{{variable.description}}</td>

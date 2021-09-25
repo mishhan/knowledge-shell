@@ -12,9 +12,9 @@ import Frame from "./frame";
 import KnowledgeBase from "./knowledge-base";
 
 export default class Domain extends Model {
-	@attr("string", { defaultValue: "New Domain" }) name!: string;
-	@attr("string", { defaultValue: "New Domain Description" }) description!: string;
-	@attr("number", { defaultValue: 0 }) domainType!: DomainType;
+	@attr("string") name!: string;
+	@attr("string") description!: string;
+	@attr("number", { defaultValue: DomainType.String }) domainType!: DomainType;
 	@attr("boolean", { defaultValue: false }) isReadOnly!: boolean;
 
 	@belongsTo("knowledge-base", { async: false, polymorphic: true })
@@ -66,26 +66,6 @@ export default class Domain extends Model {
 
 	public getDomainValueFrameByFrame(frame: Frame): DomainValueFrame {
 		return this.domainValues.find((dv: DomainValueFrame) => isEqual(dv.value, frame)) as DomainValueFrame;
-	}
-
-	public addValue(newValue: string | number): void {
-		if (this.domainType === DomainType.String) {
-			const newDomainValue = this.store.createRecord("domain-value-string", {
-				value: newValue,
-			});
-			this.domainValues.pushObject(newDomainValue);
-		}
-		if (this.domainType === DomainType.Number) {
-			const newDomainValue = this.store.createRecord("domain-value-number", {
-				value: newValue,
-			});
-			this.domainValues.pushObject(newDomainValue);
-		}
-	}
-
-	public deleteValue(value: DomainValue) {
-		this.domainValues.removeObject(value);
-		value.destroyRecord();
 	}
 }
 

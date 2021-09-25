@@ -54,6 +54,7 @@ domain:
     type: Тип
     count: Количество значений
     new_value: Новое значение
+    value: Значение
 
 frame:
   name: Фрейм

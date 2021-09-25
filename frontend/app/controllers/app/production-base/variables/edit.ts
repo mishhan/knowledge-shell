@@ -30,7 +30,8 @@ export default class AppProductionBaseVariablesEdit extends Controller {
 			description,
 			question,
 		});
-		await this.currentVariable.save().then(() => this.transitionToRoute("app.production-base.variables"));
+		await this.currentVariable.save();
+		this.transitionToRoute("app.production-base.variables");
 	}
 
 	@action

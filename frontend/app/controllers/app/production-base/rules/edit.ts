@@ -19,7 +19,8 @@ export default class AppProductionBaseRulesEdit extends Controller {
 			premise,
 			consequence,
 		});
-		await this.currentRule.save().then(() => this.transitionToRoute("app.production-base.rules"));
+		await this.currentRule.save();
+		this.transitionToRoute("app.production-base.rules");
 	}
 
 	@action
