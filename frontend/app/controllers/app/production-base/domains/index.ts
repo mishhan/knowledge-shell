@@ -8,6 +8,11 @@ export default class AppProductionBaseDomainsIndex extends Controller {
 	}
 
 	@action
+	addDomain(): void {
+		this.transitionToRoute("app.production-base.domains.new");
+	}
+
+	@action
 	editDomain(domain: Domain): void {
 		this.transitionToRoute("app.production-base.domains.edit", domain.id);
 	}

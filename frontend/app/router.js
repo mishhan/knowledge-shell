@@ -15,7 +15,10 @@ Router.map(function () {
 				this.route("edit", { path: "edit/:base_id" });
 			});
 			this.route("frame-base", { path: "frame-base/:base_id" }, function () {
-				this.route("domains");
+				this.route("domains", function() {
+					this.route("new");
+					this.route("edit", { path: "edit/:domain_id" });
+				});
 				this.route("editor");
 				this.route("play");
 			});
@@ -29,8 +32,8 @@ Router.map(function () {
 					this.route("edit", { path: "edit/:domain_id" });
 				});
 				this.route("variables", function() {
-						this.route("new");
-						this.route("edit", { path: "edit/:varialbe_id"});
+					this.route("new");
+					this.route("edit", { path: "edit/:varialbe_id"});
 				});
 			});
     });

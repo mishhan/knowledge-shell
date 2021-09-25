@@ -21,9 +21,9 @@
 				<th class="domain-table__description-column"></th>
 				<th class="domain-table__type-column"></th>
 				<th class="domain-table__actions-column has-text-centered">
-					<LinkTo @route="app.production-base.domains.new" class="button is-primary is-small">
+					<button type="button" class="button is-primary is-small" {{on "click" @addDomain}}>
 						<FaIcon @icon="plus-square" />
-					</LinkTo>
+					</button>
 				</th>
 			</tr>
 		</thead>
