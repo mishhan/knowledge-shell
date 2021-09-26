@@ -1,18 +1,18 @@
 import vest, { test, enforce } from "vest";
 
 interface IKnowledgeBase {
-	kbName: string;
-	kbDescription: string;
+	name: string;
+	description: string;
 }
 
 export default vest.create((data: IKnowledgeBase, cnahgedField: string) => {
 	vest.only(cnahgedField);
 
-	test("kbName", "fields.validation_errors.required", () => {
-		enforce(data.kbName).isNotEmpty();
+	test("name", "fields.validation_errors.required", () => {
+		enforce(data.name).isNotEmpty();
 	});
 
-	test("kbDescription", "fields.validation_errors.required", () => {
-		enforce(data.kbDescription).isNotEmpty();
+	test("description", "fields.validation_errors.required", () => {
+		enforce(data.description).isNotEmpty();
 	});
 });

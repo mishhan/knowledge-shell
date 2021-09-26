@@ -4,11 +4,11 @@
 			@id="name"
 			@labelText={{t "kb.fields.name"}}
 			@placeholder={{t "kb.fields.name"}}
-			@value={{@kbName}}
-			@isValid={{and this.isSubmitted (eq this.kbNameValidationErrors.length 0)}}
-			@isInValid={{and this.isSubmitted (gt this.kbNameValidationErrors.length 0)}}
-			@onChange={{this.onKbNameChange}}
-			@validationErrors={{this.kbNameValidationErrors}}
+			@value={{this.name}}
+			@isValid={{this.nameValidation.isValid}}
+			@isInValid={{this.nameValidation.isInValid}}
+			@onChange={{this.onNameChange}}
+			@validationErrors={{this.nameValidation.errors}}
 		/>
 	</div>
 	<div class="field">
@@ -16,11 +16,11 @@
 			@id="description"
 			@labelText={{t "kb.fields.description"}}
 			@placeholder={{t "kb.fields.description"}}
-			@value={{@kbDescription}}
-			@isValid={{and this.isSubmitted (eq this.kbDescriptionValidationErrors.length 0)}}
-			@isInValid={{and this.isSubmitted (gt this.kbDescriptionValidationErrors.length 0)}}
-			@onChange={{this.onKbDescriptionChange}}
-			@validationErrors={{this.kbDescriptionValidationErrors}}
+			@value={{this.description}}
+			@isValid={{this.descriptionValidation.isValid}}
+			@isInValid={{this.descriptionValidation.isInValid}}
+			@onChange={{this.onDescriptionChange}}
+			@validationErrors={{this.descriptionValidation.errors}}
 		/>
 	</div>
 	<div class="field">
@@ -32,9 +32,9 @@
 				@triggerClass="input"
 				@options={{this.kbTypes}}
 				@allowClear={{false}}
-				@selected={{this.selectedKbType}}
-				@disabled={{not @canEditKbType}}
-				@onChange={{this.setKbType}} as |kbType|
+				@selected={{this.selectedType}}
+				@disabled={{not @canEditType}}
+				@onChange={{this.setType}} as |kbType|
 			>
 				{{kbType.value}}
 			</PowerSelect>

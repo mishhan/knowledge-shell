@@ -5,20 +5,20 @@ import { KnowledgeBaseType } from "knowledge-shell/models";
 import knowledgeBaseValidator from "knowledge-shell/validations/knowledge-base";
 
 interface KbFormComponentArgs {
-	kbName: string;
-	kbDescription: string;
-	kbType: KnowledgeBaseType;
-	canEditKbType: boolean;
-	onSubmit: (kbName: string, kbDescription: string, kbType: KnowledgeBaseType) => void;
+	name: string;
+	description: string;
+	type: KnowledgeBaseType;
+	canEditType: boolean;
+	onSubmit: (name: string, description: string, type: KnowledgeBaseType) => void;
 	onCancel: () => void;
 }
 
 export default class KbFormComponent extends Component<KbFormComponentArgs> {
 	@tracked isSubmitted!: boolean;
 
-	@tracked kbName!: string;
-	@tracked kbDescription!: string;
-	@tracked kbType!: KnowledgeBaseType;
+	@tracked name!: string;
+	@tracked description!: string;
+	@tracked type!: KnowledgeBaseType;
 
 	@tracked validator = knowledgeBaseValidator.get();
 
@@ -29,25 +29,37 @@ export default class KbFormComponent extends Component<KbFormComponentArgs> {
 		];
 	}
 
-	get selectedKbType(): { key: number; value: string } {
-		return { key: this.kbType, value: KnowledgeBaseType[this.kbType] };
+	get selectedType(): { key: number; value: string } {
+		return { key: this.type, value: KnowledgeBaseType[this.type] };
 	}
 
-	get kbNameValidationErrors(): string[] {
-		const kbNameValidationErrors = this.validator.getErrors("kbName");
-		return kbNameValidationErrors;
+	get nameValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors("name");
+		const isValid = this.isSubmitted && errors.length === 0;
+		const isInValid = this.isSubmitted && errors.length > 0;
+		return {
+			errors,
+			isValid,
+			isInValid,
+		};
 	}
 
-	get kbDescriptionValidationErrors(): string[] {
-		const kbDescriptionValidationErrors = this.validator.getErrors("kbDescription");
-		return kbDescriptionValidationErrors;
+	get descriptionValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors("description");
+		const isValid = this.isSubmitted && errors.length === 0;
+		const isInValid = this.isSubmitted && errors.length > 0;
+		return {
+			errors,
+			isValid,
+			isInValid,
+		};
 	}
 
 	@action
 	setupForm(): void {
-		this.kbName = this.args.kbName;
-		this.kbDescription = this.args.kbDescription;
-		this.kbType = this.args.kbType;
+		this.name = this.args.name;
+		this.description = this.args.description;
+		this.type = this.args.type;
 	}
 
 	@action
@@ -57,34 +69,34 @@ export default class KbFormComponent extends Component<KbFormComponentArgs> {
 		this.validateForm();
 		const hasValidationErrors = this.validator.hasErrors();
 		if (!hasValidationErrors) {
-			const { kbName, kbDescription, kbType } = this;
-			this.args.onSubmit(kbName, kbDescription, kbType);
+			const { name, description, type } = this;
+			this.args.onSubmit(name, description, type);
 		}
 	}
 
 	@action
-	onKbNameChange(value: string): void {
-		this.kbName = value;
-		this.validateForm("kbName");
+	onNameChange(value: string): void {
+		this.name = value;
+		this.validateForm("name");
 	}
 
 	@action
-	onKbDescriptionChange(value: string): void {
-		this.kbDescription = value;
-		this.validateForm("kbDescription");
+	onDescriptionChange(value: string): void {
+		this.description = value;
+		this.validateForm("description");
 	}
 
 	@action
-	setKbType(kbType: { key: KnowledgeBaseType; value: string }): void {
-		this.kbType = kbType.key;
+	setType(type: { key: KnowledgeBaseType; value: string }): void {
+		this.type = type.key;
 	}
 
 	validateForm(fieldName?: string): void {
-		const { kbName, kbDescription } = this;
+		const { name, description } = this;
 		this.validator = knowledgeBaseValidator(
 			{
-				kbName,
-				kbDescription,
+				name,
+				description,
 			},
 			fieldName,
 		);
