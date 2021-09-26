@@ -35,7 +35,7 @@
 			<Provider::Filter @model={{@domains}} @field="name" @query={{this.filter}} as |filteredDomains|>
 				{{#each filteredDomains as |domain index|}}
 					<tr>
-						<td class="domain-table__index-column has-text-centered">{{index}}</td>
+						<td class="domain-table__index-column has-text-centered">{{inc index}}</td>
 						<td class="domain-table__name-column">{{domain.name}}</td>
 						<td class="domain-table__description-column">{{domain.description}}</td>
 						<td class="domain-table__type-column">{{domain.domainTypeName}}</td>
