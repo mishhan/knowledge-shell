@@ -38,6 +38,14 @@
 					>
 						<FaIcon @icon="plus-square" />
 					</LinkTo>
+					<button
+						type="button"
+						class="button is-warning is-small"
+						disabled={{not @enableSave}}
+						{{on "click" @saveRules}}
+					>
+						<FaIcon @icon="save" />
+					</button>
 				</th>
 			</tr>
 		</thead>
