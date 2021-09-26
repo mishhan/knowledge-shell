@@ -1,4 +1,4 @@
-<div class="frame-editor__game-panel">
+<div class="base-editor__game-panel">
 	<Game::GameHtml
 		@panelObjects={{this.panelObjects}}
 		@battleField={{this.battleField}}
@@ -8,7 +8,7 @@
 		@addMoveObjectOnField={{this.addMoveObjectOnField}}
 	/>
 </div>
-<div class="frame-editor__log">
+<div class="base-editor__log">
 	<ul class="tree">
 		<TreeNode @node={{this.gameLog}} @isRootNode={{true}} @isLastNode={{false}} />
 	</ul>
