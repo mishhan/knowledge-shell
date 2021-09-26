@@ -9,17 +9,16 @@
 
 @import "./overrides/overrides";
 
-@import "./blocks/nav-bar.scss";
+@import "./blocks/nav-bar";
 @import "./blocks/spinner-cube";
 @import "./blocks/base-editor";
 @import "./blocks/game-panel";
 @import "./blocks//game-field";
 
 @import "./blocks/kb-table";
-@import "./blocks/rule-table.scss";
-@import "./blocks//variable-table.scss";
-//@import "./blocks/domain-table";
-//@import "./blocks/slot-table";
+@import "./blocks/rule-table";
+@import "./blocks//variable-table";
+@import "./blocks/domain-table";
 
 @import "./blocks/tree";
 
