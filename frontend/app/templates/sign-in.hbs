@@ -1,11 +1,8 @@
 <div class="container">
-	<Account::AuthenticationForm
-		@authenticate={{this.authenticate}}
-		@isLoading={{this.isLoading}}
-	/>
+	<Account::AuthenticationForm @authenticate={{this.authenticate}} @isLoading={{this.isLoading}} />
 	{{#if this.serverErrorMessage}}
 		<div class="notification mt-3 is-danger is-light">
 			{{this.serverErrorMessage}}
 		</div>
-  {{/if}}
+	{{/if}}
 </div>

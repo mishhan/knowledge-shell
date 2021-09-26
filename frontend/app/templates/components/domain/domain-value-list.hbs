@@ -1,0 +1,28 @@
+<SortableObjects
+	@sortableObjectList={{@domainValues}}
+	@useSwap={{false}}
+	@inPlace={{true}}
+	@sortingScope="domainValueList"
+	@enableSort={{true}}
+	@sortEndAction={{fn @reorderValues @domainValues}}
+>
+	{{#each @domainValues as |domainValue|}}
+		<DraggableObject @content={{domainValue}} @isSortable={{true}} @sortingScope="domainValueList">
+			<div class="field is-grouped">
+				<div class="control is-expanded">
+					<label class="label">
+						{{t "domain.fields.value"}}
+					</label>
+					<Input @type={{@domainValueType}} class="input is-small" @value={{domainValue.value}} />
+				</div>
+				<div class="control is-flex is-flex-direction-column is-justify-content-flex-end">
+					<button type="button" class="button is-danger is-small" {{on "click" (fn @deleteValue domainValue)}}>
+						<span class="icon">
+							<FaIcon @icon="trash" />
+						</span>
+					</button>
+				</div>
+			</div>
+		</DraggableObject>
+	{{/each}}
+</SortableObjects>

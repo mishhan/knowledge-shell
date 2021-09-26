@@ -2,8 +2,7 @@ import { hasMany } from "@ember-data/model";
 import { inject as service } from "@ember/service";
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
-import { tracked } from "@glimmer/tracking";
-import { hash } from "rsvp";
+import RSVP, { hash } from "rsvp";
 import FrameObserver from "knowledge-shell/services/frame-observer";
 import KnowledgeBase from "./knowledge-base";
 import Frame from "./frame";
@@ -12,7 +11,7 @@ import Slot from "./slot";
 import KnowledgeBaseType from "./knowledge-base-type";
 
 export default class FrameBase extends KnowledgeBase {
-	public get knowledgeBaseType(): KnowledgeBaseType {
+	public get baseType(): KnowledgeBaseType {
 		return KnowledgeBaseType.Frame;
 	}
 
@@ -26,16 +25,13 @@ export default class FrameBase extends KnowledgeBase {
 		return this.domains.findBy("isReadOnly", true) as Domain;
 	}
 
-	@tracked
-	isEditing!: boolean;
-
 	/**
 	 * @see
 	 * why - https://embermap.com/notes/83-the-case-against-async-relationships
 	 * filtering - https://json-api-dotnet.github.io/JsonApiDotNetCore/usage/filtering.html
 	 * @summary Returns all data related to current base
 	 */
-	public loadData() {
+	public loadData(): RSVP.Promise<any> {
 		return hash({
 			frames: this.store.query("frame", {
 				filter: `equals(frameBase.id,'${this.id}')`,
@@ -108,8 +104,8 @@ export default class FrameBase extends KnowledgeBase {
 		return this.frameObserver.removeSlot(frame, slot);
 	}
 
-	public propagateSlotChanged(slot: Slot): void {
-		this.frameObserver.propagateSlotChanged(slot);
+	public async propagateSlotChanged(slot: Slot): Promise<void> {
+		await this.frameObserver.propagateSlotChanged(slot);
 	}
 }
 

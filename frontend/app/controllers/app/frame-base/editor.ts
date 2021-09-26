@@ -1,7 +1,5 @@
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
-import { isEmpty } from "@ember/utils";
-import { tracked } from "@glimmer/tracking";
 import { action, set } from "@ember/object";
 import { FrameBase, Frame, Domain, Slot } from "knowledge-shell/models";
 import IntlService from "ember-intl/services/intl";
@@ -28,20 +26,24 @@ export default class FrameBaseEditor extends Controller {
 		return this.frameBase.domains;
 	}
 
-	@tracked search = "";
-
-	get canReorderSlots(): boolean {
-		const selectedFrameHasParent = this.selectedFrame?.hasParent;
-		return isEmpty(this.search) && !selectedFrameHasParent;
+	get selectedFrame(): Frame | undefined {
+		const selectedFrame = this.frames.findBy("isSelected", true);
+		return selectedFrame;
 	}
 
-	get selectedFrame(): Frame | undefined {
-		return this.frames.findBy("isSelected", true);
+	get selectedSlot(): Slot | undefined {
+		const selectedSlot = this.selectedFrame?.ownSlots.findBy("isSelected", true);
+		return selectedSlot;
 	}
 
 	@action
 	selectFrame(frameName: string): void {
 		this.frameBase.selectFrame(frameName);
+	}
+
+	@action
+	selectSlot(slot: Slot): void {
+		slot.isSelected = true;
 	}
 
 	@action
@@ -129,12 +131,13 @@ export default class FrameBaseEditor extends Controller {
 	}
 
 	@action
-	saveSlotChanges(slot: Slot): void {
-		slot.save();
+	async saveSlotChanges(slot: Slot): Promise<void> {
+		await slot.save();
 		if (slot.hasProduction) {
-			slot.production.save();
+			await slot.production.save();
 		}
 		this.frameBase.propagateSlotChanged(slot);
+		slot.isSelected = false;
 	}
 
 	@action
@@ -143,6 +146,7 @@ export default class FrameBaseEditor extends Controller {
 		if (slot.hasProduction) {
 			slot.production.rollbackAttributes();
 		}
+		slot.isSelected = false;
 	}
 
 	@action

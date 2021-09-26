@@ -17,6 +17,9 @@ common:
   filter: Фильтр
   search: Поиск
   delete_confirmation: Вы уверены что хотите удалить {item}?
+  save: Сохранить
+  cancel: Отменить
+  add: Добавить
 
 fields:
   login: Логин
@@ -52,6 +55,7 @@ domain:
     type: Тип
     count: Количество значений
     new_value: Новое значение
+    value: Значение
 
 frame:
   name: Фрейм
@@ -67,11 +71,34 @@ kb:
     creation_date: Дата создания
     modify_date: Дата изменения
 
+rule:
+  name: Правило
+  fields:
+    name: Название
+    reason: Причина
+    premise: Предпоссылка
+    full_rule: Правило
+    consequence: Заключение
+
+variable:
+  name: Переменная
+  fields:
+    name: Название
+    description: Описание
+    question: Вопрос
+    variable_type: Тип
+    domain: Домен
+
 frame_editor:
   information: Описание
   editor: Редактор
   domains: Домены
   play: Играть
+
+production_editor:
+  rules: Правила
+  variables: Переменные
+  domains: Домены
 
 battle:
   log: Журнал

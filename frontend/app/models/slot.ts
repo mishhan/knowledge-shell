@@ -43,7 +43,7 @@ export default class Slot extends Model {
 	canEditDomain!: boolean;
 
 	@tracked
-	isEditing!: boolean;
+	isSelected!: boolean;
 
 	public addProduction(): void {
 		const production: Production = this.store.createRecord("production");

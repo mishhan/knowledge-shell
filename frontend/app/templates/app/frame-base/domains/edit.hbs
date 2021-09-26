@@ -1,0 +1,13 @@
+<Domain::Form
+	@name={{this.currentDomain.name}}
+	@description={{this.currentDomain.description}}
+	@domainType={{this.currentDomain.domainType}}
+	@domain={{this.currentDomain}}
+	@onSubmit={{this.save}}
+	@onCancel={{this.cancelChanges}}
+/>
+{{#if this.serverErrorMessage}}
+	<div class="notification mt-3 is-danger is-light">
+		{{this.serverErrorMessage}}
+	</div>
+{{/if}}

@@ -1,0 +1,105 @@
+<div class="table-container">
+	{{! template-lint-disable table-groups }}
+	<table class="table slot-table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+		<thead>
+			<tr>
+				<th class="domain-table__index-column has-text-centered">
+					#
+				</th>
+				<th class="domain-table__name-column">
+					{{t "slot.fields.name"}}
+				</th>
+				<th class="domain-table__domain-column">
+					{{t "slot.fields.domain"}}
+				</th>
+				<th class="domain-table__value-column has-text-centered">
+					{{t "slot.fields.default_value"}}
+				</th>
+				<th class="domain-table__production-column has-text-centered">
+					{{t "slot.fields.production"}}
+				</th>
+				<th class="domain-table__inherited-column has-text-centered">
+					{{t "slot.fields.inherited"}}
+				</th>
+				<th class="domain-table__actions-column has-text-centered">
+					{{t "common.actions"}}
+				</th>
+			</tr>
+			<tr>
+				<th class="domain-table__index-column has-text-centered"></th>
+				<th class="domain-table__name-column">
+					<div class="control has-icons-right">
+						<Input placeholder={{t "common.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+						<span class="icon is-right">
+							<FaIcon @icon="search" />
+						</span>
+					</div>
+				</th>
+				<th class="domain-table__domain-column"></th>
+				<th class="domain-table__value-column has-text-centered"></th>
+				<th class="domain-table__production-column has-text-centered"></th>
+				<th class="domain-table__inherited-column has-text-centered"></th>
+				<th class="domain-table__actions-column has-text-centered">
+					<button
+						type="button"
+						class="button is-primary is-small"
+						aria-label={{t "common.add"}}
+						data-microtip-position="top"
+						data-microtip-size="small"
+						role="tooltip"
+						{{on "click" @addSlot}}
+					>
+						<FaIcon @icon="plus-square" />
+					</button>
+				</th>
+			</tr>
+		</thead>
+		<Provider::Filter @model={{@slots}} @field="name" @query={{this.filter}} as |filteredSlots|>
+			<SortableObjects
+				@tagName="tbody"
+				@sortableObjectList={{filteredSlots}}
+				@useSwap={{false}}
+				@inPlace={{true}}
+				@sortingScope="slotList"
+				@enableSort={{this.canReorderSlots}}
+				@sortEndAction={{fn @reorderSlots filteredSlots}}
+			>
+				{{#each filteredSlots as |slot|}}
+					<DraggableObject @tagName="tr" @content={{@slot}} @isSortable={{true}} @sortingScope="slotList">
+						<td class="domain-table__index-column has-text-centered">
+							{{inc slot.order}}
+						</td>
+						<td class="domain-table__name-column">
+							{{slot.name}}
+						</td>
+						<td class="domain-table__domain-column">
+							{{if (is-empty slot.domain.name) (t "slot.fields.field_not_set") slot.domain.name}}
+						</td>
+						<td class="domain-table__value-column has-text-centered">
+							{{if (is-empty slot.value.valueStr) (t "slot.fields.field_not_set") slot.value.valueStr}}
+						</td>
+						<td class="domain-table__production-column has-text-centered">
+							<FaIcon @icon={{if slot.hasProduction "check-square" "square"}} />
+						</td>
+						<td class="domain-table__inherited-column has-text-centered">
+							<FaIcon @icon={{if slot.isInherited "check-square" "square"}} />
+						</td>
+						<td class="domain-table__actions-column has-text-centered">
+							<button type="button" class="button is-primary is-small" {{on "click" (fn @selectSlot slot)}}>
+								<FaIcon @icon="edit" />
+							</button>
+							<button
+								type="button"
+								class="button is-danger is-small"
+								disabled={{@slot.isInherited}}
+								{{on "click" (fn @deleteSlot slot)}}
+							>
+								<FaIcon @icon="trash" />
+							</button>
+						</td>
+					</DraggableObject>
+				{{/each}}
+			</SortableObjects>
+		</Provider::Filter>
+	</table>
+</div>

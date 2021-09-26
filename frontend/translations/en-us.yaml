@@ -17,6 +17,9 @@ common:
   filter: Filter
   search: Search
   delete_confirmation: Are you sure you want to delete {item}?
+  save: Save
+  cancel: Cancel
+  add: Add
 
 fields:
   login: Login
@@ -52,6 +55,7 @@ domain:
     type: Type
     count: Count
     new_value: New value
+    value: Value
 
 frame:
   name: Frame
@@ -67,11 +71,34 @@ kb:
     creation_date: Creation date
     modify_date: Modify date
 
+rule:
+  name: Rule
+  fields:
+    name: Name
+    reason: Reason
+    premise: Premise
+    full_rule: Rule
+    consequence: Consequence
+
+variable:
+  name: Variable
+  fields:
+    name: Name
+    description: Description
+    question: Question
+    variable_type: Variable type
+    domain: Domain
+
 frame_editor:
   information: Information
   editor: Editor
   domains: Domains
   play: Play
+
+production_editor:
+  rules: Rules
+  variables: Variables
+  domains: Domains
 
 battle:
   log: Battle Log

@@ -6,9 +6,9 @@ export default abstract class KnowledgeBase extends Model {
 	@attr("string") name!: string;
 	@attr("string") description!: string;
 
-	public abstract get knowledgeBaseType(): KnowledgeBaseType;
-	public get knowledgeBaseTypeName(): string {
-		return KnowledgeBaseType[this.knowledgeBaseType];
+	public abstract get baseType(): KnowledgeBaseType;
+	public get baseTypeName(): string {
+		return KnowledgeBaseType[this.baseType];
 	}
 
 	@attr("date", {

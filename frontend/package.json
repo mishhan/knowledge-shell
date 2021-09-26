@@ -26,15 +26,10 @@
     "prepare": "cd .. && husky install frontend/.husky"
   },
   "lint-staged": {
-    "linters": {
-      "*.js": "eslint . --max-warnings=0",
-      "*.ts": "eslint . --max-warnings=0",
-      "*.scss": "stylelint app/styles/**/*.scss --max-warnings=0",
-      "*.hbs": "ember-template-lint . --max-warnings=0"
-    },
-    "ignore": [
-      "vendor/*"
-    ]
+		"*.js": "eslint . --max-warnings=0",
+		"*.ts": "eslint . --max-warnings=0",
+		"*.scss": "stylelint app/styles/**/*.scss --max-warnings=0",
+		"*.hbs": "ember-template-lint . --max-warnings=0"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
