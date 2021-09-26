@@ -1,7 +1,7 @@
 <div class="base-editor__editor">
 	<div class="base-editor__editor-tree">
 		{{#each this.rootFrames as |rootFrame|}}
-				<TreeNode @node={{rootFrame}} @selectNode={{this.selectFrame}} @isRootNode={{true}} @isLastNode={{false}} />
+			<TreeNode @node={{rootFrame}} @selectNode={{this.selectFrame}} @isRootNode={{true}} @isLastNode={{false}} />
 		{{/each}}
 	</div>
 	<div class="base-editor__editor-graph">
@@ -22,9 +22,16 @@
 		<div class="base-editor__selected-frame">
 			<div class="box">
 				<div class="field">
-					<FormInput @id="frame-name" @labelText={{t "frame.fields.name"}} @placeholder={{t "frame.fields.name"}} @value={{this.selectedFrame.name}}
-						@isValid={{this.nameValidation.isValid}} @isInValid={{this.nameValidation.isInValid}} @onChange={{this.onNameChange}}
-						@validationErrors={{this.nameValidation.errors}} />
+					<FormInput
+						@id="frame-name"
+						@labelText={{t "frame.fields.name"}}
+						@placeholder={{t "frame.fields.name"}}
+						@value={{this.selectedFrame.name}}
+						@isValid={{this.nameValidation.isValid}}
+						@isInValid={{this.nameValidation.isInValid}}
+						@onChange={{this.onNameChange}}
+						@validationErrors={{this.nameValidation.errors}}
+					/>
 				</div>
 				<div class="field">
 					<button

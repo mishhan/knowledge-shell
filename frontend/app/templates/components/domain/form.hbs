@@ -1,14 +1,28 @@
 <form id="domain" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
 	<div class="field">
-    <FormInput @id="name" @labelText={{t "domain.fields.name"}} @placeholder={{t "domain.fields.name"}} @value={{this.name}}
-      @isValid={{this.nameValidation.isValid}} @isInValid={{this.nameValidation.isInValid}} @onChange={{this.onNameChange}}
-      @validationErrors={{this.nameValidation.errors}} />
-  </div>
+		<FormInput
+			@id="name"
+			@labelText={{t "domain.fields.name"}}
+			@placeholder={{t "domain.fields.name"}}
+			@value={{this.name}}
+			@isValid={{this.nameValidation.isValid}}
+			@isInValid={{this.nameValidation.isInValid}}
+			@onChange={{this.onNameChange}}
+			@validationErrors={{this.nameValidation.errors}}
+		/>
+	</div>
 	<div class="field">
-    <FormInput @id="description" @labelText={{t "domain.fields.description"}} @placeholder={{t "domain.fields.description"}} @value={{this.description}}
-      @isValid={{this.descriptionValidation.isValid}} @isInValid={{this.descriptionValidation.isInValid}} @onChange={{this.onDescriptionChange}}
-      @validationErrors={{this.descriptionValidation.errors}} />
-  </div>
+		<FormInput
+			@id="description"
+			@labelText={{t "domain.fields.description"}}
+			@placeholder={{t "domain.fields.description"}}
+			@value={{this.description}}
+			@isValid={{this.descriptionValidation.isValid}}
+			@isInValid={{this.descriptionValidation.isInValid}}
+			@onChange={{this.onDescriptionChange}}
+			@validationErrors={{this.descriptionValidation.errors}}
+		/>
+	</div>
 	<div class="field">
 		<label for="type" class="label">
 			{{t "domain.fields.type"}}
@@ -24,12 +38,12 @@
 				{{domainType.value}}
 			</PowerSelect>
 		</div>
-			{{#if this.domainTypeValidation.isInValid}}
-				{{#each this.domainTypeValidation.errors as |error|}}
+		{{#if this.domainTypeValidation.isInValid}}
+			{{#each this.domainTypeValidation.errors as |error|}}
 				<p class="help is-danger">
 					{{t error}}
 				</p>
-				{{/each}}
+			{{/each}}
 		{{/if}}
 	</div>
 	<div class="field is-grouped">
@@ -46,19 +60,19 @@
 		</div>
 	</div>
 	{{#if this.domainHasValues}}
-	<div class="box">
-		<Domain::DomainValueList
-			@domainValues={{this.domain.domainValuesOrdered}}
-			@domainValueType={{this.domainTypeControl}}
-			@reorderValues={{this.reorderDomainValues}}
-			@deleteValue={{this.deleteDomainValue}}
-		/>
-	</div>
+		<div class="box">
+			<Domain::DomainValueList
+				@domainValues={{this.domain.domainValuesOrdered}}
+				@domainValueType={{this.domainTypeControl}}
+				@reorderValues={{this.reorderDomainValues}}
+				@deleteValue={{this.deleteDomainValue}}
+			/>
+		</div>
 	{{/if}}
 	<button type="submit" class="button is-primary" {{on "click" this.onSubmit}}>
-    {{t "common.save"}}
-  </button>
+		{{t "common.save"}}
+	</button>
 	<button type="button" class="button is-light" {{on "click" @onCancel}}>
-    {{t "common.cancel"}}
-  </button>
+		{{t "common.cancel"}}
+	</button>
 </form>
