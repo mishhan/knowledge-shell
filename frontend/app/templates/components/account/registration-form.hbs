@@ -5,11 +5,11 @@
 			@labelText={{t "fields.login"}}
 			@placeholder={{t "fields.login"}}
 			@value={{this.userName}}
-			@isValid={{and this.isSubmitted (eq this.userNameValidationErrors.length 0)}}
-			@isInValid={{and this.isSubmitted (gt this.userNameValidationErrors.length 0)}}
+			@isValid={{this.userNameValidation.isValid}}
+			@isInValid={{this.userNameValidation.isInValid}}
 			@leftIcon="user"
 			@onChange={{this.onUsernameChange}}
-			@validationErrors={{this.userNameValidationErrors}}
+			@validationErrors={{this.userNameValidation.errors}}
 		/>
 	</div>
 	<div class="field">
@@ -18,11 +18,11 @@
 			@labelText={{t "fields.email"}}
 			@placeholder={{t "fields.email"}}
 			@value={{this.email}}
-			@isValid={{and this.isSubmitted (eq this.emailValidationErrors.length 0)}}
-			@isInValid={{and this.isSubmitted (gt this.emailValidationErrors.length 0)}}
+			@isValid={{this.emailValidation.isValid}}
+			@isInValid={{this.emailValidation.isInValid}}
 			@leftIcon="envelope"
 			@onChange={{this.onEmailChange}}
-			@validationErrors={{this.emailValidationErrors}}
+			@validationErrors={{this.emailValidation.errors}}
 		/>
 	</div>
 	<div class="field">
@@ -32,11 +32,11 @@
 			@placeholder="********"
 			@labelText={{t "fields.password"}}
 			@value={{this.password}}
-			@isValid={{and this.isSubmitted (eq this.passwordValidationErrors.length 0)}}
-			@isInValid={{and this.isSubmitted (gt this.passwordValidationErrors.length 0)}}
+			@isValid={{this.passwordValidation.isValid}}
+			@isInValid={{this.passwordValidation.isInValid}}
 			@leftIcon="lock"
 			@onChange={{this.onPasswordChange}}
-			@validationErrors={{this.passwordValidationErrors}}
+			@validationErrors={{this.passwordValidation.errors}}
 		/>
 		<div class="mt-1">
 			<label class="checkbox">
@@ -52,7 +52,7 @@
 				{{t "fields.agreement_terms"}}
 			</a>
 		</label>
-		{{#each this.acceptTermsValidationErrors as |error|}}
+		{{#each this.acceptTermsValidation.errors as |error|}}
 			<p class="help is-danger">
 				{{t error}}
 			</p>

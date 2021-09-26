@@ -5,11 +5,11 @@
 			@labelText={{t "fields.login_or_email"}}
 			@placeholder={{t "fields.login"}}
 			@value={{this.userName}}
-			@isValid={{and this.isSubmitted (eq this.identificationValidationErrors.length 0)}}
-			@isInValid={{and this.isSubmitted (gt this.identificationValidationErrors.length 0)}}
+			@isValid={{this.identificationValidation.isValid}}
+			@isInValid={{this.identificationValidation.isInValid}}
 			@leftIcon="user"
 			@onChange={{this.onIdentificationChange}}
-			@validationErrors={{this.identificationValidationErrors}}
+			@validationErrors={{this.identificationValidation.errors}}
 		/>
 	</div>
 	<div class="field">
@@ -19,11 +19,11 @@
 			@placeholder="********"
 			@labelText={{t "fields.password"}}
 			@value={{this.password}}
-			@isValid={{and this.isSubmitted (eq this.passwordValidationErrors.length 0)}}
-			@isInValid={{and this.isSubmitted (gt this.passwordValidationErrors.length 0)}}
+			@isValid={{this.passwordValidation.isValid}}
+			@isInValid={{this.passwordValidation.isInValid}}
 			@leftIcon="lock"
 			@onChange={{this.onPasswordChange}}
-			@validationErrors={{this.passwordValidationErrors}}
+			@validationErrors={{this.passwordValidation.errors}}
 		/>
 		<div class="mt-1">
 			<label class="checkbox">

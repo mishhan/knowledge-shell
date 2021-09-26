@@ -17,14 +17,26 @@ export default class AccountAuthenticationForm extends Component<AccountAuthenti
 
 	@tracked validator = userAuthenticationValidator.get();
 
-	get identificationValidationErrors(): string[] {
-		const identificationValidationErrors = this.validator.getErrors("identification");
-		return identificationValidationErrors;
+	get identificationValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors("identification");
+		const isValid = this.isSubmitted && errors.length === 0;
+		const isInValid = this.isSubmitted && errors.length > 0;
+		return {
+			errors,
+			isValid,
+			isInValid,
+		};
 	}
 
-	get passwordValidationErrors(): string[] {
-		const passwordValidationErrors = this.validator.getErrors("password");
-		return passwordValidationErrors;
+	get passwordValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors("password");
+		const isValid = this.isSubmitted && errors.length === 0;
+		const isInValid = this.isSubmitted && errors.length > 0;
+		return {
+			errors,
+			isValid,
+			isInValid,
+		};
 	}
 
 	@action

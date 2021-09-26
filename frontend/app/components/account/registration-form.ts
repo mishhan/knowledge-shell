@@ -18,24 +18,48 @@ export default class AccountRegistrationForm extends Component<AccountRegistrati
 	@tracked acceptTerms!: boolean;
 	@tracked validator = userRegistrationValidator.get();
 
-	get userNameValidationErrors(): string[] {
-		const userNameValidationErrors = this.validator.getErrors("userName");
-		return userNameValidationErrors;
+	get userNameValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors("userName");
+		const isValid = this.isSubmitted && errors.length === 0;
+		const isInValid = this.isSubmitted && errors.length > 0;
+		return {
+			errors,
+			isValid,
+			isInValid,
+		};
 	}
 
-	get emailValidationErrors(): string[] {
-		const emailValidationErrors = this.validator.getErrors("email");
-		return emailValidationErrors;
+	get emailValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors("email");
+		const isValid = this.isSubmitted && errors.length === 0;
+		const isInValid = this.isSubmitted && errors.length > 0;
+		return {
+			errors,
+			isValid,
+			isInValid,
+		};
 	}
 
-	get passwordValidationErrors(): string[] {
-		const passwordValidationErrors = this.validator.getErrors("password");
-		return passwordValidationErrors;
+	get passwordValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors("password");
+		const isValid = this.isSubmitted && errors.length === 0;
+		const isInValid = this.isSubmitted && errors.length > 0;
+		return {
+			errors,
+			isValid,
+			isInValid,
+		};
 	}
 
-	get acceptTermsValidationErrors(): string[] {
-		const acceptTermsValidationErrors = this.validator.getErrors("acceptTerms");
-		return acceptTermsValidationErrors;
+	get acceptTermsValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors("acceptTerms");
+		const isValid = this.isSubmitted && errors.length === 0;
+		const isInValid = this.isSubmitted && errors.length > 0;
+		return {
+			errors,
+			isValid,
+			isInValid,
+		};
 	}
 
 	@action
