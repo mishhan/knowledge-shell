@@ -1,17 +1,11 @@
 import { Production } from "knowledge-shell/models";
-import Lexer from "./lexer";
-import TokenType from "./token-type";
-import Token from "./token";
+import { Lexer, Token, TokenType, InterpretationError, EvaluationError } from "../common";
 import FrameKeyWord from "./constants";
-import { UndefinedFrameSlotException, InterpretationException } from "./exceptions";
 import {
 	AndNode,
-	AsNode,
 	AssignNode,
 	EqualNode,
-	FrameGetSlotNode,
 	IfNode,
-	IsNode,
 	LessEqualNode,
 	LessNode,
 	MinusNode,
@@ -23,34 +17,41 @@ import {
 	PlusNode,
 	ValueNode,
 	Node,
-} from "./nodes/index";
+} from "../common/nodes";
+import { IsNode, AsNode, FrameGetSlotNode, FrameValueNode } from "./nodes";
 
 export default class Interpretter {
-	private lexer!: Lexer;
+	private readonly lexer = new Lexer();
+	private readonly relationTokens = [
+		TokenType.More,
+		TokenType.Less,
+		TokenType.Equal,
+		TokenType.NotEqual,
+		TokenType.MoreEqual,
+		TokenType.LessEqual,
+		TokenType.Is,
+		TokenType.As,
+	];
+	private readonly addTokens = [TokenType.Or, TokenType.Plus, TokenType.Minus];
 
 	private currentToken!: Token;
-
 	private production!: Production;
-
-	constructor() {
-		this.lexer = new Lexer();
-	}
 
 	public evaluate(production: Production) {
 		this.production = production;
 		this.lexer.Text = production.text;
 		this.lexer.Position = 0;
 
-		this.nextToken();
+		this.getNextToken();
 		const statement = this.statement();
 		try {
-			const result = statement.evaluateR();
+			const result = statement.evaluateValue();
 			return result;
 		} catch (error) {
-			if (error instanceof UndefinedFrameSlotException) {
+			if (error instanceof EvaluationError) {
 				return undefined;
 			}
-			if (error instanceof InterpretationException) {
+			if (error instanceof InterpretationError) {
 				return undefined;
 			}
 
@@ -58,36 +59,16 @@ export default class Interpretter {
 		}
 	}
 
-	public get Lexer(): Lexer {
-		return this.lexer;
-	}
-
-	public nextToken(): Token {
-		this.currentToken = this.lexer.nextToken();
-		return this.currentToken;
-	}
-
-	private checkToken(tokenType: TokenType): boolean {
-		return this.currentToken.TokenType === tokenType;
-	}
-
-	private expectToken(tokenType: TokenType): void {
-		if (this.currentToken.TokenType !== tokenType) {
-			throw new Error(`Unexpected token ${this.currentToken.TokenType} in sequence. Expected token ${tokenType}`);
-		}
-		this.nextToken();
-	}
-
 	private statement(): Node {
 		if (this.checkToken(TokenType.If)) {
 			return this.ifStatement();
 		}
 
-		const leftExpression: Node = this.expression();
+		const leftExpression = this.expression();
 		if (this.checkToken(TokenType.Assign)) {
-			this.nextToken();
-			const rightExpression: Node = this.expression();
-			return new AssignNode(leftExpression, rightExpression, this.production);
+			this.getNextToken();
+			const rightExpression = this.expression();
+			return new AssignNode(leftExpression, rightExpression);
 		}
 		return leftExpression;
 	}
@@ -100,48 +81,50 @@ export default class Interpretter {
 
 		let falsePart;
 		if (this.checkToken(TokenType.Else)) {
-			this.nextToken();
+			this.getNextToken();
 			falsePart = this.statement();
 		}
 
-		return new IfNode(question, truePart, falsePart, this.production);
+		return new IfNode(question, truePart, falsePart);
 	}
 
 	private expression(): Node {
 		const left = this.simpleExpression();
+
 		const tokenType = this.currentToken.TokenType;
-		if (this.isRelationToken(tokenType)) {
-			this.nextToken();
+		const isRelationToken = this.isRelationToken(tokenType);
+		if (isRelationToken) {
+			this.getNextToken();
 			const right = this.simpleExpression();
 			switch (tokenType) {
 				case TokenType.Equal: {
-					return new EqualNode(left, right, this.production);
+					return new EqualNode(left, right);
 				}
 				case TokenType.NotEqual: {
-					return new NotEqualNode(left, right, this.production);
+					return new NotEqualNode(left, right);
 				}
 
 				case TokenType.Is: {
-					return new IsNode(left, right, this.production);
+					return new IsNode(left, right);
 				}
 				case TokenType.As: {
 					return new AsNode(left, right, this.production);
 				}
 
 				case TokenType.More: {
-					return new MoreNode(left, right, this.production);
+					return new MoreNode(left, right);
 				}
 				case TokenType.Less: {
-					return new LessNode(left, right, this.production);
+					return new LessNode(left, right);
 				}
 				case TokenType.MoreEqual: {
-					return new MoreEqualNode(left, right, this.production);
+					return new MoreEqualNode(left, right);
 				}
 				case TokenType.LessEqual: {
-					return new LessEqualNode(left, right, this.production);
+					return new LessEqualNode(left, right);
 				}
 				default: {
-					throw new InterpretationException(this.constructor.name, "{expression} unknown token type");
+					throw new InterpretationError(this.currentToken, TokenType.Equal);
 				}
 			}
 		}
@@ -151,29 +134,32 @@ export default class Interpretter {
 
 	private simpleExpression(): Node {
 		let left = this.term();
+
 		let tokenType = this.currentToken.TokenType;
-		while (this.isAddToken(tokenType)) {
-			this.nextToken();
+		let isAddToken = this.isAddToken(tokenType);
+		while (isAddToken) {
+			this.getNextToken();
 			const right = this.term();
 			switch (tokenType) {
 				case TokenType.Plus: {
-					left = new PlusNode(left, right, this.production);
+					left = new PlusNode(left, right);
 					break;
 				}
 				case TokenType.Minus: {
-					left = new MinusNode(left, right, this.production);
+					left = new MinusNode(left, right);
 					break;
 				}
 				case TokenType.Or: {
-					left = new OrNode(left, right, this.production);
+					left = new OrNode(left, right);
 					break;
 				}
 				default: {
-					throw new InterpretationException(this.constructor.name, "{simpleExpression} unknown token type");
+					throw new InterpretationError(this.currentToken, TokenType.Plus);
 				}
 			}
 
 			tokenType = this.currentToken.TokenType;
+			isAddToken = this.isAddToken(tokenType);
 		}
 
 		return left;
@@ -183,9 +169,9 @@ export default class Interpretter {
 		let left = this.factor();
 		let tokenType = this.currentToken.TokenType;
 		while (tokenType === TokenType.And) {
-			this.nextToken();
+			this.getNextToken();
 			const right = this.factor();
-			left = new AndNode(left, right, this.production);
+			left = new AndNode(left, right);
 			tokenType = this.currentToken.TokenType;
 		}
 
@@ -194,12 +180,12 @@ export default class Interpretter {
 
 	private factor(): Node {
 		if (this.checkToken(TokenType.Not)) {
-			this.nextToken();
+			this.getNextToken();
 			this.expectToken(TokenType.LeftPair);
 			const result = this.expression();
 			this.expectToken(TokenType.RightPair);
 
-			return new NotNode(result, this.production);
+			return new NotNode(result);
 		}
 
 		let currentFrame;
@@ -210,35 +196,31 @@ export default class Interpretter {
 			if (!this.checkToken(TokenType.LeftBracket)) {
 				return result;
 			}
-			currentFrame = new AsNode(result, new ValueNode(FrameKeyWord, this.production), this.production);
+			currentFrame = new AsNode(result, new ValueNode(FrameKeyWord), this.production);
 		}
 
 		if (this.checkToken(TokenType.IntConst)) {
 			const result = this.currentToken.Text;
 			// eslint-disable-next-line radix
 			const intResult = parseInt(result);
-			this.nextToken();
-			return new ValueNode(intResult, this.production);
+			this.getNextToken();
+			return new ValueNode(intResult);
 		}
 
 		if (this.checkToken(TokenType.StringConst)) {
 			const result = this.currentToken.Text;
-			this.nextToken();
+			this.getNextToken();
 			if (!this.checkToken(TokenType.LeftBracket)) {
-				return new ValueNode(result, this.production);
+				return new ValueNode(result);
 			}
-			currentFrame = new AsNode(
-				new ValueNode(result, this.production),
-				new ValueNode(FrameKeyWord, this.production),
-				this.production,
-			);
+			currentFrame = new AsNode(new ValueNode(result), new ValueNode(FrameKeyWord), this.production);
 		}
 
 		if (this.checkToken(TokenType.This)) {
-			currentFrame = new ValueNode(this.production.slot.owner, this.production);
-			this.nextToken();
+			currentFrame = new FrameValueNode(this.production.slot.owner);
+			this.getNextToken();
 		} else if (currentFrame === null) {
-			return new ValueNode(null, this.production);
+			return new FrameValueNode(null);
 		}
 
 		let currentSlot;
@@ -246,14 +228,14 @@ export default class Interpretter {
 		while (this.checkToken(TokenType.LeftBracket)) {
 			isSlot = true;
 			if (currentSlot !== undefined) {
-				currentFrame = new AsNode(currentSlot, new ValueNode(FrameKeyWord, this.production), this.production);
+				currentFrame = new AsNode(currentSlot, new ValueNode(FrameKeyWord), this.production);
 			}
-			this.nextToken();
+			this.getNextToken();
 			const slotName = this.expression();
 			this.expectToken(TokenType.RightBracket);
 
 			if (currentFrame) {
-				currentSlot = new FrameGetSlotNode(currentFrame, slotName, this.production);
+				currentSlot = new FrameGetSlotNode(currentFrame, slotName);
 			}
 		}
 
@@ -268,21 +250,31 @@ export default class Interpretter {
 		throw new Error("Unreachable code...");
 	}
 
+	private getNextToken(): Token {
+		this.currentToken = this.lexer.getNextToken();
+		return this.currentToken;
+	}
+
+	private expectToken(tokenType: TokenType): void {
+		const isExpectedToken = this.checkToken(tokenType);
+		if (!isExpectedToken) {
+			throw new Error(`Unexpected token ${this.currentToken.TokenType} in sequence. Expected token ${tokenType}`);
+		}
+		this.getNextToken();
+	}
+
+	private checkToken(tokenType: TokenType): boolean {
+		const isSameToken = this.currentToken.isTypeEquals(tokenType);
+		return isSameToken;
+	}
+
 	private isRelationToken(tokenType: TokenType): boolean {
-		const relationTokens = [
-			TokenType.More,
-			TokenType.Less,
-			TokenType.Equal,
-			TokenType.NotEqual,
-			TokenType.MoreEqual,
-			TokenType.LessEqual,
-			TokenType.Is,
-			TokenType.As,
-		];
-		return relationTokens.indexOf(tokenType) !== -1;
+		const isRelationToken = this.relationTokens.indexOf(tokenType) !== -1;
+		return isRelationToken;
 	}
 
 	private isAddToken(tokenType: TokenType): boolean {
-		return tokenType === TokenType.Or || tokenType === TokenType.Plus || tokenType === TokenType.Minus;
+		const isAddToken = this.addTokens.indexOf(tokenType) !== -1;
+		return isAddToken;
 	}
 }

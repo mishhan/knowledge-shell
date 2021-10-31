@@ -1,34 +1,51 @@
 import Token from "./token";
 import TokenType from "./token-type";
+import SyntaxError from "./errors/syntax-error";
 
 export default class Lexer {
-	private text!: string;
+	private text = "";
+	private position = 0;
 
-	private position!: number;
-
-	constructor() {
-		this.text = "";
-		this.position = 0;
-	}
-
-	public nextToken(): Token {
-		return this.getToken();
+	public get Text(): string {
+		return this.text;
 	}
 
 	public set Text(value: string) {
 		this.text = value;
 	}
 
+	public get Position(): number {
+		return this.position;
+	}
+
 	public set Position(value: number) {
 		this.position = value;
 	}
 
-	private getNextChar(): string {
-		this.position += 1;
-		if (this.position === this.text.length) {
-			return "\0";
+	/**
+	 * Determines next token in sequence
+	 * @returns {Token} Next token in sequence
+	 * @throws Will throw an error if there's unrecognized token in sequence
+	 */
+	public getNextToken(): Token {
+		const nextToken = this.getToken();
+		return nextToken;
+	}
+
+	/**
+	 * Determinse all tokens in sequence
+	 * @returns {Token[]} Token sequence
+	 * @throws Will throw an error if there's unrecognized token in sequence
+	 */
+	public getTokens(): Token[] {
+		const tokens = [];
+		let currentToken = this.getToken();
+		while (currentToken.TokenType !== TokenType.End) {
+			tokens.push(currentToken);
+			currentToken = this.getToken();
 		}
-		return this.text[this.position];
+
+		return tokens;
 	}
 
 	private getToken(): Token {
@@ -84,9 +101,11 @@ export default class Lexer {
 			if (token.toLowerCase() === "frame") {
 				return new Token(TokenType.Frame, token);
 			}
+			// TODO can't be used for frames..
+			return new Token(TokenType.Ident, token);
 		}
 
-		// TODO: double const
+		// TODO: double const and if there's char like 123a throws an error
 		if (ch >= "0" && ch <= "9") {
 			while (ch >= "0" && ch <= "9") {
 				if (ch === "\0") {
@@ -169,8 +188,16 @@ export default class Lexer {
 				return new Token(TokenType.StringConst, token);
 			}
 			default: {
-				throw new Error(`Unrecognized symbol in position ${this.position}`);
+				throw new SyntaxError(this.text[this.position], this.position);
 			}
 		}
+	}
+
+	private getNextChar(): string {
+		this.position += 1;
+		if (this.position === this.text.length) {
+			return "\0";
+		}
+		return this.text[this.position];
 	}
 }
