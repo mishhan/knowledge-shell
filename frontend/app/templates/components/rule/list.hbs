@@ -60,8 +60,13 @@
 				@sortEndAction={{fn @reorderRules filteredRules}}
 			>
 				{{#each filteredRules as |rule|}}
-					<DraggableObject @tagName="tr" @content={{rule}} @isSortable={{true}} @sortingScope="rules">
-						<td class="rule-table__index-column has-text-centered">
+					<DraggableObject
+						@tagName="tr"
+						@content={{rule}}
+						@isSortable={{true}}
+						@sortingScope="rules"
+						@dragHandle=".cursor-move">
+						<td class="rule-table__index-column cursor-move has-text-centered">
 							{{inc rule.order}}
 						</td>
 						<td class="rule-table__name-column">

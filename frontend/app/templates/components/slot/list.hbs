@@ -65,8 +65,13 @@
 				@sortEndAction={{fn @reorderSlots filteredSlots}}
 			>
 				{{#each filteredSlots as |slot|}}
-					<DraggableObject @tagName="tr" @content={{@slot}} @isSortable={{true}} @sortingScope="slotList">
-						<td class="domain-table__index-column has-text-centered">
+					<DraggableObject
+						@tagName="tr"
+						@content={{@slot}}
+						@isSortable={{true}}
+						@sortingScope="slotList"
+						@dragHandle=".cursor-move">
+						<td class="domain-table__index-column cursor-move has-text-centered">
 							{{inc slot.order}}
 						</td>
 						<td class="domain-table__name-column">
