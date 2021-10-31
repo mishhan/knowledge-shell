@@ -4,6 +4,7 @@ import { computed } from "@ember/object";
 import Domain from "./domain";
 import ProductionBase from "./production-base";
 import VariableType from "./variable-type";
+import DomainValue from "./domain-value";
 
 export default class Variable extends Model {
 	@attr("string") name!: string;
@@ -21,6 +22,8 @@ export default class Variable extends Model {
 	get variableTypeName(): string {
 		return VariableType[this.variableType];
 	}
+
+	value!: DomainValue;
 }
 
 declare module "ember-data/types/registries/model" {
