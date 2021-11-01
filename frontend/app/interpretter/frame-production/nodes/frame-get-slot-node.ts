@@ -19,6 +19,6 @@ export default class FrameGetSlotNode extends BinarNode {
 			throw new EvaluationError(frame.name, rightNodeValue);
 		}
 
-		throw new EvaluationError("FrameGetSlotNode", "undefined frame");
+		throw new EvaluationError(this.nodeName, "undefined frame");
 	}
 }
