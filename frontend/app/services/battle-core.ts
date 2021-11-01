@@ -14,7 +14,7 @@ import {
 } from "knowledge-shell/models";
 import getRandomInt from "knowledge-shell/utils/get-random-int";
 import BattleLogger from "./battle-logger";
-import BattleLogicCore from "./battle-logic-core";
+import FrameProductionEngine from "./frame-production-engine";
 
 const BATTLE_SETTINGS = {
 	fieldFrameName: "Game Field",
@@ -35,7 +35,7 @@ const BATTLE_SETTINGS = {
 export default class BattleCore extends Service {
 	@service intl!: IntlService;
 	@service("battle-logger") battleLogger!: BattleLogger;
-	@service("battle-logic-core") battleLogicCore!: BattleLogicCore;
+	@service("frame-production-engine") battleLogicCore!: FrameProductionEngine;
 
 	@tracked frameBase!: FrameBase;
 

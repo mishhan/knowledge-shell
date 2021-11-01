@@ -1,15 +1,11 @@
-import Service, { inject as service } from "@ember/service";
+import Service from "@ember/service";
 import { isEmpty, isEqual } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { DomainValueFrame, DomainValueString, Frame, FrameBase, Slot } from "knowledge-shell/models";
 import Interpretter from "knowledge-shell/interpretter/frame-production/interpretter";
-import BattleLogger from "./battle-logger";
 
-export default class BattleLogicCore extends Service {
+export default class FrameProductionEngine extends Service {
 	private readonly productionInterpretter: Interpretter = new Interpretter();
-
-	@service("battle-logger") battleLogger!: BattleLogger;
-
 	@tracked frameBase!: FrameBase;
 
 	public attachToFrameOrChildren(framePrototype: Frame, frameSample: Frame): Frame[] {
@@ -107,6 +103,6 @@ export default class BattleLogicCore extends Service {
 
 declare module "@ember/service" {
 	interface Registry {
-		"battle-logic-core": BattleLogicCore;
+		"frame-production-engine": FrameProductionEngine;
 	}
 }
