@@ -6,9 +6,9 @@ import { VariableValueNode } from "./nodes";
 export default class ProductionInterpretter extends Interpretter {
 	private rule!: Rule;
 
-	public evaluate(rule: Rule) {
-		this.rule = rule;
-		super.evaluate(rule);
+	public evaluate(context: Rule) {
+		this.rule = context;
+		return super.evaluate(context);
 	}
 
 	protected factor(): Node {
