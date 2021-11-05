@@ -1,6 +1,6 @@
 import Controller from "@ember/controller";
 import { action } from "@ember/object";
-import { DomainType, KnowledgeBaseType } from "knowledge-shell/models";
+import { DomainType, KnowledgeBase, KnowledgeBaseType } from "knowledge-shell/models";
 
 export default class KnowledgeBasesNewController extends Controller {
 	defaultKbType = KnowledgeBaseType.Frame;
@@ -15,7 +15,7 @@ export default class KnowledgeBasesNewController extends Controller {
 		knowledgeBase.description = kbDescription;
 		knowledgeBase
 			.save()
-			.then((kb) => {
+			.then((kb: KnowledgeBase) => {
 				if (isFrameBase) {
 					this.store
 						.createRecord("domain", {

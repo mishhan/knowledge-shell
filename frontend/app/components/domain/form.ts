@@ -7,11 +7,8 @@ import { Domain, DomainValue, DomainType } from "knowledge-shell/models";
 import domainValidator from "knowledge-shell/validations/domain";
 
 interface DomainFormArgs {
-	name: string;
-	description: string;
-	domainType: DomainType;
-
 	domain: Domain;
+	domains: Domain[];
 
 	onSubmit: (name: string, description: string, domainType: DomainType) => void;
 	onCancel: () => void;
@@ -31,6 +28,7 @@ export default class DomainForm extends Component<DomainFormArgs> {
 	@tracked newValue!: string | number;
 
 	@tracked validator = domainValidator.get();
+	domainNameCollection!: string[];
 
 	get domainTypes(): { key: number; value: string }[] {
 		return [
@@ -121,10 +119,15 @@ export default class DomainForm extends Component<DomainFormArgs> {
 
 	@action
 	setupForm(): void {
-		this.name = this.args.name;
-		this.description = this.args.description;
-		this.domainType = this.args.domainType;
+		const { name, description, domainType } = this.args.domain;
+		this.name = name;
+		this.description = description;
+		this.domainType = domainType;
 		this.domain = this.args.domain;
+		this.domainNameCollection = this.args.domains
+			.filter((domain: Domain) => domain.id !== this.args.domain.id)
+			.map((domain: Domain) => domain.name)
+			.filter((domainName: string) => domainName !== undefined);
 	}
 
 	@action
@@ -163,6 +166,7 @@ export default class DomainForm extends Component<DomainFormArgs> {
 				name,
 				description,
 				domainType,
+				nameCollection: this.domainNameCollection,
 			},
 			fieldName,
 		);

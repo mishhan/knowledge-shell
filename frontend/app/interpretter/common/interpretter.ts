@@ -34,10 +34,8 @@ export default abstract class Interpretter {
 
 	protected currentToken!: Token;
 
-	public evaluate(context: any): any {
-		this.lexer.Text = context.text;
-		this.lexer.Position = 0;
-
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	public evaluate(..._args: any[]): any {
 		this.getNextToken();
 		const statement = this.statement();
 		try {
@@ -53,6 +51,11 @@ export default abstract class Interpretter {
 
 			return undefined;
 		}
+	}
+
+	protected setText(text: string): void {
+		this.lexer.Text = text;
+		this.lexer.Position = 0;
 	}
 
 	protected statement(): Node {

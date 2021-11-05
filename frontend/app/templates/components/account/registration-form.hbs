@@ -2,8 +2,8 @@
 	<div class="field">
 		<FormInput
 			@id="login"
-			@labelText={{t "fields.login"}}
-			@placeholder={{t "fields.login"}}
+			@labelText={{t "models.user.fields.login"}}
+			@placeholder={{t "models.user.fields.login"}}
 			@value={{this.userName}}
 			@isValid={{this.userNameValidation.isValid}}
 			@isInValid={{this.userNameValidation.isInValid}}
@@ -15,8 +15,8 @@
 	<div class="field">
 		<FormInput
 			@id="email"
-			@labelText={{t "fields.email"}}
-			@placeholder={{t "fields.email"}}
+			@labelText={{t "models.user.fields.email"}}
+			@placeholder={{t "models.user.fields.email"}}
 			@value={{this.email}}
 			@isValid={{this.emailValidation.isValid}}
 			@isInValid={{this.emailValidation.isInValid}}
@@ -30,7 +30,7 @@
 			@id="password"
 			@type={{if this.showPassword "text" "password"}}
 			@placeholder="********"
-			@labelText={{t "fields.password"}}
+			@labelText={{t "models.user.fields.password"}}
 			@value={{this.password}}
 			@isValid={{this.passwordValidation.isValid}}
 			@isInValid={{this.passwordValidation.isInValid}}
@@ -41,16 +41,19 @@
 		<div class="mt-1">
 			<label class="checkbox">
 				<Input @type="checkbox" @checked={{this.showPassword}} />
-				{{t "fields.show_password"}}
+				{{t "models.user.fields.show_password"}}
 			</label>
 		</div>
 	</div>
 	<div class="field">
 		<label class="checkbox">
 			<Input @type="checkbox" @checked={{this.acceptTerms}} />
-			{{t "fields.agreement_line"}}<a href="/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">
-				{{t "fields.agreement_terms"}}
-			</a>
+			<span>{{t "models.user.fields.agreement"}}</span>
+			<span class="icon">
+				<a href="/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">
+					<FaIcon @icon="external-link-alt" @size="sm" />
+				</a>
+			</span>
 		</label>
 		{{#each this.acceptTermsValidation.errors as |error|}}
 			<p class="help is-danger">
@@ -59,6 +62,6 @@
 		{{/each}}
 	</div>
 	<button type="submit" class="button is-primary {{if @isLoading "is-loading"}}" {{on "click" this.onSubmit}}>
-		{{t "sign_up"}}
+		{{t "common.actions.sign_up"}}
 	</button>
 </form>

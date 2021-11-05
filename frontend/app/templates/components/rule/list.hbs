@@ -7,13 +7,13 @@
 					#
 				</th>
 				<th class="rule-table__name-column">
-					{{t "rule.fields.name"}}
+					{{t "models.rule.fields.name"}}
 				</th>
 				<th class="rule-table__rule-column">
-					{{t "rule.fields.full_rule"}}
+					{{t "models.rule.fields.full_rule"}}
 				</th>
 				<th class="rule-table__actions-column has-text-centered">
-					{{t "common.actions"}}
+					{{t "common.actions.actions"}}
 				</th>
 			</tr>
 			<tr>
@@ -21,7 +21,7 @@
 				<th class="rule-table__name-column"></th>
 				<th class="rule-table__rule-column">
 					<div class="control has-icons-right">
-						<Input placeholder={{t "common.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+						<Input placeholder={{t "common.actions.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
 						<span class="icon is-right">
 							<FaIcon @icon="search" />
 						</span>
@@ -31,7 +31,7 @@
 					<LinkTo
 						@route="app.production-base.rules.new"
 						class="button is-primary is-small"
-						aria-label={{t "common.add"}}
+						aria-label={{t "common.actions.add"}}
 						data-microtip-position="top"
 						data-microtip-size="small"
 						role="tooltip"

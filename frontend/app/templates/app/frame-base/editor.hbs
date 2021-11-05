@@ -24,8 +24,8 @@
 				<div class="field">
 					<FormInput
 						@id="frame-name"
-						@labelText={{t "frame.fields.name"}}
-						@placeholder={{t "frame.fields.name"}}
+						@labelText={{t "models.frame.fields.name"}}
+						@placeholder={{t "models.frame.fields.name"}}
 						@value={{this.selectedFrame.name}}
 						@isValid={{this.nameValidation.isValid}}
 						@isInValid={{this.nameValidation.isInValid}}
@@ -60,7 +60,7 @@
 				/>
 				{{#if this.selectedSlot}}
 					<ModalCard
-						@header={{t "slot.name"}}
+						@header={{t "models.slot.name"}}
 						@onClose={{fn this.cancelSlotChanges this.selectedSlot}}
 						@onSuccessClose={{fn this.saveSlotChanges this.selectedSlot}}
 						@onCancelClose={{fn this.cancelSlotChanges this.selectedSlot}}

@@ -7,30 +7,35 @@ interface IVariable {
 	question: string;
 	variableType: VariableType;
 	domain: Domain;
+	nameCollection: string;
 }
 
 export default vest.create((data: IVariable, cnahgedField: string) => {
 	vest.only(cnahgedField);
 
-	test("name", "fields.validation_errors.required", () => {
+	test("name", "form.validation_errors.required_field", () => {
 		enforce(data.name).isNotEmpty();
 	});
 
-	test("description", "fields.validation_errors.required", () => {
+	test("name", "form.validation_errors.unique_name", () => {
+		enforce(data.name).notInside(data.nameCollection);
+	});
+
+	test("description", "form.validation_errors.required_field", () => {
 		enforce(data.description).isNotEmpty();
 	});
 
 	if (data.variableType !== VariableType.Derrivable) {
-		test("question", "fields.validation_errors.required", () => {
+		test("question", "form.validation_errors.required_field", () => {
 			enforce(data.question).isNotEmpty();
 		});
 	}
 
-	test("variableType", "fields.validation_errors.required", () => {
+	test("variableType", "form.validation_errors.required_field", () => {
 		enforce(data.variableType).isNumber();
 	});
 
-	test("domain", "fields.validation_errors.required", () => {
+	test("domain", "form.validation_errors.required_field", () => {
 		enforce(data.domain).isNotNull();
 	});
 });

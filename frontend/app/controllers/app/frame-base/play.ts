@@ -31,7 +31,7 @@ export default class FrameBasePlayController extends Controller {
 	}
 
 	get gameLog(): { name: string; children: any } {
-		const battleTitle = this.intl.t("battle.log");
+		const battleTitle = this.intl.t("pages.frame_editor.testing.battle.log");
 		const rootNode = { name: battleTitle, children: this.battleLogger.fullLog };
 		return rootNode;
 	}

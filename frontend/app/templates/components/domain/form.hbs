@@ -2,8 +2,8 @@
 	<div class="field">
 		<FormInput
 			@id="name"
-			@labelText={{t "domain.fields.name"}}
-			@placeholder={{t "domain.fields.name"}}
+			@labelText={{t "models.domain.fields.name"}}
+			@placeholder={{t "models.domain.fields.name"}}
 			@value={{this.name}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
@@ -14,8 +14,8 @@
 	<div class="field">
 		<FormInput
 			@id="description"
-			@labelText={{t "domain.fields.description"}}
-			@placeholder={{t "domain.fields.description"}}
+			@labelText={{t "models.domain.fields.description"}}
+			@placeholder={{t "models.domain.fields.description"}}
 			@value={{this.description}}
 			@isValid={{this.descriptionValidation.isValid}}
 			@isInValid={{this.descriptionValidation.isInValid}}
@@ -25,7 +25,7 @@
 	</div>
 	<div class="field">
 		<label for="type" class="label">
-			{{t "domain.fields.type"}}
+			{{t "models.domain.fields.type"}}
 		</label>
 		<div class="control">
 			<PowerSelect
@@ -49,7 +49,7 @@
 	<div class="field is-grouped">
 		<div class="control is-expanded">
 			<label for="domain_value" class="label">
-				{{t "domain.fields.new_value"}}
+				{{t "models.domain.fields.new_domain_value"}}
 			</label>
 			<Input id="domain_value" @type={{this.domainTypeControl}} class="input is-small" @value={{this.newValue}} />
 		</div>
@@ -70,9 +70,9 @@
 		</div>
 	{{/if}}
 	<button type="submit" class="button is-primary" {{on "click" this.onSubmit}}>
-		{{t "common.save"}}
+		{{t "common.actions.save"}}
 	</button>
 	<button type="button" class="button is-light" {{on "click" @onCancel}}>
-		{{t "common.cancel"}}
+		{{t "common.actions.cancel"}}
 	</button>
 </form>

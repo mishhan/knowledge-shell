@@ -1,0 +1,145 @@
+{
+	"common": {
+		"language": {
+			"ru-ru": "Русский",
+			"en-us": "English"
+		},
+		"logo": "Logo",
+		"field_not_set": "Not set",
+		"actions": {
+			"add": "Add",
+			"cancel": "Cancel",
+			"save": "Save",
+			"filter": "Filter",
+			"search": "Search",
+			"sign_in": "Sign In",
+			"sign_out": "Sign Out",
+			"sign_up": "Sign Up",
+			"actions": "Actions"
+		}
+	},
+	"form": {
+		"validation_errors": {
+			"unique_name": "Name must be unique",
+			"required_field": "Field is required",
+			"incorrect_email": "Email is not valid",
+			"gte_3": "Field length must be greater than or equal to 3 symbols",
+			"strong_password": "Password must contain at least 8 characters including letters, numbers and special characters in both cases",
+			"tof": "You must agree to the terms of service"
+		}
+	},
+	"pages": {
+		"footer": {
+			"copyright": "2020 Copyright",
+			"licence": "MIT License",
+			"github_project": "Github Project"
+		},
+		"production_editor": {
+			"information": {
+				"title": "Information",
+				"properties": {
+					"header": "Properties",
+					"rule_count": "Rule count",
+					"variable_count": "Variable count",
+					"domain_count": "Domain count"
+				}
+			},
+			"rules": "Rules",
+			"variables": "Variables",
+			"domains": "Domains"
+		},
+		"frame_editor": {
+			"information": {
+				"title": "Information",
+				"properties": {
+					"header": "Properties",
+					"frame_count": "Frame count",
+					"domain_count": "Domain count",
+					"slot_count": "Slot count",
+					"unique_slot_count": "Unique slot count"
+				}
+			},
+			"editor": "Editor",
+			"domains": "Domains",
+			"testing": {
+				"title": "Testing",
+				"battle": {
+					"log": "Battle Log",
+					"step": "Step {number}",
+					"attached_situations": "Attached situations ({count})",
+					"chosen_situation": "Chosen situation - {situation}"
+				}
+			}
+		}
+	},
+	"models": {
+		"user": {
+			"fields": {
+				"login": "Login",
+				"email": "Email",
+				"login_or_email": "Login or Email",
+				"password": "Password",
+				"show_password": "Display password",
+				"agreement": "I agree to the terms and conditions"
+			}
+		},
+		"slot": {
+			"name": "Slot",
+			"fields": {
+				"name": "Name",
+				"domain": "Domain",
+				"default_value": "Default value",
+				"production": "Production",
+				"production_example": "if frame[slot_name] == \"red\" then frame[other_slot_name] = \"black\"",
+				"inherited": "Inherited"
+			}
+		},
+		"domain": {
+			"name": "Domain",
+			"fields": {
+				"name": "Name",
+				"description": "Description",
+				"type": "Type",
+				"value_count": "Count",
+				"new_domain_value": "New value",
+				"value": "Value"
+			}
+		},
+		"frame": {
+			"name": "Frame",
+			"fields": {
+				"name": "Name"
+			}
+		},
+		"kb": {
+			"name": "Knowledge base",
+			"fields": {
+				"name": "Name",
+				"description": "Description",
+				"type": "Type",
+				"creation_date": "Creation date",
+				"modify_date": "Modify date"
+			}
+		},
+		"rule": {
+			"name": "Rule",
+			"fields": {
+				"name": "Name",
+				"premise": "Premise",
+				"consequence": "Consequence",
+				"reason": "Reason",
+				"full_rule": "Rule"
+			}
+		},
+		"variable": {
+			"name": "Variable",
+			"fields": {
+				"name": "Name",
+				"description": "Description",
+				"domain": "Domain",
+				"type": "Type",
+				"question": "Question"
+			}
+		}
+	}
+}

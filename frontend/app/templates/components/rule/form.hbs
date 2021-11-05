@@ -2,8 +2,8 @@
 	<div class="field">
 		<FormInput
 			@id="name"
-			@labelText={{t "rule.fields.name"}}
-			@placeholder={{t "rule.fields.name"}}
+			@labelText={{t "models.rule.fields.name"}}
+			@placeholder={{t "models.rule.fields.name"}}
 			@value={{this.name}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
@@ -14,8 +14,8 @@
 	<div class="field">
 		<FormInput
 			@id="reason"
-			@labelText={{t "rule.fields.reason"}}
-			@placeholder={{t "rule.fields.reason"}}
+			@labelText={{t "models.rule.fields.reason"}}
+			@placeholder={{t "models.rule.fields.reason"}}
 			@value={{this.reason}}
 			@isValid={{this.reasonValidation.isValid}}
 			@isInValid={{this.reasonValidation.isInValid}}
@@ -26,8 +26,8 @@
 	<div class="field">
 		<FormInput
 			@id="premise"
-			@labelText={{t "rule.fields.premise"}}
-			@placeholder={{t "rule.fields.premise"}}
+			@labelText={{t "models.rule.fields.premise"}}
+			@placeholder={{t "models.rule.fields.premise"}}
 			@value={{this.premise}}
 			@isValid={{this.premiseValidation.isValid}}
 			@isInValid={{this.premiseValidation.isInValid}}
@@ -38,8 +38,8 @@
 	<div class="field">
 		<FormInput
 			@id="consequence"
-			@labelText={{t "rule.fields.consequence"}}
-			@placeholder={{t "rule.fields.consequence"}}
+			@labelText={{t "models.rule.fields.consequence"}}
+			@placeholder={{t "models.rule.fields.consequence"}}
 			@value={{this.consequence}}
 			@isValid={{this.consequenceValidation.isValid}}
 			@isInValid={{this.consequenceValidation.isInValid}}
@@ -48,16 +48,12 @@
 		/>
 	</div>
 	<div class="field">
-		<p>
-			<pre>
-				{{this.fullRule}}
-			</pre>
-		</p>
+		<p><pre>{{this.fullRule}}</pre></p>
 	</div>
 	<button type="submit" class="button is-primary" {{on "click" this.onSubmit}}>
-		{{t "common.save"}}
+		{{t "common.actions.save"}}
 	</button>
 	<button type="button" class="button is-light" {{on "click" @onCancel}}>
-		{{t "common.cancel"}}
+		{{t "common.actions.cancel"}}
 	</button>
 </form>

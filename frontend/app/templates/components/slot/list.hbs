@@ -7,29 +7,29 @@
 					#
 				</th>
 				<th class="domain-table__name-column">
-					{{t "slot.fields.name"}}
+					{{t "models.slot.fields.name"}}
 				</th>
 				<th class="domain-table__domain-column">
-					{{t "slot.fields.domain"}}
+					{{t "models.slot.fields.domain"}}
 				</th>
 				<th class="domain-table__value-column has-text-centered">
-					{{t "slot.fields.default_value"}}
+					{{t "models.slot.fields.default_value"}}
 				</th>
 				<th class="domain-table__production-column has-text-centered">
-					{{t "slot.fields.production"}}
+					{{t "models.slot.fields.production"}}
 				</th>
 				<th class="domain-table__inherited-column has-text-centered">
-					{{t "slot.fields.inherited"}}
+					{{t "models.slot.fields.inherited"}}
 				</th>
 				<th class="domain-table__actions-column has-text-centered">
-					{{t "common.actions"}}
+					{{t "common.actions.actions"}}
 				</th>
 			</tr>
 			<tr>
 				<th class="domain-table__index-column has-text-centered"></th>
 				<th class="domain-table__name-column">
 					<div class="control has-icons-right">
-						<Input placeholder={{t "common.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+						<Input placeholder={{t "common.actions.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
 						<span class="icon is-right">
 							<FaIcon @icon="search" />
 						</span>
@@ -43,7 +43,7 @@
 					<button
 						type="button"
 						class="button is-primary is-small"
-						aria-label={{t "common.add"}}
+						aria-label={{t "common.actions.add"}}
 						data-microtip-position="top"
 						data-microtip-size="small"
 						role="tooltip"
@@ -78,10 +78,10 @@
 							{{slot.name}}
 						</td>
 						<td class="domain-table__domain-column">
-							{{if (is-empty slot.domain.name) (t "slot.fields.field_not_set") slot.domain.name}}
+							{{if (is-empty slot.domain.name) (t "common.field_not_set") slot.domain.name}}
 						</td>
 						<td class="domain-table__value-column has-text-centered">
-							{{if (is-empty slot.value.valueStr) (t "slot.fields.field_not_set") slot.value.valueStr}}
+							{{if (is-empty slot.value.valueStr) (t "common.field_not_set") slot.value.valueStr}}
 						</td>
 						<td class="domain-table__production-column has-text-centered">
 							<FaIcon @icon={{if slot.hasProduction "check-square" "square"}} />

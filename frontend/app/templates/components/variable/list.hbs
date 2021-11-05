@@ -6,29 +6,29 @@
 					#
 				</th>
 				<th class="variable-table__name-column">
-					{{t "variable.fields.name"}}
+					{{t "models.variable.fields.name"}}
 				</th>
 				<th class="variable-table__description-column">
-					{{t "variable.fields.description"}}
+					{{t "models.variable.fields.description"}}
 				</th>
 				<th class="variable-table__domain-column">
-					{{t "variable.fields.domain"}}
+					{{t "models.variable.fields.domain"}}
 				</th>
 				<th class="variable-table__type-column">
-					{{t "variable.fields.variable_type"}}
+					{{t "models.variable.fields.type"}}
 				</th>
 				<th class="variable-table__question-column">
-					{{t "variable.fields.question"}}
+					{{t "models.variable.fields.question"}}
 				</th>
 				<th class="variable-table__actions-column has-text-centered">
-					{{t "common.actions"}}
+					{{t "common.actions.actions"}}
 				</th>
 			</tr>
 			<tr>
 				<th class="variable-table__index-column has-text-centered"></th>
 				<th class="variable-table__name-column">
 					<div class="control has-icons-right">
-						<Input placeholder={{t "common.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+						<Input placeholder={{t "common.actions.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
 						<span class="icon is-right">
 							<FaIcon @icon="search" />
 						</span>
@@ -42,7 +42,7 @@
 					<LinkTo
 						@route="app.production-base.variables.new"
 						class="button is-primary is-small"
-						aria-label={{t "common.add"}}
+						aria-label={{t "common.actions.add"}}
 						data-microtip-position="top"
 						data-microtip-size="small"
 						role="tooltip"
@@ -59,14 +59,14 @@
 						<td class="variable-table__index-column has-text-centered">
 							{{inc index}}
 						</td>
+						<td class="variable-table__name-column">
+							{{variable.name}}
+						</td>
 						<td class="variable-table__description-column">
 							{{variable.description}}
 						</td>
-						<td class="variable-table__name-column">
-							{{variable.domain.name}}
-						</td>
 						<td class="variable-table__domain-column">
-							{{variable.description}}
+							{{variable.domain.name}}
 						</td>
 						<td class="variable-table__type-column">
 							{{variable.variableTypeName}}

@@ -8,11 +8,11 @@ interface IUserAuthentication {
 export default vest.create((data: IUserAuthentication, cnahgedField: string) => {
 	vest.only(cnahgedField);
 
-	test("identification", "fields.validation_errors.required", () => {
+	test("identification", "form.validation_errors.required_field", () => {
 		enforce(data.identification).isNotEmpty();
 	});
 
-	test("password", "fields.validation_errors.required", () => {
+	test("password", "form.validation_errors.required_field", () => {
 		enforce(data.password).isNotEmpty();
 	});
 });

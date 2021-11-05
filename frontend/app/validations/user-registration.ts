@@ -15,31 +15,31 @@ interface IUserRegistration {
 export default vest.create((data: IUserRegistration, cnahgedField: string) => {
 	vest.only(cnahgedField);
 
-	test("userName", "fields.validation_errors.required", () => {
+	test("userName", "form.validation_errors.required_field", () => {
 		enforce(data.userName).isNotEmpty();
 	});
 
-	test("userName", "fields.validation_errors.gte_3", () => {
+	test("userName", "form.validation_errors.gte_3", () => {
 		enforce(data.userName).longerThanOrEquals(3);
 	});
 
-	test("email", "fields.validation_errors.required", () => {
+	test("email", "form.validation_errors.required_field", () => {
 		enforce(data.email).isNotEmpty();
 	});
 
-	test("email", "fields.validation_errors.email", () => {
+	test("email", "form.validation_errors.incorrect_email", () => {
 		enforce(data.email).isEmail();
 	});
 
-	test("password", "fields.validation_errors.required", () => {
+	test("password", "form.validation_errors.required_field", () => {
 		enforce(data.password).isNotEmpty();
 	});
 
-	test("password", "fields.validation_errors.strong_password", () => {
+	test("password", "form.validation_errors.strong_password", () => {
 		enforce(data.password).isStrongPassword();
 	});
 
-	test("acceptTerms", "fields.validation_errors.tof", () => {
+	test("acceptTerms", "form.validation_errors.tof", () => {
 		enforce(data.acceptTerms).isTruthy();
 	});
 });

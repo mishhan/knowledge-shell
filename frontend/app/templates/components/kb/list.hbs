@@ -6,29 +6,29 @@
 					#
 				</th>
 				<th class="kb-table__name-column">
-					{{t "kb.fields.name"}}
+					{{t "models.kb.fields.name"}}
 				</th>
 				<th class="kb-table__description-column">
-					{{t "kb.fields.description"}}
+					{{t "models.kb.fields.description"}}
 				</th>
 				<th class="kb-table__type-column">
-					{{t "kb.fields.type"}}
+					{{t "models.kb.fields.type"}}
 				</th>
 				<th class="kb-table__creation-column">
-					{{t "kb.fields.creation_date"}}
+					{{t "models.kb.fields.creation_date"}}
 				</th>
 				<th class="kb-table__modify-column">
-					{{t "kb.fields.modify_date"}}
+					{{t "models.kb.fields.modify_date"}}
 				</th>
 				<th class="kb-table__actions-column has-text-centered">
-					{{t "common.actions"}}
+					{{t "common.actions.actions"}}
 				</th>
 			</tr>
 			<tr>
 				<th class="kb-table__index-column has-text-centered"></th>
 				<th class="kb-table__name-column">
 					<div class="control has-icons-right">
-						<Input placeholder={{t "common.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+						<Input placeholder={{t "common.actions.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
 						<span class="icon is-right">
 							<FaIcon @icon="search" />
 						</span>
@@ -42,7 +42,7 @@
 					<LinkTo
 						@route="app.knowledge-bases.new"
 						class="button is-primary is-small"
-						aria-label={{t "common.add"}}
+						aria-label={{t "common.actions.add"}}
 						data-microtip-position="top"
 						data-microtip-size="small"
 						role="tooltip"

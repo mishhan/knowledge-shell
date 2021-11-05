@@ -65,10 +65,10 @@ module("Unit | Utility | lexer", () => {
 	test("it correctly determines all identifiers", (assert) => {
 		const sequence = "if A > 5 then B = 6";
 		const lexer = getLexer(sequence);
-		const sequenceTokens = lexer.getTokens();
-		const sequenceTokenIdentifiers = sequenceTokens.filter((token: Token) => token.TokenType === TokenType.Ident);
-		assert.equal(sequenceTokenIdentifiers.length, 2, "found all identifiers");
-		assert.equal(sequenceTokenIdentifiers[0].Text, "A", "first identifier is correct");
-		assert.equal(sequenceTokenIdentifiers[1].Text, "B", "second identifier is correct");
+		const tokenSequence = lexer.getTokens();
+		const tokenIdentifiers = tokenSequence.filter((token: Token) => token.TokenType === TokenType.Ident);
+		assert.equal(tokenIdentifiers.length, 2, "found all identifiers");
+		assert.equal(tokenIdentifiers[0].Text, "A", "first identifier is correct");
+		assert.equal(tokenIdentifiers[1].Text, "B", "second identifier is correct");
 	});
 });

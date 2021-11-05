@@ -5,12 +5,7 @@ import { Domain, Variable, VariableType } from "knowledge-shell/models";
 import variableValidator from "knowledge-shell/validations/variable";
 
 interface VariableFormArgs {
-	name: string;
-	domain: Domain;
-	variableType: VariableType;
-	description: string;
-	question: string;
-
+	variable: Variable;
 	variables: Variable[];
 	domains: Domain[];
 
@@ -28,6 +23,7 @@ export default class VariableForm extends Component<VariableFormArgs> {
 	@tracked question!: string;
 
 	@tracked validator = variableValidator.get();
+	variableNameCollection!: string[];
 
 	get variableTypes(): { key: number; value: string }[] {
 		return [
@@ -99,11 +95,16 @@ export default class VariableForm extends Component<VariableFormArgs> {
 
 	@action
 	setupForm(): void {
-		this.name = this.args.name;
-		this.description = this.args.description;
-		this.variableType = this.args.variableType;
-		this.domain = this.args.domain;
-		this.question = this.args.question;
+		const { name, description, variableType, domain, question } = this.args.variable;
+		this.name = name;
+		this.description = description;
+		this.variableType = variableType;
+		this.domain = domain;
+		this.question = question;
+		this.variableNameCollection = this.args.variables
+			.filter((variable: Variable) => variable.id !== this.args.variable.id)
+			.map((variable: Variable) => variable.name)
+			.filter((variableName: string) => variableName !== undefined);
 	}
 
 	@action
@@ -155,6 +156,7 @@ export default class VariableForm extends Component<VariableFormArgs> {
 				question,
 				variableType,
 				domain,
+				nameCollection: this.variableNameCollection,
 			},
 			fieldName,
 		);

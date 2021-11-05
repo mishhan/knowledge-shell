@@ -10,19 +10,19 @@ interface IRule {
 export default vest.create((data: IRule, cnahgedField: string) => {
 	vest.only(cnahgedField);
 
-	test("name", "fields.validation_errors.required", () => {
+	test("name", "form.validation_errors.required_field", () => {
 		enforce(data.name).isNotEmpty();
 	});
 
-	test("reason", "fields.validation_errors.required", () => {
+	test("reason", "form.validation_errors.required_field", () => {
 		enforce(data.reason).isNotEmpty();
 	});
 
-	test("premise", "fields.validation_errors.required", () => {
+	test("premise", "form.validation_errors.required_field", () => {
 		enforce(data.premise).isNotEmpty();
 	});
 
-	test("consequence", "fields.validation_errors.required", () => {
+	test("consequence", "form.validation_errors.required_field", () => {
 		enforce(data.consequence).isNotEmpty();
 	});
 });

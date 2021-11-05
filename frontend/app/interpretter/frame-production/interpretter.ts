@@ -19,6 +19,7 @@ export default class FrameProductionInterpretter extends Interpretter {
 
 	public evaluate(context: Production): any {
 		this.production = context;
+		this.setText(context.text);
 		return super.evaluate(context);
 	}
 

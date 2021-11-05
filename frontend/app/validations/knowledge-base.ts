@@ -8,11 +8,11 @@ interface IKnowledgeBase {
 export default vest.create((data: IKnowledgeBase, cnahgedField: string) => {
 	vest.only(cnahgedField);
 
-	test("name", "fields.validation_errors.required", () => {
+	test("name", "form.validation_errors.required_field", () => {
 		enforce(data.name).isNotEmpty();
 	});
 
-	test("description", "fields.validation_errors.required", () => {
+	test("description", "form.validation_errors.required_field", () => {
 		enforce(data.description).isNotEmpty();
 	});
 });

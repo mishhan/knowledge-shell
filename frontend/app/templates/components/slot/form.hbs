@@ -1,19 +1,19 @@
 <div class="field">
 	<label for="name" class="label">
-		{{t "slot.fields.name"}}
+		{{t "models.slot.fields.name"}}
 	</label>
 	<Input
 		id="name"
 		class="input is-small"
 		@type="text"
-		placeholder={{t "slot.fields.name"}}
+		placeholder={{t "models.slot.fields.name"}}
 		@value={{@slot.name}}
 		disabled={{not @slot.canEditName}}
 	/>
 </div>
 <div class="field">
 	<label for="domain" class="label">
-		{{t "slot.fields.domain"}}
+		{{t "models.slot.fields.domain"}}
 	</label>
 	<PowerSelect
 		@options={{@domains}}
@@ -26,7 +26,7 @@
 </div>
 <div class="field">
 	<label for="value" class="label">
-		{{t "slot.fields.default_value"}}
+		{{t "models.slot.fields.default_value"}}
 	</label>
 	<PowerSelect
 		@options={{@slot.domain.domainValues}}
@@ -40,11 +40,11 @@
 {{#if @slot.hasProduction}}
 	<div class="field">
 		<label for="production" class="label">
-			{{t "slot.fields.production"}}
+			{{t "models.slot.fields.production"}}
 		</label>
 		<Textarea
 			id="production"
-			placeholder={{t "slot.fields.production_example"}}
+			placeholder={{t "models.slot.fields.production_example"}}
 			class="textarea is-small"
 			@value={{@slot.production.text}}
 		/>

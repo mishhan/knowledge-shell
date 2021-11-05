@@ -35,7 +35,7 @@ export default class AppKnowledgeBasesIndex extends Controller {
 				this.transitionToRoute("app.frame-base.editor", kb.id);
 				break;
 			case KnowledgeBaseType.Production:
-				this.transitionToRoute("app.production-base.rules", kb.id);
+				this.transitionToRoute("app.production-base", kb.id);
 				break;
 			default:
 				break;

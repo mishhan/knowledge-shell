@@ -7,6 +7,10 @@ export default class AppProductionBaseDomainsEdit extends Controller {
 		return this.model.domain;
 	}
 
+	get domains(): Domain[] {
+		return this.model.domains;
+	}
+
 	get initialDomainValues(): DomainValue[] {
 		return this.model.domainValues;
 	}
