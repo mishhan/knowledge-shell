@@ -32,6 +32,14 @@
 				</span>
 			</LinkTo>
 		</li>
+		<li class="base-editor__navbar-link-container">
+			<LinkTo @route="app.production-base.testing" class="base-editor__navbar-link">
+				<FaIcon @icon="play" />
+				<span class="base-editor__navbar-link-text">
+					{{t "pages.production_editor.testing.title"}}
+				</span>
+			</LinkTo>
+		</li>
 	</ul>
 	<div class="base-editor__content">
 		{{outlet}}

@@ -1,14 +1,16 @@
-<div class="box">
-	<div class="message">
-		<div class="message-body">
-			<h1 class="is-size-1">{{this.model.name}}</h1>
-			<p>{{this.model.description}}</p>
-			<Card @header={{t "pages.frame_editor.information.properties.header"}}>
-				<p>{{t "pages.frame_editor.information.properties.frame_count"}}: {{this.frameCount}}</p>
-				<p>{{t "pages.frame_editor.information.properties.domain_count"}}: {{this.domainCount}}</p>
-				<p>{{t "pages.frame_editor.information.properties.slot_count"}}: {{this.slotCount}}</p>
-				<p>{{t "pages.frame_editor.information.properties.unique_slot_count"}}: {{this.uniqueSlotCount}}</p>
-			</Card>
+<div class="container is-fluid">
+	<div class="box">
+		<div class="message">
+			<div class="message-body">
+				<h1 class="is-size-1">{{this.model.name}}</h1>
+				<p>{{this.model.description}}</p>
+				<Card @header={{t "pages.frame_editor.information.properties.header"}}>
+					<p>{{t "pages.frame_editor.information.properties.frame_count"}}: {{this.frameCount}}</p>
+					<p>{{t "pages.frame_editor.information.properties.domain_count"}}: {{this.domainCount}}</p>
+					<p>{{t "pages.frame_editor.information.properties.slot_count"}}: {{this.slotCount}}</p>
+					<p>{{t "pages.frame_editor.information.properties.unique_slot_count"}}: {{this.uniqueSlotCount}}</p>
+				</Card>
+			</div>
 		</div>
 	</div>
 </div>

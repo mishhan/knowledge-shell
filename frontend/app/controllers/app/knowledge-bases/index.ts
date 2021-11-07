@@ -35,7 +35,7 @@ export default class AppKnowledgeBasesIndex extends Controller {
 				this.transitionToRoute("app.frame-base.editor", kb.id);
 				break;
 			case KnowledgeBaseType.Production:
-				this.transitionToRoute("app.production-base", kb.id);
+				this.transitionToRoute("app.production-base.index", kb.id);
 				break;
 			default:
 				break;
@@ -44,7 +44,16 @@ export default class AppKnowledgeBasesIndex extends Controller {
 
 	@action
 	playKb(kb: KnowledgeBase): void {
-		this.transitionToRoute(`app.frame-base.play`, kb.id);
+		switch (kb.baseType) {
+			case KnowledgeBaseType.Frame:
+				this.transitionToRoute("app.frame-base.play", kb.id);
+				break;
+			case KnowledgeBaseType.Production:
+				this.transitionToRoute("app.production-base.testing", kb.id);
+				break;
+			default:
+				break;
+		}
 	}
 
 	@action

@@ -46,7 +46,15 @@
 			},
 			"rules": "Правила",
 			"variables": "Переменные",
-			"domains": "Домены"
+			"domains": "Домены",
+			"testing": {
+				"title": "Тестирование",
+				"goal": "Цель консультации",
+				"start": "Начать тестирование",
+				"answer": "Ответить",
+				"working_memory": "Рабочая память",
+				"explanation": "Обьяснение"
+			}
 		},
 		"frame_editor": {
 			"information": {

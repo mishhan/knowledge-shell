@@ -20,7 +20,9 @@ export default class Rule extends Model {
 	}
 
 	public getVariable(variableName: string): Variable | undefined {
-		const baseVariable = this.productionBase.variables.find((variable: Variable) => variable.name === variableName);
+		const baseVariable = this.productionBase.variables.find(
+			(variable: Variable) => variable.name.toLowerCase() === variableName,
+		);
 		return baseVariable;
 	}
 }

@@ -46,7 +46,15 @@
 			},
 			"rules": "Rules",
 			"variables": "Variables",
-			"domains": "Domains"
+			"domains": "Domains",
+			"testing": {
+				"title": "Testing",
+				"goal": "Consultation goal",
+				"start": "Start testing",
+				"answer": "Answer",
+				"working_memory": "Working memory",
+				"explanation": "Explanation"
+			}
 		},
 		"frame_editor": {
 			"information": {

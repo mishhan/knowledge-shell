@@ -4,7 +4,7 @@ import { action, computed } from "@ember/object";
 import { Rule } from "knowledge-shell/models";
 
 export default class AppProductionBaseRulesIndex extends Controller {
-	@computed("model.rules")
+	@computed("model.rules.[]")
 	get rules(): Rule[] {
 		const { rules } = this.model;
 		const orderedRules = rules.sortBy("order");

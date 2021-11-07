@@ -1,13 +1,15 @@
-<div class="box">
-	<div class="message">
-		<div class="message-body">
-			<h1 class="is-size-1">{{this.model.name}}</h1>
-			<p>{{this.model.description}}</p>
-			<Card @header={{t "pages.production_editor.information.properties.header"}}>
-				<p>{{t "pages.production_editor.information.properties.rule_count"}}: {{this.model.rules.length}}</p>
-				<p>{{t "pages.production_editor.information.properties.variable_count"}}: {{this.model.variables.length}}</p>
-				<p>{{t "pages.production_editor.information.properties.domain_count"}}: {{this.model.domains.length}}</p>
-			</Card>
+<div class="container is-fluid">
+	<div class="box">
+		<div class="message">
+			<div class="message-body">
+				<h1 class="is-size-1">{{this.model.name}}</h1>
+				<p>{{this.model.description}}</p>
+				<Card @header={{t "pages.production_editor.information.properties.header"}}>
+					<p>{{t "pages.production_editor.information.properties.rule_count"}}: {{this.model.rules.length}}</p>
+					<p>{{t "pages.production_editor.information.properties.variable_count"}}: {{this.model.variables.length}}</p>
+					<p>{{t "pages.production_editor.information.properties.domain_count"}}: {{this.model.domains.length}}</p>
+				</Card>
+			</div>
 		</div>
 	</div>
 </div>

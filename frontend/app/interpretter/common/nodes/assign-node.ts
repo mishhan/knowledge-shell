@@ -8,13 +8,13 @@ export default class AssignNode extends BinarNode {
 
 	public evaluate(): any {
 		const leftNodeValue = this.leftNode.evaluate();
-		const rightNodeValue = this.rightNode.evaluate();
+		const rightNodeValue = this.getRightNodeValue();
 
 		if (leftNodeValue == null || rightNodeValue == null) {
 			return null;
 		}
 
-		leftNodeValue.value = leftNodeValue.domain.getDomainValue(rightNodeValue.valueStr);
+		leftNodeValue.value = leftNodeValue.domain.getDomainValue(rightNodeValue.Value);
 		return rightNodeValue;
 	}
 }

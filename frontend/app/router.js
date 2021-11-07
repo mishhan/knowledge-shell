@@ -37,6 +37,7 @@ Router.map(function () {
 				this.route("new");
 				this.route("edit", { path: "edit/:variable_id" });
 			});
+			this.route("testing");
 		});
 	});
 });
