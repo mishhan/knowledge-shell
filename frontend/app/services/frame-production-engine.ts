@@ -2,7 +2,7 @@ import Service from "@ember/service";
 import { isEmpty, isEqual } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { DomainValueFrame, DomainValueString, Frame, FrameBase, Slot } from "knowledge-shell/models";
-import Interpretter from "knowledge-shell/interpretter/frame-production/interpretter";
+import Interpretter from "knowledge-shell/interpretter/frame-production/frame-production-interpretter";
 
 export default class FrameProductionEngine extends Service {
 	private readonly productionInterpretter: Interpretter = new Interpretter();

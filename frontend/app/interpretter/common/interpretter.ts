@@ -36,9 +36,8 @@ export default abstract class Interpretter {
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public evaluate(..._args: any[]): any {
-		this.getNextToken();
-		const statement = this.statement();
 		try {
+			const statement = this.buildStatement();
 			const result = statement.evaluateValue();
 			return result;
 		} catch (error) {
@@ -53,7 +52,13 @@ export default abstract class Interpretter {
 		}
 	}
 
-	protected setText(text: string): void {
+	public buildStatement(): Node {
+		this.getNextToken();
+		const statement = this.statement();
+		return statement;
+	}
+
+	public setText(text: string): void {
 		this.lexer.Text = text;
 		this.lexer.Position = 0;
 	}

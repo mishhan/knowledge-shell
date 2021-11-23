@@ -137,6 +137,10 @@
 				"consequence": "Consequence",
 				"reason": "Reason",
 				"full_rule": "Rule"
+			},
+			"errors": {
+				"syntax_symbol_error": "Sequence contains forbidden symbols",
+				"syntax_language_error": "Invalid sequence"
 			}
 		},
 		"variable": {

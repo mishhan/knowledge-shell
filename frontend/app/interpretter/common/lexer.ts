@@ -12,6 +12,7 @@ export default class Lexer {
 
 	public set Text(value: string) {
 		this.text = value;
+		this.position = 0;
 	}
 
 	public get Position(): number {
@@ -20,6 +21,26 @@ export default class Lexer {
 
 	public set Position(value: number) {
 		this.position = value;
+	}
+
+	/**
+	 * Determines where given string is correct
+	 * @param {string} value string
+	 * @returns {{ pass: true } | { pass: false; message: string }}
+	 */
+	public isTokenSequenceCorrect(value: string): { pass: true } | { pass: false; message: string } {
+		this.Text = value;
+		try {
+			this.getTokens();
+			return {
+				pass: true,
+			};
+		} catch (error) {
+			return {
+				pass: false,
+				message: error.message,
+			};
+		}
 	}
 
 	/**
@@ -197,6 +218,10 @@ export default class Lexer {
 		this.position += 1;
 		if (this.position === this.text.length) {
 			return "\0";
+		}
+
+		if (this.position > this.text.length) {
+			throw new SyntaxError("Reached end of the string", this.position);
 		}
 		return this.text[this.position];
 	}

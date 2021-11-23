@@ -1,30 +1,78 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
+import { inject as service } from "@ember/service";
+import type IntlService from "ember-intl/services/intl";
 import { action } from "@ember/object";
 import { htmlSafe } from "@ember/template";
-import { Variable } from "knowledge-shell/models";
-import ruleValidator from "knowledge-shell/validations/rule";
+import { Rule, Variable } from "knowledge-shell/models";
+import { create, test, enforce, only, skipWhen } from "vest";
+import { Lexer, ProductionInterpretter } from "knowledge-shell/interpretter/production";
+
+const ruleFormValidator = create((data: RuleForm, changedField: string) => {
+	only(changedField);
+
+	test("name", "form.validation_errors.required_field", () => {
+		enforce(data.name).isNotEmpty();
+	});
+
+	test("reason", "form.validation_errors.required_field", () => {
+		enforce(data.reason).isNotEmpty();
+	});
+
+	test("premise", "form.validation_errors.required_field", () => {
+		enforce(data.premise).isNotEmpty();
+	});
+
+	skipWhen(ruleFormValidator.get().hasErrors("premise"), () => {
+		test("premise", "models.rule.errors.syntax_symbol_error", () => {
+			const isCorrect = data.lexer.isTokenSequenceCorrect(data.premise);
+			enforce(isCorrect.pass).isTruthy();
+		});
+
+		test("premise", "models.rule.errors.syntax_language_error", () => {
+			const isCorrect = data.productionInterpretter.isLanguageCorrect(data.rule, data.premise);
+			enforce(isCorrect.pass).isTruthy();
+		});
+	});
+
+	test("consequence", "form.validation_errors.required_field", () => {
+		enforce(data.consequence).isNotEmpty();
+	});
+
+	skipWhen(ruleFormValidator.get().hasErrors("consequence"), () => {
+		test("consequence", "models.rule.errors.syntax_symbol_error", () => {
+			const isCorrect = data.lexer.isTokenSequenceCorrect(data.consequence);
+			enforce(isCorrect.pass).isTruthy();
+		});
+
+		test("consequence", "models.rule.errors.syntax_language_error", () => {
+			const isCorrect = data.productionInterpretter.isLanguageCorrect(data.rule, data.consequence);
+			enforce(isCorrect.pass).isTruthy();
+		});
+	});
+});
 
 interface RuleFormArgs {
-	name: string;
-	reason: string;
-	premise: string;
-	consequence: string;
-
+	rule: Rule;
 	variables: Variable[];
 	onSubmit: (name: string, reason: string, premise: string, consequence: string) => void;
 	onCancel: () => void;
 }
 
 export default class RuleForm extends Component<RuleFormArgs> {
+	@service intl!: IntlService;
+	lexer = new Lexer();
+	productionInterpretter = new ProductionInterpretter();
+
 	@tracked isSubmitted!: boolean;
 
+	@tracked rule!: Rule;
 	@tracked name!: string;
 	@tracked reason!: string;
 	@tracked premise!: string;
 	@tracked consequence!: string;
 
-	@tracked validator = ruleValidator.get();
+	@tracked validator = ruleFormValidator.get();
 
 	get fullRule(): any {
 		return htmlSafe(
@@ -35,29 +83,17 @@ export default class RuleForm extends Component<RuleFormArgs> {
 	}
 
 	get nameValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("name");
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
+		const nameValidation = this.getFieldValidation("name");
+		return nameValidation;
 	}
 
 	get reasonValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("reason");
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
+		const reasonValidation = this.getFieldValidation("reason");
+		return reasonValidation;
 	}
 
 	get premiseValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("premise");
+		const errors = this.validator.getErrors("premise").map((errorKey: string) => this.intl.t(errorKey));
 		const isValid = this.isSubmitted && errors.length === 0;
 		const isInValid = this.isSubmitted && errors.length > 0;
 		return {
@@ -68,7 +104,18 @@ export default class RuleForm extends Component<RuleFormArgs> {
 	}
 
 	get consequenceValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("consequence");
+		const errors = this.validator.getErrors("consequence").map((errorKey: string) => this.intl.t(errorKey));
+		const isValid = this.isSubmitted && errors.length === 0;
+		const isInValid = this.isSubmitted && errors.length > 0;
+		return {
+			errors,
+			isValid,
+			isInValid,
+		};
+	}
+
+	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
 		const isValid = this.isSubmitted && errors.length === 0;
 		const isInValid = this.isSubmitted && errors.length > 0;
 		return {
@@ -80,10 +127,12 @@ export default class RuleForm extends Component<RuleFormArgs> {
 
 	@action
 	setupForm(): void {
-		this.name = this.args.name;
-		this.reason = this.args.reason;
-		this.premise = this.args.premise;
-		this.consequence = this.args.consequence;
+		const { rule } = this.args;
+		this.rule = rule;
+		this.name = rule.name;
+		this.reason = rule.reason;
+		this.premise = rule.premise;
+		this.consequence = rule.consequence;
 	}
 
 	@action
@@ -123,15 +172,6 @@ export default class RuleForm extends Component<RuleFormArgs> {
 	}
 
 	validateForm(fieldName?: string): void {
-		const { name, reason, premise, consequence } = this;
-		this.validator = ruleValidator(
-			{
-				name,
-				reason,
-				premise,
-				consequence,
-			},
-			fieldName,
-		);
+		this.validator = ruleFormValidator(this, fieldName);
 	}
 }

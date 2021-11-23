@@ -1,7 +1,21 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
+import { inject as service } from "@ember/service";
+import type IntlService from "ember-intl/services/intl";
 import { action } from "@ember/object";
-import userAuthenticationValidator from "knowledge-shell/validations/user-authentication";
+import { create, test, enforce, only } from "vest";
+
+const authFormValidator = create((data: AccountAuthenticationForm, cnahgedField: string) => {
+	only(cnahgedField);
+
+	test("identification", "form.validation_errors.required_field", () => {
+		enforce(data.identification).isNotEmpty();
+	});
+
+	test("password", "form.validation_errors.required_field", () => {
+		enforce(data.password).isNotEmpty();
+	});
+});
 
 interface AccountAuthenticationFormArgs {
 	authenticate: (identification: string, password: string) => void;
@@ -9,27 +23,28 @@ interface AccountAuthenticationFormArgs {
 }
 
 export default class AccountAuthenticationForm extends Component<AccountAuthenticationFormArgs> {
+	@service intl!: IntlService;
+
 	@tracked isSubmitted!: boolean;
 
 	@tracked identification!: string;
 	@tracked password!: string;
 	@tracked showPassword = false;
 
-	@tracked validator = userAuthenticationValidator.get();
+	@tracked validator = authFormValidator.get();
 
 	get identificationValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("identification");
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
+		const identificationValidation = this.getFieldValidation("identification");
+		return identificationValidation;
 	}
 
 	get passwordValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("password");
+		const passwordValidation = this.getFieldValidation("password");
+		return passwordValidation;
+	}
+
+	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
 		const isValid = this.isSubmitted && errors.length === 0;
 		const isInValid = this.isSubmitted && errors.length > 0;
 		return {
@@ -64,13 +79,6 @@ export default class AccountAuthenticationForm extends Component<AccountAuthenti
 	}
 
 	validateForm(fieldName?: string): void {
-		const { identification, password } = this;
-		this.validator = userAuthenticationValidator(
-			{
-				identification,
-				password,
-			},
-			fieldName,
-		);
+		this.validator = authFormValidator(this, fieldName);
 	}
 }

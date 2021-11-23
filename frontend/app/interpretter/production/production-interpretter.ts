@@ -14,10 +14,30 @@ export default class ProductionInterpretter extends Interpretter {
 		return identifiers;
 	}
 
+	public isLanguageCorrect(context: Rule, rulePart: string): { pass: true } | { pass: false; message: string } {
+		this.setContext(context, rulePart);
+		try {
+			this.buildStatement();
+			return {
+				pass: true,
+			};
+		} catch (error) {
+			return {
+				pass: false,
+				message: error.message,
+			};
+		}
+	}
+
 	public evaluate(context: Rule, rulePart: string) {
 		this.rule = context;
 		this.setText(rulePart);
 		return super.evaluate(context);
+	}
+
+	public setContext(context: Rule, rulePart: string): void {
+		this.rule = context;
+		this.setText(rulePart);
 	}
 
 	protected factor(): Node {

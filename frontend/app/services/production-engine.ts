@@ -1,7 +1,7 @@
 /* eslint-disable no-continue */
 /* eslint-disable no-restricted-syntax */
 import Service from "@ember/service";
-import ProductionInterpretter from "knowledge-shell/interpretter/production/interpretter";
+import ProductionInterpretter from "knowledge-shell/interpretter/production/production-interpretter";
 import { ProductionBase, Rule, Variable, VariableType } from "knowledge-shell/models";
 import Stack from "knowledge-shell/utils/stack";
 

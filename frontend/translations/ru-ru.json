@@ -137,6 +137,10 @@
 				"consequence": "Заключение",
 				"reason": "Причина",
 				"full_rule": "Правило"
+			},
+			"errors": {
+				"syntax_symbol_error": "Последовательность содержит недопустимые символы",
+				"syntax_language_error": "Недопустимая последовательность"
 			}
 		},
 		"variable": {

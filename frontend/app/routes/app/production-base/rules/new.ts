@@ -8,6 +8,8 @@ export default class extends Route {
 		const { variables } = productionBase;
 		const ruleCount = productionBase.rules.length;
 		const rule = this.store.createRecord("rule", {
+			name: `Rule#${ruleCount + 1}`,
+			reason: `No reason`,
 			productionBase,
 			order: ruleCount,
 		});
