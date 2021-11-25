@@ -1,19 +1,27 @@
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
-import ProductionEngine from "knowledge-shell/services/production-engine";
+import ProductionEngine, { ConsultationStatus } from "knowledge-shell/services/production-engine";
 import { tracked } from "@glimmer/tracking";
-import { DomainValue, Rule, Variable } from "knowledge-shell/models";
+import { DomainValue, Variable } from "knowledge-shell/models";
 
 export default class AppProductionBaseTesting extends Controller {
 	@service("production-engine") productionEngine!: ProductionEngine;
 
 	@tracked goalVariable!: Variable;
 	@tracked currentVariable!: Variable;
-	@tracked usedRules!: Rule[];
 
 	get variables(): Variable[] {
 		return this.model.variables;
+	}
+
+	get hasGoalVariable(): boolean {
+		const hasGoalVariable = this.goalVariable !== undefined;
+		return hasGoalVariable;
+	}
+
+	public initialize(): void {
+		this.productionEngine.initialize(this.model);
 	}
 
 	@action
@@ -29,34 +37,34 @@ export default class AppProductionBaseTesting extends Controller {
 	@action
 	start(): void {
 		if (this.goalVariable) {
-			this.productionEngine.initialize(this.model, this.goalVariable);
-			const currentState = this.productionEngine.getCurrentState();
-			if (currentState.Status === "Continue") {
-				this.currentVariable = currentState.Variable;
-			}
+			this.productionEngine.setGoal(this.goalVariable);
+			this.calculateCurrentState();
 		}
 	}
 
 	@action
-	answer(): void {
+	calculateCurrentState(): void {
 		const currentState = this.productionEngine.getCurrentState();
 		switch (currentState.Status) {
-			case "Continue":
+			case ConsultationStatus.Continue:
 				this.currentVariable = currentState.Variable;
 				break;
-			case "Success":
+			case ConsultationStatus.Success:
 				// eslint-disable-next-line no-alert
 				alert("Success");
-				this.usedRules = this.productionEngine.getUsedRules();
 				break;
-			case "Failed":
+			case ConsultationStatus.Failed:
 				// eslint-disable-next-line no-alert
 				alert("Failed");
-				this.usedRules = this.productionEngine.getUsedRules();
 				break;
 			default:
 				throw new Error();
 		}
+	}
+
+	@action
+	getPreviousState(): void {
+		// TODO
 	}
 }
 

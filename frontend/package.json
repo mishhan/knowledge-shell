@@ -12,11 +12,11 @@
   },
   "scripts": {
     "build": "ember build --environment=production",
-    "lint": "eslint . --max-warnings 0 && ember-template-lint . --max-warnings 0 && stylelint app/styles/**/*.scss --max-warnings 0",
-    "lint:ts": "eslint . --max-warnings 0",
-    "lint:ts:fix": "eslint . --fix",
-    "lint:hbs": "ember-template-lint . --max-warnings 0",
-    "lint:hbs:fix": "ember-template-lint . --fix",
+    "lint": "eslint ./app --max-warnings 0 && ember-template-lint ./app --max-warnings 0 && stylelint app/styles/**/*.scss --max-warnings 0",
+    "lint:ts": "eslint ./app --max-warnings 0",
+    "lint:ts:fix": "eslint ./app --fix",
+    "lint:hbs": "ember-template-lint ./app --max-warnings 0",
+    "lint:hbs:fix": "ember-template-lint ./app --fix",
     "format:hbs": "prettier **/*.hbs --write --parser=glimmer",
     "lint:scss": "stylelint app/styles/**/*.scss --max-warnings 0",
     "lint:scss:fix": "stylelint app/styles/**/*.scss --fix",
@@ -26,10 +26,10 @@
     "prepare": "cd .. && husky install frontend/.husky"
   },
   "lint-staged": {
-    "*.js": "eslint . --max-warnings=0",
-    "*.ts": "eslint . --max-warnings=0",
+    "*./app/*.js": "eslint ./app --max-warnings=0",
+    "*.ts": "eslint ./app --max-warnings=0",
     "*.scss": "stylelint app/styles/**/*.scss --max-warnings=0",
-    "*.hbs": "ember-template-lint . --max-warnings=0"
+    "*.hbs": "ember-template-lint ./app --max-warnings=0"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",

@@ -15,7 +15,8 @@
 			</div>
 		</div>
 		<div class="field">
-			<button type="button" class="button is-primary" {{on "click" this.start}}>
+			<button type="button" class="button is-primary" disabled={{not this.hasGoalVariable}}
+				{{on "click" this.start}}>
 				{{t "pages.production_editor.testing.start"}}
 			</button>
 		</div>
@@ -36,8 +37,11 @@
 			</div>
 		</div>
 		<div class="field">
-			<button type="button" class="button is-primary" {{on "click" this.answer}}>
+			<button type="button" class="button is-primary" {{on "click" this.calculateCurrentState}}>
 				{{t "pages.production_editor.testing.answer"}}
+			</button>
+			<button type="button" class="button is-danger" {{on "click" this.getPreviousState}}>
+				{{t "pages.production_editor.testing.back"}}
 			</button>
 		</div>
 		{{/if}}

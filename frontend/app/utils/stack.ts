@@ -24,4 +24,8 @@ export default class Stack<T> {
 	public toArray(): T[] {
 		return this.storage;
 	}
+
+	public clear(): void {
+		this.storage.clear();
+	}
 }

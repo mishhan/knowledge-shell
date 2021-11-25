@@ -6,7 +6,7 @@ import { action } from "@ember/object";
 import { htmlSafe } from "@ember/template";
 import { Rule, Variable } from "knowledge-shell/models";
 import { create, test, enforce, only, skipWhen } from "vest";
-import { Lexer, ProductionInterpretter } from "knowledge-shell/interpretter/production";
+import ProductionInterpretter from "knowledge-shell/interpretter/production";
 
 const ruleFormValidator = create((data: RuleForm, changedField: string) => {
 	only(changedField);
@@ -25,7 +25,7 @@ const ruleFormValidator = create((data: RuleForm, changedField: string) => {
 
 	skipWhen(ruleFormValidator.get().hasErrors("premise"), () => {
 		test("premise", "models.rule.errors.syntax_symbol_error", () => {
-			const isCorrect = data.lexer.isTokenSequenceCorrect(data.premise);
+			const isCorrect = data.productionInterpretter.isSyntaxCorrect(data.premise);
 			enforce(isCorrect.pass).isTruthy();
 		});
 
@@ -41,7 +41,7 @@ const ruleFormValidator = create((data: RuleForm, changedField: string) => {
 
 	skipWhen(ruleFormValidator.get().hasErrors("consequence"), () => {
 		test("consequence", "models.rule.errors.syntax_symbol_error", () => {
-			const isCorrect = data.lexer.isTokenSequenceCorrect(data.consequence);
+			const isCorrect = data.productionInterpretter.isSyntaxCorrect(data.consequence);
 			enforce(isCorrect.pass).isTruthy();
 		});
 
@@ -61,7 +61,6 @@ interface RuleFormArgs {
 
 export default class RuleForm extends Component<RuleFormArgs> {
 	@service intl!: IntlService;
-	lexer = new Lexer();
 	productionInterpretter = new ProductionInterpretter();
 
 	@tracked isSubmitted!: boolean;

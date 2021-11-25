@@ -34,6 +34,10 @@ export default abstract class Interpretter {
 
 	protected currentToken!: Token;
 
+	public isSyntaxCorrect(rulePart: string): { pass: true } | { pass: false; message: string } {
+		return this.lexer.isTokenSequenceCorrect(rulePart);
+	}
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public evaluate(..._args: any[]): any {
 		try {
@@ -61,6 +65,25 @@ export default abstract class Interpretter {
 	public setText(text: string): void {
 		this.lexer.Text = text;
 		this.lexer.Position = 0;
+	}
+
+	/**
+	 * Checks where current statement is correct within given context
+	 * @requires setting context to be called
+	 * @returns {{ pass: true } | { pass: false; message: string }}
+	 */
+	protected isStatementCorrect(): { pass: true } | { pass: false; message: string } {
+		try {
+			this.buildStatement();
+			return {
+				pass: true,
+			};
+		} catch (error) {
+			return {
+				pass: false,
+				message: error.message,
+			};
+		}
 	}
 
 	protected statement(): Node {

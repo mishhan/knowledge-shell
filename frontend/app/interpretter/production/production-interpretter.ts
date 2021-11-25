@@ -14,19 +14,13 @@ export default class ProductionInterpretter extends Interpretter {
 		return identifiers;
 	}
 
+	public isSyntaxCorrect(rulePart: string): { pass: true } | { pass: false; message: string } {
+		return this.lexer.isTokenSequenceCorrect(rulePart);
+	}
+
 	public isLanguageCorrect(context: Rule, rulePart: string): { pass: true } | { pass: false; message: string } {
 		this.setContext(context, rulePart);
-		try {
-			this.buildStatement();
-			return {
-				pass: true,
-			};
-		} catch (error) {
-			return {
-				pass: false,
-				message: error.message,
-			};
-		}
+		return super.isStatementCorrect();
 	}
 
 	public evaluate(context: Rule, rulePart: string) {

@@ -1,26 +1,29 @@
-/* eslint-disable no-continue */
-/* eslint-disable no-restricted-syntax */
 import Service from "@ember/service";
 import ProductionInterpretter from "knowledge-shell/interpretter/production/production-interpretter";
 import { ProductionBase, Rule, Variable, VariableType } from "knowledge-shell/models";
 import Stack from "knowledge-shell/utils/stack";
 
-export type RulePremiseConsequenceVariables = {
+type RulePremiseConsequenceVariables = {
 	premiseVariables: Variable[];
 	consequenceVariables: Variable[];
 };
 
-export type ConsultationStatus = "Success" | "Continue" | "Failed";
+export enum ConsultationStatus {
+	Success,
+	Continue,
+	Failed,
+}
+
 export type ConsultationState =
 	| {
-			Status: "Success";
+			Status: ConsultationStatus.Success;
 	  }
 	| {
-			Status: "Continue";
+			Status: ConsultationStatus.Continue;
 			Variable: Variable;
 	  }
 	| {
-			Status: "Failed";
+			Status: ConsultationStatus.Failed;
 	  };
 
 export default class ProductionEngine extends Service {
@@ -28,77 +31,57 @@ export default class ProductionEngine extends Service {
 
 	private productionBase!: ProductionBase;
 	private rules!: Rule[];
-	private variableStack!: Stack<Variable>;
-	private usedRuleStack!: Stack<Rule>;
+	private goalVariable!: Variable;
+	private variableInferenceStack!: Stack<Variable>;
 
-	private rulePremiseVariablesMap = new Map<Rule, Variable[]>();
-	private ruleConsequenceVariablesMap = new Map<Rule, Variable[]>();
 	private rulePremiseConsequenceVariableMap = new Map<Rule, RulePremiseConsequenceVariables>();
-	private variableInference = new Map<Variable, Array<Array<Variable>>>();
 
-	public initialize(productionBase: ProductionBase, goal: Variable): void {
-		this.rulePremiseVariablesMap.clear();
-		this.ruleConsequenceVariablesMap.clear();
+	public initialize(productionBase: ProductionBase): void {
 		this.rulePremiseConsequenceVariableMap.clear();
-		this.variableInference.clear();
 
-		productionBase.variables.forEach((variable: Variable) => {
+		this.productionBase = productionBase;
+		this.variableInferenceStack = new Stack<Variable>();
+
+		this.productionBase.variables.forEach((variable: Variable) => {
 			variable.value = null;
 		});
-		this.productionBase = productionBase;
-		this.usedRuleStack = new Stack<Rule>();
-		this.variableStack = new Stack<Variable>();
-		this.variableStack.push(goal);
+
 		this.rules = productionBase.rules.sortBy("order");
 		this.rules.forEach((rule: Rule) => {
 			const premiseVariables = this.extractVariables(rule.premise);
 			const consequenceVariables = this.extractVariables(rule.consequence);
-			this.rulePremiseVariablesMap.set(rule, premiseVariables);
-			this.ruleConsequenceVariablesMap.set(rule, consequenceVariables);
 			this.rulePremiseConsequenceVariableMap.set(rule, {
 				premiseVariables,
 				consequenceVariables,
-			});
-
-			consequenceVariables.forEach((variable: Variable) => {
-				const hasVariableInference = this.variableInference.has(variable);
-				if (!hasVariableInference) {
-					this.variableInference.set(variable, []);
-				}
-				this.variableInference.get(variable)?.push(premiseVariables);
 			});
 		});
 	}
 
 	/**
-	 * Extract variables from given rule part
-	 * @param {string} rulePart - premise or consequence
-	 * @returns {Variable[]} array of variables used in rule part
+	 * Sets goal variable and clear all variable values
+	 * @param {Variable} goal - goal variable
 	 */
-	public extractVariables(rulePart: string): Variable[] {
-		const identifiers = this.productionInterpretter.extractIdentifiers(rulePart);
-		const variables = this.productionBase.variables.filter(
-			(variable: Variable) => identifiers.indexOf(variable.name.toLowerCase()) !== -1,
-		);
-		const uniqueVariables = [...new Set(variables)];
-		return uniqueVariables;
-	}
-
-	public getUsedRules(): Rule[] {
-		return this.usedRuleStack.toArray();
+	public setGoal(goal: Variable): void {
+		this.goalVariable = goal;
+		this.variableInferenceStack.clear();
+		this.productionBase.variables.forEach((variable: Variable) => {
+			variable.value = null;
+		});
 	}
 
 	/**
 	 * Get current consultation state
+	 * All logic to determine next unknown variable is here
 	 * @returns {ConsultationState} consultation state
 	 */
 	public getCurrentState(): ConsultationState {
-		const { variableStack } = this;
+		const variableStack = new Stack<Variable>();
+		variableStack.push(this.goalVariable);
 		const shouldContinue = true;
 		while (shouldContinue) {
 			if (variableStack.isEmpty) {
 				return {
-					Status: "Success",
+					Status: ConsultationStatus.Success,
 				};
 			}
 
@@ -107,7 +90,7 @@ export default class ProductionEngine extends Service {
 			if (currentGoal.variableType === VariableType.Requested) {
 				variableStack.pop();
 				return {
-					Status: "Continue",
+					Status: ConsultationStatus.Continue,
 					Variable: currentGoal,
 				};
 			}
@@ -163,20 +146,34 @@ export default class ProductionEngine extends Service {
 				if (currentGoal.variableType === VariableType.DerrivableRequested) {
 					variableStack.pop();
 					return {
-						Status: "Continue",
+						Status: ConsultationStatus.Continue,
 						Variable: currentGoal,
 					};
 				}
 			}
 
 			return {
-				Status: "Failed",
+				Status: ConsultationStatus.Failed,
 			};
 		}
 
 		return {
-			Status: "Failed",
+			Status: ConsultationStatus.Failed,
 		};
+	}
+
+	/**
+	 * Extract variables from given rule part
+	 * @param {string} rulePart - premise or consequence
+	 * @returns {Variable[]} array of variables used in rule part
+	 */
+	private extractVariables(rulePart: string): Variable[] {
+		const identifiers = this.productionInterpretter.extractIdentifiers(rulePart);
+		const variables = this.productionBase.variables.filter(
+			(variable: Variable) => identifiers.indexOf(variable.name.toLowerCase()) !== -1,
+		);
+		const uniqueVariables = [...new Set(variables)];
+		return uniqueVariables;
 	}
 
 	/**
@@ -188,7 +185,6 @@ export default class ProductionEngine extends Service {
 		const isPremiseTrue = this.productionInterpretter.evaluate(rule, rule.premise) as boolean;
 		if (isPremiseTrue) {
 			this.productionInterpretter.evaluate(rule, rule.consequence);
-			this.usedRuleStack.push(rule);
 			return true;
 		}
 
