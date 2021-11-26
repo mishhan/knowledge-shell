@@ -19,6 +19,7 @@
 		}
 	},
 	"form": {
+		"delete_confirmation": "Are you sure you want to delete {item}?",
 		"validation_errors": {
 			"unique_name": "Name must be unique",
 			"required_field": "Field is required",

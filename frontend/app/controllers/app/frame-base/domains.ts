@@ -48,7 +48,7 @@ export default class FrameBaseDomainsController extends Controller {
 	deleteDomain(domain: Domain): void {
 		Swal.fire({
 			icon: "warning",
-			text: this.intl.t("common.delete_confirmation", { item: domain.name }),
+			text: this.intl.t("form.delete_confirmation", { item: domain.name }),
 			allowOutsideClick: false,
 			showConfirmButton: true,
 			showCancelButton: true,

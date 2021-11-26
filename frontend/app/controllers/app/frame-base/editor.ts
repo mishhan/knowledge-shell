@@ -84,7 +84,7 @@ export default class FrameBaseEditorController extends Controller {
 	deleteFrame(frame: Frame): void {
 		Swal.fire({
 			icon: "warning",
-			text: this.intl.t("common.delete_confirmation", { item: frame.name }),
+			text: this.intl.t("form.delete_confirmation", { item: frame.name }),
 			allowOutsideClick: false,
 			showConfirmButton: true,
 			showCancelButton: true,
@@ -153,7 +153,7 @@ export default class FrameBaseEditorController extends Controller {
 	deleteSlot(slot: Slot): void {
 		Swal.fire({
 			icon: "warning",
-			text: this.intl.t("common.delete_confirmation", { item: slot.name }),
+			text: this.intl.t("form.delete_confirmation", { item: slot.name }),
 			allowOutsideClick: false,
 			showConfirmButton: true,
 			showCancelButton: true,

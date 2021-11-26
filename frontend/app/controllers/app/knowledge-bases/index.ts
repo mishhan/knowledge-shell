@@ -65,7 +65,7 @@ export default class AppKnowledgeBasesIndexController extends Controller {
 	deleteKb(kb: KnowledgeBase): void {
 		Swal.fire({
 			icon: "warning",
-			text: this.intl.t("common.delete_confirmation", { item: kb.name }),
+			text: this.intl.t("form.delete_confirmation", { item: kb.name }),
 			allowOutsideClick: false,
 			showConfirmButton: true,
 			showCancelButton: true,

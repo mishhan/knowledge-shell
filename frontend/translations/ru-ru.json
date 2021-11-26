@@ -19,6 +19,7 @@
 		}
 	},
 	"form": {
+		"delete_confirmation": "Вы уверены что хотите удалить {item}?",
 		"validation_errors": {
 			"unique_name": "Имя должно быть уникальным",
 			"required_field": "Поле является обязательным",
