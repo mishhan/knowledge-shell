@@ -29,7 +29,12 @@
 				<th class="domain-table__index-column has-text-centered"></th>
 				<th class="domain-table__name-column">
 					<div class="control has-icons-right">
-						<Input placeholder={{t "common.actions.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+						<Input
+							placeholder={{t "common.actions.filter"}}
+							class="input is-small"
+							@type="text"
+							@value={{this.filter}}
+						/>
 						<span class="icon is-right">
 							<FaIcon @icon="search" />
 						</span>
@@ -70,7 +75,8 @@
 						@content={{@slot}}
 						@isSortable={{true}}
 						@sortingScope="slotList"
-						@dragHandle=".cursor-move">
+						@dragHandle=".cursor-move"
+					>
 						<td class="domain-table__index-column cursor-move has-text-centered">
 							{{inc slot.order}}
 						</td>

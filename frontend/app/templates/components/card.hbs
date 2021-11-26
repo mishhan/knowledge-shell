@@ -5,11 +5,11 @@
 		</p>
 		<a role="button" class="card-header-icon" {{on "click" this.toggleCard}}>
 			<span class="icon">
-				<FaIcon @icon={{if this.isOpen 'angle-down' 'angle-up'}} />
+				<FaIcon @icon={{if this.isOpen "angle-down" "angle-up"}} />
 			</span>
 		</a>
 	</header>
-	<div class="card-content {{unless this.isOpen 'is-hidden'}}">
+	<div class="card-content {{unless this.isOpen "is-hidden"}}">
 		{{yield}}
 	</div>
 </div>

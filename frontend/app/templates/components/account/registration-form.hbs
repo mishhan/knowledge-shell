@@ -48,7 +48,9 @@
 	<div class="field">
 		<label class="checkbox">
 			<Input @type="checkbox" @checked={{this.acceptTerms}} />
-			<span>{{t "models.user.fields.agreement"}}</span>
+			<span>
+				{{t "models.user.fields.agreement"}}
+			</span>
 			<span class="icon">
 				<a href="/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">
 					<FaIcon @icon="external-link-alt" @size="sm" />

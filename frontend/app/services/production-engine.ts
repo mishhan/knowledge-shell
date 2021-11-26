@@ -89,6 +89,13 @@ export default class ProductionEngine extends Service {
 
 			if (currentGoal.variableType === VariableType.Requested) {
 				variableStack.pop();
+
+				if (currentGoal.hasValue) {
+					return {
+						Status: ConsultationStatus.Success,
+					};
+				}
+
 				return {
 					Status: ConsultationStatus.Continue,
 					Variable: currentGoal,

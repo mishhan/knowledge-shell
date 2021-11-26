@@ -21,7 +21,12 @@
 				<th class="rule-table__name-column"></th>
 				<th class="rule-table__rule-column">
 					<div class="control has-icons-right">
-						<Input placeholder={{t "common.actions.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+						<Input
+							placeholder={{t "common.actions.filter"}}
+							class="input is-small"
+							@type="text"
+							@value={{this.filter}}
+						/>
 						<span class="icon is-right">
 							<FaIcon @icon="search" />
 						</span>
@@ -65,7 +70,8 @@
 						@content={{rule}}
 						@isSortable={{true}}
 						@sortingScope="rules"
-						@dragHandle=".cursor-move">
+						@dragHandle=".cursor-move"
+					>
 						<td class="rule-table__index-column cursor-move has-text-centered">
 							{{inc rule.order}}
 						</td>
