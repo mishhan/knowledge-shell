@@ -1,7 +1,7 @@
 import Model, { attr, belongsTo } from "@ember-data/model";
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
-import { Variable } from ".";
+import Variable from "./variable";
 import ProductionBase from "./production-base";
 
 export default class Rule extends Model {
