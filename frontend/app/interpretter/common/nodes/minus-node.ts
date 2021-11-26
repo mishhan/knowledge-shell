@@ -16,7 +16,7 @@ export default class MinusNode extends BinarNode {
 		const isBothNumber = leftNodeValue.Type === ValueType.Number && rightNodeValue.Type === ValueType.Number;
 
 		if (isBothNumber) {
-			const resultValue = leftNodeValue.Value + rightNodeValue.Value;
+			const resultValue = (leftNodeValue.Value as number) - (rightNodeValue.Value as number);
 			const isLeftNodeRangeValue = leftNodeValue.NodeValue instanceof DomainValueNumber;
 			if (isLeftNodeRangeValue) {
 				const rangeValue = (leftNodeValue.NodeValue as DomainValueNumber).domain.getDomainValue(resultValue);

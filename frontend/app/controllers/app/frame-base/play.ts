@@ -58,9 +58,3 @@ export default class FrameBasePlayController extends Controller {
 		}
 	}
 }
-
-declare module "@ember/controller" {
-	interface Registry {
-		"frame-base/play": FrameBasePlayController;
-	}
-}

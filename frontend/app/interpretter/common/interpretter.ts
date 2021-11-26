@@ -68,7 +68,7 @@ export default abstract class Interpretter {
 	}
 
 	/**
-	 * Checks where current statement is correct within given context
+	 * Determines where current statement is correct within given context
 	 * @requires setting context to be called
 	 * @returns {{ pass: true } | { pass: false; message: string }}
 	 */
@@ -199,7 +199,6 @@ export default abstract class Interpretter {
 	}
 
 	protected factor(): Node {
-		// only child classes
 		throw new InterpretationError(this.currentToken, TokenType.IntConst);
 	}
 

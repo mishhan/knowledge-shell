@@ -14,7 +14,7 @@ export default class AndNode extends BinarNode {
 
 		const isBothBoolean = leftNodeValue.Type === ValueType.Boolean && rightNodeValue.Type === ValueType.Boolean;
 		if (isBothBoolean) {
-			const result = leftNodeValue.Value && rightNodeValue.Value;
+			const result = (leftNodeValue.Value as boolean) && (rightNodeValue.Value as boolean);
 			return result;
 		}
 

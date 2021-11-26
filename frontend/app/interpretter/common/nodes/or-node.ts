@@ -14,7 +14,7 @@ export default class OrNode extends BinarNode {
 
 		const isBothBoolean = leftNodeValue.Type === ValueType.Boolean && rightNodeValue.Type === ValueType.Boolean;
 		if (isBothBoolean) {
-			const result = leftNodeValue.Value || rightNodeValue.Value;
+			const result = leftNodeValue.Value === true || rightNodeValue.Value === true;
 			return result;
 		}
 

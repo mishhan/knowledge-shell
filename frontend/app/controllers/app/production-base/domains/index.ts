@@ -2,7 +2,7 @@ import Controller from "@ember/controller";
 import { action } from "@ember/object";
 import { Domain, DomainValue } from "knowledge-shell/models";
 
-export default class AppProductionBaseDomainsIndex extends Controller {
+export default class AppProductionBaseDomainsIndexController extends Controller {
 	get domains(): Domain[] {
 		return this.model.domains;
 	}
@@ -23,11 +23,5 @@ export default class AppProductionBaseDomainsIndex extends Controller {
 			await domainValue.destroyRecord();
 		});
 		await domain.destroyRecord();
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"app/production-base/domains/index": AppProductionBaseDomainsIndex;
 	}
 }

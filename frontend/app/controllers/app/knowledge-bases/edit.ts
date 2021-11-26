@@ -18,9 +18,3 @@ export default class KnowledgeBasesEditController extends Controller {
 		this.transitionToRoute("app.knowledge-bases");
 	}
 }
-
-declare module "@ember/controller" {
-	interface Registry {
-		"app/knowledge-bases/edit": KnowledgeBasesEditController;
-	}
-}

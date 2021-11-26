@@ -6,7 +6,7 @@ import { KnowledgeBase, KnowledgeBaseType } from "knowledge-shell/models";
 import IntlService from "ember-intl/services/intl";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
-export default class AppKnowledgeBasesIndex extends Controller {
+export default class AppKnowledgeBasesIndexController extends Controller {
 	queryParams = ["sortBy", "sortDirection", "page"];
 
 	@tracked page = 1;
@@ -78,11 +78,5 @@ export default class AppKnowledgeBasesIndex extends Controller {
 				});
 			}
 		});
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"app/knowledge-bases/index": AppKnowledgeBasesIndex;
 	}
 }

@@ -5,7 +5,7 @@ import ProductionEngine, { ConsultationStatus } from "knowledge-shell/services/p
 import { tracked } from "@glimmer/tracking";
 import { DomainValue, Variable } from "knowledge-shell/models";
 
-export default class AppProductionBaseTesting extends Controller {
+export default class AppProductionBaseTestingController extends Controller {
 	@service("production-engine") productionEngine!: ProductionEngine;
 
 	@tracked goalVariable!: Variable;
@@ -70,6 +70,6 @@ export default class AppProductionBaseTesting extends Controller {
 
 declare module "@ember/controller" {
 	interface Registry {
-		"app/production-base/testing": AppProductionBaseTesting;
+		"app/production-base/testing": AppProductionBaseTestingController;
 	}
 }

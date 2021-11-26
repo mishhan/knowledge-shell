@@ -2,7 +2,7 @@ import Controller from "@ember/controller";
 import { action } from "@ember/object";
 import { Rule, Variable } from "knowledge-shell/models";
 
-export default class AppProductionBaseRulesEdit extends Controller {
+export default class AppProductionBaseRulesEditController extends Controller {
 	get currentRule(): Rule {
 		return this.model.rule;
 	}
@@ -27,11 +27,5 @@ export default class AppProductionBaseRulesEdit extends Controller {
 	cancelChanges(): void {
 		this.currentRule.rollbackAttributes();
 		this.transitionToRoute("app.production-base.rules");
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"app/production-base/rules/edit": AppProductionBaseRulesEdit;
 	}
 }

@@ -18,7 +18,7 @@ export default class PlusNode extends BinarNode {
 		const isLeftStringRightNumber = leftNodeValue.Type === ValueType.String && rightNodeValue.Type === ValueType.Number;
 
 		if (isBothNumber) {
-			const resultValue = leftNodeValue.Value + rightNodeValue.Value;
+			const resultValue = (leftNodeValue.Value as number) + (rightNodeValue.Value as number);
 			const isLeftNodeRangeValue = leftNodeValue.NodeValue instanceof DomainValueNumber;
 			if (isLeftNodeRangeValue) {
 				const rangeValue = (leftNodeValue.NodeValue as DomainValueNumber).domain.getDomainValue(resultValue);
@@ -29,7 +29,7 @@ export default class PlusNode extends BinarNode {
 		}
 
 		if (isBothString) {
-			const resultValue = leftNodeValue.Value + rightNodeValue.Value;
+			const resultValue = (leftNodeValue.Value as string) + (rightNodeValue.Value as string);
 			const isLeftNodeRangeValue = leftNodeValue.NodeValue instanceof DomainValueString;
 			if (isLeftNodeRangeValue) {
 				const rangeValue = (leftNodeValue.NodeValue as DomainValueString).domain.getDomainValue(resultValue);
@@ -40,7 +40,7 @@ export default class PlusNode extends BinarNode {
 		}
 
 		if (isLeftStringRightNumber) {
-			const resultValue = leftNodeValue.Value + rightNodeValue.Value;
+			const resultValue = `${leftNodeValue.Value}${rightNodeValue.Value}`;
 			const isLeftNodeRangeValue = leftNodeValue.NodeValue instanceof DomainValueString;
 			if (isLeftNodeRangeValue) {
 				const rangeValue = (leftNodeValue.NodeValue as DomainValueString).domain.getDomainValue(resultValue);

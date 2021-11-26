@@ -8,7 +8,7 @@ import { allSettled } from "rsvp";
 import IntlService from "ember-intl/services/intl";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
-export default class FrameBaseDomains extends Controller {
+export default class FrameBaseDomainsController extends Controller {
 	@service intl!: IntlService;
 	@tracked search = "";
 
@@ -67,11 +67,5 @@ export default class FrameBaseDomains extends Controller {
 				});
 			}
 		});
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"frame-base/domains": FrameBaseDomains;
 	}
 }
