@@ -2,7 +2,7 @@
 
 ## About
 
-Backend for [knowledge-shell client](https://github.com/mishhan/knowledge-shell/frontend) with following features:
+Backend for [knowledge-shell client](../frontend) with following features:
 
 1. Following [JSON-API](https://jsonapi.org/) using [JsonApiDotNetCore](https://github.com/json-api-dotnet/JsonApiDotNetCore)
 2. JWT Authentication
