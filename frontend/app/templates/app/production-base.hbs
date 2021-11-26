@@ -1,10 +1,18 @@
 <div class="base-editor">
 	<ul class="base-editor__navbar">
 		<li class="base-editor__navbar-link-container">
+			<LinkTo @route="app.production-base.index" class="base-editor__navbar-link">
+				<FaIcon @icon="info" />
+				<span class="base-editor__navbar-link-text">
+					{{t "pages.production_editor.information.title"}}
+				</span>
+			</LinkTo>
+		</li>
+		<li class="base-editor__navbar-link-container">
 			<LinkTo @route="app.production-base.rules" class="base-editor__navbar-link">
 				<FaIcon @icon="clipboard" />
 				<span class="base-editor__navbar-link-text">
-					{{t "production_editor.rules"}}
+					{{t "pages.production_editor.rules"}}
 				</span>
 			</LinkTo>
 		</li>
@@ -12,7 +20,7 @@
 			<LinkTo @route="app.production-base.variables" class="base-editor__navbar-link">
 				<FaIcon @icon="th-list" />
 				<span class="base-editor__navbar-link-text">
-					{{t "production_editor.variables"}}
+					{{t "pages.production_editor.variables"}}
 				</span>
 			</LinkTo>
 		</li>
@@ -20,7 +28,15 @@
 			<LinkTo @route="app.production-base.domains" class="base-editor__navbar-link">
 				<FaIcon @icon="th-list" />
 				<span class="base-editor__navbar-link-text">
-					{{t "production_editor.domains"}}
+					{{t "pages.production_editor.domains"}}
+				</span>
+			</LinkTo>
+		</li>
+		<li class="base-editor__navbar-link-container">
+			<LinkTo @route="app.production-base.testing" class="base-editor__navbar-link">
+				<FaIcon @icon="play" />
+				<span class="base-editor__navbar-link-text">
+					{{t "pages.production_editor.testing.title"}}
 				</span>
 			</LinkTo>
 		</li>

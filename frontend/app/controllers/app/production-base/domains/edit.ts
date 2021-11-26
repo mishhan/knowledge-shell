@@ -2,9 +2,13 @@ import Controller from "@ember/controller";
 import { action } from "@ember/object";
 import { Domain, DomainType, DomainValue } from "knowledge-shell/models";
 
-export default class AppProductionBaseDomainsEdit extends Controller {
+export default class AppProductionBaseDomainsEditController extends Controller {
 	get currentDomain(): Domain {
 		return this.model.domain;
+	}
+
+	get domains(): Domain[] {
+		return this.model.domains;
 	}
 
 	get initialDomainValues(): DomainValue[] {
@@ -47,11 +51,5 @@ export default class AppProductionBaseDomainsEdit extends Controller {
 				await domainValue.destroyRecord();
 			}
 		});
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"app/production-base/domains/edit": AppProductionBaseDomainsEdit;
 	}
 }

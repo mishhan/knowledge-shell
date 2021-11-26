@@ -5,7 +5,7 @@ import { FrameBase, Frame, Domain, Slot } from "knowledge-shell/models";
 import IntlService from "ember-intl/services/intl";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
-export default class FrameBaseEditor extends Controller {
+export default class FrameBaseEditorController extends Controller {
 	@service intl!: IntlService;
 
 	get frameBase(): FrameBase {
@@ -182,11 +182,5 @@ export default class FrameBaseEditor extends Controller {
 	 */
 	resetFrames(): void {
 		set(this.frameBase, "frames", this.frames);
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"frame-base/editor": FrameBaseEditor;
 	}
 }

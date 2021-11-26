@@ -7,19 +7,25 @@
 	@sortEndAction={{fn @reorderValues @domainValues}}
 >
 	{{#each @domainValues as |domainValue|}}
-		<DraggableObject @content={{domainValue}} @isSortable={{true}} @sortingScope="domainValueList">
+		<DraggableObject
+			@content={{domainValue}}
+			@isSortable={{true}}
+			@sortingScope="domainValueList"
+			@dragHandle=".cursor-move"
+		>
 			<div class="field is-grouped">
 				<div class="control is-expanded">
 					<label class="label">
-						{{t "domain.fields.value"}}
+						{{t "models.domain.fields.value"}}
 					</label>
 					<Input @type={{@domainValueType}} class="input is-small" @value={{domainValue.value}} />
 				</div>
-				<div class="control is-flex is-flex-direction-column is-justify-content-flex-end">
+				<div class="control is-flex is-flex-direction-row is-justify-content-flex-end is-align-items-flex-end">
 					<button type="button" class="button is-danger is-small" {{on "click" (fn @deleteValue domainValue)}}>
-						<span class="icon">
-							<FaIcon @icon="trash" />
-						</span>
+						<FaIcon @icon="trash" />
+					</button>
+					<button type="button" class="button cursor-move ml-2 is-primary is-small">
+						<FaIcon @icon="arrows-alt" />
 					</button>
 				</div>
 			</div>

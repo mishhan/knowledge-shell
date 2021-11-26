@@ -1,8 +1,22 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
+import { inject as service } from "@ember/service";
+import type IntlService from "ember-intl/services/intl";
 import { action } from "@ember/object";
 import { KnowledgeBaseType } from "knowledge-shell/models";
-import knowledgeBaseValidator from "knowledge-shell/validations/knowledge-base";
+import { create, test, enforce, only } from "vest";
+
+const kbFormValidator = create((data: KbFormComponent, cnahgedField: string) => {
+	only(cnahgedField);
+
+	test("name", "form.validation_errors.required_field", () => {
+		enforce(data.name).isNotEmpty();
+	});
+
+	test("description", "form.validation_errors.required_field", () => {
+		enforce(data.description).isNotEmpty();
+	});
+});
 
 interface KbFormComponentArgs {
 	name: string;
@@ -14,13 +28,15 @@ interface KbFormComponentArgs {
 }
 
 export default class KbFormComponent extends Component<KbFormComponentArgs> {
+	@service intl!: IntlService;
+
 	@tracked isSubmitted!: boolean;
 
 	@tracked name!: string;
 	@tracked description!: string;
 	@tracked type!: KnowledgeBaseType;
 
-	@tracked validator = knowledgeBaseValidator.get();
+	@tracked validator = kbFormValidator.get();
 
 	get kbTypes(): { key: number; value: string }[] {
 		return [
@@ -34,18 +50,17 @@ export default class KbFormComponent extends Component<KbFormComponentArgs> {
 	}
 
 	get nameValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("name");
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
+		const nameValidation = this.getFieldValidation("name");
+		return nameValidation;
 	}
 
 	get descriptionValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("description");
+		const descriptionValidation = this.getFieldValidation("description");
+		return descriptionValidation;
+	}
+
+	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
 		const isValid = this.isSubmitted && errors.length === 0;
 		const isInValid = this.isSubmitted && errors.length > 0;
 		return {
@@ -92,13 +107,6 @@ export default class KbFormComponent extends Component<KbFormComponentArgs> {
 	}
 
 	validateForm(fieldName?: string): void {
-		const { name, description } = this;
-		this.validator = knowledgeBaseValidator(
-			{
-				name,
-				description,
-			},
-			fieldName,
-		);
+		this.validator = kbFormValidator(this, fieldName);
 	}
 }

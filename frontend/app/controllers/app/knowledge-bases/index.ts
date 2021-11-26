@@ -6,7 +6,7 @@ import { KnowledgeBase, KnowledgeBaseType } from "knowledge-shell/models";
 import IntlService from "ember-intl/services/intl";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
-export default class AppKnowledgeBasesIndex extends Controller {
+export default class AppKnowledgeBasesIndexController extends Controller {
 	queryParams = ["sortBy", "sortDirection", "page"];
 
 	@tracked page = 1;
@@ -35,7 +35,7 @@ export default class AppKnowledgeBasesIndex extends Controller {
 				this.transitionToRoute("app.frame-base.editor", kb.id);
 				break;
 			case KnowledgeBaseType.Production:
-				this.transitionToRoute("app.production-base.rules", kb.id);
+				this.transitionToRoute("app.production-base.index", kb.id);
 				break;
 			default:
 				break;
@@ -44,7 +44,16 @@ export default class AppKnowledgeBasesIndex extends Controller {
 
 	@action
 	playKb(kb: KnowledgeBase): void {
-		this.transitionToRoute(`app.frame-base.play`, kb.id);
+		switch (kb.baseType) {
+			case KnowledgeBaseType.Frame:
+				this.transitionToRoute("app.frame-base.play", kb.id);
+				break;
+			case KnowledgeBaseType.Production:
+				this.transitionToRoute("app.production-base.testing", kb.id);
+				break;
+			default:
+				break;
+		}
 	}
 
 	@action
@@ -69,11 +78,5 @@ export default class AppKnowledgeBasesIndex extends Controller {
 				});
 			}
 		});
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"app/knowledge-bases/index": AppKnowledgeBasesIndex;
 	}
 }

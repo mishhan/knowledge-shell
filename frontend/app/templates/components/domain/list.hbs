@@ -6,23 +6,28 @@
 					#
 				</th>
 				<th class="domain-table__name-column">
-					{{t "domain.fields.name"}}
+					{{t "models.domain.fields.name"}}
 				</th>
 				<th class="domain-table__description-column">
-					{{t "domain.fields.description"}}
+					{{t "models.domain.fields.description"}}
 				</th>
 				<th class="domain-table__type-column">
-					{{t "domain.fields.type"}}
+					{{t "models.domain.fields.type"}}
 				</th>
 				<th class="domain-table__actions-column has-text-centered">
-					{{t "common.actions"}}
+					{{t "common.actions.actions"}}
 				</th>
 			</tr>
 			<tr>
 				<th class="domain-table__index-column has-text-centered"></th>
 				<th class="domain-table__name-column">
 					<div class="control has-icons-right">
-						<Input placeholder={{t "common.filter"}} class="input is-small" @type="text" @value={{this.filter}} />
+						<Input
+							placeholder={{t "common.actions.filter"}}
+							class="input is-small"
+							@type="text"
+							@value={{this.filter}}
+						/>
 						<span class="icon is-right">
 							<FaIcon @icon="search" />
 						</span>
@@ -34,7 +39,7 @@
 					<button
 						type="button"
 						class="button is-primary is-small"
-						aria-label={{t "common.add"}}
+						aria-label={{t "common.actions.add"}}
 						data-microtip-position="top"
 						data-microtip-size="small"
 						role="tooltip"

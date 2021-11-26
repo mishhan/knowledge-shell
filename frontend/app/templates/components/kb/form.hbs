@@ -2,8 +2,8 @@
 	<div class="field">
 		<FormInput
 			@id="name"
-			@labelText={{t "kb.fields.name"}}
-			@placeholder={{t "kb.fields.name"}}
+			@labelText={{t "models.kb.fields.name"}}
+			@placeholder={{t "models.kb.fields.name"}}
 			@value={{this.name}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
@@ -14,8 +14,8 @@
 	<div class="field">
 		<FormInput
 			@id="description"
-			@labelText={{t "kb.fields.description"}}
-			@placeholder={{t "kb.fields.description"}}
+			@labelText={{t "models.kb.fields.description"}}
+			@placeholder={{t "models.kb.fields.description"}}
 			@value={{this.description}}
 			@isValid={{this.descriptionValidation.isValid}}
 			@isInValid={{this.descriptionValidation.isInValid}}
@@ -25,7 +25,7 @@
 	</div>
 	<div class="field">
 		<label for="type" class="label">
-			{{t "kb.fields.type"}}
+			{{t "models.kb.fields.type"}}
 		</label>
 		<div class="control">
 			<PowerSelect
@@ -41,9 +41,9 @@
 		</div>
 	</div>
 	<button type="submit" class="button is-primary" {{on "click" this.onSubmit}}>
-		{{t "common.save"}}
+		{{t "common.actions.save"}}
 	</button>
 	<button type="button" class="button is-light" {{on "click" @onCancel}}>
-		{{t "common.cancel"}}
+		{{t "common.actions.cancel"}}
 	</button>
 </form>

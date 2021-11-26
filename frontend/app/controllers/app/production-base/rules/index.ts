@@ -3,8 +3,8 @@ import Controller from "@ember/controller";
 import { action, computed } from "@ember/object";
 import { Rule } from "knowledge-shell/models";
 
-export default class AppProductionBaseRulesIndex extends Controller {
-	@computed("model.rules")
+export default class AppProductionBaseRulesIndexController extends Controller {
+	@computed("model.rules.[]")
 	get rules(): Rule[] {
 		const { rules } = this.model;
 		const orderedRules = rules.sortBy("order");
@@ -36,11 +36,5 @@ export default class AppProductionBaseRulesIndex extends Controller {
 		reorderedRules.forEach((rule: Rule, index: number) => {
 			rule.order = index;
 		});
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"app/production-base/rules/index": AppProductionBaseRulesIndex;
 	}
 }

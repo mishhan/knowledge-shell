@@ -25,9 +25,7 @@ export default class FrameGraph extends Component<FrameGraphArgs> {
 	@service("frame-observer") frameObserver!: FrameObserver;
 
 	container!: HTMLDivElement;
-
 	network!: Network;
-
 	networkData!: Data;
 
 	get frames(): Frame[] {

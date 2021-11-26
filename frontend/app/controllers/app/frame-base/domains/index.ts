@@ -3,7 +3,7 @@ import Controller from "@ember/controller";
 import { action, computed } from "@ember/object";
 import { Domain, DomainValue } from "knowledge-shell/models";
 
-export default class AppFrameBaseDomainsIndex extends Controller {
+export default class AppFrameBaseDomainsIndexController extends Controller {
 	@computed("model.{domains.[],frameDomain}")
 	get domains(): Domain[] {
 		const { frameDomain } = this.model;
@@ -28,11 +28,5 @@ export default class AppFrameBaseDomainsIndex extends Controller {
 			await domainValue.destroyRecord();
 		});
 		await domain.destroyRecord();
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"app/frame-base/domains/index": AppFrameBaseDomainsIndex;
 	}
 }

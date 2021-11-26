@@ -1,20 +1,24 @@
 import { Frame, Slot } from "knowledge-shell/models";
-import BinarNode from "./binar-node";
-import { InterpretationException, UndefinedFrameSlotException } from "../exceptions";
+import { Node, BinarNode } from "../../common/nodes";
+import { EvaluationError } from "../../common";
 
 export default class FrameGetSlotNode extends BinarNode {
+	constructor(leftNode: Node, rightNode: Node) {
+		super(leftNode, rightNode, "FrameGetSlotNode");
+	}
+
 	public evaluate(): Slot {
-		const frame: Frame = this.leftNode.evaluateR();
+		const frame: Frame = this.leftNode.evaluateValue();
 		if (frame) {
-			const rightNodeValue = this.rightNode.evaluateR();
+			const rightNodeValue = this.rightNode.evaluateValue();
 			const frameSlot = frame.getSlot(rightNodeValue);
 			if (frameSlot) {
 				return frameSlot;
 			}
 
-			throw new UndefinedFrameSlotException(frame.name, rightNodeValue);
+			throw new EvaluationError(frame.name, rightNodeValue);
 		}
 
-		throw new InterpretationException(this.constructor.name, "nndefined frame");
+		throw new EvaluationError(this.nodeName, "undefined frame");
 	}
 }

@@ -1,7 +1,47 @@
+/* eslint-disable ember/require-tagless-components */
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
+import { inject as service } from "@ember/service";
+import type IntlService from "ember-intl/services/intl";
 import { action } from "@ember/object";
-import userRegistrationValidator from "knowledge-shell/validations/user-registration";
+import { create, test, enforce, only } from "vest";
+import isStrongPassword from "validator/es/lib/isStrongPassword";
+import isEmail from "validator/es/lib/isEmail";
+
+enforce.extend({ isEmail });
+enforce.extend({ isStrongPassword });
+
+const registrationFormValidator = create((data: AccountRegistrationForm, cnahgedField: string) => {
+	only(cnahgedField);
+
+	test("userName", "form.validation_errors.required_field", () => {
+		enforce(data.userName).isNotEmpty();
+	});
+
+	test("userName", "form.validation_errors.gte_3", () => {
+		enforce(data.userName).longerThanOrEquals(3);
+	});
+
+	test("email", "form.validation_errors.required_field", () => {
+		enforce(data.email).isNotEmpty();
+	});
+
+	test("email", "form.validation_errors.incorrect_email", () => {
+		enforce(data.email).isEmail();
+	});
+
+	test("password", "form.validation_errors.required_field", () => {
+		enforce(data.password).isNotEmpty();
+	});
+
+	test("password", "form.validation_errors.strong_password", () => {
+		enforce(data.password).isStrongPassword();
+	});
+
+	test("acceptTerms", "form.validation_errors.tof", () => {
+		enforce(data.acceptTerms).isTruthy();
+	});
+});
 
 interface AccountRegistrationFormArgs {
 	registr: (userName: string, email: string, password: string) => void;
@@ -9,6 +49,8 @@ interface AccountRegistrationFormArgs {
 }
 
 export default class AccountRegistrationForm extends Component<AccountRegistrationFormArgs> {
+	@service intl!: IntlService;
+
 	@tracked isSubmitted!: boolean;
 
 	@tracked userName!: string;
@@ -16,43 +58,30 @@ export default class AccountRegistrationForm extends Component<AccountRegistrati
 	@tracked password!: string;
 	@tracked showPassword = false;
 	@tracked acceptTerms!: boolean;
-	@tracked validator = userRegistrationValidator.get();
+	@tracked validator = registrationFormValidator.get();
 
 	get userNameValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("userName");
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
+		const userNameValidation = this.getFieldValidation("userName");
+		return userNameValidation;
 	}
 
 	get emailValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("email");
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
+		const emailValidation = this.getFieldValidation("email");
+		return emailValidation;
 	}
 
 	get passwordValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("password");
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
+		const passwordValidation = this.getFieldValidation("password");
+		return passwordValidation;
 	}
 
 	get acceptTermsValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors("acceptTerms");
+		const acceptTermsValidation = this.getFieldValidation("acceptTerms");
+		return acceptTermsValidation;
+	}
+
+	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
 		const isValid = this.isSubmitted && errors.length === 0;
 		const isInValid = this.isSubmitted && errors.length > 0;
 		return {
@@ -93,15 +122,6 @@ export default class AccountRegistrationForm extends Component<AccountRegistrati
 	}
 
 	validateForm(fieldName?: string): void {
-		const { userName, email, password, acceptTerms } = this;
-		this.validator = userRegistrationValidator(
-			{
-				userName,
-				email,
-				password,
-				acceptTerms,
-			},
-			fieldName,
-		);
+		this.validator = registrationFormValidator(this, fieldName);
 	}
 }

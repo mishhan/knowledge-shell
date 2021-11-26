@@ -1,9 +1,11 @@
 import Model, { attr, belongsTo } from "@ember-data/model";
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
 import Domain from "./domain";
 import ProductionBase from "./production-base";
 import VariableType from "./variable-type";
+import DomainValue from "./domain-value";
 
 export default class Variable extends Model {
 	@attr("string") name!: string;
@@ -21,6 +23,11 @@ export default class Variable extends Model {
 	get variableTypeName(): string {
 		return VariableType[this.variableType];
 	}
+
+	@tracked value!: DomainValue | null;
+
+	@computed.notEmpty("value")
+	hasValue!: boolean;
 }
 
 declare module "ember-data/types/registries/model" {

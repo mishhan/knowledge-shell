@@ -1,6 +1,7 @@
 import Model, { attr, belongsTo } from "@ember-data/model";
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
+import Variable from "./variable";
 import ProductionBase from "./production-base";
 
 export default class Rule extends Model {
@@ -16,6 +17,13 @@ export default class Rule extends Model {
 	@computed("premise", "consequence")
 	get fullRule(): string {
 		return `IF ${this.premise} THEN ${this.consequence}`;
+	}
+
+	public getVariable(variableName: string): Variable | undefined {
+		const baseVariable = this.productionBase.variables.find(
+			(variable: Variable) => variable.name.toLowerCase() === variableName,
+		);
+		return baseVariable;
 	}
 }
 

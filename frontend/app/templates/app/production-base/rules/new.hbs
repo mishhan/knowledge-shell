@@ -1,11 +1,4 @@
-<Rule::Form
-	@name={{this.currentRule.name}}
-	@reason={{this.currentRule.reason}}
-	@premise={{this.currentRule.premise}}
-	@consequence={{this.currentRule.consequence}}
-	@onSubmit={{this.save}}
-	@onCancel={{this.cancelChanges}}
-/>
+<Rule::Form @rule={{this.currentRule}} @onSubmit={{this.save}} @onCancel={{this.cancelChanges}} />
 {{#if this.serverErrorMessage}}
 	<div class="notification mt-3 is-danger is-light">
 		{{this.serverErrorMessage}}

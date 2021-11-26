@@ -14,7 +14,7 @@ import {
 } from "knowledge-shell/models";
 import getRandomInt from "knowledge-shell/utils/get-random-int";
 import BattleLogger from "./battle-logger";
-import BattleLogicCore from "./battle-logic-core";
+import FrameProductionEngine from "./frame-production-engine";
 
 const BATTLE_SETTINGS = {
 	fieldFrameName: "Game Field",
@@ -35,7 +35,7 @@ const BATTLE_SETTINGS = {
 export default class BattleCore extends Service {
 	@service intl!: IntlService;
 	@service("battle-logger") battleLogger!: BattleLogger;
-	@service("battle-logic-core") battleLogicCore!: BattleLogicCore;
+	@service("frame-production-engine") battleLogicCore!: FrameProductionEngine;
 
 	@tracked frameBase!: FrameBase;
 
@@ -125,7 +125,7 @@ export default class BattleCore extends Service {
 
 	public playStep(stepNumber: number): boolean {
 		const treeLog: { name: string; children: any[] } = {
-			name: this.intl.t("battle.step", { number: stepNumber }),
+			name: this.intl.t("pages.frame_editor.testing.battle.step", { number: stepNumber }),
 			children: [],
 		};
 
@@ -154,13 +154,17 @@ export default class BattleCore extends Service {
 
 				gameObjectLog.children.pushObjects([
 					{
-						name: this.intl.t("battle.attached_situations", { count: attachedSituations.length }),
+						name: this.intl.t("pages.frame_editor.testing.battle.attached_situations", {
+							count: attachedSituations.length,
+						}),
 						children: situationNames.map((sitName: string) => {
 							return { name: sitName, children: [] };
 						}),
 					},
 					{
-						name: this.intl.t("battle.chosen_situation", { situation: chosenSituation.name }),
+						name: this.intl.t("pages.frame_editor.testing.battle.chosen_situation", {
+							situation: chosenSituation.name,
+						}),
 						children: [],
 					},
 				]);

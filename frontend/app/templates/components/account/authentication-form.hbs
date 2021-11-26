@@ -2,8 +2,8 @@
 	<div class="field">
 		<FormInput
 			@id="login"
-			@labelText={{t "fields.login_or_email"}}
-			@placeholder={{t "fields.login"}}
+			@labelText={{t "models.user.fields.login_or_email"}}
+			@placeholder={{t "models.user.fields.login"}}
 			@value={{this.userName}}
 			@isValid={{this.identificationValidation.isValid}}
 			@isInValid={{this.identificationValidation.isInValid}}
@@ -17,7 +17,7 @@
 			@id="password"
 			@type={{if this.showPassword "text" "password"}}
 			@placeholder="********"
-			@labelText={{t "fields.password"}}
+			@labelText={{t "models.user.fields.password"}}
 			@value={{this.password}}
 			@isValid={{this.passwordValidation.isValid}}
 			@isInValid={{this.passwordValidation.isInValid}}
@@ -28,11 +28,11 @@
 		<div class="mt-1">
 			<label class="checkbox">
 				<Input @type="checkbox" @checked={{this.showPassword}} />
-				{{t "fields.show_password"}}
+				{{t "models.user.fields.show_password"}}
 			</label>
 		</div>
 	</div>
 	<button type="submit" class="button is-primary {{if @isLoading "is-loading"}}" {{on "click" this.onSubmit}}>
-		{{t "sign_in"}}
+		{{t "common.actions.sign_in"}}
 	</button>
 </form>

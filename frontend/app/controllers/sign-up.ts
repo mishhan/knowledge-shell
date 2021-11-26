@@ -4,7 +4,7 @@ import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 import ENV from "knowledge-shell/config/environment";
 
-export default class SignUp extends Controller {
+export default class SignUpController extends Controller {
 	@service session!: any;
 	@tracked isLoading!: boolean;
 	@tracked serverErrorMessage!: string;
@@ -32,11 +32,5 @@ export default class SignUp extends Controller {
 		} finally {
 			this.isLoading = false;
 		}
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"sign-up": SignUp;
 	}
 }

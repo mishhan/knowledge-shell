@@ -2,7 +2,7 @@ import Controller from "@ember/controller";
 import { action } from "@ember/object";
 import { Domain, Variable, VariableType } from "knowledge-shell/models";
 
-export default class AppProductionBaseVariablesEdit extends Controller {
+export default class AppProductionBaseVariablesEditController extends Controller {
 	get currentVariable(): Variable {
 		return this.model.variable;
 	}
@@ -38,11 +38,5 @@ export default class AppProductionBaseVariablesEdit extends Controller {
 	cancelChanges(): void {
 		this.currentVariable.rollbackAttributes();
 		this.transitionToRoute("app.production-base.variables");
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"app/production-base/variables/edit": AppProductionBaseVariablesEdit;
 	}
 }
