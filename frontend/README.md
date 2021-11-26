@@ -2,16 +2,20 @@
 
 ## About
 
-[Ember.js](https://github.com/emberjs/ember.js "Ember.js") app with following features:
-1. [Bulma Sass library ](https://bulma.io/documentation/ "Bulma Sass library ")
-2. Authentication
-3. Business logic is made on client only :upside_down_face:
-	- Interpretation (Lexer, Set of nodes, Interpretter)
+[Ember.js](https://github.com/emberjs/ember.js) app with following features:
+1. Styles with [Bulma](https://bulma.io/documentation/) and [Sass](https://sass-lang.com/)
+2. Authentication (JWT)
+3. Internationalization
+4. Validations using [Vest](https://github.com/ealush/vest)
+5. Drag and Drop for battle and reordeing elements in tables
+6. Business logic is made on client only :upside_down_face:
+	- Inference logic - see [here](./app/services/frame-production-engine.ts) and [here](./app/services/production-engine.ts)
+	- Interpretation (Lexer, Set of nodes, Interpretter) - see [here](./app/interpretter)
 
 ## Running / Development
 
-* `cd knowledge-shell`
+* `cd fronted`
 * `npm install`
-* `ember serve`
+* `npm run start`
 * Visit app at [http://localhost:4200](http://localhost:4200)
 
