@@ -20,9 +20,9 @@ export default class IsNode extends BinarNode {
 				return rightNodeIsParent;
 			}
 
-			throw new EvaluationError("IsNode", `frame {${rightNodeValue}} is undefined in framebase`);
+			throw new EvaluationError(this.nodeName, `frame {${rightNodeValue}} is undefined in framebase`);
 		}
 
-		throw new EvaluationError("IsNode", `{leftNodeValue} must have type DomainValueFrame`);
+		throw new EvaluationError(this.nodeName, `{leftNodeValue} must have type DomainValueFrame`);
 	}
 }

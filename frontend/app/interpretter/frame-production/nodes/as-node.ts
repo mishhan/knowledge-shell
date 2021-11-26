@@ -26,9 +26,9 @@ export default class AsNode extends BinarNode {
 				return this.production.slot.owner.domain.getDomainValueFrameByFrameName(leftNodeValue).value;
 			}
 
-			throw new EvaluationError("AsNode", "{leftNodeValue} must have type DomainValueFrame | Frame | string");
+			throw new EvaluationError(this.nodeName, "{leftNodeValue} must have type DomainValueFrame | Frame | string");
 		}
 
-		throw new EvaluationError("AsNode", `{rightNodeValue} must be equal to ${FrameKeyWord}`);
+		throw new EvaluationError(this.nodeName, `{rightNodeValue} must be equal to ${FrameKeyWord}`);
 	}
 }
