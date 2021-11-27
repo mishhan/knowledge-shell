@@ -1,11 +1,15 @@
 import { DomainValueFrame } from "knowledge-shell/models";
-import BinarNode from "./binar-node";
-import { InterpretationException } from "../exceptions";
+import { Node, BinarNode } from "../../common/nodes";
+import { EvaluationError } from "../../common";
 
 export default class IsNode extends BinarNode {
+	constructor(leftNode: Node, rightNode: Node) {
+		super(leftNode, rightNode, "IsNode");
+	}
+
 	public evaluate(): any {
-		const leftNodeValue = this.leftNode.evaluateR();
-		const rightNodeValue = this.rightNode.evaluateR();
+		const leftNodeValue = this.leftNode.evaluateValue();
+		const rightNodeValue = this.rightNode.evaluateValue();
 
 		if (leftNodeValue instanceof DomainValueFrame) {
 			const leftNodeFrame = leftNodeValue.value;
@@ -16,9 +20,9 @@ export default class IsNode extends BinarNode {
 				return rightNodeIsParent;
 			}
 
-			throw new InterpretationException(this.constructor.name, `frame {${rightNodeValue}} is undefined in framebase`);
+			throw new EvaluationError(this.nodeName, `frame {${rightNodeValue}} is undefined in framebase`);
 		}
 
-		throw new InterpretationException(this.constructor.name, `{leftNodeValue} must have type DomainValueFrame`);
+		throw new EvaluationError(this.nodeName, `{leftNodeValue} must have type DomainValueFrame`);
 	}
 }

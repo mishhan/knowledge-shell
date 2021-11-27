@@ -1,0 +1,90 @@
+<form id="variable" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
+	<div class="field">
+		<FormInput
+			@id="name"
+			@labelText={{t "models.variable.fields.name"}}
+			@placeholder={{t "models.variable.fields.name"}}
+			@value={{this.name}}
+			@isValid={{this.nameValidation.isValid}}
+			@isInValid={{this.nameValidation.isInValid}}
+			@onChange={{this.onNameChange}}
+			@validationErrors={{this.nameValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<FormInput
+			@id="description"
+			@labelText={{t "models.variable.fields.description"}}
+			@placeholder={{t "models.variable.fields.description"}}
+			@value={{this.description}}
+			@isValid={{this.descriptionValidation.isValid}}
+			@isInValid={{this.descriptionValidation.isInValid}}
+			@onChange={{this.onDescriptionChange}}
+			@validationErrors={{this.descriptionValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<label for="type" class="label">
+			{{t "models.variable.fields.type"}}
+		</label>
+		<div class="control">
+			<PowerSelect
+				@triggerClass="input"
+				@options={{this.variableTypes}}
+				@allowClear={{false}}
+				@selected={{this.selectedVariableType}}
+				@onChange={{this.setVariableType}} as |variableType|
+			>
+				{{variableType.value}}
+			</PowerSelect>
+		</div>
+		{{#if this.variableTypeValidation.isInValid}}
+			{{#each this.variableTypeValidation.errors as |error|}}
+				<p class="help is-danger">
+					{{t error}}
+				</p>
+			{{/each}}
+		{{/if}}
+	</div>
+	<div class="field">
+		<label for="type" class="label">
+			{{t "models.variable.fields.domain"}}
+		</label>
+		<div class="control">
+			<PowerSelect
+				@triggerClass="input"
+				@options={{@domains}}
+				@allowClear={{false}}
+				@selected={{this.domain}}
+				@onChange={{this.setDomain}} as |domain|
+			>
+				{{domain.name}}
+			</PowerSelect>
+		</div>
+		{{#if this.domainValidation.isInValid}}
+			{{#each this.domainValidation.errors as |error|}}
+				<p class="help is-danger">
+					{{t error}}
+				</p>
+			{{/each}}
+		{{/if}}
+	</div>
+	<div class="field">
+		<FormInput
+			@id="question"
+			@labelText={{t "models.variable.fields.question"}}
+			@placeholder={{t "models.variable.fields.question"}}
+			@value={{this.question}}
+			@isValid={{this.questionValidation.isValid}}
+			@isInValid={{this.questionValidation.isInValid}}
+			@onChange={{this.onQuestionChange}}
+			@validationErrors={{this.questionValidation.errors}}
+		/>
+	</div>
+	<button type="submit" class="button is-primary" {{on "click" this.onSubmit}}>
+		{{t "common.actions.save"}}
+	</button>
+	<button type="button" class="button is-light" {{on "click" @onCancel}}>
+		{{t "common.actions.cancel"}}
+	</button>
+</form>

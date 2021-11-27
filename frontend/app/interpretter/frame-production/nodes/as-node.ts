@@ -1,12 +1,19 @@
-import { Frame, DomainValueFrame } from "knowledge-shell/models";
-import BinarNode from "./binar-node";
+import { Frame, DomainValueFrame, Production } from "knowledge-shell/models";
+import { Node, BinarNode } from "../../common/nodes";
 import FrameKeyWord from "../constants";
-import { InterpretationException } from "../exceptions";
+import { EvaluationError } from "../../common";
 
 export default class AsNode extends BinarNode {
+	private readonly production: Production;
+
+	constructor(leftNode: Node, rightNode: Node, production: Production) {
+		super(leftNode, rightNode, "AsNode");
+		this.production = production;
+	}
+
 	public evaluate(): Frame {
-		const leftNodeValue = this.leftNode.evaluateR();
-		const rightNodeValue = this.rightNode.evaluateR();
+		const leftNodeValue = this.leftNode.evaluateValue();
+		const rightNodeValue = this.rightNode.evaluateValue();
 
 		if (rightNodeValue === FrameKeyWord) {
 			if (leftNodeValue instanceof DomainValueFrame) {
@@ -19,12 +26,9 @@ export default class AsNode extends BinarNode {
 				return this.production.slot.owner.domain.getDomainValueFrameByFrameName(leftNodeValue).value;
 			}
 
-			throw new InterpretationException(
-				this.constructor.name,
-				`{leftNodeValue} must have type DomainValueFrame |Frame | string`,
-			);
+			throw new EvaluationError(this.nodeName, "{leftNodeValue} must have type DomainValueFrame | Frame | string");
 		}
 
-		throw new InterpretationException(this.constructor.name, `{rightNodeValue} must be equal ${FrameKeyWord}`);
+		throw new EvaluationError(this.nodeName, `{rightNodeValue} must be equal to ${FrameKeyWord}`);
 	}
 }

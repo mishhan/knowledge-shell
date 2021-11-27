@@ -16,7 +16,7 @@
 		<div class="navbar-start">
 			{{#if this.session.isAuthenticated}}
 				<LinkTo class="navbar-item" @route="app.knowledge-bases">
-					{{t "knowledge_bases"}}
+					<img src="/logo.jpg" alt={{t "common.logo"}} height="100" width="60" />
 				</LinkTo>
 			{{/if}}
 		</div>
@@ -25,15 +25,15 @@
 				<div class="buttons">
 					{{#if this.session.isAuthenticated}}
 						<button type="button" class="button is-primary" {{on "click" this.invalidateSession}}>
-							{{t "sign_out"}}&nbsp;
+							{{t "common.actions.sign_out"}}&nbsp;
 							<FaIcon @icon="sign-out-alt" />
 						</button>
 					{{else}}
 						<LinkTo class="button is-primary" @route="sign-up">
-							{{t "sign_up"}}
+							{{t "common.actions.sign_up"}}
 						</LinkTo>
 						<LinkTo class="button is-primary" @route="sign-in">
-							{{t "sign_in"}}&nbsp;
+							{{t "common.actions.sign_in"}}&nbsp;
 							<FaIcon @icon="sign-in-alt" />
 						</LinkTo>
 					{{/if}}
@@ -46,8 +46,10 @@
 				<div class="navbar-dropdown navbar-language is-right">
 					{{#each this.supportedLanguages as |language|}}
 						<a role="button" class="navbar-item" {{on "click" (fn this.setLanguage language)}}>
-							<img class="navbar-language__icon" src="/assets/flags/{{language}}.svg" alt={{language}}>
-							<span class="navbar-language__text">{{t (concat "language." language)}}</span>
+							<img class="navbar-language__icon" src="/assets/flags/{{language}}.svg" alt={{language}} />
+							<span class="navbar-language__text">
+								{{t (concat "common.language." language)}}
+							</span>
 						</a>
 					{{/each}}
 				</div>

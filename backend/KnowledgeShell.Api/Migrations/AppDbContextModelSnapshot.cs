@@ -34,13 +34,13 @@ namespace KnowledgeShell.Api.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("domain_type");
 
-                    b.Property<Guid>("FrameBaseId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("frame_base_id");
-
                     b.Property<bool>("IsReadOnly")
                         .HasColumnType("boolean")
                         .HasColumnName("is_read_only");
+
+                    b.Property<Guid>("KnowledgeBaseId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("knowledge_base_id");
 
                     b.Property<string>("Name")
                         .HasColumnType("text")
@@ -49,8 +49,8 @@ namespace KnowledgeShell.Api.Migrations
                     b.HasKey("Id")
                         .HasName("pk_domains");
 
-                    b.HasIndex("FrameBaseId")
-                        .HasDatabaseName("ix_domains_frame_base_id");
+                    b.HasIndex("KnowledgeBaseId")
+                        .HasDatabaseName("ix_domains_knowledge_base_id");
 
                     b.ToTable("domains");
                 });
@@ -125,7 +125,7 @@ namespace KnowledgeShell.Api.Migrations
                     b.ToTable("frames");
                 });
 
-            modelBuilder.Entity("KnowledgeShell.Api.Models.FrameBase", b =>
+            modelBuilder.Entity("KnowledgeShell.Api.Models.KnowledgeBase", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,6 +135,11 @@ namespace KnowledgeShell.Api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("discriminator");
 
                     b.Property<string>("Name")
                         .HasColumnType("text")
@@ -149,12 +154,11 @@ namespace KnowledgeShell.Api.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
-                        .HasName("pk_frame_bases");
+                        .HasName("pk_knowledge_bases");
 
-                    b.HasIndex("OwnerId")
-                        .HasDatabaseName("ix_frame_bases_owner_id");
+                    b.ToTable("knowledge_bases");
 
-                    b.ToTable("frame_bases");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("KnowledgeBase");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.Position", b =>
@@ -201,6 +205,46 @@ namespace KnowledgeShell.Api.Migrations
                         .HasDatabaseName("ix_productions_slot_id");
 
                     b.ToTable("productions");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.Rule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Consequence")
+                        .HasColumnType("text")
+                        .HasColumnName("consequence");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer")
+                        .HasColumnName("order");
+
+                    b.Property<string>("Premise")
+                        .HasColumnType("text")
+                        .HasColumnName("premise");
+
+                    b.Property<Guid>("ProductionBaseId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("production_base_id");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("text")
+                        .HasColumnName("reason");
+
+                    b.HasKey("Id")
+                        .HasName("pk_rules");
+
+                    b.HasIndex("ProductionBaseId")
+                        .HasDatabaseName("ix_rules_production_base_id");
+
+                    b.ToTable("rules");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.Slot", b =>
@@ -369,6 +413,45 @@ namespace KnowledgeShell.Api.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("KnowledgeShell.Api.Models.Variable", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid?>("DomainId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("domain_id");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("ProductionBaseId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("production_base_id");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("text")
+                        .HasColumnName("question");
+
+                    b.Property<int>("VariableType")
+                        .HasColumnType("integer")
+                        .HasColumnName("variable_type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_variables");
+
+                    b.HasIndex("DomainId")
+                        .HasDatabaseName("ix_variables_domain_id");
+
+                    b.HasIndex("ProductionBaseId")
+                        .HasDatabaseName("ix_variables_production_base_id");
+
+                    b.ToTable("variables");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
@@ -533,16 +616,36 @@ namespace KnowledgeShell.Api.Migrations
                     b.HasDiscriminator().HasValue("DomainValueString");
                 });
 
+            modelBuilder.Entity("KnowledgeShell.Api.Models.FrameBase", b =>
+                {
+                    b.HasBaseType("KnowledgeShell.Api.Models.KnowledgeBase");
+
+                    b.HasIndex("OwnerId")
+                        .HasDatabaseName("ix_knowledge_bases_owner_id");
+
+                    b.HasDiscriminator().HasValue("FrameBase");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.ProductionBase", b =>
+                {
+                    b.HasBaseType("KnowledgeShell.Api.Models.KnowledgeBase");
+
+                    b.HasIndex("OwnerId")
+                        .HasDatabaseName("ix_knowledge_bases_owner_id");
+
+                    b.HasDiscriminator().HasValue("ProductionBase");
+                });
+
             modelBuilder.Entity("KnowledgeShell.Api.Models.Domain", b =>
                 {
-                    b.HasOne("KnowledgeShell.Api.Models.FrameBase", "FrameBase")
+                    b.HasOne("KnowledgeShell.Api.Models.KnowledgeBase", "KnowledgeBase")
                         .WithMany("Domains")
-                        .HasForeignKey("FrameBaseId")
-                        .HasConstraintName("fk_domains_frame_bases_frame_base_id")
+                        .HasForeignKey("KnowledgeBaseId")
+                        .HasConstraintName("fk_domains_knowledge_bases_knowledge_base_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("FrameBase");
+                    b.Navigation("KnowledgeBase");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.DomainValue", b =>
@@ -562,7 +665,7 @@ namespace KnowledgeShell.Api.Migrations
                     b.HasOne("KnowledgeShell.Api.Models.FrameBase", "FrameBase")
                         .WithMany("Frames")
                         .HasForeignKey("FrameBaseId")
-                        .HasConstraintName("fk_frames_frame_bases_frame_base_id")
+                        .HasConstraintName("fk_frames_knowledge_bases_frame_base_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -586,18 +689,6 @@ namespace KnowledgeShell.Api.Migrations
                     b.Navigation("Position");
                 });
 
-            modelBuilder.Entity("KnowledgeShell.Api.Models.FrameBase", b =>
-                {
-                    b.HasOne("KnowledgeShell.Api.Models.User", "Owner")
-                        .WithMany("FrameBases")
-                        .HasForeignKey("OwnerId")
-                        .HasConstraintName("fk_frame_bases_users_owner_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
-                });
-
             modelBuilder.Entity("KnowledgeShell.Api.Models.Production", b =>
                 {
                     b.HasOne("KnowledgeShell.Api.Models.Slot", "Slot")
@@ -608,6 +699,18 @@ namespace KnowledgeShell.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Slot");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.Rule", b =>
+                {
+                    b.HasOne("KnowledgeShell.Api.Models.ProductionBase", "ProductionBase")
+                        .WithMany("Rules")
+                        .HasForeignKey("ProductionBaseId")
+                        .HasConstraintName("fk_rules_knowledge_bases_production_base_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductionBase");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.Slot", b =>
@@ -644,6 +747,26 @@ namespace KnowledgeShell.Api.Migrations
                     b.Navigation("Parent");
 
                     b.Navigation("Value");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.Variable", b =>
+                {
+                    b.HasOne("KnowledgeShell.Api.Models.Domain", "Domain")
+                        .WithMany()
+                        .HasForeignKey("DomainId")
+                        .HasConstraintName("fk_variables_domains_domain_id")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("KnowledgeShell.Api.Models.ProductionBase", "ProductionBase")
+                        .WithMany("Variables")
+                        .HasForeignKey("ProductionBaseId")
+                        .HasConstraintName("fk_variables_knowledge_bases_production_base_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Domain");
+
+                    b.Navigation("ProductionBase");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -715,6 +838,30 @@ namespace KnowledgeShell.Api.Migrations
                     b.Navigation("FrameValue");
                 });
 
+            modelBuilder.Entity("KnowledgeShell.Api.Models.FrameBase", b =>
+                {
+                    b.HasOne("KnowledgeShell.Api.Models.User", "Owner")
+                        .WithMany("FrameBases")
+                        .HasForeignKey("OwnerId")
+                        .HasConstraintName("fk_knowledge_bases_users_owner_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.ProductionBase", b =>
+                {
+                    b.HasOne("KnowledgeShell.Api.Models.User", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .HasConstraintName("fk_knowledge_bases_users_owner_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("KnowledgeShell.Api.Models.Domain", b =>
                 {
                     b.Navigation("DomainValues");
@@ -727,11 +874,9 @@ namespace KnowledgeShell.Api.Migrations
                     b.Navigation("OwnSlots");
                 });
 
-            modelBuilder.Entity("KnowledgeShell.Api.Models.FrameBase", b =>
+            modelBuilder.Entity("KnowledgeShell.Api.Models.KnowledgeBase", b =>
                 {
                     b.Navigation("Domains");
-
-                    b.Navigation("Frames");
                 });
 
             modelBuilder.Entity("KnowledgeShell.Api.Models.Slot", b =>
@@ -744,6 +889,18 @@ namespace KnowledgeShell.Api.Migrations
             modelBuilder.Entity("KnowledgeShell.Api.Models.User", b =>
                 {
                     b.Navigation("FrameBases");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.FrameBase", b =>
+                {
+                    b.Navigation("Frames");
+                });
+
+            modelBuilder.Entity("KnowledgeShell.Api.Models.ProductionBase", b =>
+                {
+                    b.Navigation("Rules");
+
+                    b.Navigation("Variables");
                 });
 #pragma warning restore 612, 618
         }

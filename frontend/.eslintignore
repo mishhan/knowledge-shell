@@ -34,5 +34,4 @@ blueprints/*/index.js
 config/**/*.js
 lib/*/index.js
 server/**/*.js
-app/*.js
 tests/*.js
