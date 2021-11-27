@@ -1,0 +1,90 @@
+.base-editor {
+	$base-editor-nav-bg-color: #252f3f;
+	$base-editor-nav-link-color: #d2d6dc;
+	$base-editor-nav-link-active-color: #fff;
+	$base-editor-nav-ling-active-bg-color: #2d3748;
+	$base-editor-nav-ling-hover-bg-color: #4a5568;
+
+	display: flex;
+	flex-direction: column;
+
+	&__navbar {
+		background-color: $base-editor-nav-bg-color;
+		display: flex;
+		flex-direction: column;
+		@include from($tablet) {
+			flex-direction: row;
+		}
+	}
+
+	&__navbar-link-container {
+		margin: 6px 0;
+		padding: 0 12px;
+	}
+
+	&__navbar-link {
+		color: $base-editor-nav-link-color;
+		display: block;
+		padding: 12px;
+
+		&.active {
+			background-color: $base-editor-nav-ling-active-bg-color;
+			border-radius: 5px;
+			color: $base-editor-nav-link-active-color;
+		}
+
+		&:hover {
+			background-color: $base-editor-nav-ling-hover-bg-color;
+			border-radius: 5px;
+			color: $base-editor-nav-link-active-color;
+		}
+	}
+
+	&__navbar-link-text {
+		margin-left: 5px;
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+	}
+
+	&__editor {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	&__editor-tree {
+		border-bottom: $default-border;
+		height: $tree-height;
+		margin-top: 4px; //because of vis-navigation margin
+		overflow: scroll;
+		padding: 0 5px;
+		width: 20%;
+	}
+
+	&__editor-graph {
+		border: $default-border;
+		width: 80%;
+	}
+
+	&__selected-base {
+		flex-grow: 1;
+	}
+
+	&__base {
+		margin: 0 20px;
+	}
+
+	&__game-panel {
+		display: flex;
+		flex-direction: row;
+		margin: 5px 10%;
+	}
+
+	&__log {
+		margin: 5px 10%;
+	}
+}

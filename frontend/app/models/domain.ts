@@ -1,6 +1,5 @@
 import Model, { attr, belongsTo, hasMany } from "@ember-data/model";
 import { isEqual } from "@ember/utils";
-import { tracked } from "@glimmer/tracking";
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
 import DomainType from "./domain-type";
@@ -9,19 +8,16 @@ import DomainValueFrame from "./domain-value-frame";
 import DomainValueString from "./domain-value-string";
 import DomainValueNumber from "./domain-value-number";
 import Frame from "./frame";
-import FrameBase from "./frame-base";
+import KnowledgeBase from "./knowledge-base";
 
 export default class Domain extends Model {
-	@attr("string", { defaultValue: "New Domain" }) name!: string;
-
-	@attr("string", { defaultValue: "New Domain Description" }) description!: string;
-
-	@attr("number", { defaultValue: 0 }) domainType!: DomainType;
-
+	@attr("string") name!: string;
+	@attr("string") description!: string;
+	@attr("number", { defaultValue: DomainType.String }) domainType!: DomainType;
 	@attr("boolean", { defaultValue: false }) isReadOnly!: boolean;
 
-	@belongsTo("frame-base", { async: false })
-	frameBase!: FrameBase;
+	@belongsTo("knowledge-base", { async: false, polymorphic: true })
+	knowledgeBase!: KnowledgeBase;
 
 	@hasMany("domain-value", { async: false, inverse: "domain", polymorphic: true })
 	domainValues!: DomainValue[];
@@ -39,10 +35,7 @@ export default class Domain extends Model {
 		return DomainType[this.domainType];
 	}
 
-	@tracked
-	isEditing!: boolean;
-
-	getDomainValue(value: string | number): DomainValue {
+	public getDomainValue(value: string | number): DomainValue {
 		switch (this.domainType) {
 			case DomainType.String: {
 				return this.domainValues.find((dv: DomainValueString) => isEqual(dv.value, value)) as DomainValueString;
@@ -59,36 +52,16 @@ export default class Domain extends Model {
 		}
 	}
 
-	getDomainValueFrameByFrameName(frameName: string): DomainValueFrame {
+	public getDomainValueFrameByFrameName(frameName: string): DomainValueFrame {
 		return this.domainValues.find((dv: DomainValueFrame) => isEqual(dv.valueStr, frameName)) as DomainValueFrame;
 	}
 
-	getDomainValueStringByName(valueName: string): DomainValueString {
+	public getDomainValueStringByName(valueName: string): DomainValueString {
 		return this.domainValues.find((dv: DomainValueString) => isEqual(dv.value, valueName)) as DomainValueString;
 	}
 
-	getDomainValueFrameByFrame(frame: Frame): DomainValueFrame {
+	public getDomainValueFrameByFrame(frame: Frame): DomainValueFrame {
 		return this.domainValues.find((dv: DomainValueFrame) => isEqual(dv.value, frame)) as DomainValueFrame;
-	}
-
-	addValue(newValue: string | number): void {
-		if (this.domainType === DomainType.String) {
-			const newDomainValue = this.store.createRecord("domain-value-string", {
-				value: newValue,
-			});
-			this.domainValues.pushObject(newDomainValue);
-		}
-		if (this.domainType === DomainType.Number) {
-			const newDomainValue = this.store.createRecord("domain-value-number", {
-				value: newValue,
-			});
-			this.domainValues.pushObject(newDomainValue);
-		}
-	}
-
-	deleteValue(value: DomainValue) {
-		this.domainValues.removeObject(value);
-		value.destroyRecord();
 	}
 }
 

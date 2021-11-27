@@ -2,15 +2,26 @@
 
 ## About
 
-[Frame](<https://en.wikipedia.org/wiki/Frame_(artificial_intelligence)> "Frame") and ~~[production rules](<https://en.wikipedia.org/wiki/Production_system_(computer_science)> "production rules")~~ based expert system shell.
+This project is demo prototype
+
+* [Frame](<https://en.wikipedia.org/wiki/Frame_(artificial_intelligence)> "Frame")
+* [Production rules](<https://en.wikipedia.org/wiki/Production_system_(computer_science)> "production rules") 
+
+based expert system shell
+
+## Examples
+* frames - battle, something similar to Heroes of Might and Magic battle, but much more simplier
+* production rules - question-answer system
+
+more examples to come
 
 ### Backend
 
-ASP.NET Core Web API app. See [here](https://github.com/mishhan/knowledge-shell/tree/readme/backend "here").
+[ASP.NET Core Web API APP](https://github.com/mishhan/knowledge-shell/tree/readme/backend)
 
 ### Frontend
 
-Ember.js app. See [here](https://github.com/mishhan/knowledge-shell/tree/readme/frontend "here").
+[Ember.js APP](https://github.com/mishhan/knowledge-shell/tree/readme/frontend)
 
 ### Licence
 

@@ -1,18 +1,7 @@
 import Controller from "@ember/controller";
 import { Frame, Slot } from "knowledge-shell/models";
 
-export default class FrameBaseIndex extends Controller {
-	get baseInformation(): { name: string; value: any }[] {
-		const informationSlots = [
-			{ name: "Frame Count", value: this.frameCount },
-			{ name: "Domain Count", value: this.domainCount },
-			{ name: "Slot Count", value: this.slotCount },
-			{ name: "Unique Slot Count", value: this.uniqueSlotCount },
-		];
-
-		return informationSlots;
-	}
-
+export default class FrameBaseIndexController extends Controller {
 	get frameCount(): number {
 		return this.model.frames.length;
 	}
@@ -37,11 +26,5 @@ export default class FrameBaseIndex extends Controller {
 		});
 
 		return uniqueSlotCount;
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"frame-base/index": FrameBaseIndex;
 	}
 }

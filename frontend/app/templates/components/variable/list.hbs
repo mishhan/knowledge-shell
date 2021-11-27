@@ -1,0 +1,96 @@
+<div class="table-container">
+	<table class="table variable-table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+		<thead>
+			<tr>
+				<th class="variable-table__index-column has-text-centered">
+					#
+				</th>
+				<th class="variable-table__name-column">
+					{{t "models.variable.fields.name"}}
+				</th>
+				<th class="variable-table__description-column">
+					{{t "models.variable.fields.description"}}
+				</th>
+				<th class="variable-table__domain-column">
+					{{t "models.variable.fields.domain"}}
+				</th>
+				<th class="variable-table__type-column">
+					{{t "models.variable.fields.type"}}
+				</th>
+				<th class="variable-table__question-column">
+					{{t "models.variable.fields.question"}}
+				</th>
+				<th class="variable-table__actions-column has-text-centered">
+					{{t "common.actions.actions"}}
+				</th>
+			</tr>
+			<tr>
+				<th class="variable-table__index-column has-text-centered"></th>
+				<th class="variable-table__name-column">
+					<div class="control has-icons-right">
+						<Input
+							placeholder={{t "common.actions.filter"}}
+							class="input is-small"
+							@type="text"
+							@value={{this.filter}}
+						/>
+						<span class="icon is-right">
+							<FaIcon @icon="search" />
+						</span>
+					</div>
+				</th>
+				<th class="variable-table__description-column"></th>
+				<th class="variable-table__domain-column"></th>
+				<th class="variable-table__type-column"></th>
+				<th class="variable-table__question-column"></th>
+				<th class="variable-table__actions-column has-text-centered">
+					<LinkTo
+						@route="app.production-base.variables.new"
+						class="button is-primary is-small"
+						aria-label={{t "common.actions.add"}}
+						data-microtip-position="top"
+						data-microtip-size="small"
+						role="tooltip"
+					>
+						<FaIcon @icon="plus-square" />
+					</LinkTo>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<Provider::Filter @model={{@variables}} @field="name" @query={{this.filter}} as |filteredVariables|>
+				{{#each filteredVariables as |variable index|}}
+					<tr>
+						<td class="variable-table__index-column has-text-centered">
+							{{inc index}}
+						</td>
+						<td class="variable-table__name-column">
+							{{variable.name}}
+						</td>
+						<td class="variable-table__description-column">
+							{{variable.description}}
+						</td>
+						<td class="variable-table__domain-column">
+							{{variable.domain.name}}
+						</td>
+						<td class="variable-table__type-column">
+							{{variable.variableTypeName}}
+						</td>
+						<td class="variable-table__actions-column has-text-centered">
+							<LinkTo
+								@route="app.production-base.variables.edit"
+								@model={{variable.id}}
+								class="button is-warning is-small"
+							>
+								<FaIcon @icon="edit" />
+							</LinkTo>
+							<button type="button" class="button is-danger is-small" {{on "click" (fn @deleteVariable variable)}}>
+								<FaIcon @icon="trash" />
+							</button>
+						</td>
+					</tr>
+				{{/each}}
+			</Provider::Filter>
+		</tbody>
+	</table>
+</div>

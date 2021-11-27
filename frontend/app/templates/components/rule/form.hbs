@@ -1,0 +1,63 @@
+<form id="rule" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
+	<div class="field">
+		<FormInput
+			@id="name"
+			@labelText={{t "models.rule.fields.name"}}
+			@placeholder={{t "models.rule.fields.name"}}
+			@value={{this.name}}
+			@isValid={{this.nameValidation.isValid}}
+			@isInValid={{this.nameValidation.isInValid}}
+			@onChange={{this.onNameChange}}
+			@validationErrors={{this.nameValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<FormInput
+			@id="reason"
+			@labelText={{t "models.rule.fields.reason"}}
+			@placeholder={{t "models.rule.fields.reason"}}
+			@value={{this.reason}}
+			@isValid={{this.reasonValidation.isValid}}
+			@isInValid={{this.reasonValidation.isInValid}}
+			@onChange={{this.onReasonChange}}
+			@validationErrors={{this.reasonValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<FormInput
+			@id="premise"
+			@labelText={{t "models.rule.fields.premise"}}
+			@placeholder={{t "models.rule.fields.premise"}}
+			@value={{this.premise}}
+			@isValid={{this.premiseValidation.isValid}}
+			@isInValid={{this.premiseValidation.isInValid}}
+			@onChange={{this.onPremiseChange}}
+			@validationErrors={{this.premiseValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<FormInput
+			@id="consequence"
+			@labelText={{t "models.rule.fields.consequence"}}
+			@placeholder={{t "models.rule.fields.consequence"}}
+			@value={{this.consequence}}
+			@isValid={{this.consequenceValidation.isValid}}
+			@isInValid={{this.consequenceValidation.isInValid}}
+			@onChange={{this.onConsequenceChange}}
+			@validationErrors={{this.consequenceValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<p>
+			<pre>
+				{{this.fullRule}}
+			</pre>
+		</p>
+	</div>
+	<button type="submit" class="button is-primary" {{on "click" this.onSubmit}}>
+		{{t "common.actions.save"}}
+	</button>
+	<button type="button" class="button is-light" {{on "click" @onCancel}}>
+		{{t "common.actions.cancel"}}
+	</button>
+</form>

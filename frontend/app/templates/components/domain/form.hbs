@@ -1,101 +1,78 @@
-<div class="field">
-	<label for="name" class="label">
-		{{t "domain.fields.name"}}
-	</label>
-	<Input id="name" @type="text" class="input is-small" placeholder={{t "domain.fields.name"}} @value={{@domain.name}} />
-</div>
-<div class="field">
-	<label for="type" class="label">
-		{{t "domain.fields.type"}}
-	</label>
-	<PowerSelect
-		@options={{this.domainTypes}}
-		@allowClear={{false}}
-		@selected={{this.selectedDomainType}}
-		@disabled={{this.domainHasValues}}
-		@onChange={{this.setDomainType}} as |domainType|
-	>
-		{{domainType.value}}
-	</PowerSelect>
-</div>
-{{#if (eq @domain.domainType 2)}}
+<form id="domain" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
 	<div class="field">
-		<label for="domain_value_string" class="label">
-			{{t "domain.fields.new_value"}}
-		</label>
-		<Input id="domain_value_string" @type="text" class="input is-small" @value={{this.newValueString}} />
+		<FormInput
+			@id="name"
+			@labelText={{t "models.domain.fields.name"}}
+			@placeholder={{t "models.domain.fields.name"}}
+			@value={{this.name}}
+			@isValid={{this.nameValidation.isValid}}
+			@isInValid={{this.nameValidation.isInValid}}
+			@onChange={{this.onNameChange}}
+			@validationErrors={{this.nameValidation.errors}}
+		/>
 	</div>
-	<button type="button" class="button is-primary is-small" {{on "click" this.addStringValue}}>
-		<FaIcon @icon="plus-square" />
-	</button>
-	<div class="block"></div>
-	<SortableObjects
-		@sortableObjectList={{@domain.domainValuesOrdered}}
-		@useSwap={{false}}
-		@inPlace={{true}}
-		@sortingScope="domainValueList"
-		@enableSort={{true}}
-		@sortEndAction={{fn this.reorderValues @domain.domainValuesOrdered}}
-	>
-		{{#each @domain.domainValuesOrdered as |domainValue|}}
-			<DraggableObject
-				@overrideClass="field has-addons"
-				@content={{domainValue}}
-				@isSortable={{true}}
-				@sortingScope="domainValueList"
-			>
-				<div class="control">
-					<Input @type="text" class="input is-small" @value={{domainValue.value}} />
-				</div>
-				<div class="control">
-					<button type="button" class="button is-danger is-small" {{on "click" (fn this.deleteValue domainValue)}}>
-						<span class="icon">
-							<FaIcon @icon="trash" />
-						</span>
-					</button>
-				</div>
-			</DraggableObject>
-		{{/each}}
-	</SortableObjects>
-{{/if}}
-{{#if (eq @domain.domainType 3)}}
 	<div class="field">
-		<label for="domain_value_number" class="label">
-			{{t "domain.fields.new_value"}}
+		<FormInput
+			@id="description"
+			@labelText={{t "models.domain.fields.description"}}
+			@placeholder={{t "models.domain.fields.description"}}
+			@value={{this.description}}
+			@isValid={{this.descriptionValidation.isValid}}
+			@isInValid={{this.descriptionValidation.isInValid}}
+			@onChange={{this.onDescriptionChange}}
+			@validationErrors={{this.descriptionValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<label for="type" class="label">
+			{{t "models.domain.fields.type"}}
 		</label>
-		<Input id="domain_value_number" @type="number" class="input is-small" @value={{this.newValueNumber}} />
-		<button type="button" class="button is-primary is-small" {{on "click" this.addNumberValue}}>
-			<span class="icon">
+		<div class="control">
+			<PowerSelect
+				@options={{this.domainTypes}}
+				@allowClear={{false}}
+				@selected={{this.selectedDomainType}}
+				@disabled={{this.domainHasValues}}
+				@onChange={{this.setDomainType}} as |domainType|
+			>
+				{{domainType.value}}
+			</PowerSelect>
+		</div>
+		{{#if this.domainTypeValidation.isInValid}}
+			{{#each this.domainTypeValidation.errors as |error|}}
+				<p class="help is-danger">
+					{{t error}}
+				</p>
+			{{/each}}
+		{{/if}}
+	</div>
+	<div class="field is-grouped">
+		<div class="control is-expanded">
+			<label for="domain_value" class="label">
+				{{t "models.domain.fields.new_domain_value"}}
+			</label>
+			<Input id="domain_value" @type={{this.domainTypeControl}} class="input is-small" @value={{this.newValue}} />
+		</div>
+		<div class="control is-flex is-flex-direction-column is-justify-content-flex-end">
+			<button type="button" class="button is-primary is-small" {{on "click" this.addValue}}>
 				<FaIcon @icon="plus-square" />
-			</span>
-		</button>
+			</button>
+		</div>
 	</div>
-	<SortableObjects
-		@sortableObjectList={{@domain.domainValuesOrdered}}
-		@useSwap={{false}}
-		@inPlace={{true}}
-		@sortingScope="domainValueList"
-		@enableSort={{true}}
-		@sortEndAction={{fn this.reorderValues @domain.domainValuesOrdered}}
-	>
-		{{#each @domain.domainValuesOrdered as |domainValue|}}
-			<DraggableObject
-				@overrideClass="field has-addons"
-				@content={{domainValue}}
-				@isSortable={{true}}
-				@sortingScope="domainValueList"
-			>
-				<div class="control">
-					<Input @type="number" class="input is-small" @value={{domainValue.value}} />
-				</div>
-				<div class="control">
-					<button type="button" class="button is-danger is-small" {{on "click" (fn this.deleteValue domainValue)}}>
-						<span class="icon">
-							<FaIcon @icon="trash" />
-						</span>
-					</button>
-				</div>
-			</DraggableObject>
-		{{/each}}
-	</SortableObjects>
-{{/if}}
+	{{#if this.domainHasValues}}
+		<div class="box">
+			<Domain::DomainValueList
+				@domainValues={{this.domain.domainValuesOrdered}}
+				@domainValueType={{this.domainTypeControl}}
+				@reorderValues={{this.reorderDomainValues}}
+				@deleteValue={{this.deleteDomainValue}}
+			/>
+		</div>
+	{{/if}}
+	<button type="submit" class="button is-primary" {{on "click" this.onSubmit}}>
+		{{t "common.actions.save"}}
+	</button>
+	<button type="button" class="button is-light" {{on "click" @onCancel}}>
+		{{t "common.actions.cancel"}}
+	</button>
+</form>

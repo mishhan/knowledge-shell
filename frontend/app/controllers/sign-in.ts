@@ -3,7 +3,7 @@ import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 
-export default class SignIn extends Controller {
+export default class SignInController extends Controller {
 	@service session!: any;
 	@tracked isLoading!: boolean;
 	@tracked serverErrorMessage!: string;
@@ -19,11 +19,5 @@ export default class SignIn extends Controller {
 		} finally {
 			this.isLoading = false;
 		}
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		login: SignIn;
 	}
 }
