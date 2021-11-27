@@ -29,7 +29,7 @@
         {
             var userId = _authenticationService.GetUserId();
             var productionBases = base.GetAll();
-            var userProductionBases = productionBases.Where(frameBase => frameBase.OwnerId == userId);
+            var userProductionBases = productionBases.Where(productionBase => productionBase.OwnerId == userId);
             return userProductionBases;
         }
 
