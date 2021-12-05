@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Knowledge Shell</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="/favicon.ico"/>
-    {{content-for "head"}}
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Knowledge Shell</title>
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/png" href="/favicon.ico" />
+		{{content-for "head"}}
 
-    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
-    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/knowledge-shell.css">
+		<link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css" />
+		<link integrity="" rel="stylesheet" href="{{rootURL}}assets/app.css" />
 
-    {{content-for "head-footer"}}
-  </head>
-  <body>
-    {{content-for "body"}}
+		<!--themes-->
+		<link rel="stylesheet" href="{{rootURL}}assets/default.css" media="(prefers-theme: default)" />
+		<link rel="stylesheet" href="{{rootURL}}assets/materia.css" media="(prefers-theme: materia)" />
+		<link rel="stylesheet" href="{{rootURL}}assets/spacelab.css" media="(prefers-theme: spacelab)" />
+		<link rel="stylesheet" href="{{rootURL}}assets/pulse.css" media="(prefers-theme: pulse)" />
 
-    <script src="{{rootURL}}assets/vendor.js"></script>
-    <script src="{{rootURL}}assets/knowledge-shell.js"></script>
+		{{content-for "head-footer"}}
+	</head>
+	<body>
+		{{content-for "body"}}
 
-    {{content-for "body-footer"}}
-  </body>
+		<script src="{{rootURL}}assets/vendor.js"></script>
+		<script src="{{rootURL}}assets/knowledge-shell.js"></script>
+
+		{{content-for "body-footer"}}
+	</body>
 </html>
