@@ -1,0 +1,10 @@
+<div {{did-insert this.initialize}}>
+	<PowerSelect
+		@options={{this.themes}}
+		@allowClear={{false}}
+		@selected={{this.selectedTheme}}
+		@onChange={{this.setTheme}} as |theme|
+	>
+		{{theme}}
+	</PowerSelect>
+</div>
