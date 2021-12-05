@@ -6,6 +6,6 @@
 
     public class User : IdentityUser<Guid> 
     {
-        public virtual List<FrameBase> FrameBases { get; set; }
+        public virtual List<KnowledgeBase> KnowledgeBases { get; set; }
     }
 }
