@@ -15,3 +15,34 @@ li {
 a {
 	text-decoration: none;
 }
+
+th,
+td {
+	vertical-align: middle !important;
+}
+
+/* stylelint-disable */
+th[data-sort-direction="asc"]::after {
+	background-image: url("/assets/sort-down.svg");
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	content: "";
+	display: block;
+	float: right;
+	height: 20px;
+	width: 20px;
+}
+/* stylelint-enable */
+
+/* stylelint-disable */
+th[data-sort-direction="desc"]::after {
+	background-image: url("/assets/sort-up.svg");
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	content: "";
+	display: block;
+	float: right;
+	height: 20px;
+	width: 20px;
+}
+/* stylelint-enable */

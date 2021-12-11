@@ -5,6 +5,7 @@ import { tracked } from "@glimmer/tracking";
 import { KnowledgeBase, KnowledgeBaseType } from "knowledge-shell/models";
 import IntlService from "ember-intl/services/intl";
 import Swal, { SweetAlertResult } from "sweetalert2";
+import sort from "knowledge-shell/utils/sort";
 
 export default class AppKnowledgeBasesIndexController extends Controller {
 	queryParams = ["sortBy", "sortDirection", "page"];
@@ -20,7 +21,8 @@ export default class AppKnowledgeBasesIndexController extends Controller {
 		const frameBases = this.store.peekAll("frame-base");
 		const productionBases = this.store.peekAll("production-base");
 		const knowledgeBases = [...frameBases.toArray(), ...productionBases.toArray()];
-		return knowledgeBases;
+		const sortedKnowledgeBases = sort(knowledgeBases, this.sortBy, this.sortDirection);
+		return sortedKnowledgeBases;
 	}
 
 	@action
@@ -78,5 +80,11 @@ export default class AppKnowledgeBasesIndexController extends Controller {
 				});
 			}
 		});
+	}
+
+	@action
+	setSortParameters(sortBy: string, sortDirection: string): void {
+		this.sortBy = sortBy;
+		this.sortDirection = sortDirection;
 	}
 }

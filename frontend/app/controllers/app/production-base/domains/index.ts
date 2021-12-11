@@ -1,10 +1,20 @@
 import Controller from "@ember/controller";
 import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
 import { Domain, DomainValue } from "knowledge-shell/models";
+import sort from "knowledge-shell/utils/sort";
 
 export default class AppProductionBaseDomainsIndexController extends Controller {
+	queryParams = ["sortBy", "sortDirection"];
+
+	@tracked filter = "";
+	@tracked sortBy = "";
+	@tracked sortDirection = "";
+
 	get domains(): Domain[] {
-		return this.model.domains;
+		const { domains } = this.model;
+		const sortedDomains = sort<Domain>(domains.toArray(), this.sortBy, this.sortDirection);
+		return sortedDomains;
 	}
 
 	@action
@@ -23,5 +33,11 @@ export default class AppProductionBaseDomainsIndexController extends Controller 
 			await domainValue.destroyRecord();
 		});
 		await domain.destroyRecord();
+	}
+
+	@action
+	setSortParameters(sortBy: string, sortDirection: string): void {
+		this.sortBy = sortBy;
+		this.sortDirection = sortDirection;
 	}
 }

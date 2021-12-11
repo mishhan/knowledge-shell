@@ -96,12 +96,12 @@
 							<FaIcon @icon={{if slot.isInherited "check-square" "square"}} />
 						</td>
 						<td class="domain-table__actions-column has-text-centered">
-							<button type="button" class="button is-primary is-small" {{on "click" (fn @selectSlot slot)}}>
+							<button type="button" class="button is-primary is-small m-1" {{on "click" (fn @selectSlot slot)}}>
 								<FaIcon @icon="edit" />
 							</button>
 							<button
 								type="button"
-								class="button is-danger is-small"
+								class="button is-danger is-small m-1"
 								disabled={{@slot.isInherited}}
 								{{on "click" (fn @deleteSlot slot)}}
 							>

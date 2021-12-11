@@ -1,23 +1,23 @@
 <div class="table-container">
 	<table class="table variable-table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
 		<thead>
-			<tr>
+			<tr role="button" {{on "click" this.setSortParameters}}>
 				<th class="variable-table__index-column has-text-centered">
 					#
 				</th>
-				<th class="variable-table__name-column">
+				<th class="variable-table__name-column" data-sort-by="name">
 					{{t "models.variable.fields.name"}}
 				</th>
-				<th class="variable-table__description-column">
+				<th class="variable-table__description-column" data-sort-by="description">
 					{{t "models.variable.fields.description"}}
 				</th>
-				<th class="variable-table__domain-column">
+				<th class="variable-table__domain-column" data-sort-by="domainName">
 					{{t "models.variable.fields.domain"}}
 				</th>
-				<th class="variable-table__type-column">
+				<th class="variable-table__type-column" data-sort-by="variableTypeName">
 					{{t "models.variable.fields.type"}}
 				</th>
-				<th class="variable-table__question-column">
+				<th class="variable-table__question-column" data-sort-by="question">
 					{{t "models.variable.fields.question"}}
 				</th>
 				<th class="variable-table__actions-column has-text-centered">
@@ -71,20 +71,23 @@
 							{{variable.description}}
 						</td>
 						<td class="variable-table__domain-column">
-							{{variable.domain.name}}
+							{{variable.domainName}}
 						</td>
 						<td class="variable-table__type-column">
 							{{variable.variableTypeName}}
+						</td>
+						<td class="variable-table__question-column">
+							{{variable.question}}
 						</td>
 						<td class="variable-table__actions-column has-text-centered">
 							<LinkTo
 								@route="app.production-base.variables.edit"
 								@model={{variable.id}}
-								class="button is-warning is-small"
+								class="button is-warning is-small m-1"
 							>
 								<FaIcon @icon="edit" />
 							</LinkTo>
-							<button type="button" class="button is-danger is-small" {{on "click" (fn @deleteVariable variable)}}>
+							<button type="button" class="button is-danger is-small m-1" {{on "click" (fn @deleteVariable variable)}}>
 								<FaIcon @icon="trash" />
 							</button>
 						</td>

@@ -1,5 +1,10 @@
 <nav class="navbar is-primary">
 	<div class="navbar-brand">
+		{{#if this.session.isAuthenticated}}
+			<LinkTo class="navbar-item" @route="app.knowledge-bases">
+				<img src="/logo.jpg" alt={{t "common.logo"}} height="100" width="60" />
+			</LinkTo>
+		{{/if}}
 		<a
 			role="button"
 			class="navbar-burger"
@@ -12,14 +17,7 @@
 			<span aria-hidden="true"></span>
 		</a>
 	</div>
-	<div id="burger-navbar" class="navbar-menu {{if this.isMenuOpen " is-active"}}">
-		<div class="navbar-start">
-			{{#if this.session.isAuthenticated}}
-				<LinkTo class="navbar-item" @route="app.knowledge-bases">
-					<img src="/logo.jpg" alt={{t "common.logo"}} height="100" width="60" />
-				</LinkTo>
-			{{/if}}
-		</div>
+	<div id="burger-navbar" class="navbar-menu {{if this.isMenuOpen "is-active"}}">
 		<div class="navbar-end">
 			<div class="navbar-item">
 				<div class="buttons">

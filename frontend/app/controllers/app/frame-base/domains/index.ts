@@ -1,15 +1,20 @@
 import Controller from "@ember/controller";
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import { action, computed } from "@ember/object";
+import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
 import { Domain, DomainValue } from "knowledge-shell/models";
+import sort from "knowledge-shell/utils/sort";
 
 export default class AppFrameBaseDomainsIndexController extends Controller {
-	@computed("model.{domains.[],frameDomain}")
+	queryParams = ["sortBy", "sortDirection"];
+
+	@tracked filter = "";
+	@tracked sortBy = "";
+	@tracked sortDirection = "";
+
 	get domains(): Domain[] {
-		const { frameDomain } = this.model;
-		const domains = this.model.domains.filter((domain: Domain) => !domain.isReadOnly);
-		const sortedDomains = domains.sortBy("name");
-		return [frameDomain].concat(sortedDomains);
+		const { domains } = this.model;
+		const sortedDomains = sort<Domain>(domains.toArray(), this.sortBy, this.sortDirection);
+		return sortedDomains;
 	}
 
 	@action
@@ -28,5 +33,11 @@ export default class AppFrameBaseDomainsIndexController extends Controller {
 			await domainValue.destroyRecord();
 		});
 		await domain.destroyRecord();
+	}
+
+	@action
+	setSortParameters(sortBy: string, sortDirection: string): void {
+		this.sortBy = sortBy;
+		this.sortDirection = sortDirection;
 	}
 }
