@@ -1,0 +1,45 @@
+.rule-table {
+	$rule-column-width-mobile: 65%;
+	$actions-column-width-mobile: 35%;
+
+	$index-column-width: 5%;
+	$name-column-width: 15%;
+	$rule-column-width: 60%;
+	$actions-column-width: 20%;
+
+	@include until($tablet) {
+		&__index-column {
+			display: none;
+		}
+
+		&__name-column {
+			display: none;
+		}
+
+		&__rule-column {
+			width: $rule-column-width-mobile;
+		}
+
+		&__actions-column {
+			width: $actions-column-width-mobile;
+		}
+	}
+
+	@include from($tablet) {
+		&__index-column {
+			width: $index-column-width;
+		}
+
+		&__name-column {
+			width: $name-column-width;
+		}
+
+		&__rule-column {
+			width: $rule-column-width;
+		}
+
+		&__actions-column {
+			width: $actions-column-width;
+		}
+	}
+}

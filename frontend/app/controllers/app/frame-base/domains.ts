@@ -8,7 +8,7 @@ import { allSettled } from "rsvp";
 import IntlService from "ember-intl/services/intl";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
-export default class FrameBaseDomains extends Controller {
+export default class FrameBaseDomainsController extends Controller {
 	@service intl!: IntlService;
 	@tracked search = "";
 
@@ -48,7 +48,7 @@ export default class FrameBaseDomains extends Controller {
 	deleteDomain(domain: Domain): void {
 		Swal.fire({
 			icon: "warning",
-			text: this.intl.t("common.delete_confirmation", { item: domain.name }),
+			text: this.intl.t("form.delete_confirmation", { item: domain.name }),
 			allowOutsideClick: false,
 			showConfirmButton: true,
 			showCancelButton: true,
@@ -67,11 +67,5 @@ export default class FrameBaseDomains extends Controller {
 				});
 			}
 		});
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"frame-base/domains": FrameBaseDomains;
 	}
 }

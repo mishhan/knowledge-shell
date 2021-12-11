@@ -1,0 +1,38 @@
+<form id="sign-in" class="box" {{on "submit" this.onSubmit}}>
+	<div class="field">
+		<FormInput
+			@id="login"
+			@labelText={{t "models.user.fields.login_or_email"}}
+			@placeholder={{t "models.user.fields.login"}}
+			@value={{this.userName}}
+			@isValid={{this.identificationValidation.isValid}}
+			@isInValid={{this.identificationValidation.isInValid}}
+			@leftIcon="user"
+			@onChange={{this.onIdentificationChange}}
+			@validationErrors={{this.identificationValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<FormInput
+			@id="password"
+			@type={{if this.showPassword "text" "password"}}
+			@placeholder="********"
+			@labelText={{t "models.user.fields.password"}}
+			@value={{this.password}}
+			@isValid={{this.passwordValidation.isValid}}
+			@isInValid={{this.passwordValidation.isInValid}}
+			@leftIcon="lock"
+			@onChange={{this.onPasswordChange}}
+			@validationErrors={{this.passwordValidation.errors}}
+		/>
+		<div class="mt-1">
+			<label class="checkbox">
+				<Input @type="checkbox" @checked={{this.showPassword}} />
+				{{t "models.user.fields.show_password"}}
+			</label>
+		</div>
+	</div>
+	<button type="submit" class="button is-primary {{if @isLoading "is-loading"}}" {{on "click" this.onSubmit}}>
+		{{t "common.actions.sign_in"}}
+	</button>
+</form>

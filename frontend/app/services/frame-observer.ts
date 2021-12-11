@@ -127,8 +127,8 @@ export default class FrameObserver extends Service.extend(Evented) {
 		return slot.destroyRecord();
 	}
 
-	public propagateSlotChanged(slot: Slot): void {
-		slot.children.forEach((child: Slot) => {
+	public async propagateSlotChanged(slot: Slot): Promise<void> {
+		slot.children.forEach(async (child: Slot) => {
 			child.setProperties({
 				name: slot.name,
 				order: slot.order,
@@ -145,13 +145,13 @@ export default class FrameObserver extends Service.extend(Evented) {
 						slot: child,
 					});
 				}
-				child.production.save();
+				await child.production.save();
 			}
 
-			this.propagateSlotChanged(child);
+			await this.propagateSlotChanged(child);
 		});
 
-		slot.save();
+		await slot.save();
 	}
 
 	private propagateFrameParentChanged(frame: Frame) {

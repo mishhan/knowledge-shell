@@ -1,13 +1,11 @@
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
-import { isEmpty } from "@ember/utils";
-import { tracked } from "@glimmer/tracking";
 import { action, set } from "@ember/object";
 import { FrameBase, Frame, Domain, Slot } from "knowledge-shell/models";
 import IntlService from "ember-intl/services/intl";
 import Swal, { SweetAlertResult } from "sweetalert2";
 
-export default class FrameBaseEditor extends Controller {
+export default class FrameBaseEditorController extends Controller {
 	@service intl!: IntlService;
 
 	get frameBase(): FrameBase {
@@ -28,20 +26,24 @@ export default class FrameBaseEditor extends Controller {
 		return this.frameBase.domains;
 	}
 
-	@tracked search = "";
-
-	get canReorderSlots(): boolean {
-		const selectedFrameHasParent = this.selectedFrame?.hasParent;
-		return isEmpty(this.search) && !selectedFrameHasParent;
+	get selectedFrame(): Frame | undefined {
+		const selectedFrame = this.frames.findBy("isSelected", true);
+		return selectedFrame;
 	}
 
-	get selectedFrame(): Frame | undefined {
-		return this.frames.findBy("isSelected", true);
+	get selectedSlot(): Slot | undefined {
+		const selectedSlot = this.selectedFrame?.ownSlots.findBy("isSelected", true);
+		return selectedSlot;
 	}
 
 	@action
 	selectFrame(frameName: string): void {
 		this.frameBase.selectFrame(frameName);
+	}
+
+	@action
+	selectSlot(slot: Slot): void {
+		slot.isSelected = true;
 	}
 
 	@action
@@ -82,7 +84,7 @@ export default class FrameBaseEditor extends Controller {
 	deleteFrame(frame: Frame): void {
 		Swal.fire({
 			icon: "warning",
-			text: this.intl.t("common.delete_confirmation", { item: frame.name }),
+			text: this.intl.t("form.delete_confirmation", { item: frame.name }),
 			allowOutsideClick: false,
 			showConfirmButton: true,
 			showCancelButton: true,
@@ -129,12 +131,13 @@ export default class FrameBaseEditor extends Controller {
 	}
 
 	@action
-	saveSlotChanges(slot: Slot): void {
-		slot.save();
+	async saveSlotChanges(slot: Slot): Promise<void> {
+		await slot.save();
 		if (slot.hasProduction) {
-			slot.production.save();
+			await slot.production.save();
 		}
 		this.frameBase.propagateSlotChanged(slot);
+		slot.isSelected = false;
 	}
 
 	@action
@@ -143,13 +146,14 @@ export default class FrameBaseEditor extends Controller {
 		if (slot.hasProduction) {
 			slot.production.rollbackAttributes();
 		}
+		slot.isSelected = false;
 	}
 
 	@action
 	deleteSlot(slot: Slot): void {
 		Swal.fire({
 			icon: "warning",
-			text: this.intl.t("common.delete_confirmation", { item: slot.name }),
+			text: this.intl.t("form.delete_confirmation", { item: slot.name }),
 			allowOutsideClick: false,
 			showConfirmButton: true,
 			showCancelButton: true,
@@ -178,11 +182,5 @@ export default class FrameBaseEditor extends Controller {
 	 */
 	resetFrames(): void {
 		set(this.frameBase, "frames", this.frames);
-	}
-}
-
-declare module "@ember/controller" {
-	interface Registry {
-		"frame-base/editor": FrameBaseEditor;
 	}
 }

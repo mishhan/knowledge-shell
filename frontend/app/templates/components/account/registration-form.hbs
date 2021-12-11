@@ -1,0 +1,69 @@
+<form id="sign-up" class="box" {{on "submit" this.onSubmit}}>
+	<div class="field">
+		<FormInput
+			@id="login"
+			@labelText={{t "models.user.fields.login"}}
+			@placeholder={{t "models.user.fields.login"}}
+			@value={{this.userName}}
+			@isValid={{this.userNameValidation.isValid}}
+			@isInValid={{this.userNameValidation.isInValid}}
+			@leftIcon="user"
+			@onChange={{this.onUsernameChange}}
+			@validationErrors={{this.userNameValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<FormInput
+			@id="email"
+			@labelText={{t "models.user.fields.email"}}
+			@placeholder={{t "models.user.fields.email"}}
+			@value={{this.email}}
+			@isValid={{this.emailValidation.isValid}}
+			@isInValid={{this.emailValidation.isInValid}}
+			@leftIcon="envelope"
+			@onChange={{this.onEmailChange}}
+			@validationErrors={{this.emailValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<FormInput
+			@id="password"
+			@type={{if this.showPassword "text" "password"}}
+			@placeholder="********"
+			@labelText={{t "models.user.fields.password"}}
+			@value={{this.password}}
+			@isValid={{this.passwordValidation.isValid}}
+			@isInValid={{this.passwordValidation.isInValid}}
+			@leftIcon="lock"
+			@onChange={{this.onPasswordChange}}
+			@validationErrors={{this.passwordValidation.errors}}
+		/>
+		<div class="mt-1">
+			<label class="checkbox">
+				<Input @type="checkbox" @checked={{this.showPassword}} />
+				{{t "models.user.fields.show_password"}}
+			</label>
+		</div>
+	</div>
+	<div class="field">
+		<label class="checkbox">
+			<Input @type="checkbox" @checked={{this.acceptTerms}} />
+			<span>
+				{{t "models.user.fields.agreement"}}
+			</span>
+			<span class="icon">
+				<a href="/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">
+					<FaIcon @icon="external-link-alt" @size="sm" />
+				</a>
+			</span>
+		</label>
+		{{#each this.acceptTermsValidation.errors as |error|}}
+			<p class="help is-danger">
+				{{t error}}
+			</p>
+		{{/each}}
+	</div>
+	<button type="submit" class="button is-primary {{if @isLoading "is-loading"}}" {{on "click" this.onSubmit}}>
+		{{t "common.actions.sign_up"}}
+	</button>
+</form>

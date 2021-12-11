@@ -1,0 +1,31 @@
+<label for={{@id}} class={{this.labelClass}}>
+	{{@labelText}}
+</label>
+<div class={{this.inputContainerClass}}>
+	<input
+		id={{@id}}
+		type={{this.type}}
+		value={{@value}}
+		class={{this.inputClass}}
+		placeholder={{this.placeholder}}
+		disabled={{this.disabled}}
+		{{on "change" this.onChange}}
+	/>
+	{{#if @leftIcon}}
+		<span class={{this.leftIconClass}}>
+			<FaIcon @icon={{@leftIcon}} />
+		</span>
+	{{/if}}
+	{{#if this.rightIcon}}
+		<span class={{this.rightIconClass}}>
+			<FaIcon @icon={{this.rightIcon}} />
+		</span>
+	{{/if}}
+</div>
+{{#if @isInValid}}
+	{{#each @validationErrors as |error|}}
+		<p class="help is-danger">
+			{{error}}
+		</p>
+	{{/each}}
+{{/if}}

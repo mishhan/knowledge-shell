@@ -1,19 +1,55 @@
 .domain-table {
-	$column-width: 20%;
+	$name-column-width-mobile: 35%;
+	$type-column-width-mobule: 30%;
+	$actions-column-width-mobile: 35%;
 
-	&__header-item {
-		width: $column-width;
+	$index-column-width: 5%;
+	$name-column-width: 30%;
+	$description-column-width: 35%;
+	$type-column-width: 10%;
+	$actions-column-width: 20%;
+
+	@include until($tablet) {
+		&__index-column {
+			display: none;
+		}
+
+		&__name-column {
+			width: $name-column-width-mobile;
+		}
+
+		&__description-column {
+			display: none;
+		}
+
+		&__type-column {
+			width: $type-column-width-mobule;
+		}
+
+		&__actions-column {
+			width: $actions-column-width-mobile;
+		}
 	}
 
-	&__search-container {
-		width: $column-width;
-	}
+	@include from($tablet) {
+		&__index-column {
+			width: $index-column-width;
+		}
 
-	&__actions {
-		width: $column-width;
-	}
+		&__name-column {
+			width: $name-column-width;
+		}
 
-	&__cell {
-		width: $column-width;
+		&__description-column {
+			width: $description-column-width;
+		}
+
+		&__type-column {
+			width: $type-column-width;
+		}
+
+		&__actions-column {
+			width: $actions-column-width;
+		}
 	}
 }

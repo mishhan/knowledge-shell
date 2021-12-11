@@ -1,17 +1,49 @@
-<div class="field">
-	<label for="name" class="label">
-		{{t "kb.fields.name"}}
-	</label>
-	<Input id="name" class="input is-small" @type="text" placeholder={{t "kb.fields.name"}} @value={{@kb.name}} />
-</div>
-<div class="field">
-	<label for="description" class="label">
-		{{t "kb.fields.description"}}
-	</label>
-	<Textarea
-		id="description"
-		class="textarea is-small"
-		placeholder={{t "kb.fields.description"}}
-		@value={{@kb.description}}
-	/>
-</div>
+<form id="knowledge-base" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
+	<div class="field">
+		<FormInput
+			@id="name"
+			@labelText={{t "models.kb.fields.name"}}
+			@placeholder={{t "models.kb.fields.name"}}
+			@value={{this.name}}
+			@isValid={{this.nameValidation.isValid}}
+			@isInValid={{this.nameValidation.isInValid}}
+			@onChange={{this.onNameChange}}
+			@validationErrors={{this.nameValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<FormInput
+			@id="description"
+			@labelText={{t "models.kb.fields.description"}}
+			@placeholder={{t "models.kb.fields.description"}}
+			@value={{this.description}}
+			@isValid={{this.descriptionValidation.isValid}}
+			@isInValid={{this.descriptionValidation.isInValid}}
+			@onChange={{this.onDescriptionChange}}
+			@validationErrors={{this.descriptionValidation.errors}}
+		/>
+	</div>
+	<div class="field">
+		<label for="type" class="label">
+			{{t "models.kb.fields.type"}}
+		</label>
+		<div class="control">
+			<PowerSelect
+				@triggerClass="input"
+				@options={{this.kbTypes}}
+				@allowClear={{false}}
+				@selected={{this.selectedType}}
+				@disabled={{not @canEditType}}
+				@onChange={{this.setType}} as |kbType|
+			>
+				{{kbType.value}}
+			</PowerSelect>
+		</div>
+	</div>
+	<button type="submit" class="button is-primary" {{on "click" this.onSubmit}}>
+		{{t "common.actions.save"}}
+	</button>
+	<button type="button" class="button is-light" {{on "click" @onCancel}}>
+		{{t "common.actions.cancel"}}
+	</button>
+</form>

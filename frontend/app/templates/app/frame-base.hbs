@@ -1,39 +1,39 @@
-<div class="frame-editor">
-	<ul class="frame-editor__navbar">
-		<li class="frame-editor__navbar-link-container">
-			<LinkTo @route="app.frame-base.index" class="frame-editor__navbar-link">
+<div class="base-editor">
+	<ul class="base-editor__navbar">
+		<li class="base-editor__navbar-link-container">
+			<LinkTo @route="app.frame-base.index" class="base-editor__navbar-link">
 				<FaIcon @icon="info" />
-				<span class="frame-editor__navbar-link-text">
-					{{t "frame_editor.information"}}
+				<span class="base-editor__navbar-link-text">
+					{{t "pages.frame_editor.information.title"}}
 				</span>
 			</LinkTo>
 		</li>
-		<li class="frame-editor__navbar-link-container">
-			<LinkTo @route="app.frame-base.editor" class="frame-editor__navbar-link">
+		<li class="base-editor__navbar-link-container">
+			<LinkTo @route="app.frame-base.editor" class="base-editor__navbar-link">
 				<FaIcon @icon="clipboard" />
-				<span class="frame-editor__navbar-link-text">
-					{{t "frame_editor.editor"}}
+				<span class="base-editor__navbar-link-text">
+					{{t "pages.frame_editor.editor"}}
 				</span>
 			</LinkTo>
 		</li>
-		<li class="frame-editor__navbar-link-container">
-			<LinkTo @route="app.frame-base.domains" class="frame-editor__navbar-link">
+		<li class="base-editor__navbar-link-container">
+			<LinkTo @route="app.frame-base.domains" class="base-editor__navbar-link">
 				<FaIcon @icon="th-list" />
-				<span class="frame-editor__navbar-link-text">
-					{{t "frame_editor.domains"}}
+				<span class="base-editor__navbar-link-text">
+					{{t "pages.frame_editor.domains"}}
 				</span>
 			</LinkTo>
 		</li>
-		<li class="frame-editor__navbar-link-container">
-			<LinkTo @route="app.frame-base.play" class="frame-editor__navbar-link">
+		<li class="base-editor__navbar-link-container">
+			<LinkTo @route="app.frame-base.play" class="base-editor__navbar-link">
 				<FaIcon @icon="play" />
-				<span class="frame-editor__navbar-link-text">
-					{{t "frame_editor.play"}}
+				<span class="base-editor__navbar-link-text">
+					{{t "pages.frame_editor.testing.title"}}
 				</span>
 			</LinkTo>
 		</li>
 	</ul>
-	<div class="frame-editor__content">
+	<div class="base-editor__content">
 		{{outlet}}
 	</div>
 </div>
