@@ -86,10 +86,10 @@
 							</p>
 						</td>
 						<td class="rule-table__actions-column has-text-centered">
-							<LinkTo @route="app.production-base.rules.edit" @model={{rule.id}} class="button is-warning is-small">
+							<LinkTo @route="app.production-base.rules.edit" @model={{rule.id}} class="button is-warning is-small m-1">
 								<FaIcon @icon="edit" />
 							</LinkTo>
-							<button type="button" class="button is-danger is-small" {{on "click" (fn @deleteRule rule)}}>
+							<button type="button" class="button is-danger is-small m-1" {{on "click" (fn @deleteRule rule)}}>
 								<FaIcon @icon="trash" />
 							</button>
 						</td>

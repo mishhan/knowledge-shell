@@ -1,23 +1,23 @@
 <div class="table-container">
 	<table class="table kb-table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
 		<thead>
-			<tr>
+			<tr {{on "click" this.setSortParameters}} role="button">
 				<th class="kb-table__index-column has-text-centered">
 					#
 				</th>
-				<th class="kb-table__name-column">
+				<th class="kb-table__name-column" data-sort-by="name">
 					{{t "models.kb.fields.name"}}
 				</th>
-				<th class="kb-table__description-column">
+				<th class="kb-table__description-column" data-sort-by="description">
 					{{t "models.kb.fields.description"}}
 				</th>
-				<th class="kb-table__type-column">
+				<th class="kb-table__type-column" data-sort-by="baseTypeName">
 					{{t "models.kb.fields.type"}}
 				</th>
-				<th class="kb-table__creation-column">
+				<th class="kb-table__creation-column" data-sort-by="createdAt">
 					{{t "models.kb.fields.creation_date"}}
 				</th>
-				<th class="kb-table__modify-column">
+				<th class="kb-table__modify-column" data-sort-by="updatedAt">
 					{{t "models.kb.fields.modify_date"}}
 				</th>
 				<th class="kb-table__actions-column has-text-centered">
@@ -80,22 +80,22 @@
 							{{format-date kb.updatedAt}}
 						</td>
 						<td class="kb-table__actions-column has-text-centered">
-							<button type="button" class="button is-info is-small" {{on "click" (fn @view kb)}}>
+							<button type="button" class="button is-info is-small m-1" {{on "click" (fn @view kb)}}>
 								<span class="icon">
 									<FaIcon @icon="eye" />
 								</span>
 							</button>
-							<button type="button" class="button is-info is-small" {{on "click" (fn @play kb)}}>
+							<button type="button" class="button is-info is-small m-1" {{on "click" (fn @play kb)}}>
 								<span class="icon">
 									<FaIcon @icon="play" />
 								</span>
 							</button>
-							<button type="button" class="button is-warning is-small" {{on "click" (fn @edit kb)}}>
+							<button type="button" class="button is-warning is-small m-1" {{on "click" (fn @edit kb)}}>
 								<span class="icon">
 									<FaIcon @icon="edit" />
 								</span>
 							</button>
-							<button type="button" class="button is-danger is-small" {{on "click" (fn @delete kb)}}>
+							<button type="button" class="button is-danger is-small m-1" {{on "click" (fn @delete kb)}}>
 								<span class="icon">
 									<FaIcon @icon="trash" />
 								</span>

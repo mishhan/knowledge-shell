@@ -24,6 +24,9 @@ export default class Variable extends Model {
 		return VariableType[this.variableType];
 	}
 
+	@computed.oneWay("domain.name")
+	domainName!: string;
+
 	@tracked value!: DomainValue | null;
 
 	@computed.notEmpty("value")
