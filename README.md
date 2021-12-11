@@ -10,7 +10,7 @@ This project is demo prototype
 based expert system shell
 
 ## Examples
-* frames - battle, something similar to Heroes of Might and Magic battle, but much more simplier
+* frames
 * production rules - question-answer system
 
 more examples to come
