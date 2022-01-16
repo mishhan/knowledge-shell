@@ -2,7 +2,7 @@ import Service, { inject as service } from "@ember/service";
 import { isEmpty, isEqual } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { DomainValueFrame, DomainValueString, Frame, FrameBase, Slot } from "knowledge-shell/models";
-import Interpretter from "knowledge-shell/interpretter/frame-production/interpretter";
+import Interpretter from "knowledge-shell/interpretter/frame-production";
 import BattleLogger from "./battle-logger";
 
 export default class BattleLogicCore extends Service {
