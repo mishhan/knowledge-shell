@@ -1,10 +1,11 @@
 <form id="sign-up" class="box" {{on "submit" this.onSubmit}}>
 	<div class="field">
 		<FormInput
-			@id="login"
+			id="login"
+			placeholder={{t "models.user.fields.login"}}
+			value={{this.userName}}
+			data-test-login
 			@labelText={{t "models.user.fields.login"}}
-			@placeholder={{t "models.user.fields.login"}}
-			@value={{this.userName}}
 			@isValid={{this.userNameValidation.isValid}}
 			@isInValid={{this.userNameValidation.isInValid}}
 			@leftIcon="user"
@@ -14,10 +15,11 @@
 	</div>
 	<div class="field">
 		<FormInput
-			@id="email"
+			id="email"
+			placeholder={{t "models.user.fields.email"}}
+			value={{this.email}}
+			data-test-email
 			@labelText={{t "models.user.fields.email"}}
-			@placeholder={{t "models.user.fields.email"}}
-			@value={{this.email}}
 			@isValid={{this.emailValidation.isValid}}
 			@isInValid={{this.emailValidation.isInValid}}
 			@leftIcon="envelope"
@@ -27,11 +29,12 @@
 	</div>
 	<div class="field">
 		<FormInput
-			@id="password"
-			@type={{if this.showPassword "text" "password"}}
-			@placeholder="********"
+			id="password"
+			type={{if this.showPassword "text" "password"}}
+			placeholder="********"
+			value={{this.password}}
+			data-test-password
 			@labelText={{t "models.user.fields.password"}}
-			@value={{this.password}}
 			@isValid={{this.passwordValidation.isValid}}
 			@isInValid={{this.passwordValidation.isInValid}}
 			@leftIcon="lock"
@@ -47,7 +50,7 @@
 	</div>
 	<div class="field">
 		<label class="checkbox">
-			<Input @type="checkbox" @checked={{this.acceptTerms}} />
+			<Input @type="checkbox" @checked={{this.acceptTerms}} data-test-terms-check />
 			<span>
 				{{t "models.user.fields.agreement"}}
 			</span>
@@ -63,7 +66,7 @@
 			</p>
 		{{/each}}
 	</div>
-	<button type="submit" class="button is-primary {{if @isLoading "is-loading"}}" {{on "click" this.onSubmit}}>
+	<button type="submit" class="button is-primary {{if @isLoading "is-loading"}}" {{on "click" this.onSubmit}} data-test-sign-button>
 		{{t "common.actions.sign_up"}}
 	</button>
 </form>

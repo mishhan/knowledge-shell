@@ -1,10 +1,10 @@
 <form id="domain" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
 	<div class="field">
 		<FormInput
-			@id="name"
+			id="name"
+			placeholder={{t "models.domain.fields.name"}}
+			value={{this.name}}
 			@labelText={{t "models.domain.fields.name"}}
-			@placeholder={{t "models.domain.fields.name"}}
-			@value={{this.name}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
 			@onChange={{this.onNameChange}}
@@ -13,10 +13,10 @@
 	</div>
 	<div class="field">
 		<FormInput
-			@id="description"
+			id="description"
+			placeholder={{t "models.domain.fields.description"}}
+			value={{this.description}}
 			@labelText={{t "models.domain.fields.description"}}
-			@placeholder={{t "models.domain.fields.description"}}
-			@value={{this.description}}
 			@isValid={{this.descriptionValidation.isValid}}
 			@isInValid={{this.descriptionValidation.isInValid}}
 			@onChange={{this.onDescriptionChange}}

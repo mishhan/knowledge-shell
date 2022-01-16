@@ -1,10 +1,10 @@
 <form id="rule" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
 	<div class="field">
 		<FormInput
-			@id="name"
+			id="name"
+			placeholder={{t "models.rule.fields.name"}}
+			value={{this.name}}
 			@labelText={{t "models.rule.fields.name"}}
-			@placeholder={{t "models.rule.fields.name"}}
-			@value={{this.name}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
 			@onChange={{this.onNameChange}}
@@ -13,10 +13,10 @@
 	</div>
 	<div class="field">
 		<FormInput
-			@id="reason"
+			id="reason"
+			placeholder={{t "models.rule.fields.reason"}}
+			value={{this.reason}}
 			@labelText={{t "models.rule.fields.reason"}}
-			@placeholder={{t "models.rule.fields.reason"}}
-			@value={{this.reason}}
 			@isValid={{this.reasonValidation.isValid}}
 			@isInValid={{this.reasonValidation.isInValid}}
 			@onChange={{this.onReasonChange}}
@@ -25,10 +25,10 @@
 	</div>
 	<div class="field">
 		<FormInput
-			@id="premise"
+			id="premise"
+			placeholder={{t "models.rule.fields.premise"}}
+			value={{this.premise}}
 			@labelText={{t "models.rule.fields.premise"}}
-			@placeholder={{t "models.rule.fields.premise"}}
-			@value={{this.premise}}
 			@isValid={{this.premiseValidation.isValid}}
 			@isInValid={{this.premiseValidation.isInValid}}
 			@onChange={{this.onPremiseChange}}
@@ -37,10 +37,10 @@
 	</div>
 	<div class="field">
 		<FormInput
-			@id="consequence"
+			id="consequence"
+			placeholder={{t "models.rule.fields.consequence"}}
+			value={{this.consequence}}
 			@labelText={{t "models.rule.fields.consequence"}}
-			@placeholder={{t "models.rule.fields.consequence"}}
-			@value={{this.consequence}}
 			@isValid={{this.consequenceValidation.isValid}}
 			@isInValid={{this.consequenceValidation.isInValid}}
 			@onChange={{this.onConsequenceChange}}

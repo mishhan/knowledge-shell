@@ -23,10 +23,10 @@
 			<div class="box">
 				<div class="field">
 					<FormInput
-						@id="frame-name"
+						id="frame-name"
+						placeholder={{t "models.frame.fields.name"}}
+						value={{this.selectedFrame.name}}
 						@labelText={{t "models.frame.fields.name"}}
-						@placeholder={{t "models.frame.fields.name"}}
-						@value={{this.selectedFrame.name}}
 						@isValid={{this.nameValidation.isValid}}
 						@isInValid={{this.nameValidation.isInValid}}
 						@onChange={{this.onNameChange}}

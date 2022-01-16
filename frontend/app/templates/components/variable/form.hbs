@@ -1,10 +1,10 @@
 <form id="variable" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
 	<div class="field">
 		<FormInput
-			@id="name"
+			id="name"
+			placeholder={{t "models.variable.fields.name"}}
+			value={{this.name}}
 			@labelText={{t "models.variable.fields.name"}}
-			@placeholder={{t "models.variable.fields.name"}}
-			@value={{this.name}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
 			@onChange={{this.onNameChange}}
@@ -13,10 +13,10 @@
 	</div>
 	<div class="field">
 		<FormInput
-			@id="description"
+			id="description"
+			placeholder={{t "models.variable.fields.description"}}
+			value={{this.description}}
 			@labelText={{t "models.variable.fields.description"}}
-			@placeholder={{t "models.variable.fields.description"}}
-			@value={{this.description}}
 			@isValid={{this.descriptionValidation.isValid}}
 			@isInValid={{this.descriptionValidation.isInValid}}
 			@onChange={{this.onDescriptionChange}}
@@ -71,10 +71,10 @@
 	</div>
 	<div class="field">
 		<FormInput
-			@id="question"
+			id="question"
+			placeholder={{t "models.variable.fields.question"}}
+			value={{this.question}}
 			@labelText={{t "models.variable.fields.question"}}
-			@placeholder={{t "models.variable.fields.question"}}
-			@value={{this.question}}
 			@isValid={{this.questionValidation.isValid}}
 			@isInValid={{this.questionValidation.isInValid}}
 			@onChange={{this.onQuestionChange}}

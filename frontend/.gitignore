@@ -4,6 +4,9 @@
 /dist/
 /tmp/
 
+# husky
+/.husky/
+
 # dependencies
 /bower_components/
 /node_modules/

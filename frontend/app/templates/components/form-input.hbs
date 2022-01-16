@@ -4,11 +4,12 @@
 <div class={{this.inputContainerClass}}>
 	<input
 		id={{@id}}
-		type={{this.type}}
-		value={{@value}}
+		type="text"
+		value=""
 		class={{this.inputClass}}
 		placeholder={{this.placeholder}}
 		disabled={{this.disabled}}
+		...attributes
 		{{on "change" this.onChange}}
 	/>
 	{{#if @leftIcon}}

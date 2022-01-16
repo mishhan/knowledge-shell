@@ -1,10 +1,11 @@
-<form id="sign-in" class="box" {{on "submit" this.onSubmit}}>
+<form class="box" {{on "submit" this.onSubmit}}>
 	<div class="field">
 		<FormInput
-			@id="login"
+			id="login"
+			value={{this.userName}}
+			placeholder={{t "models.user.fields.login"}}
+			data-test-login
 			@labelText={{t "models.user.fields.login_or_email"}}
-			@placeholder={{t "models.user.fields.login"}}
-			@value={{this.userName}}
 			@isValid={{this.identificationValidation.isValid}}
 			@isInValid={{this.identificationValidation.isInValid}}
 			@leftIcon="user"
@@ -14,11 +15,12 @@
 	</div>
 	<div class="field">
 		<FormInput
-			@id="password"
-			@type={{if this.showPassword "text" "password"}}
-			@placeholder="********"
+			id="password"
+			type={{if this.showPassword "text" "password"}}
+			value={{this.password}}
+			placeholder="********"
+			data-test-password
 			@labelText={{t "models.user.fields.password"}}
-			@value={{this.password}}
 			@isValid={{this.passwordValidation.isValid}}
 			@isInValid={{this.passwordValidation.isInValid}}
 			@leftIcon="lock"
@@ -32,7 +34,7 @@
 			</label>
 		</div>
 	</div>
-	<button type="submit" class="button is-primary {{if @isLoading "is-loading"}}" {{on "click" this.onSubmit}}>
+	<button type="submit" class="button is-primary{{if @isLoading " is-loading"}}" {{on "click" this.onSubmit}} data-test-auth-button>
 		{{t "common.actions.sign_in"}}
 	</button>
 </form>
