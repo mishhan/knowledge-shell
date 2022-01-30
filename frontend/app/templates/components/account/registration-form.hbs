@@ -9,7 +9,7 @@
 			@isValid={{this.userNameValidation.isValid}}
 			@isInValid={{this.userNameValidation.isInValid}}
 			@leftIcon="user"
-			@onChange={{this.onUsernameChange}}
+			@onChange={{fn this.onFieldChange "userName"}}
 			@validationErrors={{this.userNameValidation.errors}}
 		/>
 	</div>
@@ -23,7 +23,7 @@
 			@isValid={{this.emailValidation.isValid}}
 			@isInValid={{this.emailValidation.isInValid}}
 			@leftIcon="envelope"
-			@onChange={{this.onEmailChange}}
+			@onChange={{fn this.onFieldChange "email"}}
 			@validationErrors={{this.emailValidation.errors}}
 		/>
 	</div>
@@ -38,7 +38,7 @@
 			@isValid={{this.passwordValidation.isValid}}
 			@isInValid={{this.passwordValidation.isInValid}}
 			@leftIcon="lock"
-			@onChange={{this.onPasswordChange}}
+			@onChange={{fn this.onFieldChange "password"}}
 			@validationErrors={{this.passwordValidation.errors}}
 		/>
 		<div class="mt-1">
@@ -50,19 +50,20 @@
 	</div>
 	<div class="field">
 		<label class="checkbox">
-			<Input @type="checkbox" @checked={{this.acceptTerms}} data-test-terms-check />
+			<input type="checkbox" checked={{this.acceptTerms}} {{on "change" (fn this.onFieldChange "acceptTerms")}} data-test-terms-check />
 			<span>
 				{{t "models.user.fields.agreement"}}
 			</span>
 			<span class="icon">
-				<a href="/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">
+				{{!-- template-lint-disable no-nested-interactive --}}
+    		<a href="/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">
 					<FaIcon @icon="external-link-alt" @size="sm" />
 				</a>
 			</span>
 		</label>
 		{{#each this.acceptTermsValidation.errors as |error|}}
 			<p class="help is-danger">
-				{{t error}}
+				{{error}}
 			</p>
 		{{/each}}
 	</div>

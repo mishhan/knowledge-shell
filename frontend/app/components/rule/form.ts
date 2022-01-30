@@ -1,12 +1,10 @@
-import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import { inject as service } from "@ember/service";
-import type IntlService from "ember-intl/services/intl";
-import { action } from "@ember/object";
+import { action, set } from "@ember/object";
 import { htmlSafe } from "@ember/template";
 import { Rule, Variable } from "knowledge-shell/models";
 import { create, test, enforce, only, skipWhen } from "vest";
 import ProductionInterpretter from "knowledge-shell/interpretter/production";
+import Form from "../form";
 
 const ruleFormValidator = create((data: RuleForm, changedField: string) => {
 	only(changedField);
@@ -59,11 +57,8 @@ interface RuleFormArgs {
 	onCancel: () => void;
 }
 
-export default class RuleForm extends Component<RuleFormArgs> {
-	@service intl!: IntlService;
+export default class RuleForm extends Form<RuleFormArgs> {
 	productionInterpretter = new ProductionInterpretter();
-
-	@tracked isSubmitted!: boolean;
 
 	@tracked rule!: Rule;
 	@tracked name!: string;
@@ -113,17 +108,6 @@ export default class RuleForm extends Component<RuleFormArgs> {
 		};
 	}
 
-	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
-	}
-
 	@action
 	setupForm(): void {
 		const { rule } = this.args;
@@ -138,7 +122,7 @@ export default class RuleForm extends Component<RuleFormArgs> {
 	onSubmit(event: Event): void {
 		event.preventDefault();
 		this.isSubmitted = true;
-		this.validateForm();
+		this.validateForm(ruleFormValidator);
 		const hasValidationErrors = this.validator.hasErrors();
 		if (!hasValidationErrors) {
 			const { name, reason, premise, consequence } = this;
@@ -147,30 +131,9 @@ export default class RuleForm extends Component<RuleFormArgs> {
 	}
 
 	@action
-	onNameChange(value: string): void {
-		this.name = value;
-		this.validateForm("name");
-	}
-
-	@action
-	onReasonChange(value: string): void {
-		this.reason = value;
-		this.validateForm("reason");
-	}
-
-	@action
-	onPremiseChange(value: string): void {
-		this.premise = value;
-		this.validateForm("premise");
-	}
-
-	@action
-	onConsequenceChange(value: string): void {
-		this.consequence = value;
-		this.validateForm("consequence");
-	}
-
-	validateForm(fieldName?: string): void {
-		this.validator = ruleFormValidator(this, fieldName);
+	onFieldChange(fieldName: string, value: string): void {
+		// @ts-ignore
+		set(this, fieldName, value);
+		this.validateForm(ruleFormValidator, fieldName);
 	}
 }

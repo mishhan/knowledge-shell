@@ -1,10 +1,8 @@
-import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import { inject as service } from "@ember/service";
-import type IntlService from "ember-intl/services/intl";
-import { action } from "@ember/object";
+import { action, set } from "@ember/object";
 import { KnowledgeBaseType } from "knowledge-shell/models";
 import { create, test, enforce, only } from "vest";
+import Form from "../form";
 
 const kbFormValidator = create((data: KbFormComponent, cnahgedField: string) => {
 	only(cnahgedField);
@@ -27,11 +25,7 @@ interface KbFormComponentArgs {
 	onCancel: () => void;
 }
 
-export default class KbFormComponent extends Component<KbFormComponentArgs> {
-	@service intl!: IntlService;
-
-	@tracked isSubmitted!: boolean;
-
+export default class KbFormComponent extends Form<KbFormComponentArgs> {
 	@tracked name!: string;
 	@tracked description!: string;
 	@tracked type!: KnowledgeBaseType;
@@ -59,17 +53,6 @@ export default class KbFormComponent extends Component<KbFormComponentArgs> {
 		return descriptionValidation;
 	}
 
-	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
-	}
-
 	@action
 	setupForm(): void {
 		this.name = this.args.name;
@@ -81,7 +64,7 @@ export default class KbFormComponent extends Component<KbFormComponentArgs> {
 	onSubmit(event: Event): void {
 		event.preventDefault();
 		this.isSubmitted = true;
-		this.validateForm();
+		this.validateForm(kbFormValidator);
 		const hasValidationErrors = this.validator.hasErrors();
 		if (!hasValidationErrors) {
 			const { name, description, type } = this;
@@ -90,23 +73,14 @@ export default class KbFormComponent extends Component<KbFormComponentArgs> {
 	}
 
 	@action
-	onNameChange(value: string): void {
-		this.name = value;
-		this.validateForm("name");
-	}
-
-	@action
-	onDescriptionChange(value: string): void {
-		this.description = value;
-		this.validateForm("description");
+	onFieldChange(fieldName: string, value: string): void {
+		// @ts-ignore
+		set(this, fieldName, value);
+		this.validateForm(kbFormValidator, fieldName);
 	}
 
 	@action
 	setType(type: { key: KnowledgeBaseType; value: string }): void {
 		this.type = type.key;
-	}
-
-	validateForm(fieldName?: string): void {
-		this.validator = kbFormValidator(this, fieldName);
 	}
 }

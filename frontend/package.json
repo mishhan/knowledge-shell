@@ -129,7 +129,7 @@
     "rsvp": "^4.8.5",
     "sweetalert2": "^11.0.15",
     "validator": "^13.6.0",
-    "vest": "^3.2.8",
+    "vest": "^4.1.0",
     "vis-data": "^7.1.2",
     "vis-network": "^9.0.3",
     "vis-util": "^5.0.2"

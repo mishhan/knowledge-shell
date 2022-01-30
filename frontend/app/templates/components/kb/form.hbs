@@ -7,7 +7,7 @@
 			@labelText={{t "models.kb.fields.name"}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
-			@onChange={{this.onNameChange}}
+			@onChange={{fn this.onFieldChange "name"}}
 			@validationErrors={{this.nameValidation.errors}}
 		/>
 	</div>
@@ -19,7 +19,7 @@
 			@labelText={{t "models.kb.fields.description"}}
 			@isValid={{this.descriptionValidation.isValid}}
 			@isInValid={{this.descriptionValidation.isInValid}}
-			@onChange={{this.onDescriptionChange}}
+			@onChange={{fn this.onFieldChange "description"}}
 			@validationErrors={{this.descriptionValidation.errors}}
 		/>
 	</div>

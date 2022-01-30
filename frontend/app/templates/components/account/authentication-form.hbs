@@ -9,7 +9,7 @@
 			@isValid={{this.identificationValidation.isValid}}
 			@isInValid={{this.identificationValidation.isInValid}}
 			@leftIcon="user"
-			@onChange={{this.onIdentificationChange}}
+			@onChange={{fn this.onFieldChange "identification"}}
 			@validationErrors={{this.identificationValidation.errors}}
 		/>
 	</div>
@@ -24,7 +24,7 @@
 			@isValid={{this.passwordValidation.isValid}}
 			@isInValid={{this.passwordValidation.isInValid}}
 			@leftIcon="lock"
-			@onChange={{this.onPasswordChange}}
+			@onChange={{fn this.onFieldChange "password"}}
 			@validationErrors={{this.passwordValidation.errors}}
 		/>
 		<div class="mt-1">

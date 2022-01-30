@@ -7,7 +7,7 @@
 			@labelText={{t "models.rule.fields.name"}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
-			@onChange={{this.onNameChange}}
+			@onChange={{fn this.onFieldChange "name"}}
 			@validationErrors={{this.nameValidation.errors}}
 		/>
 	</div>
@@ -19,7 +19,7 @@
 			@labelText={{t "models.rule.fields.reason"}}
 			@isValid={{this.reasonValidation.isValid}}
 			@isInValid={{this.reasonValidation.isInValid}}
-			@onChange={{this.onReasonChange}}
+			@onChange={{fn this.onFieldChange "reason"}}
 			@validationErrors={{this.reasonValidation.errors}}
 		/>
 	</div>
@@ -31,7 +31,7 @@
 			@labelText={{t "models.rule.fields.premise"}}
 			@isValid={{this.premiseValidation.isValid}}
 			@isInValid={{this.premiseValidation.isInValid}}
-			@onChange={{this.onPremiseChange}}
+			@onChange={{fn this.onFieldChange "premise"}}
 			@validationErrors={{this.premiseValidation.errors}}
 		/>
 	</div>
@@ -43,7 +43,7 @@
 			@labelText={{t "models.rule.fields.consequence"}}
 			@isValid={{this.consequenceValidation.isValid}}
 			@isInValid={{this.consequenceValidation.isInValid}}
-			@onChange={{this.onConsequenceChange}}
+			@onChange={{fn this.onFieldChange "consequence"}}
 			@validationErrors={{this.consequenceValidation.errors}}
 		/>
 	</div>

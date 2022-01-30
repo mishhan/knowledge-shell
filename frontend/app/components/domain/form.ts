@@ -1,11 +1,10 @@
-import Component from "@glimmer/component";
 import { inject as service } from "@ember/service";
-import type IntlService from "ember-intl/services/intl";
 import Store from "@ember-data/store";
-import { action } from "@ember/object";
+import { action, set } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 import { Domain, DomainValue, DomainType } from "knowledge-shell/models";
 import { create, test, enforce, only } from "vest";
+import Form from "../form";
 
 const domainFormValidator = create((data: DomainForm, cnahgedField: string) => {
 	only(cnahgedField);
@@ -15,7 +14,7 @@ const domainFormValidator = create((data: DomainForm, cnahgedField: string) => {
 	});
 
 	test("name", "form.validation_errors.unique_name", () => {
-		enforce(data.name).notInside(data.domainNameCollection);
+		enforce(data.name).notInside(data.domainNames);
 	});
 
 	test("description", "form.validation_errors.required_field", () => {
@@ -35,11 +34,8 @@ interface DomainFormArgs {
 	onCancel: () => void;
 }
 
-export default class DomainForm extends Component<DomainFormArgs> {
+export default class DomainForm extends Form<DomainFormArgs> {
 	@service("store") store!: Store;
-	@service intl!: IntlService;
-
-	@tracked isSubmitted!: boolean;
 
 	@tracked name!: string;
 	@tracked description!: string;
@@ -50,7 +46,7 @@ export default class DomainForm extends Component<DomainFormArgs> {
 	@tracked newValue!: string | number;
 
 	@tracked validator = domainFormValidator.get();
-	domainNameCollection!: string[];
+	domainNames!: string[];
 
 	get domainTypes(): { key: number; value: string }[] {
 		return [
@@ -83,20 +79,14 @@ export default class DomainForm extends Component<DomainFormArgs> {
 		return nameValidation;
 	}
 
+	get descriptionValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
+		const nameValidation = this.getFieldValidation("description");
+		return nameValidation;
+	}
+
 	get domainTypeValidation(): { errors: string[]; isValid: boolean; isInValid: boolean } {
 		const domainTypeValidation = this.getFieldValidation("domainType");
 		return domainTypeValidation;
-	}
-
-	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
 	}
 
 	@action
@@ -145,7 +135,7 @@ export default class DomainForm extends Component<DomainFormArgs> {
 		this.description = description;
 		this.domainType = domainType;
 		this.domain = this.args.domain;
-		this.domainNameCollection = this.args.domains
+		this.domainNames = this.args.domains
 			.filter((domain: Domain) => domain.id !== this.args.domain.id)
 			.map((domain: Domain) => domain.name)
 			.filter((domainName: string) => domainName !== undefined);
@@ -155,7 +145,7 @@ export default class DomainForm extends Component<DomainFormArgs> {
 	onSubmit(event: Event): void {
 		event.preventDefault();
 		this.isSubmitted = true;
-		this.validateForm();
+		this.validateForm(domainFormValidator);
 		const hasValidationErrors = this.validator.hasErrors();
 		if (!hasValidationErrors) {
 			const { name, description, domainType } = this;
@@ -164,24 +154,15 @@ export default class DomainForm extends Component<DomainFormArgs> {
 	}
 
 	@action
-	onNameChange(value: string): void {
-		this.name = value;
-		this.validateForm("name");
-	}
-
-	@action
-	onDescriptionChange(value: string): void {
-		this.description = value;
-		this.validateForm("description");
+	onFieldChange(fieldName: string, value: string): void {
+		// @ts-ignore
+		set(this, fieldName, value);
+		this.validateForm(domainFormValidator, fieldName);
 	}
 
 	@action
 	setDomainType(domainType: { key: number; value: string }): void {
 		this.domainType = domainType.key;
-		this.validateForm("domainType");
-	}
-
-	validateForm(fieldName?: string): void {
-		this.validator = domainFormValidator(this, fieldName);
+		this.validateForm(domainFormValidator, "domainType");
 	}
 }

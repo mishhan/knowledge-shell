@@ -14,7 +14,7 @@ export default class SignInController extends Controller {
 			this.isLoading = true;
 			await this.session.authenticate("authenticator:oauth2", identification, password);
 		} catch (error) {
-			const errorJson = error.responseJSON;
+			const errorJson = error.responseJSON === undefined ? error : error.responseJSON;
 			this.serverErrorMessage = errorJson;
 		} finally {
 			this.isLoading = false;
