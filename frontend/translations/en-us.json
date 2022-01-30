@@ -6,6 +6,7 @@
 		},
 		"logo": "Logo",
 		"field_not_set": "Not set",
+		"no_data": "No Data",
 		"actions": {
 			"add": "Add",
 			"cancel": "Cancel",

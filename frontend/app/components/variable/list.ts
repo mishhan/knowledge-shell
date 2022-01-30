@@ -13,11 +13,15 @@ interface VariableListArgs {
 export default class VariableList extends Component<VariableListArgs> {
 	@tracked filter = "";
 
+	get hasVariables(): boolean {
+		return this.args.variables.length > 0;
+	}
+
 	@action
 	setSortParameters(event: Event): void {
 		const selectedCell = event.target as HTMLTableCellElement;
 		const { sortBy } = selectedCell.dataset;
-		if (sortBy) {
+		if (sortBy && this.hasVariables) {
 			let { sortDirection } = selectedCell.dataset;
 			const rowElement = selectedCell.parentElement as HTMLTableRowElement;
 			[...rowElement.children].forEach((cellElement: HTMLTableCellElement) => {

@@ -17,5 +17,15 @@ export default function() {
 
 	this.resource("knowledge-bases");
 	this.resource("frame-bases");
+	this.resource("frames");
+	this.resource("slots");
+	this.resource("domain-value-frames");
 	this.resource("production-bases");
+	this.resource("variables");
+	this.resource("rules");
+	this.resource("domains");
+	this.resource("domain-values");
+	this.resource("domain-value-numbers");
+	this.resource("domain-value-strings");
+	this.resource("positions");
 }

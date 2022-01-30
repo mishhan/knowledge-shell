@@ -34,7 +34,12 @@
 			</label>
 		</div>
 	</div>
-	<button type="submit" class="button is-primary{{if @isLoading " is-loading"}}" {{on "click" this.onSubmit}} data-test-auth-button>
+	<button
+		type="submit"
+		class="button is-primary{{if @isLoading " is-loading"}}"
+		data-test-auth-button
+		{{on "click" this.onSubmit}}
+	>
 		{{t "common.actions.sign_in"}}
 	</button>
 </form>
