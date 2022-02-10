@@ -7,6 +7,7 @@
 		"logo": "Логотип",
 		"field_not_set": "Не задано",
 		"no_data": "Нет Данных",
+		"total_records": "Всего записей",
 		"actions": {
 			"add": "Добавить",
 			"cancel": "Отменить",

@@ -58,59 +58,67 @@
 			</tr>
 		</thead>
 		<tbody>
-			{{#if this.hasKnowledgeBases}}
-				<Provider::Filter @model={{@knowledgeBases}} @field="name" @query={{this.filter}} as |filteredBases|>
-					{{#each filteredBases as |kb index|}}
-						<tr>
-							<td class="kb-table__index-column has-text-centered">
-								{{inc index}}
-							</td>
-							<td class="kb-table__name-column">
-								{{kb.name}}
-							</td>
-							<td class="kb-table__description-column">
-								{{kb.description}}
-							</td>
-							<td class="kb-table__type-column">
-								{{kb.baseTypeName}}
-							</td>
-							<td class="kb-table__creation-column">
-								{{format-date kb.createdAt}}
-							</td>
-							<td class="kb-table__modify-column">
-								{{format-date kb.updatedAt}}
-							</td>
-							<td class="kb-table__actions-column has-text-centered">
-								<button type="button" class="button is-info is-small m-1" {{on "click" (fn @view kb)}}>
-									<span class="icon">
-										<FaIcon @icon="eye" />
-									</span>
-								</button>
-								<button type="button" class="button is-info is-small m-1" {{on "click" (fn @play kb)}}>
-									<span class="icon">
-										<FaIcon @icon="play" />
-									</span>
-								</button>
-								<button type="button" class="button is-warning is-small m-1" {{on "click" (fn @edit kb)}}>
-									<span class="icon">
-										<FaIcon @icon="edit" />
-									</span>
-								</button>
-								<button type="button" class="button is-danger is-small m-1" {{on "click" (fn @delete kb)}}>
-									<span class="icon">
-										<FaIcon @icon="trash" />
-									</span>
-								</button>
-							</td>
-						</tr>
-					{{/each}}
-				</Provider::Filter>
+			{{#if @currentlyLoading}}
+					<tr>
+						<td colspan="100">
+							<SpinnerCube />
+						</td>
+					</tr>
 			{{else}}
-				<tr>
-					<td colspan="100">
-						<EmptyTableRow class="my-3 has-text-centered has-text-grey-light" />
-					</td>
-				</tr>
+				{{#if this.hasKnowledgeBases}}
+					<Provider::Filter @model={{@knowledgeBases}} @field="name" @query={{this.filter}} as |filteredBases|>
+						{{#each filteredBases as |kb index|}}
+							<tr>
+								<td class="kb-table__index-column has-text-centered">
+									{{inc index}}
+								</td>
+								<td class="kb-table__name-column">
+									{{kb.name}}
+								</td>
+								<td class="kb-table__description-column">
+									{{kb.description}}
+								</td>
+								<td class="kb-table__type-column">
+									{{kb.baseTypeName}}
+								</td>
+								<td class="kb-table__creation-column">
+									{{format-date kb.createdAt}}
+								</td>
+								<td class="kb-table__modify-column">
+									{{format-date kb.updatedAt}}
+								</td>
+								<td class="kb-table__actions-column has-text-centered">
+									<button type="button" class="button is-info is-small m-1" {{on "click" (fn @view kb)}}>
+										<span class="icon">
+											<FaIcon @icon="eye" />
+										</span>
+									</button>
+									<button type="button" class="button is-info is-small m-1" {{on "click" (fn @play kb)}}>
+										<span class="icon">
+											<FaIcon @icon="play" />
+										</span>
+									</button>
+									<button type="button" class="button is-warning is-small m-1" {{on "click" (fn @edit kb)}}>
+										<span class="icon">
+											<FaIcon @icon="edit" />
+										</span>
+									</button>
+									<button type="button" class="button is-danger is-small m-1" {{on "click" (fn @delete kb)}}>
+										<span class="icon">
+											<FaIcon @icon="trash" />
+										</span>
+									</button>
+								</td>
+							</tr>
+						{{/each}}
+					</Provider::Filter>
+				{{else}}
+					<tr>
+						<td colspan="100">
+							<EmptyTableRow class="my-3 has-text-centered has-text-grey-light" />
+						</td>
+					</tr>
+				{{/if}}
 			{{/if}}
 		</tbody>
 	</table>

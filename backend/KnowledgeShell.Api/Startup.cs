@@ -65,6 +65,7 @@
                 options.DefaultAttrCapabilities = AttrCapabilities.All;
                 options.DefaultPageSize = new PageSize(int.MaxValue);
                 options.LoadDatabaseValues = true;
+                options.IncludeTotalResourceCount = true;
                 options.IncludeExceptionStackTraceInErrors = true;
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver
                 {
