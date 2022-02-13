@@ -34,6 +34,20 @@
 			@onChange={{fn this.onFieldChange "premise"}}
 			@validationErrors={{this.premiseValidation.errors}}
 		/>
+		<div class="buttons mt-2 mb-0">
+			{{#each @variables as |variable|}}
+				<button type="button" class="button is-small is-rounded {{if (eq this.premiseSelectedVariable variable) 'is-active'}}" {{on "click" (fn this.selectPremiseVariable variable)}}>{{variable.name}}</button>
+			{{/each}}
+		</div>
+		{{#if this.premiseSelectedVariable}}
+			<div class="buttons">
+				{{#each this.premiseSelectedVariable.domain.domainValues as |domainValue|}}
+					<button type="button" class="button is-small is-rounded">
+						<span class="is-italic">{{domainValue.value}}</span>
+					</button>
+				{{/each}}
+			</div>
+		{{/if}}
 	</div>
 	<div class="field">
 		<FormInput
@@ -46,6 +60,20 @@
 			@onChange={{fn this.onFieldChange "consequence"}}
 			@validationErrors={{this.consequenceValidation.errors}}
 		/>
+		<div class="buttons mt-2 mb-0">
+			{{#each @variables as |variable|}}
+				<button type="button" class="button is-small is-rounded {{if (eq this.consequenceSelectedVariable variable) 'is-active'}}" {{on "click" (fn this.selectConsequenceVariable variable)}}>{{variable.name}}</button>
+			{{/each}}
+		</div>
+		{{#if this.consequenceSelectedVariable}}
+			<div class="buttons">
+				{{#each this.consequenceSelectedVariable.domain.domainValues as |domainValue|}}
+					<button type="button" class="button is-small is-rounded">
+						<span class="is-italic">{{domainValue.value}}</span>
+					</button>
+				{{/each}}
+			</div>
+		{{/if}}
 	</div>
 	<div class="field">
 		<p>

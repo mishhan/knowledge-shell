@@ -68,11 +68,12 @@ export default class RuleForm extends Form<RuleFormArgs> {
 
 	@tracked validator = ruleFormValidator.get();
 
+	@tracked premiseSelectedVariable!: Variable | undefined;
+	@tracked consequenceSelectedVariable!: Variable | undefined;
+
 	get fullRule(): any {
 		return htmlSafe(
-			`IF:\r\n&nbsp;&nbsp;${this.premise}\r\n` +
-				`THEN:\r\n&nbsp;&nbsp;${this.consequence}\r\n` +
-				`WHY:\r\n&nbsp;&nbsp;${this.reason}`,
+			`IF:\r\n&nbsp;&nbsp;${this.premise}\r\nTHEN:\r\n&nbsp;&nbsp;${this.consequence}\r\nWHY:\r\n&nbsp;&nbsp;${this.reason}`,
 		);
 	}
 
@@ -114,8 +115,8 @@ export default class RuleForm extends Form<RuleFormArgs> {
 		this.rule = rule;
 		this.name = rule.name;
 		this.reason = rule.reason;
-		this.premise = rule.premise;
-		this.consequence = rule.consequence;
+		this.premise = rule.premise || "";
+		this.consequence = rule.consequence || "";
 	}
 
 	@action
@@ -135,5 +136,23 @@ export default class RuleForm extends Form<RuleFormArgs> {
 		// @ts-ignore
 		set(this, fieldName, value);
 		this.validateForm(ruleFormValidator, fieldName);
+	}
+
+	@action
+	selectPremiseVariable(premiseVariable: Variable): void {
+		if (this.premiseSelectedVariable?.id === premiseVariable.id) {
+			this.premiseSelectedVariable = undefined;
+		} else {
+			this.premiseSelectedVariable = premiseVariable;
+		}
+	}
+
+	@action
+	selectConsequenceVariable(consequenceVariable: Variable): void {
+		if (this.consequenceSelectedVariable?.id === consequenceVariable.id) {
+			this.consequenceSelectedVariable = undefined;
+		} else {
+			this.consequenceSelectedVariable = consequenceVariable;
+		}
 	}
 }

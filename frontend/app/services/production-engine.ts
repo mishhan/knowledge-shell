@@ -86,7 +86,6 @@ export default class ProductionEngine extends Service {
 			}
 
 			const currentGoal = variableStack.peek();
-
 			if (currentGoal.variableType === VariableType.Requested) {
 				variableStack.pop();
 
@@ -176,8 +175,9 @@ export default class ProductionEngine extends Service {
 	 */
 	private extractVariables(rulePart: string): Variable[] {
 		const identifiers = this.productionInterpretter.extractIdentifiers(rulePart);
+		const lowerCaseIdentifiers = identifiers.map((identifier: string) => identifier.toLowerCase());
 		const variables = this.productionBase.variables.filter(
-			(variable: Variable) => identifiers.indexOf(variable.name.toLowerCase()) !== -1,
+			(variable: Variable) => lowerCaseIdentifiers.indexOf(variable.name.toLowerCase()) !== -1,
 		);
 		const uniqueVariables = [...new Set(variables)];
 		return uniqueVariables;

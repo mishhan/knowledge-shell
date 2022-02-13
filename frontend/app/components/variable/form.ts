@@ -1,7 +1,7 @@
 import { tracked } from "@glimmer/tracking";
 import { action, set } from "@ember/object";
 import { Domain, Variable, VariableType } from "knowledge-shell/models";
-import { create, test, enforce, only } from "vest";
+import { create, test, enforce, only, omitWhen } from "vest";
 import Form from "../form";
 
 const variableFormValidator = create((data: VariableForm, cnahgedField: string) => {
@@ -12,18 +12,30 @@ const variableFormValidator = create((data: VariableForm, cnahgedField: string) 
 	});
 
 	test("name", "form.validation_errors.unique_name", () => {
-		enforce(data.name).notInside(data.variableNameCollection);
+		const variableNames = data.args.variables
+			.filter((variable: Variable) => variable.id !== data.args.variable.id)
+			.map((variable: Variable) => variable.name)
+			.filter((variableName: string) => variableName !== undefined);
+		enforce(data.name).notInside(variableNames);
 	});
 
+	/* since description isn't stored in DB
 	test("description", "form.validation_errors.required_field", () => {
 		enforce(data.description).isNotEmpty();
 	});
+	*/
 
-	if (data.variableType !== VariableType.Derrivable) {
+	omitWhen(data.variableType !== VariableType.Requested, () => {
 		test("question", "form.validation_errors.required_field", () => {
 			enforce(data.question).isNotEmpty();
 		});
-	}
+	});
+
+	omitWhen(data.variableType === VariableType.Requested, () => {
+		test("question", "form.validation_errors.required_empty_field", () => {
+			enforce(data.question).isEmpty();
+		});
+	});
 
 	test("variableType", "form.validation_errors.required_field", () => {
 		enforce(data.variableType).isNumber();
@@ -51,7 +63,6 @@ export default class VariableForm extends Form<VariableFormArgs> {
 	@tracked question!: string;
 
 	@tracked validator = variableFormValidator.get();
-	variableNameCollection!: string[];
 
 	get variableTypes(): { key: number; value: string }[] {
 		return [
@@ -99,10 +110,6 @@ export default class VariableForm extends Form<VariableFormArgs> {
 		this.variableType = variableType;
 		this.domain = domain;
 		this.question = question;
-		this.variableNameCollection = this.args.variables
-			.filter((variable: Variable) => variable.id !== this.args.variable.id)
-			.map((variable: Variable) => variable.name)
-			.filter((variableName: string) => variableName !== undefined);
 	}
 
 	@action
@@ -127,6 +134,6 @@ export default class VariableForm extends Form<VariableFormArgs> {
 	@action
 	setVariableType(variableType: { key: VariableType; value: string }): void {
 		this.variableType = variableType.key;
-		this.validateForm("variableType");
+		this.validateForm(variableFormValidator);
 	}
 }

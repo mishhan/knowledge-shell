@@ -25,6 +25,7 @@
 		"validation_errors": {
 			"unique_name": "Name must be unique",
 			"required_field": "Field is required",
+			"required_empty_field": "Field must be empty",
 			"incorrect_email": "Email is not valid",
 			"gte_3": "Field length must be greater than or equal to 3 symbols",
 			"strong_password": "Password must contain at least 8 characters including letters, numbers and special characters in both cases",

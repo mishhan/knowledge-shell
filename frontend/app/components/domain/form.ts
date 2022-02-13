@@ -14,7 +14,11 @@ const domainFormValidator = create((data: DomainForm, cnahgedField: string) => {
 	});
 
 	test("name", "form.validation_errors.unique_name", () => {
-		enforce(data.name).notInside(data.domainNames);
+		const domainNames = data.args.domains
+			.filter((domain: Domain) => domain.id !== data.args.domain.id)
+			.map((domain: Domain) => domain.name)
+			.filter((domainName: string) => domainName !== undefined);
+		enforce(data.name).notInside(domainNames);
 	});
 
 	test("description", "form.validation_errors.required_field", () => {
@@ -46,7 +50,6 @@ export default class DomainForm extends Form<DomainFormArgs> {
 	@tracked newValue!: string | number;
 
 	@tracked validator = domainFormValidator.get();
-	domainNames!: string[];
 
 	get domainTypes(): { key: number; value: string }[] {
 		return [
@@ -135,10 +138,6 @@ export default class DomainForm extends Form<DomainFormArgs> {
 		this.description = description;
 		this.domainType = domainType;
 		this.domain = this.args.domain;
-		this.domainNames = this.args.domains
-			.filter((domain: Domain) => domain.id !== this.args.domain.id)
-			.map((domain: Domain) => domain.name)
-			.filter((domainName: string) => domainName !== undefined);
 	}
 
 	@action

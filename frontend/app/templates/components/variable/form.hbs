@@ -41,7 +41,7 @@
 		{{#if this.variableTypeValidation.isInValid}}
 			{{#each this.variableTypeValidation.errors as |error|}}
 				<p class="help is-danger">
-					{{t error}}
+					{{error}}
 				</p>
 			{{/each}}
 		{{/if}}
@@ -64,7 +64,7 @@
 		{{#if this.domainValidation.isInValid}}
 			{{#each this.domainValidation.errors as |error|}}
 				<p class="help is-danger">
-					{{t error}}
+					{{error}}
 				</p>
 			{{/each}}
 		{{/if}}

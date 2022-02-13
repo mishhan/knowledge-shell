@@ -45,6 +45,9 @@ export default abstract class Interpretter {
 			const result = statement.evaluateValue();
 			return result;
 		} catch (error) {
+			// eslint-disable-next-line no-console
+			console.error(error);
+
 			if (error instanceof EvaluationError) {
 				return undefined;
 			}

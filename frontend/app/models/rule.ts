@@ -19,9 +19,15 @@ export default class Rule extends Model {
 		return `IF ${this.premise} THEN ${this.consequence}`;
 	}
 
+	/**
+	 * Gets variable from production base by name
+	 * @param {string} variableName - variable name
+	 * @returns {Variable} variable
+	 */
 	public getVariable(variableName: string): Variable | undefined {
+		const lowerCaseVariableName = variableName.toLowerCase();
 		const baseVariable = this.productionBase.variables.find(
-			(variable: Variable) => variable.name.toLowerCase() === variableName,
+			(variable: Variable) => variable.name.toLowerCase() === lowerCaseVariableName,
 		);
 		return baseVariable;
 	}
