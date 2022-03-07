@@ -3,21 +3,38 @@ import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
 import ProductionEngine, { ConsultationStatus } from "knowledge-shell/services/production-engine";
 import { tracked } from "@glimmer/tracking";
-import { DomainValue, Variable } from "knowledge-shell/models";
+import { DomainValue, Variable, VariableType } from "knowledge-shell/models";
 
 export default class AppProductionBaseTestingController extends Controller {
 	@service("production-engine") productionEngine!: ProductionEngine;
 
 	@tracked goalVariable!: Variable;
 	@tracked currentVariable!: Variable;
+	@tracked lastSettedVariable!: Variable;
 
-	get variables(): Variable[] {
-		return this.model.variables;
+	get goalVariables(): Variable[] {
+		const { variables } = this.model;
+		const derrivableVariables = variables.filter((v: Variable) => v.variableType === VariableType.Derrivable);
+		const derrivableRequestedVariables = variables.filter(
+			(v: Variable) => v.variableType === VariableType.DerrivableRequested,
+		);
+		const requestedVariables = variables.filter((v: Variable) => v.variableType === VariableType.Requested);
+		const goalVariables = [...derrivableVariables, ...derrivableRequestedVariables, ...requestedVariables];
+		return goalVariables;
 	}
 
 	get hasGoalVariable(): boolean {
 		const hasGoalVariable = this.goalVariable !== undefined;
 		return hasGoalVariable;
+	}
+
+	get canResetToPreviousState(): boolean {
+		const canResetToPreviousState = this.lastSettedVariable !== undefined;
+		return canResetToPreviousState;
+	}
+
+	get variableInference(): Variable[] {
+		return this.productionEngine.variableInferenceStack.toArray();
 	}
 
 	public initialize(): void {
@@ -44,9 +61,10 @@ export default class AppProductionBaseTestingController extends Controller {
 
 	@action
 	calculateCurrentState(): void {
+		this.lastSettedVariable = this.currentVariable;
 		const currentState = this.productionEngine.getCurrentState();
 		switch (currentState.Status) {
-			case ConsultationStatus.Continue:
+			case ConsultationStatus.InProgress:
 				this.currentVariable = currentState.Variable;
 				break;
 			case ConsultationStatus.Success:
@@ -64,7 +82,10 @@ export default class AppProductionBaseTestingController extends Controller {
 
 	@action
 	getPreviousState(): void {
-		// TODO
+		if (this.canResetToPreviousState) {
+			this.lastSettedVariable.value = null;
+			this.calculateCurrentState();
+		}
 	}
 }
 

@@ -10,7 +10,7 @@ type RulePremiseConsequenceVariables = {
 
 export enum ConsultationStatus {
 	Success,
-	Continue,
+	InProgress,
 	Failed,
 }
 
@@ -19,7 +19,7 @@ export type ConsultationState =
 			Status: ConsultationStatus.Success;
 	  }
 	| {
-			Status: ConsultationStatus.Continue;
+			Status: ConsultationStatus.InProgress;
 			Variable: Variable;
 	  }
 	| {
@@ -32,7 +32,7 @@ export default class ProductionEngine extends Service {
 	private productionBase!: ProductionBase;
 	private rules!: Rule[];
 	private goalVariable!: Variable;
-	private variableInferenceStack!: Stack<Variable>;
+	public variableInferenceStack!: Stack<Variable>;
 
 	private rulePremiseConsequenceVariableMap = new Map<Rule, RulePremiseConsequenceVariables>();
 
@@ -95,8 +95,9 @@ export default class ProductionEngine extends Service {
 					};
 				}
 
+				this.variableInferenceStack.push(currentGoal);
 				return {
-					Status: ConsultationStatus.Continue,
+					Status: ConsultationStatus.InProgress,
 					Variable: currentGoal,
 				};
 			}
@@ -151,8 +152,9 @@ export default class ProductionEngine extends Service {
 			if (!currentGoalCanBeFound) {
 				if (currentGoal.variableType === VariableType.DerrivableRequested) {
 					variableStack.pop();
+					this.variableInferenceStack.push(currentGoal);
 					return {
-						Status: ConsultationStatus.Continue,
+						Status: ConsultationStatus.InProgress,
 						Variable: currentGoal,
 					};
 				}
@@ -176,15 +178,20 @@ export default class ProductionEngine extends Service {
 	private extractVariables(rulePart: string): Variable[] {
 		const identifiers = this.productionInterpretter.extractIdentifiers(rulePart);
 		const lowerCaseIdentifiers = identifiers.map((identifier: string) => identifier.toLowerCase());
-		const variables = this.productionBase.variables.filter(
-			(variable: Variable) => lowerCaseIdentifiers.indexOf(variable.name.toLowerCase()) !== -1,
-		);
-		const uniqueVariables = [...new Set(variables)];
+
+		const ruleVariables: Variable[] = [];
+		for (let i = 0; i < lowerCaseIdentifiers.length; i += 1) {
+			const variable = this.productionBase.variables.find(
+				(v: Variable) => lowerCaseIdentifiers[i] === v.name.toLowerCase(),
+			);
+			if (variable) ruleVariables.pushObject(variable);
+		}
+		const uniqueVariables = [...new Set(ruleVariables)];
 		return uniqueVariables;
 	}
 
 	/**
-	 * Assigns variable value evaluationg rule
+	 * Assigns variable value evaluating the rule
 	 * @param {Rule} rule
 	 * @returns {Boolean} assigning result
 	 */
@@ -199,7 +206,7 @@ export default class ProductionEngine extends Service {
 	}
 
 	/**
-	 * Determinse if variable in rule consequence
+	 * Determinse whether variable in rule consequence
 	 * @param {Variable} variable
 	 * @param {Rule} rule
 	 * @returns {boolean} true if variable in rule consequence false otherwise

@@ -6,12 +6,12 @@
 			</label>
 			<div class="control">
 				<PowerSelect
-					@options={{this.variables}}
+					@options={{this.goalVariables}}
 					@allowClear={{false}}
 					@selected={{this.goalVariable}}
 					@onChange={{this.setGoalVariable}} as |variable|
 				>
-					{{variable.name}}
+					{{variable.name}} - <span class="is-italic">{{variable.variableTypeName}}</span>
 				</PowerSelect>
 			</div>
 		</div>
@@ -27,7 +27,7 @@
 				</label>
 				<div class="control">
 					<PowerSelect
-						@options={{this.currentVariable.domain.domainValues}}
+						@options={{this.currentVariable.domain.domainValuesOrdered}}
 						@allowClear={{false}}
 						@selected={{this.currentVariable.value}}
 						@onChange={{fn this.setVariableValue this.currentVariable}} as |domainValue|
@@ -40,13 +40,13 @@
 				<button type="button" class="button is-primary" {{on "click" this.calculateCurrentState}}>
 					{{t "pages.production_editor.testing.answer"}}
 				</button>
-				<button type="button" class="button is-danger" {{on "click" this.getPreviousState}}>
+				<button type="button" class="button is-danger" {{on "click" this.getPreviousState}} disabled={{not this.canResetToPreviousState}}>
 					{{t "pages.production_editor.testing.back"}}
 				</button>
 			</div>
 		{{/if}}
 		<Card @header={{t "pages.production_editor.testing.working_memory"}} class="card is-fullwidth mb-4">
-			{{#each this.variables as |variable|}}
+			{{#each this.goalVariables as |variable|}}
 				<div class="field is-grouped">
 					<div class="control">
 						<input type="text" class="input is-info is-small" readonly value={{variable.name}} />
@@ -54,7 +54,7 @@
 					<div class="control is-expanded">
 						<PowerSelect
 							@triggerClass="input is-info is-small mt-0"
-							@options={{variable.domain.domainValues}}
+							@options={{variable.domain.domainValuesOrdered}}
 							@allowClear={{true}}
 							@selected={{variable.value}}
 							@onChange={{fn this.setVariableValue variable}} as |domainValue|
@@ -66,6 +66,9 @@
 			{{/each}}
 		</Card>
 		<Card @header={{t "pages.production_editor.testing.explanation"}}>
+			{{#each this.variableInference as |variable|}}
+				<p>{{variable.name}}</p>
+			{{/each}}
 			{{#each this.usedRules as |rule|}}
 				<p>
 					<pre>
