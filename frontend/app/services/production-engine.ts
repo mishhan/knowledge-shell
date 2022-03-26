@@ -2,6 +2,7 @@ import Service from "@ember/service";
 import ProductionInterpretter from "knowledge-shell/interpretter/production/production-interpretter";
 import { ProductionBase, Rule, Variable, VariableType } from "knowledge-shell/models";
 import Stack from "knowledge-shell/utils/stack";
+import VariableInference from "./production-engine/variable-inference";
 
 type RulePremiseConsequenceVariables = {
 	premiseVariables: Variable[];
@@ -32,7 +33,7 @@ export default class ProductionEngine extends Service {
 	private productionBase!: ProductionBase;
 	private rules!: Rule[];
 	private goalVariable!: Variable;
-	public variableInferenceStack!: Stack<Variable>;
+	private variableInference!: VariableInference;
 
 	private rulePremiseConsequenceVariableMap = new Map<Rule, RulePremiseConsequenceVariables>();
 
@@ -40,13 +41,12 @@ export default class ProductionEngine extends Service {
 		this.rulePremiseConsequenceVariableMap.clear();
 
 		this.productionBase = productionBase;
-		this.variableInferenceStack = new Stack<Variable>();
 
 		this.productionBase.variables.forEach((variable: Variable) => {
 			variable.value = null;
 		});
 
-		this.rules = productionBase.rules.sortBy("order");
+		this.rules = productionBase.orderedRules;
 		this.rules.forEach((rule: Rule) => {
 			const premiseVariables = this.extractVariables(rule.premise);
 			const consequenceVariables = this.extractVariables(rule.consequence);
@@ -58,12 +58,19 @@ export default class ProductionEngine extends Service {
 	}
 
 	/**
+	 * Returns inference of goal variable
+	 */
+	public get goalVariableInference(): VariableInference {
+		return this.variableInference;
+	}
+
+	/**
 	 * Sets goal variable and clear all variable values
 	 * @param {Variable} goal - goal variable
 	 */
 	public setGoal(goal: Variable): void {
 		this.goalVariable = goal;
-		this.variableInferenceStack.clear();
+		this.variableInference = new VariableInference(goal);
 		this.productionBase.variables.forEach((variable: Variable) => {
 			variable.value = null;
 		});
@@ -75,19 +82,21 @@ export default class ProductionEngine extends Service {
 	 * @returns {ConsultationState} consultation state
 	 */
 	public getCurrentState(): ConsultationState {
-		const variableStack = new Stack<Variable>();
-		variableStack.push(this.goalVariable);
+		// define local stack to inference current variable
+		const currentVariableInferenceStack = new Stack<Variable>();
+		currentVariableInferenceStack.push(this.goalVariable);
+
 		const shouldContinue = true;
 		while (shouldContinue) {
-			if (variableStack.isEmpty) {
+			if (currentVariableInferenceStack.isEmpty) {
 				return {
 					Status: ConsultationStatus.Success,
 				};
 			}
 
-			const currentGoal = variableStack.peek();
+			const currentGoal = currentVariableInferenceStack.peek();
 			if (currentGoal.variableType === VariableType.Requested) {
-				variableStack.pop();
+				currentVariableInferenceStack.pop();
 
 				if (currentGoal.hasValue) {
 					return {
@@ -95,7 +104,6 @@ export default class ProductionEngine extends Service {
 					};
 				}
 
-				this.variableInferenceStack.push(currentGoal);
 				return {
 					Status: ConsultationStatus.InProgress,
 					Variable: currentGoal,
@@ -113,13 +121,14 @@ export default class ProductionEngine extends Service {
 
 				const isAssigned = this.assignVariableFromRule(rule);
 				if (isAssigned) {
+					this.variableInference.setInferenceRule(currentGoal, rule);
 					isCurrentGoalKnown = true;
 					break;
 				}
 			}
 
 			if (isCurrentGoalKnown) {
-				variableStack.pop();
+				currentVariableInferenceStack.pop();
 				continue;
 			}
 
@@ -135,7 +144,8 @@ export default class ProductionEngine extends Service {
 					if (!premiseVariable.hasValue) {
 						currentGoalCanBeFound = true;
 						premiseHasUnknown = true;
-						variableStack.push(premiseVariable);
+						this.variableInference.addVariableInference(currentGoal, premiseVariable);
+						currentVariableInferenceStack.push(premiseVariable);
 						break;
 					}
 				}
@@ -151,8 +161,7 @@ export default class ProductionEngine extends Service {
 
 			if (!currentGoalCanBeFound) {
 				if (currentGoal.variableType === VariableType.DerrivableRequested) {
-					variableStack.pop();
-					this.variableInferenceStack.push(currentGoal);
+					currentVariableInferenceStack.pop();
 					return {
 						Status: ConsultationStatus.InProgress,
 						Variable: currentGoal,

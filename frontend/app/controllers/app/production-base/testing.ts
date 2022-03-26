@@ -10,15 +10,20 @@ export default class AppProductionBaseTestingController extends Controller {
 
 	@tracked goalVariable!: Variable;
 	@tracked currentVariable!: Variable;
+	@tracked goalVariableInference!: any;
 	@tracked lastSettedVariable!: Variable;
 
 	get goalVariables(): Variable[] {
 		const { variables } = this.model;
-		const derrivableVariables = variables.filter((v: Variable) => v.variableType === VariableType.Derrivable);
-		const derrivableRequestedVariables = variables.filter(
-			(v: Variable) => v.variableType === VariableType.DerrivableRequested,
+		const derrivableVariables = variables.filter(
+			(variable: Variable) => variable.variableType === VariableType.Derrivable,
 		);
-		const requestedVariables = variables.filter((v: Variable) => v.variableType === VariableType.Requested);
+		const derrivableRequestedVariables = variables.filter(
+			(variable: Variable) => variable.variableType === VariableType.DerrivableRequested,
+		);
+		const requestedVariables = variables.filter(
+			(variable: Variable) => variable.variableType === VariableType.Requested,
+		);
 		const goalVariables = [...derrivableVariables, ...derrivableRequestedVariables, ...requestedVariables];
 		return goalVariables;
 	}
@@ -31,10 +36,6 @@ export default class AppProductionBaseTestingController extends Controller {
 	get canResetToPreviousState(): boolean {
 		const canResetToPreviousState = this.lastSettedVariable !== undefined;
 		return canResetToPreviousState;
-	}
-
-	get variableInference(): Variable[] {
-		return this.productionEngine.variableInferenceStack.toArray();
 	}
 
 	public initialize(): void {
@@ -78,6 +79,7 @@ export default class AppProductionBaseTestingController extends Controller {
 			default:
 				throw new Error();
 		}
+		this.goalVariableInference = this.productionEngine.goalVariableInference.toLog();
 	}
 
 	@action

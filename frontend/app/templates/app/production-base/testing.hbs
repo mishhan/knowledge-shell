@@ -66,21 +66,11 @@
 			{{/each}}
 		</Card>
 		<Card @header={{t "pages.production_editor.testing.explanation"}}>
-			{{#each this.variableInference as |variable|}}
-				<p>{{variable.name}}</p>
-			{{/each}}
-			{{#each this.usedRules as |rule|}}
-				<p>
-					<pre>
-						{{rule.name}}
-					</pre>
-					&nbsp;
-					<pre>
-						{{rule.fullRule}}
-					</pre>
-					&nbsp;{{rule.reason}}
-				</p>
-			{{/each}}
+			{{#if this.goalVariableInference}}
+				<ul class="tree">
+					<TreeNode @node={{this.goalVariableInference}} @isRootNode={{true}} @isLastNode={{false}} />
+				</ul>
+			{{/if}}
 		</Card>
 	</div>
 </div>
