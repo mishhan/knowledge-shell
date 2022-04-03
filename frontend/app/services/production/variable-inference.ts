@@ -1,13 +1,25 @@
 import { Rule, Variable } from "knowledge-shell/models";
 
 export default class VariableInference {
-	public variable!: Variable;
-	public rule!: Rule;
-	public inference!: Array<VariableInference>;
+	private readonly variable!: Variable;
+	private rule!: Rule;
+	private inference!: VariableInference[];
 
 	constructor(variable: Variable) {
 		this.variable = variable;
 		this.inference = [];
+	}
+
+	public get currentVariable(): Variable {
+		return this.variable;
+	}
+
+	public get currentRule(): Rule {
+		return this.rule;
+	}
+
+	public get currentInference(): VariableInference[] {
+		return this.inference;
 	}
 
 	/**
@@ -34,12 +46,6 @@ export default class VariableInference {
 		if (currentVariableInference) currentVariableInference.rule = rule;
 	}
 
-	public toLog(): { name: string; children: any } {
-		// @ts-ignore
-		const explanationLog = this.inferenceToLog(this);
-		return explanationLog;
-	}
-
 	private findInference(variable: Variable, variableInfrence: VariableInference): VariableInference | undefined {
 		const isCurrentVariable = variable.id === variableInfrence.variable.id;
 		if (isCurrentVariable) {
@@ -52,26 +58,5 @@ export default class VariableInference {
 		}
 
 		return undefined;
-	}
-
-	private inferenceToLog(variableInfrence: VariableInference): { name: string; children: any } {
-		const explanationLog = {
-			// @ts-ignore
-			name: `${variableInfrence.variable.name}: ${variableInfrence.variable.value?.valueStr}`,
-			children: [
-				{
-					name: `Reason: ${variableInfrence.rule?.reason}`,
-					children: [],
-				},
-			],
-		};
-
-		for (const inference of variableInfrence.inference) {
-			const inf = this.inferenceToLog(inference);
-			// @ts-ignore
-			explanationLog.children[0].children.push(inf);
-		}
-
-		return explanationLog;
 	}
 }

@@ -2,30 +2,14 @@ import Service from "@ember/service";
 import ProductionInterpretter from "knowledge-shell/interpretter/production/production-interpretter";
 import { ProductionBase, Rule, Variable, VariableType } from "knowledge-shell/models";
 import Stack from "knowledge-shell/utils/stack";
-import VariableInference from "./production-engine/variable-inference";
+import { ConsultationState } from "./consultation-state";
+import ConsultationStatus from "./consultation-status";
+import VariableInference from "./variable-inference";
 
 type RulePremiseConsequenceVariables = {
 	premiseVariables: Variable[];
 	consequenceVariables: Variable[];
 };
-
-export enum ConsultationStatus {
-	Success,
-	InProgress,
-	Failed,
-}
-
-export type ConsultationState =
-	| {
-			Status: ConsultationStatus.Success;
-	  }
-	| {
-			Status: ConsultationStatus.InProgress;
-			Variable: Variable;
-	  }
-	| {
-			Status: ConsultationStatus.Failed;
-	  };
 
 export default class ProductionEngine extends Service {
 	private readonly productionInterpretter = new ProductionInterpretter();
@@ -242,6 +226,6 @@ export default class ProductionEngine extends Service {
 
 declare module "@ember/service" {
 	interface Registry {
-		"production-engine": ProductionEngine;
+		"production/production-engine": ProductionEngine;
 	}
 }

@@ -1,12 +1,14 @@
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
-import ProductionEngine, { ConsultationStatus } from "knowledge-shell/services/production-engine";
 import { tracked } from "@glimmer/tracking";
+import { ProductionEngine, ConsultationStatus } from "knowledge-shell/services/production";
 import { DomainValue, Variable, VariableType } from "knowledge-shell/models";
+import TreeInfoConverter from "knowledge-shell/services/tree-info-converter";
 
 export default class AppProductionBaseTestingController extends Controller {
-	@service("production-engine") productionEngine!: ProductionEngine;
+	@service("production/production-engine") productionEngine!: ProductionEngine;
+	@service("tree-info-converter") treeInfoConverter!: TreeInfoConverter;
 
 	@tracked goalVariable!: Variable;
 	@tracked currentVariable!: Variable;
@@ -79,7 +81,9 @@ export default class AppProductionBaseTestingController extends Controller {
 			default:
 				throw new Error();
 		}
-		this.goalVariableInference = this.productionEngine.goalVariableInference.toLog();
+		this.goalVariableInference = this.treeInfoConverter.convertVariableInference(
+			this.productionEngine.goalVariableInference,
+		);
 	}
 
 	@action

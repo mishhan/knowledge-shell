@@ -98,6 +98,7 @@
 		},
 		"slot": {
 			"name": "Slot",
+			"default_name": "New Slot",
 			"fields": {
 				"name": "Name",
 				"domain": "Domain",
@@ -120,6 +121,7 @@
 		},
 		"frame": {
 			"name": "Frame",
+			"default_name": "New Frame",
 			"fields": {
 				"name": "Name"
 			}

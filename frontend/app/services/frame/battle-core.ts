@@ -1,7 +1,6 @@
 import Service, { inject as service } from "@ember/service";
 import { isEmpty } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
-import IntlService from "ember-intl/services/intl";
 import {
 	Domain,
 	DomainValue,
@@ -13,8 +12,8 @@ import {
 	Slot,
 } from "knowledge-shell/models";
 import getRandomInt from "knowledge-shell/utils/get-random-int";
-import BattleLogger from "./battle-logger";
 import FrameProductionEngine from "./frame-production-engine";
+import GameObjectInfo from "./game-object-info";
 
 const BATTLE_SETTINGS = {
 	fieldFrameName: "Game Field",
@@ -33,9 +32,7 @@ const BATTLE_SETTINGS = {
 };
 
 export default class BattleCore extends Service {
-	@service intl!: IntlService;
-	@service("battle-logger") battleLogger!: BattleLogger;
-	@service("frame-production-engine") battleLogicCore!: FrameProductionEngine;
+	@service("frame/frame-production-engine") battleLogicCore!: FrameProductionEngine;
 
 	@tracked frameBase!: FrameBase;
 
@@ -51,6 +48,8 @@ export default class BattleCore extends Service {
 		return this.frameBase.frameDomain;
 	}
 
+	gameObjectsInfo: GameObjectInfo[] = [];
+
 	@tracked panelObjects: Frame[] = [];
 	@tracked gameObjects: Frame[] = [];
 	@tracked x!: number;
@@ -65,7 +64,6 @@ export default class BattleCore extends Service {
 		this.battleField = this.frameBase.getFrame(BATTLE_SETTINGS.fieldFrameName);
 		this.freeCell = this.frameBase.getFrame(BATTLE_SETTINGS.freeCellFrameName);
 
-		this.battleLogger.clearLog();
 		this.initializePanel();
 		this.initializeField();
 	}
@@ -123,18 +121,13 @@ export default class BattleCore extends Service {
 		}
 	}
 
-	public playStep(stepNumber: number): boolean {
-		const treeLog: { name: string; children: any[] } = {
-			name: this.intl.t("pages.frame_editor.testing.battle.step", { number: stepNumber }),
-			children: [],
-		};
-
+	public playStep(): boolean {
+		this.gameObjectsInfo = [];
 		let hasAttachedSituations = false;
 		const baseSituation = this.frameBase.getFrame(BATTLE_SETTINGS.baseSituation);
 
-		this.gameObjects.forEach((gameObject: Frame) => {
-			const gameObjectLog: { name: string; children: any[] } = { name: gameObject.name, children: [] };
-
+		for (const gameObject of this.gameObjects) {
+			const gameObjectInfo = new GameObjectInfo(gameObject);
 			const gameObjectSituation = this.frameBase.addFrameSample();
 			const agentSlot = this.frameBase.addEmptySlot();
 
@@ -148,28 +141,12 @@ export default class BattleCore extends Service {
 			const attachedSituations = this.battleLogicCore.attachToFrameOrChildren(baseSituation, gameObjectSituation);
 
 			if (attachedSituations.length > 0) {
-				const situationNames = attachedSituations.map((situation: Frame) => situation.name);
 				// need to choose random situation..
 				const chosenSituation = attachedSituations[0];
 
-				gameObjectLog.children.pushObjects([
-					{
-						name: this.intl.t("pages.frame_editor.testing.battle.attached_situations", {
-							count: attachedSituations.length,
-						}),
-						children: situationNames.map((sitName: string) => {
-							return { name: sitName, children: [] };
-						}),
-					},
-					{
-						name: this.intl.t("pages.frame_editor.testing.battle.chosen_situation", {
-							situation: chosenSituation.name,
-						}),
-						children: [],
-					},
-				]);
-
-				treeLog.children.pushObject(gameObjectLog);
+				gameObjectInfo.objectAttachedSituations = attachedSituations;
+				gameObjectInfo.objectSituation = chosenSituation;
+				this.gameObjectsInfo.push(gameObjectInfo);
 
 				/**
 				 * what's going on here? :D
@@ -198,10 +175,8 @@ export default class BattleCore extends Service {
 					hasAttachedSituations = true;
 				}
 			}
-		});
-
+		}
 		this.refreshField();
-		this.battleLogger.addMessage(treeLog);
 
 		return hasAttachedSituations;
 	}
@@ -262,6 +237,6 @@ export default class BattleCore extends Service {
 
 declare module "@ember/service" {
 	interface Registry {
-		"battle-core": BattleCore;
+		"frame/battle-core": BattleCore;
 	}
 }

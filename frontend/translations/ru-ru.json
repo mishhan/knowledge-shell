@@ -98,6 +98,7 @@
 		},
 		"slot": {
 			"name": "Слот",
+			"default_name": "Новый слот",
 			"fields": {
 				"name": "Название",
 				"domain": "Домен",
@@ -120,6 +121,7 @@
 		},
 		"frame": {
 			"name": "Фрейм",
+			"default_name": "Новый фрейм",
 			"fields": {
 				"name": "Название"
 			}
