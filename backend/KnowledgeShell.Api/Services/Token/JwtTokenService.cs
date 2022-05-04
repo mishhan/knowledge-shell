@@ -16,7 +16,8 @@
 
         public JwtTokenService(IConfiguration config)
         {
-            if (!config.GetSection(SecretKeyField).Exists())
+            var secretKeyExists = config.GetSection(SecretKeyField).Exists();
+            if (!secretKeyExists)
             {
                 throw new Exception($"{SecretKeyField} does not exist in appsettings.json");
             }
