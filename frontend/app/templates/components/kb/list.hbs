@@ -59,11 +59,11 @@
 		</thead>
 		<tbody>
 			{{#if @currentlyLoading}}
-					<tr>
-						<td colspan="100">
-							<SpinnerCube />
-						</td>
-					</tr>
+				<tr>
+					<td colspan="100">
+						<SpinnerCube />
+					</td>
+				</tr>
 			{{else}}
 				{{#if this.hasKnowledgeBases}}
 					<Provider::Filter @model={{@knowledgeBases}} @field="name" @query={{this.filter}} as |filteredBases|>

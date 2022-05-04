@@ -10,21 +10,41 @@
 	/>
 	<div class="is-flex is-flex-direction-column is-align-items-end">
 		<div class="is-flex-direction-row buttons are-small mb-0">
-				<LinkTo @route="app.knowledge-bases.index" @query={{hash page=1}} class="button is-link" @disabled={{not this.canGoBackward}}>
-					<FaIcon @icon="fast-backward" />
-				</LinkTo>
-				<LinkTo @route="app.knowledge-bases.index" @query={{hash page=this.prevPageNumber}} class="button is-link" @disabled={{not this.canGoBackward}}>
-					<FaIcon @icon="backward" />
-				</LinkTo>
-				<button type="button" class="button is-static has-text-weight-bold">
-					{{this.page}}
-				</button>
-				<LinkTo @route="app.knowledge-bases.index" @query={{hash page=this.nextPageNumber}} class="button is-link" @disabled={{not this.canGoForward}}>
-					<FaIcon @icon="forward" />
-				</LinkTo>
-				<LinkTo @route="app.knowledge-bases.index" @query={{hash page=this.lastPageNumber}} class="button is-link" @disabled={{not this.canGoForward}}>
-					<FaIcon @icon="fast-forward" />
-				</LinkTo>
+			<LinkTo
+				@route="app.knowledge-bases.index"
+				@query={{hash page=1}}
+				class="button is-link"
+				@disabled={{not this.canGoBackward}}
+			>
+				<FaIcon @icon="fast-backward" />
+			</LinkTo>
+			<LinkTo
+				@route="app.knowledge-bases.index"
+				@query={{hash page=this.prevPageNumber}}
+				class="button is-link"
+				@disabled={{not this.canGoBackward}}
+			>
+				<FaIcon @icon="backward" />
+			</LinkTo>
+			<button type="button" class="button is-static has-text-weight-bold">
+				{{this.page}}
+			</button>
+			<LinkTo
+				@route="app.knowledge-bases.index"
+				@query={{hash page=this.nextPageNumber}}
+				class="button is-link"
+				@disabled={{not this.canGoForward}}
+			>
+				<FaIcon @icon="forward" />
+			</LinkTo>
+			<LinkTo
+				@route="app.knowledge-bases.index"
+				@query={{hash page=this.lastPageNumber}}
+				class="button is-link"
+				@disabled={{not this.canGoForward}}
+			>
+				<FaIcon @icon="fast-forward" />
+			</LinkTo>
 		</div>
 		<div class="mb-2">
 			<PowerSelect
@@ -32,12 +52,17 @@
 				@allowClear={{false}}
 				@selected={{this.perPage}}
 				@options={{this.perPageOptions}}
-				@onChange={{this.setPerPageOption}} as |perPageOption|>
-				<span class="pr-6">{{perPageOption}}</span>
+				@onChange={{this.setPerPageOption}} as |perPageOption|
+			>
+				<span class="pr-6">
+					{{perPageOption}}
+				</span>
 			</PowerSelect>
 		</div>
 		<div class="paging__info">
-			<span class="is-italic">{{t "common.total_records"}}: {{this.totalRecordCount}}</span>
+			<span class="is-italic">
+				{{t "common.total_records"}}: {{this.totalRecordCount}}
+			</span>
 		</div>
 	</div>
 </div>

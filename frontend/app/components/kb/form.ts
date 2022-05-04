@@ -55,8 +55,8 @@ export default class KbFormComponent extends Form<KbFormComponentArgs> {
 
 	@action
 	setupForm(): void {
-		this.name = this.args.name;
-		this.description = this.args.description;
+		this.name = this.args.name || "";
+		this.description = this.args.description || "";
 		this.type = this.args.type;
 	}
 

@@ -50,13 +50,18 @@
 	</div>
 	<div class="field">
 		<label class="checkbox">
-			<input type="checkbox" checked={{this.acceptTerms}} {{on "change" (fn this.onFieldChange "acceptTerms")}} data-test-terms-check />
+			<input
+				type="checkbox"
+				checked={{this.acceptTerms}}
+				data-test-terms-check
+				{{on "change" (fn this.onFieldChange "acceptTerms")}}
+			/>
 			<span>
 				{{t "models.user.fields.agreement"}}
 			</span>
 			<span class="icon">
-				{{!-- template-lint-disable no-nested-interactive --}}
-    		<a href="/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">
+				{{! template-lint-disable no-nested-interactive }}
+				<a href="/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">
 					<FaIcon @icon="external-link-alt" @size="sm" />
 				</a>
 			</span>
