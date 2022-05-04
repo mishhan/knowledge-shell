@@ -1,23 +1,43 @@
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
-import ProductionEngine, { ConsultationStatus } from "knowledge-shell/services/production-engine";
 import { tracked } from "@glimmer/tracking";
-import { DomainValue, Variable } from "knowledge-shell/models";
+import { ProductionEngine, ConsultationStatus } from "knowledge-shell/services/production";
+import { DomainValue, Variable, VariableType } from "knowledge-shell/models";
+import TreeInfoConverter from "knowledge-shell/services/tree-info-converter";
 
 export default class AppProductionBaseTestingController extends Controller {
-	@service("production-engine") productionEngine!: ProductionEngine;
+	@service("production/production-engine") productionEngine!: ProductionEngine;
+	@service("tree-info-converter") treeInfoConverter!: TreeInfoConverter;
 
 	@tracked goalVariable!: Variable;
 	@tracked currentVariable!: Variable;
+	@tracked goalVariableInference!: any;
+	@tracked lastSettedVariable!: Variable;
 
-	get variables(): Variable[] {
-		return this.model.variables;
+	get goalVariables(): Variable[] {
+		const { variables } = this.model;
+		const derrivableVariables = variables.filter(
+			(variable: Variable) => variable.variableType === VariableType.Derrivable,
+		);
+		const derrivableRequestedVariables = variables.filter(
+			(variable: Variable) => variable.variableType === VariableType.DerrivableRequested,
+		);
+		const requestedVariables = variables.filter(
+			(variable: Variable) => variable.variableType === VariableType.Requested,
+		);
+		const goalVariables = [...derrivableVariables, ...derrivableRequestedVariables, ...requestedVariables];
+		return goalVariables;
 	}
 
 	get hasGoalVariable(): boolean {
 		const hasGoalVariable = this.goalVariable !== undefined;
 		return hasGoalVariable;
+	}
+
+	get canResetToPreviousState(): boolean {
+		const canResetToPreviousState = this.lastSettedVariable !== undefined;
+		return canResetToPreviousState;
 	}
 
 	public initialize(): void {
@@ -44,9 +64,10 @@ export default class AppProductionBaseTestingController extends Controller {
 
 	@action
 	calculateCurrentState(): void {
+		this.lastSettedVariable = this.currentVariable;
 		const currentState = this.productionEngine.getCurrentState();
 		switch (currentState.Status) {
-			case ConsultationStatus.Continue:
+			case ConsultationStatus.InProgress:
 				this.currentVariable = currentState.Variable;
 				break;
 			case ConsultationStatus.Success:
@@ -60,11 +81,17 @@ export default class AppProductionBaseTestingController extends Controller {
 			default:
 				throw new Error();
 		}
+		this.goalVariableInference = this.treeInfoConverter.convertVariableInference(
+			this.productionEngine.goalVariableInference,
+		);
 	}
 
 	@action
 	getPreviousState(): void {
-		// TODO
+		if (this.canResetToPreviousState) {
+			this.lastSettedVariable.value = null;
+			this.calculateCurrentState();
+		}
 	}
 }
 

@@ -27,7 +27,7 @@ export default class SignUpController extends Controller {
 				await this.session.authenticate("authenticator:oauth2", userName, password);
 			}
 		} catch (error) {
-			const errorJson = error.responseJSON;
+			const errorJson = error.responseJSON === undefined ? error : error.responseJSON;
 			this.serverErrorMessage = errorJson;
 		} finally {
 			this.isLoading = false;

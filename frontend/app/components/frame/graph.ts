@@ -4,7 +4,7 @@ import { action } from "@ember/object";
 import { Frame } from "knowledge-shell/models";
 import { Data, Network, Edge, Node } from "vis-network";
 import type IntlService from "ember-intl/services/intl";
-import FrameObserver from "knowledge-shell/services/frame-observer";
+import FrameObserver from "knowledge-shell/services/frame/frame-observer";
 import options from "./vis-network/options";
 
 interface FrameGraphArgs {
@@ -22,7 +22,7 @@ const RELATIONS = { isA: "isA" };
 
 export default class FrameGraph extends Component<FrameGraphArgs> {
 	@service intl!: IntlService;
-	@service("frame-observer") frameObserver!: FrameObserver;
+	@service("frame/frame-observer") frameObserver!: FrameObserver;
 
 	container!: HTMLDivElement;
 	network!: Network;

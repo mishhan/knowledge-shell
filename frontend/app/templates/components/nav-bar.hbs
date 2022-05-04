@@ -22,15 +22,15 @@
 			<div class="navbar-item">
 				<div class="buttons">
 					{{#if this.session.isAuthenticated}}
-						<button type="button" class="button is-primary" {{on "click" this.invalidateSession}}>
+						<button type="button" class="button is-primary" data-test-sign-out {{on "click" this.invalidateSession}}>
 							{{t "common.actions.sign_out"}}&nbsp;
 							<FaIcon @icon="sign-out-alt" />
 						</button>
 					{{else}}
-						<LinkTo class="button is-primary" @route="sign-up">
+						<LinkTo class="button is-primary" @route="sign-up" data-test-sign-up>
 							{{t "common.actions.sign_up"}}
 						</LinkTo>
-						<LinkTo class="button is-primary" @route="sign-in">
+						<LinkTo class="button is-primary" @route="sign-in" data-test-sign-in>
 							{{t "common.actions.sign_in"}}&nbsp;
 							<FaIcon @icon="sign-in-alt" />
 						</LinkTo>

@@ -1,25 +1,25 @@
 <form id="variable" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
 	<div class="field">
 		<FormInput
-			@id="name"
+			id="name"
+			placeholder={{t "models.variable.fields.name"}}
+			value={{this.name}}
 			@labelText={{t "models.variable.fields.name"}}
-			@placeholder={{t "models.variable.fields.name"}}
-			@value={{this.name}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
-			@onChange={{this.onNameChange}}
+			@onChange={{fn this.onFieldChange "name"}}
 			@validationErrors={{this.nameValidation.errors}}
 		/>
 	</div>
 	<div class="field">
 		<FormInput
-			@id="description"
+			id="description"
+			placeholder={{t "models.variable.fields.description"}}
+			value={{this.description}}
 			@labelText={{t "models.variable.fields.description"}}
-			@placeholder={{t "models.variable.fields.description"}}
-			@value={{this.description}}
 			@isValid={{this.descriptionValidation.isValid}}
 			@isInValid={{this.descriptionValidation.isInValid}}
-			@onChange={{this.onDescriptionChange}}
+			@onChange={{fn this.onFieldChange "description"}}
 			@validationErrors={{this.descriptionValidation.errors}}
 		/>
 	</div>
@@ -41,7 +41,7 @@
 		{{#if this.variableTypeValidation.isInValid}}
 			{{#each this.variableTypeValidation.errors as |error|}}
 				<p class="help is-danger">
-					{{t error}}
+					{{error}}
 				</p>
 			{{/each}}
 		{{/if}}
@@ -56,7 +56,7 @@
 				@options={{@domains}}
 				@allowClear={{false}}
 				@selected={{this.domain}}
-				@onChange={{this.setDomain}} as |domain|
+				@onChange={{fn this.onFieldChange "domain"}} as |domain|
 			>
 				{{domain.name}}
 			</PowerSelect>
@@ -64,20 +64,20 @@
 		{{#if this.domainValidation.isInValid}}
 			{{#each this.domainValidation.errors as |error|}}
 				<p class="help is-danger">
-					{{t error}}
+					{{error}}
 				</p>
 			{{/each}}
 		{{/if}}
 	</div>
 	<div class="field">
 		<FormInput
-			@id="question"
+			id="question"
+			placeholder={{t "models.variable.fields.question"}}
+			value={{this.question}}
 			@labelText={{t "models.variable.fields.question"}}
-			@placeholder={{t "models.variable.fields.question"}}
-			@value={{this.question}}
 			@isValid={{this.questionValidation.isValid}}
 			@isInValid={{this.questionValidation.isInValid}}
-			@onChange={{this.onQuestionChange}}
+			@onChange={{fn this.onFieldChange "question"}}
 			@validationErrors={{this.questionValidation.errors}}
 		/>
 	</div>

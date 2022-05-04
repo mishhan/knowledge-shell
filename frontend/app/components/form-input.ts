@@ -22,10 +22,6 @@ interface FormInputArgs {
 }
 
 export default class FormInput extends Component<FormInputArgs> {
-	get type(): string {
-		return this.args.type || "text";
-	}
-
 	get labelClass(): string {
 		return this.args.labelClass || "label";
 	}
@@ -42,10 +38,6 @@ export default class FormInput extends Component<FormInputArgs> {
 		defaultClass += this.args.leftIcon ? " has-icons-left" : "";
 		defaultClass += this.rightIcon ? " has-icons-right" : "";
 		return this.args.inputContainerClass || defaultClass;
-	}
-
-	get placeholder(): string {
-		return this.args.placeholder || "";
 	}
 
 	get disabled(): boolean {

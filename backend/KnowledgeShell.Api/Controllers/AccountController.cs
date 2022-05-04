@@ -8,7 +8,7 @@
 
     public class AccountController : ControllerBase
     {
-        private readonly IAccountService _accountService;        
+        private readonly IAccountService _accountService;
 
         public AccountController(IAccountService accountService)
         {
@@ -23,10 +23,11 @@
         }
 
         [HttpPost("/token")]
-        public async Task<IActionResult> Token([FromForm] UserAuthenticationDto userAthenticationDto)
+        public async Task<ActionResult<UserAuthenticationResultDto>> Token([FromForm] UserAuthenticationDto userAthenticationDto)
         {
             var userToken = await _accountService.GenerateToken(userAthenticationDto.UserName, userAthenticationDto.Password);
-            return Ok(new { access_token = userToken });
+            var userAuthenticationDto = new UserAuthenticationResultDto { AccessToken = userToken };
+            return Ok(userAuthenticationDto);
         }
     }
 }

@@ -12,6 +12,10 @@ interface RuleListArgs {
 export default class RuleList extends Component<RuleListArgs> {
 	@tracked filter = "";
 
+	get hasRules(): boolean {
+		return this.args.rules.length > 0;
+	}
+
 	get canReorderRules(): boolean {
 		return this.filter === "";
 	}

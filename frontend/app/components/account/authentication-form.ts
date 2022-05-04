@@ -1,9 +1,7 @@
-import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import { inject as service } from "@ember/service";
-import type IntlService from "ember-intl/services/intl";
-import { action } from "@ember/object";
+import { action, set } from "@ember/object";
 import { create, test, enforce, only } from "vest";
+import Form from "../form";
 
 const authFormValidator = create((data: AccountAuthenticationForm, cnahgedField: string) => {
 	only(cnahgedField);
@@ -22,11 +20,7 @@ interface AccountAuthenticationFormArgs {
 	isLoading: boolean;
 }
 
-export default class AccountAuthenticationForm extends Component<AccountAuthenticationFormArgs> {
-	@service intl!: IntlService;
-
-	@tracked isSubmitted!: boolean;
-
+export default class AccountAuthenticationForm extends Form<AccountAuthenticationFormArgs> {
 	@tracked identification!: string;
 	@tracked password!: string;
 	@tracked showPassword = false;
@@ -43,22 +37,11 @@ export default class AccountAuthenticationForm extends Component<AccountAuthenti
 		return passwordValidation;
 	}
 
-	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
-	}
-
 	@action
 	onSubmit(event: Event): void {
 		event.preventDefault();
 		this.isSubmitted = true;
-		this.validateForm();
+		this.validateForm(authFormValidator);
 		const hasValidationErrors = this.validator.hasErrors();
 		if (!hasValidationErrors) {
 			const { identification, password } = this;
@@ -67,18 +50,9 @@ export default class AccountAuthenticationForm extends Component<AccountAuthenti
 	}
 
 	@action
-	onIdentificationChange(value: string): void {
-		this.identification = value;
-		this.validateForm("identification");
-	}
-
-	@action
-	onPasswordChange(value: string): void {
-		this.password = value;
-		this.validateForm("password");
-	}
-
-	validateForm(fieldName?: string): void {
-		this.validator = authFormValidator(this, fieldName);
+	onFieldChange(fieldName: string, value: string): void {
+		// @ts-ignore
+		set(this, fieldName, value);
+		this.validateForm(authFormValidator, fieldName);
 	}
 }

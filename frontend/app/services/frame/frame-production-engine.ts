@@ -103,6 +103,6 @@ export default class FrameProductionEngine extends Service {
 
 declare module "@ember/service" {
 	interface Registry {
-		"frame-production-engine": FrameProductionEngine;
+		"frame/frame-production-engine": FrameProductionEngine;
 	}
 }

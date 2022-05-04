@@ -1,25 +1,25 @@
 <form id="knowledge-base" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
 	<div class="field">
 		<FormInput
-			@id="name"
+			id="name"
+			placeholder={{t "models.kb.fields.name"}}
+			value={{this.name}}
 			@labelText={{t "models.kb.fields.name"}}
-			@placeholder={{t "models.kb.fields.name"}}
-			@value={{this.name}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
-			@onChange={{this.onNameChange}}
+			@onChange={{fn this.onFieldChange "name"}}
 			@validationErrors={{this.nameValidation.errors}}
 		/>
 	</div>
 	<div class="field">
 		<FormInput
-			@id="description"
+			id="description"
+			placeholder={{t "models.kb.fields.description"}}
+			value={{this.description}}
 			@labelText={{t "models.kb.fields.description"}}
-			@placeholder={{t "models.kb.fields.description"}}
-			@value={{this.description}}
 			@isValid={{this.descriptionValidation.isValid}}
 			@isInValid={{this.descriptionValidation.isInValid}}
-			@onChange={{this.onDescriptionChange}}
+			@onChange={{fn this.onFieldChange "description"}}
 			@validationErrors={{this.descriptionValidation.errors}}
 		/>
 	</div>

@@ -2,29 +2,14 @@ import Service from "@ember/service";
 import ProductionInterpretter from "knowledge-shell/interpretter/production/production-interpretter";
 import { ProductionBase, Rule, Variable, VariableType } from "knowledge-shell/models";
 import Stack from "knowledge-shell/utils/stack";
+import { ConsultationState } from "./consultation-state";
+import ConsultationStatus from "./consultation-status";
+import VariableInference from "./variable-inference";
 
 type RulePremiseConsequenceVariables = {
 	premiseVariables: Variable[];
 	consequenceVariables: Variable[];
 };
-
-export enum ConsultationStatus {
-	Success,
-	Continue,
-	Failed,
-}
-
-export type ConsultationState =
-	| {
-			Status: ConsultationStatus.Success;
-	  }
-	| {
-			Status: ConsultationStatus.Continue;
-			Variable: Variable;
-	  }
-	| {
-			Status: ConsultationStatus.Failed;
-	  };
 
 export default class ProductionEngine extends Service {
 	private readonly productionInterpretter = new ProductionInterpretter();
@@ -32,7 +17,7 @@ export default class ProductionEngine extends Service {
 	private productionBase!: ProductionBase;
 	private rules!: Rule[];
 	private goalVariable!: Variable;
-	private variableInferenceStack!: Stack<Variable>;
+	private variableInference!: VariableInference;
 
 	private rulePremiseConsequenceVariableMap = new Map<Rule, RulePremiseConsequenceVariables>();
 
@@ -40,13 +25,12 @@ export default class ProductionEngine extends Service {
 		this.rulePremiseConsequenceVariableMap.clear();
 
 		this.productionBase = productionBase;
-		this.variableInferenceStack = new Stack<Variable>();
 
 		this.productionBase.variables.forEach((variable: Variable) => {
 			variable.value = null;
 		});
 
-		this.rules = productionBase.rules.sortBy("order");
+		this.rules = productionBase.orderedRules;
 		this.rules.forEach((rule: Rule) => {
 			const premiseVariables = this.extractVariables(rule.premise);
 			const consequenceVariables = this.extractVariables(rule.consequence);
@@ -58,12 +42,19 @@ export default class ProductionEngine extends Service {
 	}
 
 	/**
+	 * Returns inference of goal variable
+	 */
+	public get goalVariableInference(): VariableInference {
+		return this.variableInference;
+	}
+
+	/**
 	 * Sets goal variable and clear all variable values
 	 * @param {Variable} goal - goal variable
 	 */
 	public setGoal(goal: Variable): void {
 		this.goalVariable = goal;
-		this.variableInferenceStack.clear();
+		this.variableInference = new VariableInference(goal);
 		this.productionBase.variables.forEach((variable: Variable) => {
 			variable.value = null;
 		});
@@ -75,20 +66,21 @@ export default class ProductionEngine extends Service {
 	 * @returns {ConsultationState} consultation state
 	 */
 	public getCurrentState(): ConsultationState {
-		const variableStack = new Stack<Variable>();
-		variableStack.push(this.goalVariable);
+		// define local stack to inference current variable
+		const currentVariableInferenceStack = new Stack<Variable>();
+		currentVariableInferenceStack.push(this.goalVariable);
+
 		const shouldContinue = true;
 		while (shouldContinue) {
-			if (variableStack.isEmpty) {
+			if (currentVariableInferenceStack.isEmpty) {
 				return {
 					Status: ConsultationStatus.Success,
 				};
 			}
 
-			const currentGoal = variableStack.peek();
-
+			const currentGoal = currentVariableInferenceStack.peek();
 			if (currentGoal.variableType === VariableType.Requested) {
-				variableStack.pop();
+				currentVariableInferenceStack.pop();
 
 				if (currentGoal.hasValue) {
 					return {
@@ -97,7 +89,7 @@ export default class ProductionEngine extends Service {
 				}
 
 				return {
-					Status: ConsultationStatus.Continue,
+					Status: ConsultationStatus.InProgress,
 					Variable: currentGoal,
 				};
 			}
@@ -113,13 +105,14 @@ export default class ProductionEngine extends Service {
 
 				const isAssigned = this.assignVariableFromRule(rule);
 				if (isAssigned) {
+					this.variableInference.setInferenceRule(currentGoal, rule);
 					isCurrentGoalKnown = true;
 					break;
 				}
 			}
 
 			if (isCurrentGoalKnown) {
-				variableStack.pop();
+				currentVariableInferenceStack.pop();
 				continue;
 			}
 
@@ -135,7 +128,8 @@ export default class ProductionEngine extends Service {
 					if (!premiseVariable.hasValue) {
 						currentGoalCanBeFound = true;
 						premiseHasUnknown = true;
-						variableStack.push(premiseVariable);
+						this.variableInference.addVariableInference(currentGoal, premiseVariable);
+						currentVariableInferenceStack.push(premiseVariable);
 						break;
 					}
 				}
@@ -151,9 +145,9 @@ export default class ProductionEngine extends Service {
 
 			if (!currentGoalCanBeFound) {
 				if (currentGoal.variableType === VariableType.DerrivableRequested) {
-					variableStack.pop();
+					currentVariableInferenceStack.pop();
 					return {
-						Status: ConsultationStatus.Continue,
+						Status: ConsultationStatus.InProgress,
 						Variable: currentGoal,
 					};
 				}
@@ -176,15 +170,21 @@ export default class ProductionEngine extends Service {
 	 */
 	private extractVariables(rulePart: string): Variable[] {
 		const identifiers = this.productionInterpretter.extractIdentifiers(rulePart);
-		const variables = this.productionBase.variables.filter(
-			(variable: Variable) => identifiers.indexOf(variable.name.toLowerCase()) !== -1,
-		);
-		const uniqueVariables = [...new Set(variables)];
+		const lowerCaseIdentifiers = identifiers.map((identifier: string) => identifier.toLowerCase());
+
+		const ruleVariables: Variable[] = [];
+		for (let i = 0; i < lowerCaseIdentifiers.length; i += 1) {
+			const variable = this.productionBase.variables.find(
+				(v: Variable) => lowerCaseIdentifiers[i] === v.name.toLowerCase(),
+			);
+			if (variable) ruleVariables.pushObject(variable);
+		}
+		const uniqueVariables = [...new Set(ruleVariables)];
 		return uniqueVariables;
 	}
 
 	/**
-	 * Assigns variable value evaluationg rule
+	 * Assigns variable value evaluating the rule
 	 * @param {Rule} rule
 	 * @returns {Boolean} assigning result
 	 */
@@ -199,7 +199,7 @@ export default class ProductionEngine extends Service {
 	}
 
 	/**
-	 * Determinse if variable in rule consequence
+	 * Determinse whether variable in rule consequence
 	 * @param {Variable} variable
 	 * @param {Rule} rule
 	 * @returns {boolean} true if variable in rule consequence false otherwise
@@ -226,6 +226,6 @@ export default class ProductionEngine extends Service {
 
 declare module "@ember/service" {
 	interface Registry {
-		"production-engine": ProductionEngine;
+		"production/production-engine": ProductionEngine;
 	}
 }

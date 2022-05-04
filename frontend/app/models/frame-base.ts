@@ -3,7 +3,7 @@ import { inject as service } from "@ember/service";
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from "@ember/object";
 import RSVP, { hash } from "rsvp";
-import FrameObserver from "knowledge-shell/services/frame-observer";
+import FrameObserver from "knowledge-shell/services/frame/frame-observer";
 import KnowledgeBase from "./knowledge-base";
 import Frame from "./frame";
 import Domain from "./domain";
@@ -15,7 +15,7 @@ export default class FrameBase extends KnowledgeBase {
 		return KnowledgeBaseType.Frame;
 	}
 
-	@service("frame-observer") frameObserver!: FrameObserver;
+	@service("frame/frame-observer") frameObserver!: FrameObserver;
 
 	@hasMany("frame", { async: false })
 	frames!: Frame[];

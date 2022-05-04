@@ -54,48 +54,62 @@
 				</th>
 			</tr>
 		</thead>
-		<Provider::Filter @model={{@rules}} @field="fullRule" @query={{this.filter}} as |filteredRules|>
-			<SortableObjects
-				@tagName="tbody"
-				@sortableObjectList={{filteredRules}}
-				@useSwap={{false}}
-				@inPlace={{true}}
-				@sortingScope="rules"
-				@enableSort={{this.canReorderRules}}
-				@sortEndAction={{fn @reorderRules filteredRules}}
-			>
-				{{#each filteredRules as |rule|}}
-					<DraggableObject
-						@tagName="tr"
-						@content={{rule}}
-						@isSortable={{true}}
-						@sortingScope="rules"
-						@dragHandle=".cursor-move"
-					>
-						<td class="rule-table__index-column cursor-move has-text-centered">
-							{{inc rule.order}}
-						</td>
-						<td class="rule-table__name-column">
-							{{rule.name}}
-						</td>
-						<td class="rule-table__rule-column">
-							<p>
-								<code>
-									{{rule.fullRule}}
-								</code>
-							</p>
-						</td>
-						<td class="rule-table__actions-column has-text-centered">
-							<LinkTo @route="app.production-base.rules.edit" @model={{rule.id}} class="button is-warning is-small m-1">
-								<FaIcon @icon="edit" />
-							</LinkTo>
-							<button type="button" class="button is-danger is-small m-1" {{on "click" (fn @deleteRule rule)}}>
-								<FaIcon @icon="trash" />
-							</button>
-						</td>
-					</DraggableObject>
-				{{/each}}
-			</SortableObjects>
-		</Provider::Filter>
+		{{#if this.hasRules}}
+			<Provider::Filter @model={{@rules}} @field="fullRule" @query={{this.filter}} as |filteredRules|>
+				<SortableObjects
+					@tagName="tbody"
+					@sortableObjectList={{filteredRules}}
+					@useSwap={{false}}
+					@inPlace={{true}}
+					@sortingScope="rules"
+					@enableSort={{this.canReorderRules}}
+					@sortEndAction={{fn @reorderRules filteredRules}}
+				>
+					{{#each filteredRules as |rule|}}
+						<DraggableObject
+							@tagName="tr"
+							@content={{rule}}
+							@isSortable={{true}}
+							@sortingScope="rules"
+							@dragHandle=".cursor-move"
+						>
+							<td class="rule-table__index-column cursor-move has-text-centered">
+								{{inc rule.order}}
+							</td>
+							<td class="rule-table__name-column">
+								{{rule.name}}
+							</td>
+							<td class="rule-table__rule-column">
+								<p>
+									<code>
+										{{rule.fullRule}}
+									</code>
+								</p>
+							</td>
+							<td class="rule-table__actions-column has-text-centered">
+								<LinkTo
+									@route="app.production-base.rules.edit"
+									@model={{rule.id}}
+									class="button is-warning is-small m-1"
+								>
+									<FaIcon @icon="edit" />
+								</LinkTo>
+								<button type="button" class="button is-danger is-small m-1" {{on "click" (fn @deleteRule rule)}}>
+									<FaIcon @icon="trash" />
+								</button>
+							</td>
+						</DraggableObject>
+					{{/each}}
+				</SortableObjects>
+			</Provider::Filter>
+		{{else}}
+			<tbody>
+				<tr>
+					<td colspan="100">
+						<EmptyTableRow class="my-3 has-text-centered has-text-grey-light" />
+					</td>
+				</tr>
+			</tbody>
+		{{/if}}
 	</table>
 </div>

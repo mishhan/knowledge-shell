@@ -15,6 +15,10 @@ export default class ProductionBase extends KnowledgeBase {
 	@hasMany("rule", { async: false })
 	rules!: Rule[];
 
+	get orderedRules(): Rule[] {
+		return this.rules.sortBy("order");
+	}
+
 	public loadData(): RSVP.Promise<any> {
 		return hash({
 			rules: this.store.query("rule", {

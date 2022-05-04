@@ -27,7 +27,6 @@
             var identityResult = await _userManager.CreateAsync(user, password);
             if (!identityResult.Succeeded)
             {
-                // TODO var errorMessage = string.Join(", ", identityResult.Errors.Select(error => $"Code: {error.Code} Description: {error.Description}"));
                 throw new HttpException(HttpStatusCode.Conflict, "Unable to create user with given credentials");
             }
 

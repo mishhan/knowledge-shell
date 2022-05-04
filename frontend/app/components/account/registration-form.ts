@@ -1,12 +1,10 @@
 /* eslint-disable ember/require-tagless-components */
-import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import { inject as service } from "@ember/service";
-import type IntlService from "ember-intl/services/intl";
-import { action } from "@ember/object";
+import { action, set } from "@ember/object";
 import { create, test, enforce, only } from "vest";
 import isStrongPassword from "validator/es/lib/isStrongPassword";
 import isEmail from "validator/es/lib/isEmail";
+import Form from "../form";
 
 enforce.extend({ isEmail });
 enforce.extend({ isStrongPassword });
@@ -48,11 +46,7 @@ interface AccountRegistrationFormArgs {
 	isLoading: boolean;
 }
 
-export default class AccountRegistrationForm extends Component<AccountRegistrationFormArgs> {
-	@service intl!: IntlService;
-
-	@tracked isSubmitted!: boolean;
-
+export default class AccountRegistrationForm extends Form<AccountRegistrationFormArgs> {
 	@tracked userName!: string;
 	@tracked email!: string;
 	@tracked password!: string;
@@ -80,22 +74,11 @@ export default class AccountRegistrationForm extends Component<AccountRegistrati
 		return acceptTermsValidation;
 	}
 
-	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
-	}
-
 	@action
 	onSubmit(event: Event): void {
 		event.preventDefault();
 		this.isSubmitted = true;
-		this.validateForm();
+		this.validateForm(registrationFormValidator);
 		const hasValidationErrors = this.validator.hasErrors();
 		if (!hasValidationErrors) {
 			const { userName, email, password } = this;
@@ -104,24 +87,9 @@ export default class AccountRegistrationForm extends Component<AccountRegistrati
 	}
 
 	@action
-	onUsernameChange(value: string): void {
-		this.userName = value;
-		this.validateForm("userName");
-	}
-
-	@action
-	onEmailChange(value: string): void {
-		this.email = value;
-		this.validateForm("email");
-	}
-
-	@action
-	onPasswordChange(value: string): void {
-		this.password = value;
-		this.validateForm("password");
-	}
-
-	validateForm(fieldName?: string): void {
-		this.validator = registrationFormValidator(this, fieldName);
+	onFieldChange(fieldName: string, value: string): void {
+		// @ts-ignore
+		set(this, fieldName, value);
+		this.validateForm(registrationFormValidator, fieldName);
 	}
 }

@@ -1,14 +1,11 @@
 import Service, { inject as service } from "@ember/service";
 import Evented from "@ember/object/evented";
 import Store from "@ember-data/store";
-import Frame from "knowledge-shell/models/frame";
-import FrameBase from "knowledge-shell/models/frame-base";
-import Position from "knowledge-shell/models/position";
-import Slot from "knowledge-shell/models/slot";
-
-const DEFAULT_NAMES = { frame: "New Frame", slot: "New Slot" };
+import IntlService from "ember-intl/services/intl";
+import { Frame, FrameBase, Position, Slot } from "knowledge-shell/models";
 
 export default class FrameObserver extends Service.extend(Evented) {
+	@service intl!: IntlService;
 	@service("store") store!: Store;
 
 	public selectFrame(frameBase: FrameBase, frameId: string) {
@@ -39,7 +36,7 @@ export default class FrameObserver extends Service.extend(Evented) {
 			.then((framePosition: Position) => {
 				this.store
 					.createRecord("frame", {
-						name: DEFAULT_NAMES.frame,
+						name: this.intl.t("models.frame.default_name"),
 						frameBase,
 						position: framePosition,
 					})
@@ -114,7 +111,7 @@ export default class FrameObserver extends Service.extend(Evented) {
 
 	public addSlot(frame: Frame): void {
 		const newSlot = this.store.createRecord("slot", {
-			name: DEFAULT_NAMES.slot,
+			name: this.intl.t("models.slot.default_name"),
 			order: frame.ownSlots.length,
 		});
 		frame.ownSlots.pushObject(newSlot);
@@ -218,6 +215,6 @@ export default class FrameObserver extends Service.extend(Evented) {
 
 declare module "@ember/service" {
 	interface Registry {
-		"frame-observer": FrameObserver;
+		"frame/frame-observer": FrameObserver;
 	}
 }
