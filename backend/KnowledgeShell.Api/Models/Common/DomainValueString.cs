@@ -1,8 +1,9 @@
 ﻿namespace KnowledgeShell.Api.Models
 {
+    using JsonApiDotNetCore.Controllers;
     using JsonApiDotNetCore.Resources.Annotations;
 
-    [Resource("domain-value-strings")]
+    [Resource(PublicName = "domain-value-strings", GenerateControllerEndpoints = JsonApiEndpoints.None)]
     public class DomainValueString : DomainValue
     {
         [Attr(PublicName = "value")]

@@ -14,9 +14,10 @@
     {
         public FramesController(
 IJsonApiOptions jsonApiOptions,
+IResourceGraph resourceGraph,
 ILoggerFactory loggerFactory,
 IResourceService<Frame, Guid> resourceService)
-: base(jsonApiOptions, loggerFactory, resourceService)
+: base(jsonApiOptions, resourceGraph, loggerFactory, resourceService)
         { }
     }
 }

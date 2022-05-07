@@ -1,9 +1,11 @@
 ﻿namespace KnowledgeShell.Api.Models
 {
     using System;
+    using JsonApiDotNetCore.Controllers;
     using JsonApiDotNetCore.Resources;
     using JsonApiDotNetCore.Resources.Annotations;
 
+    [Resource(PublicName = "productions", GenerateControllerEndpoints = JsonApiEndpoints.None)]
     public class Production : Identifiable<Guid>
     {
         [Attr(PublicName = "text")]

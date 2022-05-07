@@ -19,8 +19,8 @@
 
         public ProductionBaseRepository(IAuthenticationService authenticationService, ITargetedFields targetedFields,
             IDbContextResolver contextResolver, IResourceGraph resourceGraph, IResourceFactory resourceFactory,
-            IEnumerable<IQueryConstraintProvider> constraintProviders, ILoggerFactory loggerFactory)
-            : base(targetedFields, contextResolver, resourceGraph, resourceFactory, constraintProviders, loggerFactory)
+            IEnumerable<IQueryConstraintProvider> constraintProviders, ILoggerFactory loggerFactory, IResourceDefinitionAccessor resourceDefinitionAccessor)
+            : base(targetedFields, contextResolver, resourceGraph, resourceFactory, constraintProviders, loggerFactory, resourceDefinitionAccessor)
         {
             _authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
         }
@@ -33,9 +33,10 @@
             return userProductionBases;
         }
 
-        public override async Task<ProductionBase> GetForCreateAsync(Guid id, CancellationToken cancellationToken)
+
+        public override async Task<ProductionBase> GetForCreateAsync(Type resourceClrType, Guid id, CancellationToken cancellationToken)
         {
-            var productionBase = await base.GetForCreateAsync(id, cancellationToken);
+            var productionBase = await base.GetForCreateAsync(resourceClrType, id, cancellationToken);
             var userId = _authenticationService.GetUserId();
             productionBase.OwnerId = userId;
             return productionBase;

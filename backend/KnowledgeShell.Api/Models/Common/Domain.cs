@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using JsonApiDotNetCore.Controllers;
     using JsonApiDotNetCore.Resources;
     using JsonApiDotNetCore.Resources.Annotations;
 
+    [Resource(PublicName = "domains", GenerateControllerEndpoints = JsonApiEndpoints.None)]
     public class Domain : Identifiable<Guid>
     {
         [Attr(PublicName = "name")]

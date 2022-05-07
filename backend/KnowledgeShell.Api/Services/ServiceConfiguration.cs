@@ -5,9 +5,9 @@
     using KnowledgeShell.Api.Services.Token;
     using KnowledgeShell.Api.Services.Account;
 
-    public static class ServiceConfiguration
+    internal static class ServiceConfiguration
     {
-        public static void ConfigureServices(this IServiceCollection services)
+        public static void ConfigureAppServices(this IServiceCollection services)
         {
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ITokenService, JwtTokenService>();

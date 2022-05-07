@@ -1,9 +1,11 @@
 ﻿namespace KnowledgeShell.Api.Models
 {
     using System;
+    using JsonApiDotNetCore.Controllers;
     using JsonApiDotNetCore.Resources;
     using JsonApiDotNetCore.Resources.Annotations;
 
+    [Resource(PublicName = "domain-values", GenerateControllerEndpoints = JsonApiEndpoints.None)]
     public class DomainValue : Identifiable<Guid>
     {
         [Attr(PublicName = "order")]

@@ -14,9 +14,10 @@
     {
         public PositionsController(
 IJsonApiOptions jsonApiOptions,
+IResourceGraph resourceGraph,
 ILoggerFactory loggerFactory,
 IResourceService<Position, Guid> resourceService)
-: base(jsonApiOptions, loggerFactory, resourceService)
+: base(jsonApiOptions, resourceGraph, loggerFactory, resourceService)
         { }
     }
 }

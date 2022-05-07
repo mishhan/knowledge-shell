@@ -1,9 +1,10 @@
 ﻿namespace KnowledgeShell.Api.Models
 {
     using System;
+    using JsonApiDotNetCore.Controllers;
     using JsonApiDotNetCore.Resources.Annotations;
 
-    [Resource("domain-value-frames")]
+    [Resource(PublicName = "domain-value-frames", GenerateControllerEndpoints = JsonApiEndpoints.None)]
     public class DomainValueFrame : DomainValue
     {
         [HasOne(PublicName = "value")]

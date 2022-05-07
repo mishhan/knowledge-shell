@@ -14,9 +14,10 @@
     {
         public DomainValueStringsController(
 IJsonApiOptions jsonApiOptions,
+IResourceGraph resourceGraph,
 ILoggerFactory loggerFactory,
 IResourceService<DomainValueString, Guid> resourceService)
-: base(jsonApiOptions, loggerFactory, resourceService)
+: base(jsonApiOptions, resourceGraph, loggerFactory, resourceService)
         { }
     }
 }

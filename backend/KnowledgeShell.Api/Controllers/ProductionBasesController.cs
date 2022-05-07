@@ -14,9 +14,10 @@
     {
         public ProductionBasesController(
 IJsonApiOptions jsonApiOptions,
+IResourceGraph resourceGraph,
 ILoggerFactory loggerFactory,
 IResourceService<ProductionBase, Guid> resourceService)
-: base(jsonApiOptions, loggerFactory, resourceService)
+: base(jsonApiOptions, resourceGraph, loggerFactory, resourceService)
         { }
     }
 }

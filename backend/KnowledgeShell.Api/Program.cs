@@ -1,17 +1,41 @@
-﻿namespace KnowledgeShell.Api
+﻿using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Serilog;
+using KnowledgeShell.Api.ProgramConfiguration;
+using KnowledgeShell.Api.Services;
+
+try
 {
-    using Microsoft.AspNetCore;
-    using Microsoft.AspNetCore.Hosting;
+    var builder = WebApplication.CreateBuilder(args);
 
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+    builder.Configuration
+        .SetBasePath(Environment.CurrentDirectory)
+        .AddJsonFile($"appsettings.json", false)
+        .AddEnvironmentVariables();
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+    builder.Host.UseSerilog((context, services, configutration) => configutration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext());
+
+    builder.Services.ConfigureAspNetCore(builder.Configuration["ConnectionStrings:DataBase"]);
+    builder.Services.ConfigureJsonApi();
+    builder.Services.ConfigureSwagger();
+    builder.Services.ConfigureAuthentication(builder.Configuration["SecretKey"]);
+    builder.Services.ConfigureAppServices();
+
+    var app = builder.Build();
+
+    Log.Debug("%%% Starting Application %%%");
+    app.RunApp();
+}
+catch (Exception ex)
+{
+    Log.Error(ex, "App Exception Occured");
+}
+finally
+{
+    Log.Debug("%%% Shutting down %%%");
+    Log.CloseAndFlush();
 }

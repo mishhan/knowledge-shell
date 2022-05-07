@@ -1,9 +1,11 @@
 ﻿namespace KnowledgeShell.Api.Models
 {
     using System;
+    using JsonApiDotNetCore.Controllers;
     using JsonApiDotNetCore.Resources;
     using JsonApiDotNetCore.Resources.Annotations;
 
+    [Resource(PublicName = "rules", GenerateControllerEndpoints = JsonApiEndpoints.None)]
     public class Rule : Identifiable<Guid>
     {
         [Attr(PublicName = "name")]

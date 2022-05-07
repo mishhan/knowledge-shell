@@ -14,9 +14,10 @@
     {
         public DomainValueNumbersController(
 IJsonApiOptions jsonApiOptions,
+IResourceGraph resourceGraph,
 ILoggerFactory loggerFactory,
 IResourceService<DomainValueNumber, Guid> resourceService)
-: base(jsonApiOptions, loggerFactory, resourceService)
+: base(jsonApiOptions, resourceGraph, loggerFactory, resourceService)
         { }
     }
 }

@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using JsonApiDotNetCore.Controllers;
     using JsonApiDotNetCore.Resources;
     using JsonApiDotNetCore.Resources.Annotations;
 
+    [Resource(PublicName = "knowledge-bases", GenerateControllerEndpoints = JsonApiEndpoints.None)]
     public class KnowledgeBase : Identifiable<Guid>
     {
         [Attr(PublicName = "name")]

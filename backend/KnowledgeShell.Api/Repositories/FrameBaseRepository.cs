@@ -19,8 +19,8 @@
 
         public FrameBaseRepository(IAuthenticationService authenticationService, ITargetedFields targetedFields,
             IDbContextResolver contextResolver, IResourceGraph resourceGraph, IResourceFactory resourceFactory,
-            IEnumerable<IQueryConstraintProvider> constraintProviders, ILoggerFactory loggerFactory)
-            : base(targetedFields, contextResolver, resourceGraph, resourceFactory, constraintProviders, loggerFactory)
+            IEnumerable<IQueryConstraintProvider> constraintProviders, ILoggerFactory loggerFactory, IResourceDefinitionAccessor resourceDefinitionAccessor)
+            : base(targetedFields, contextResolver, resourceGraph, resourceFactory, constraintProviders, loggerFactory, resourceDefinitionAccessor)
         {
             _authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
         }
@@ -33,9 +33,9 @@
             return userFrameBases;
         }
 
-        public override async Task<FrameBase> GetForCreateAsync(Guid id, CancellationToken cancellationToken)
+        public override async Task<FrameBase> GetForCreateAsync(Type resourceClrType, Guid id, CancellationToken cancellationToken)
         {
-            var frameBase = await base.GetForCreateAsync(id, cancellationToken);
+            var frameBase = await base.GetForCreateAsync(resourceClrType, id, cancellationToken);
             var userId = _authenticationService.GetUserId();
             frameBase.OwnerId = userId;
             return frameBase;
