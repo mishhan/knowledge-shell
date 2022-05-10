@@ -27,7 +27,7 @@ try
 
     var app = builder.Build();
 
-    Log.Debug("%%% Starting Application %%%");
+    Log.Information("%%% Starting Application %%%");
     app.RunApp();
 }
 catch (Exception ex)
@@ -36,6 +36,6 @@ catch (Exception ex)
 }
 finally
 {
-    Log.Debug("%%% Shutting down %%%");
+    Log.Information("%%% Shutting down %%%");
     Log.CloseAndFlush();
 }
