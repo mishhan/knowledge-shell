@@ -2,7 +2,7 @@ import Response from "ember-cli-mirage/response";
 
 export default function() {
 	this.passthrough("/write-coverage");
-	this.urlPrefix = "http://localhost:55836";
+	this.urlPrefix = "http://localhost:5000";
 	this.namespace = "";
 	this.timing = 100;
 
@@ -12,7 +12,7 @@ export default function() {
 
 	this.post("/sign-up", (schema, request) => {
 		return new Response(200);
-	})
+	});
 
 
 	this.resource("knowledge-bases");
