@@ -9,6 +9,7 @@ export default class NavBar extends Component {
 	@service intl!: IntlService;
 
 	@tracked isMenuOpen!: boolean;
+	@tracked isLanguagesOpen!: boolean;
 
 	get supportedLanguages(): string[] {
 		const { locales } = this.intl;
@@ -16,13 +17,19 @@ export default class NavBar extends Component {
 	}
 
 	@action
-	setLanguage(selectedLocale: string) {
+	setLanguage(selectedLocale: string, event: MouseEvent) {
+		event.stopPropagation();
 		this.intl.setLocale(selectedLocale);
 	}
 
 	@action
 	toggleMenu(): void {
 		this.isMenuOpen = !this.isMenuOpen;
+	}
+
+	@action
+	toggleLanguages(): void {
+		this.isLanguagesOpen = !this.isLanguagesOpen;
 	}
 
 	@action

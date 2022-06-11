@@ -1,4 +1,10 @@
 .navbar-language {
+	&__item {
+		align-items: center;
+		display: flex;
+		flex-direction: row;
+	}
+
 	&__icon {
 		display: inline-block;
 		height: 14px;
