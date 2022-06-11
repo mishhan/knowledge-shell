@@ -1,20 +1,19 @@
-﻿namespace KnowledgeShell.Api.Filters
-{
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Filters;
-    using KnowledgeShell.Api.Exceptions;
+﻿using KnowledgeShell.Api.Exceptions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
-    public class ErrorHandlingFilter : ExceptionFilterAttribute
+namespace KnowledgeShell.Api.Filters;
+
+public class ErrorHandlingFilter : ExceptionFilterAttribute
+{
+    public override void OnException(ExceptionContext context)
     {
-        public override void OnException(ExceptionContext context)
+        var exception = context.Exception;
+        if (exception is HttpException)
         {
-            var exception = context.Exception;
-            if (exception is HttpException)
-            {
-                var httpException = exception as HttpException;
-                context.Result = new JsonResult(httpException.Message) { StatusCode = (int?)httpException.StatusCode };
-                context.ExceptionHandled = true;
-            }
+            var httpException = exception as HttpException;
+            context.Result = new JsonResult(httpException.Message) { StatusCode = (int?)httpException.StatusCode };
+            context.ExceptionHandled = true;
         }
     }
 }

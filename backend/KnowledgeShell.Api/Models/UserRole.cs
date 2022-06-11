@@ -1,9 +1,10 @@
-﻿namespace KnowledgeShell.Api.Models
-{
-    using System;
-    using Microsoft.AspNetCore.Identity;
-    using JsonApiDotNetCore.Resources.Annotations;
+﻿using System;
+using JsonApiDotNetCore.Resources.Annotations;
+using Microsoft.AspNetCore.Identity;
 
-    [NoResource]
-    public class UserRole : IdentityRole<Guid> {}
+namespace KnowledgeShell.Api.Models;
+
+[NoResource]
+public class UserRole : IdentityRole<Guid>
+{
 }

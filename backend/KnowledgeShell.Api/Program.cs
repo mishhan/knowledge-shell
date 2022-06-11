@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using KnowledgeShell.Api.ProgramConfiguration;
 using KnowledgeShell.Api.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
     .SetBasePath(Environment.CurrentDirectory)
-    .AddJsonFile($"appsettings.json", false)
+    .AddJsonFile("appsettings.json", false)
     .AddEnvironmentVariables();
 
 builder.Host.ConfigureSerilog();

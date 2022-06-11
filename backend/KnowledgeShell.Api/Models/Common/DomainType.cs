@@ -1,10 +1,9 @@
-﻿namespace KnowledgeShell.Api.Models
+﻿namespace KnowledgeShell.Api.Models;
+
+public enum DomainType
 {
-    public enum DomainType
-    {
-        Unknown = 0,
-        Frame = 1,
-        String = 2,
-        Number = 3
-    }
+    Unknown = 0,
+    Frame = 1,
+    String = 2,
+    Number = 3
 }

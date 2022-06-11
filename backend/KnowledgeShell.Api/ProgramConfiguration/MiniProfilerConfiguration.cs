@@ -1,14 +1,11 @@
-﻿namespace KnowledgeShell.Api.ProgramConfiguration
-{
-    using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-    internal static class MiniProfilerConfiguration
+namespace KnowledgeShell.Api.ProgramConfiguration;
+
+internal static class MiniProfilerConfiguration
+{
+    public static void ConfigureMiniProfiler(this IServiceCollection services)
     {
-        public static void ConfigureMiniProfiler(this IServiceCollection services)
-        {
-            services.AddMiniProfiler(options => {
-                options.RouteBasePath = "/profiler";
-            }).AddEntityFramework();
-        }
+        services.AddMiniProfiler(options => { options.RouteBasePath = "/profiler"; }).AddEntityFramework();
     }
 }

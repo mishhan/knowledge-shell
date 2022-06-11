@@ -1,10 +1,9 @@
-﻿namespace KnowledgeShell.Api.Models
+﻿namespace KnowledgeShell.Api.Models;
+
+public enum VariableType
 {
-    public enum VariableType
-    {
-        Requested = 0,
-        Derrivable = 1,
-        DerrivableRequested = 2,
-        RequestedDerrivable = 3
-    }
+    Requested = 0,
+    Derrivable = 1,
+    DerrivableRequested = 2,
+    RequestedDerrivable = 3
 }

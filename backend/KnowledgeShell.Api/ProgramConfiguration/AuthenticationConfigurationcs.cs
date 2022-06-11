@@ -1,15 +1,15 @@
-﻿namespace KnowledgeShell.Api.ProgramConfiguration
-{
-    using System.Text;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.IdentityModel.Tokens;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
-    internal static class AuthenticationConfigurationcs
+namespace KnowledgeShell.Api.ProgramConfiguration;
+
+internal static class AuthenticationConfigurationcs
+{
+    public static void ConfigureAuthentication(this IServiceCollection services, string secretKey)
     {
-        public static void ConfigureAuthentication(this IServiceCollection services, string secretKey)
-        {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
@@ -19,10 +19,8 @@
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    IssuerSigningKey = signingKey,
-
+                    IssuerSigningKey = signingKey
                 };
             });
-        }
     }
 }
