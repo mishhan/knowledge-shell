@@ -12,6 +12,7 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 builder.Host.ConfigureSerilog();
+builder.WebHost.ConfigureWebHost();
 builder.Services.ConfigureAspNetCore(builder.Configuration["ConnectionStrings:DataBase"]);
 builder.Services.ConfigureJsonApi();
 builder.Services.ConfigureMiniProfiler();
