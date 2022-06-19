@@ -1,8 +1,9 @@
 import Response from "ember-cli-mirage/response";
+import ENV from "knowledge-shell/config/environment";
 
 export default function() {
 	this.passthrough("/write-coverage");
-	this.urlPrefix = "http://localhost:5000";
+	this.urlPrefix = ENV.APP.host;
 	this.namespace = "";
 	this.timing = 100;
 
