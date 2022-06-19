@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.Builder;
 using Serilog;
 
 namespace KnowledgeShell.Api.ProgramConfiguration;
@@ -7,20 +9,23 @@ internal static class SerilogConfiguration
 {
     public static void ConfigureSerilog(this ConfigureHostBuilder hostBuilder)
     {
-        hostBuilder.UseSerilog((context, services, configutration) => configutration
+        hostBuilder.UseSerilog((context, services, configuration) => configuration
             .ReadFrom.Configuration(context.Configuration)
             .ReadFrom.Services(services)
-            .Enrich.FromLogContext()
+            .MinimumLevel.Information()
+            .WriteTo.Console()
+            .WriteTo.File(Path.Combine(Environment.CurrentDirectory, "logs", "log.log"))
             .Filter
-            .ByExcluding(serilogEvent =>
+            .ByExcluding(logEvent =>
             {
-                var shouldExclude = serilogEvent.Properties.ContainsKey("RequestPath") &&
+                var shouldExclude = logEvent.Properties.ContainsKey("RequestPath") &&
                                     (
                                         // ignore swagger and miniprofiler
-                                        serilogEvent.Properties["RequestPath"].ToString().Contains("swagger") ||
-                                        serilogEvent.Properties["RequestPath"].ToString().Contains("profiler")
+                                        logEvent.Properties["RequestPath"].ToString().Contains("swagger") ||
+                                        logEvent.Properties["RequestPath"].ToString().Contains("profiler")
                                     );
                 return shouldExclude;
-            }));
+            })
+        );
     }
 }
