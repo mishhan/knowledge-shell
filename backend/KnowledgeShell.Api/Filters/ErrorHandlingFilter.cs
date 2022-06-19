@@ -9,11 +9,8 @@ public class ErrorHandlingFilter : ExceptionFilterAttribute
     public override void OnException(ExceptionContext context)
     {
         var exception = context.Exception;
-        if (exception is HttpException)
-        {
-            var httpException = exception as HttpException;
-            context.Result = new JsonResult(httpException.Message) { StatusCode = (int?)httpException.StatusCode };
-            context.ExceptionHandled = true;
-        }
+        if (exception is not HttpException httpException) return;
+        context.Result = new JsonResult(httpException.Message) { StatusCode = (int?)httpException.StatusCode };
+        context.ExceptionHandled = true;
     }
 }
