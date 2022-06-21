@@ -1,10 +1,9 @@
-﻿namespace KnowledgeShell.Api.Services.Authentication
-{
-    using System;
+﻿using System;
 
-    public interface IAuthenticationService
-    {
-        string GetStringUserId();
-        Guid GetUserId();
-    }
+namespace KnowledgeShell.Api.Services.Authentication;
+
+public interface IAuthenticationService
+{
+    string GetStringUserId();
+    Guid GetUserId();
 }

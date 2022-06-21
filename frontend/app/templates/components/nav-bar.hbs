@@ -37,13 +37,22 @@
 					{{/if}}
 				</div>
 			</div>
-			<div class="navbar-item has-dropdown is-hoverable">
-				<a role="button" class="navbar-link">
+			<div
+				class="navbar-item has-dropdown {{if this.isLanguagesOpen "is-active"}}"
+				role="button"
+				{{on "click" this.toggleLanguages}}
+			>
+				<a class="navbar-link">
 					<FaIcon @icon="language" />
 				</a>
 				<div class="navbar-dropdown navbar-language is-right">
 					{{#each this.supportedLanguages as |language|}}
-						<a role="button" class="navbar-item" {{on "click" (fn this.setLanguage language)}}>
+						{{!template-lint-disable no-nested-interactive}}
+						<a
+							role="button"
+							class="navbar-item navbar-language__item is-unselectable"
+							{{on "click" (fn this.setLanguage language)}}
+						>
 							<img class="navbar-language__icon" src="/assets/flags/{{language}}.svg" alt={{language}} />
 							<span class="navbar-language__text">
 								{{t (concat "common.language." language)}}

@@ -5,3 +5,18 @@
 [aria-label][role~="tooltip"]::after {
 	white-space: pre-line;
 }
+
+//https://github.com/jgthms/bulma/issues/1567#issuecomment-752103560
+.navbar-item {
+	&.has-dropdown {
+		.navbar-dropdown {
+			display: none;
+		}
+
+		&.is-active {
+			.navbar-dropdown {
+				display: block;
+			}
+		}
+	}
+}

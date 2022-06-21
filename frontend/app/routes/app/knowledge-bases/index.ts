@@ -44,7 +44,7 @@ export default class extends Route {
 
 	setupController(controller: AppKnowledgeBasesIndexController, model: any, transition: any): void {
 		super.setupController(controller, model, transition);
-		controller.totalRecordCount = model.meta["total-resources"];
+		controller.totalRecordCount = model.meta.total;
 	}
 
 	@action

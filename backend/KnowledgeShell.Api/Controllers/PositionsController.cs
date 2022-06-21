@@ -1,22 +1,23 @@
-﻿namespace KnowledgeShell.Api.Controllers
-{
-    using System;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using JsonApiDotNetCore.Services;
-    using JsonApiDotNetCore.Controllers;
-    using JsonApiDotNetCore.Configuration;
-    using KnowledgeShell.Api.Models;
+﻿using System;
+using JsonApiDotNetCore.Configuration;
+using JsonApiDotNetCore.Controllers;
+using JsonApiDotNetCore.Services;
+using KnowledgeShell.Api.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class PositionsController : JsonApiController<Position, Guid>
+namespace KnowledgeShell.Api.Controllers;
+
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+public class PositionsController : JsonApiController<Position, Guid>
+{
+    public PositionsController(
+        IJsonApiOptions jsonApiOptions,
+        IResourceGraph resourceGraph,
+        ILoggerFactory loggerFactory,
+        IResourceService<Position, Guid> resourceService)
+        : base(jsonApiOptions, resourceGraph, loggerFactory, resourceService)
     {
-        public PositionsController(
-IJsonApiOptions jsonApiOptions,
-ILoggerFactory loggerFactory,
-IResourceService<Position, Guid> resourceService)
-: base(jsonApiOptions, loggerFactory, resourceService)
-        { }
     }
 }

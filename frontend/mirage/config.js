@@ -1,8 +1,9 @@
 import Response from "ember-cli-mirage/response";
+import ENV from "knowledge-shell/config/environment";
 
 export default function() {
 	this.passthrough("/write-coverage");
-	this.urlPrefix = "http://localhost:55836";
+	this.urlPrefix = ENV.APP.host;
 	this.namespace = "";
 	this.timing = 100;
 
@@ -12,7 +13,7 @@ export default function() {
 
 	this.post("/sign-up", (schema, request) => {
 		return new Response(200);
-	})
+	});
 
 
 	this.resource("knowledge-bases");
