@@ -1,5 +1,6 @@
 {
 	"common": {
+		"language_selection": "Select language",
 		"language": {
 			"ru-ru": "Русский",
 			"en-us": "English"
@@ -7,17 +8,33 @@
 		"logo": "Logo",
 		"field_not_set": "Not set",
 		"no_data": "No Data",
-		"total_records": "Total records",
+		"stacktrace": "Stacktrace",
 		"actions": {
 			"add": "Add",
 			"cancel": "Cancel",
 			"save": "Save",
+			"view": "View information",
+			"edit": "Edit",
+			"test": "Test",
+			"delete": "Delete",
+			"open": "Open",
+			"close": "Close",
+			"select": "Select",
 			"filter": "Filter",
 			"search": "Search",
 			"sign_in": "Sign In",
 			"sign_out": "Sign Out",
 			"sign_up": "Sign Up",
 			"actions": "Actions"
+		},
+		"pagination": {
+			"first_page": "First page",
+			"previous_page": "Previous page",
+			"current_page": "Current page",
+			"next_page": "Next page",
+			"last_page": "Last page",
+			"per_page_selection": "Set records per page",
+			"total_records": "Total records"
 		}
 	},
 	"form": {
@@ -33,14 +50,19 @@
 		}
 	},
 	"pages": {
+		"not_found": {
+			"title": "404 Not Found",
+			"suggestion": "Perhaps you have a link that has changed..",
+			"home": "Home"
+		},
 		"footer": {
-			"copyright": "2020 Copyright",
+			"copyright": "2022 Copyright",
 			"licence": "MIT License",
 			"github_project": "Github Project"
 		},
 		"production_editor": {
 			"information": {
-				"title": "Information",
+				"title": "Base Information",
 				"properties": {
 					"header": "Properties",
 					"rule_count": "Rule count",
@@ -63,7 +85,7 @@
 		},
 		"frame_editor": {
 			"information": {
-				"title": "Information",
+				"title": "Base Information",
 				"properties": {
 					"header": "Properties",
 					"frame_count": "Frame count",

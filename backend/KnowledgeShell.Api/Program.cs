@@ -1,5 +1,6 @@
 ﻿using System;
 using KnowledgeShell.Api.ProgramConfiguration;
+using KnowledgeShell.Api.Repositories;
 using KnowledgeShell.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ builder.Services.ConfigureJsonApi();
 builder.Services.ConfigureMiniProfiler();
 builder.Services.ConfigureSwagger();
 builder.Services.ConfigureAuthentication(builder.Configuration["SecretKey"]);
+builder.Services.ConfigureAppRepositories();
 builder.Services.ConfigureAppServices();
 
 var app = builder.Build();

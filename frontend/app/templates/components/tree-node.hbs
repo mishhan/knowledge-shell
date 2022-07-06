@@ -9,7 +9,12 @@
 	</div>
 	<div>
 		<div class="tree__node-content">
-			<div class="tree__node-button" role="button" {{on "click" this.toggleState}}>
+			<div
+				class="tree__node-button"
+				role="button"
+				aria-label={{if this.isOpen (t "common.actions.close") (t "common.actions.open")}}
+				{{on "click" this.toggleState}}
+			>
 				{{#if this.isOpen}}
 					<FaIcon @icon="minus-square" />
 				{{else}}
@@ -19,6 +24,7 @@
 			<div
 				class="tree__node-text {{if this.isSelected "has-text-weight-bold"}}"
 				role="button"
+				aria-label={{t "common.actions.select"}}
 				{{on "click" this.selectNode}}
 			>
 				{{@node.name}}

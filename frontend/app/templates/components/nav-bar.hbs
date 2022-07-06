@@ -42,13 +42,15 @@
 				role="button"
 				{{on "click" this.toggleLanguages}}
 			>
-				<a class="navbar-link">
+				{{!template-lint-disable no-nested-interactive}}
+				<a href="javascript:;" role="button" class="navbar-link" aria-label={{t "common.language_selection"}}>
 					<FaIcon @icon="language" />
 				</a>
 				<div class="navbar-dropdown navbar-language is-right">
 					{{#each this.supportedLanguages as |language|}}
 						{{!template-lint-disable no-nested-interactive}}
 						<a
+							href="javascript:;"
 							role="button"
 							class="navbar-item navbar-language__item is-unselectable"
 							{{on "click" (fn this.setLanguage language)}}

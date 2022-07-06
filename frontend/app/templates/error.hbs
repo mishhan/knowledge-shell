@@ -1,3 +1,29 @@
-<div class="notification is-danger is-light">
-	{{this.model}}
+<div class="container is-fluid my-3">
+	<div class="message is-danger is-light">
+		<div class="message-header">
+			{{this.model.message}}
+		</div>
+		<div class="message-body">
+			{{#each this.model.errors as |error|}}
+				<h3 class="title is-4 is-flex is-align-items-center">
+					{{error.title}}
+					<span class="tag is-black ml-2">
+						{{error.status}}
+					</span>
+				</h3>
+				<h4 class="subtitle is-5">
+					{{error.detail}}
+				</h4>
+				{{#if error.meta.stackTrace}}
+					<Card @header={{t "common.stacktrace"}}>
+						<div class="has-text-danger overflow-x-auto">
+							{{#each error.meta.stackTrace as |stackTrace|}}
+								{{stackTrace}}
+							{{/each}}
+						</div>
+					</Card>
+				{{/if}}
+			{{/each}}
+		</div>
+	</div>
 </div>

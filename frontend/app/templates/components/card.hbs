@@ -3,7 +3,13 @@
 		<p class="card-header-title">
 			{{@header}}
 		</p>
-		<a role="button" class="card-header-icon" {{on "click" this.toggleCard}}>
+		<a
+			role="button"
+			href="javascript:;"
+			aria-label={{if this.isOpen (t "common.actions.close") (t "common.actions.open")}}
+			class="card-header-icon"
+			{{on "click" this.toggleCard}}
+		>
 			<span class="icon">
 				<FaIcon @icon={{if this.isOpen "angle-down" "angle-up"}} />
 			</span>

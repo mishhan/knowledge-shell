@@ -71,6 +71,7 @@
 								<button
 									type="button"
 									class="button is-warning is-small m-1"
+									aria-label={{t "common.actions.edit"}}
 									disabled={{domain.isReadOnly}}
 									{{on "click" (fn @editDomain domain)}}
 								>
@@ -79,6 +80,7 @@
 								<button
 									type="button"
 									class="button is-danger is-small m-1"
+									aria-label={{t "common.actions.delete"}}
 									disabled={{domain.isReadOnly}}
 									{{on "click" (fn @deleteDomain domain)}}
 								>
