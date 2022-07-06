@@ -2,14 +2,15 @@
   "name": "knowledge-shell",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for knowledge-shell goes here",
-  "repository": "",
+  "description": "knowledge-shell frontend",
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/mishhan/knowledge-shell/tree/main/frontend"
+	},
   "license": "MIT",
-  "author": "",
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
-  },
+  "author": {
+		"name": "Mikhail Smirnov"
+	},
   "scripts": {
     "build": "ember build --environment=production",
     "lint": "eslint ./app --max-warnings 0 && ember-template-lint ./app --max-warnings 0 && stylelint app/styles/**/*.scss --max-warnings 0",
