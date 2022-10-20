@@ -33,7 +33,8 @@
 				@allowClear={{false}}
 				@selected={{this.selectedDomainType}}
 				@disabled={{this.domainHasValues}}
-				@onChange={{this.setDomainType}} as |domainType|
+				@onChange={{this.setDomainType}}
+				as |domainType|
 			>
 				{{domainType.value}}
 			</PowerSelect>

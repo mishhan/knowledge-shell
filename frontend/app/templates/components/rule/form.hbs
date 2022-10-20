@@ -38,7 +38,7 @@
 			{{#each @variables as |variable|}}
 				<button
 					type="button"
-					class="button is-small is-rounded {{if (eq this.premiseSelectedVariable variable) "is-active"}}"
+					class="button is-small is-rounded {{if (eq this.premiseSelectedVariable variable) 'is-active'}}"
 					{{on "click" (fn this.selectPremiseVariable variable)}}
 				>
 					{{variable.name}}
@@ -72,7 +72,7 @@
 			{{#each @variables as |variable|}}
 				<button
 					type="button"
-					class="button is-small is-rounded {{if (eq this.consequenceSelectedVariable variable) "is-active"}}"
+					class="button is-small is-rounded {{if (eq this.consequenceSelectedVariable variable) 'is-active'}}"
 					{{on "click" (fn this.selectConsequenceVariable variable)}}
 				>
 					{{variable.name}}

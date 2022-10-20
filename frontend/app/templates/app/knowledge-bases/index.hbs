@@ -61,7 +61,8 @@
 				@allowClear={{false}}
 				@selected={{this.perPage}}
 				@options={{this.perPageOptions}}
-				@onChange={{this.setPerPageOption}} as |perPageOption|
+				@onChange={{this.setPerPageOption}}
+				as |perPageOption|
 			>
 				<span class="pr-6">
 					{{perPageOption}}
@@ -70,7 +71,8 @@
 		</div>
 		<div>
 			<span class="is-italic">
-				{{t "common.pagination.total_records"}}: {{this.totalRecordCount}}
+				{{t "common.pagination.total_records"}}:
+				{{this.totalRecordCount}}
 			</span>
 		</div>
 	</div>

@@ -9,9 +9,11 @@
 					@options={{this.goalVariables}}
 					@allowClear={{false}}
 					@selected={{this.goalVariable}}
-					@onChange={{this.setGoalVariable}} as |variable|
+					@onChange={{this.setGoalVariable}}
+					as |variable|
 				>
-					{{variable.name}} -
+					{{variable.name}}
+					-
 					<span class="is-italic">
 						{{variable.variableTypeName}}
 					</span>
@@ -33,7 +35,8 @@
 						@options={{this.currentVariable.domain.domainValuesOrdered}}
 						@allowClear={{false}}
 						@selected={{this.currentVariable.value}}
-						@onChange={{fn this.setVariableValue this.currentVariable}} as |domainValue|
+						@onChange={{fn this.setVariableValue this.currentVariable}}
+						as |domainValue|
 					>
 						{{domainValue.value}}
 					</PowerSelect>
@@ -65,7 +68,8 @@
 							@options={{variable.domain.domainValuesOrdered}}
 							@allowClear={{true}}
 							@selected={{variable.value}}
-							@onChange={{fn this.setVariableValue variable}} as |domainValue|
+							@onChange={{fn this.setVariableValue variable}}
+							as |domainValue|
 						>
 							{{domainValue.value}}
 						</PowerSelect>
