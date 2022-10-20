@@ -1,15 +1,20 @@
 <li
 	class="tree__tree-node
-	{{if this.isRootNode "tree__tree-node_root"}}
-	 {{if this.isNotRootLastNode "tree__tree-node_last"}}
-	 {{if this.isOrdinaryNode "tree__tree-node_ordinary"}}"
+		{{if this.isRootNode 'tree__tree-node_root'}}
+		{{if this.isNotRootLastNode 'tree__tree-node_last'}}
+		{{if this.isOrdinaryNode 'tree__tree-node_ordinary'}}"
 >
-	<div class="tree__node-line {{if this.isRootNode "tree__node-line_hidden"}}">
+	<div class="tree__node-line {{if this.isRootNode 'tree__node-line_hidden'}}">
 		<div class="tree__node-line-border"></div>
 	</div>
 	<div>
 		<div class="tree__node-content">
-			<div class="tree__node-button" role="button" {{on "click" this.toggleState}}>
+			<div
+				class="tree__node-button"
+				role="button"
+				aria-label={{if this.isOpen (t "common.actions.close") (t "common.actions.open")}}
+				{{on "click" this.toggleState}}
+			>
 				{{#if this.isOpen}}
 					<FaIcon @icon="minus-square" />
 				{{else}}
@@ -17,8 +22,9 @@
 				{{/if}}
 			</div>
 			<div
-				class="tree__node-text {{if this.isSelected "has-text-weight-bold"}}"
+				class="tree__node-text {{if this.isSelected 'has-text-weight-bold'}}"
 				role="button"
+				aria-label={{t "common.actions.select"}}
 				{{on "click" this.selectNode}}
 			>
 				{{@node.name}}

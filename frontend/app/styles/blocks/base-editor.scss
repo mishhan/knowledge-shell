@@ -8,24 +8,51 @@
 	display: flex;
 	flex-direction: column;
 
-	&__navbar {
-		background-color: $base-editor-nav-bg-color;
-		display: flex;
-		flex-direction: column;
-		@include from($tablet) {
-			flex-direction: row;
+	@include touch {
+		&__editor-tree {
+			display: none;
+		}
+
+		&__editor-graph {
+			border: $default-border;
+			width: 100%;
 		}
 	}
 
+	@include desktop {
+		&__editor-tree {
+			border-bottom: $default-border;
+			height: $tree-height;
+			margin-top: 4px; //because of vis-navigation margin
+			overflow: scroll;
+			padding: 0 5px;
+			width: 20%;
+		}
+
+		&__editor-graph {
+			border: $default-border;
+			width: 80%;
+		}
+	}
+
+	&__navbar {
+		background-color: $base-editor-nav-bg-color;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+
 	&__navbar-link-container {
-		margin: 6px 0;
-		padding: 0 12px;
+		flex-grow: 1;
+		margin: 6px 5px;
 	}
 
 	&__navbar-link {
 		color: $base-editor-nav-link-color;
 		display: block;
 		padding: 12px;
+		text-align: center;
 
 		&.active {
 			background-color: $base-editor-nav-ling-active-bg-color;
@@ -56,20 +83,6 @@
 		justify-content: space-between;
 	}
 
-	&__editor-tree {
-		border-bottom: $default-border;
-		height: $tree-height;
-		margin-top: 4px; //because of vis-navigation margin
-		overflow: scroll;
-		padding: 0 5px;
-		width: 20%;
-	}
-
-	&__editor-graph {
-		border: $default-border;
-		width: 80%;
-	}
-
 	&__selected-base {
 		flex-grow: 1;
 	}
@@ -79,12 +92,12 @@
 	}
 
 	&__game-panel {
+		align-items: center;
 		display: flex;
-		flex-direction: row;
-		margin: 5px 10%;
+		flex-direction: column;
 	}
 
 	&__log {
-		margin: 5px 10%;
+		overflow-x: auto;
 	}
 }

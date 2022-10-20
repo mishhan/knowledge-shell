@@ -1,2 +1,0 @@
-﻿Error: Synchronous operations are disallowed. Call ReadAsync or set AllowSynchronousIO to true instead.
-Solution: https://stackoverflow.com/questions/47735133/asp-net-core-synchronous-operations-are-disallowed-call-writeasync-or-set-all

@@ -12,11 +12,6 @@ module.exports = function (environment) {
         Date: false
       },
     },
-
-    "ember-cli-uuid": {
-      defaultUUID: true,
-    },
-
     "ember-simple-auth": {
       authenticationRoute: "sign-in",
       routeAfterAuthentication: "app.knowledge-bases",
@@ -26,18 +21,16 @@ module.exports = function (environment) {
     },
 
     APP: {
-      host: "http://localhost:55836",
+      host: "http://localhost:5000",
       namespace: "",
       defaultLocale: "en-us"
     }
   };
 
   if (environment === "development") {
-    // ENV.APP.LOG_RESOLVER = true;
-    // ENV.APP.LOG_ACTIVE_GENERATION = true;
-    // ENV.APP.LOG_TRANSITIONS = true;
-    // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-    // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV['ember-cli-mirage'] = {
+			enabled: false
+		};
   }
 
   if (environment === "test") {

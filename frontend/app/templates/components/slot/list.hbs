@@ -59,58 +59,68 @@
 				</th>
 			</tr>
 		</thead>
-		<Provider::Filter @model={{@slots}} @field="name" @query={{this.filter}} as |filteredSlots|>
-			<SortableObjects
-				@tagName="tbody"
-				@sortableObjectList={{filteredSlots}}
-				@useSwap={{false}}
-				@inPlace={{true}}
-				@sortingScope="slotList"
-				@enableSort={{this.canReorderSlots}}
-				@sortEndAction={{fn @reorderSlots filteredSlots}}
-			>
-				{{#each filteredSlots as |slot|}}
-					<DraggableObject
-						@tagName="tr"
-						@content={{@slot}}
-						@isSortable={{true}}
-						@sortingScope="slotList"
-						@dragHandle=".cursor-move"
-					>
-						<td class="domain-table__index-column cursor-move has-text-centered">
-							{{inc slot.order}}
-						</td>
-						<td class="domain-table__name-column">
-							{{slot.name}}
-						</td>
-						<td class="domain-table__domain-column">
-							{{if (is-empty slot.domain.name) (t "common.field_not_set") slot.domain.name}}
-						</td>
-						<td class="domain-table__value-column has-text-centered">
-							{{if (is-empty slot.value.valueStr) (t "common.field_not_set") slot.value.valueStr}}
-						</td>
-						<td class="domain-table__production-column has-text-centered">
-							<FaIcon @icon={{if slot.hasProduction "check-square" "square"}} />
-						</td>
-						<td class="domain-table__inherited-column has-text-centered">
-							<FaIcon @icon={{if slot.isInherited "check-square" "square"}} />
-						</td>
-						<td class="domain-table__actions-column has-text-centered">
-							<button type="button" class="button is-primary is-small m-1" {{on "click" (fn @selectSlot slot)}}>
-								<FaIcon @icon="edit" />
-							</button>
-							<button
-								type="button"
-								class="button is-danger is-small m-1"
-								disabled={{@slot.isInherited}}
-								{{on "click" (fn @deleteSlot slot)}}
-							>
-								<FaIcon @icon="trash" />
-							</button>
-						</td>
-					</DraggableObject>
-				{{/each}}
-			</SortableObjects>
-		</Provider::Filter>
+		{{#if this.hasSlots}}
+			<Provider::Filter @model={{@slots}} @field="name" @query={{this.filter}} as |filteredSlots|>
+				<SortableObjects
+					@tagName="tbody"
+					@sortableObjectList={{filteredSlots}}
+					@useSwap={{false}}
+					@inPlace={{true}}
+					@sortingScope="slotList"
+					@enableSort={{this.canReorderSlots}}
+					@sortEndAction={{fn @reorderSlots filteredSlots}}
+				>
+					{{#each filteredSlots as |slot|}}
+						<DraggableObject
+							@tagName="tr"
+							@content={{@slot}}
+							@isSortable={{true}}
+							@sortingScope="slotList"
+							@dragHandle=".cursor-move"
+						>
+							<td class="domain-table__index-column cursor-move has-text-centered">
+								{{inc slot.order}}
+							</td>
+							<td class="domain-table__name-column">
+								{{slot.name}}
+							</td>
+							<td class="domain-table__domain-column">
+								{{if (is-empty slot.domain.name) (t "common.field_not_set") slot.domain.name}}
+							</td>
+							<td class="domain-table__value-column has-text-centered">
+								{{if (is-empty slot.value.valueStr) (t "common.field_not_set") slot.value.valueStr}}
+							</td>
+							<td class="domain-table__production-column has-text-centered">
+								<FaIcon @icon={{if slot.hasProduction "check-square" "square"}} />
+							</td>
+							<td class="domain-table__inherited-column has-text-centered">
+								<FaIcon @icon={{if slot.isInherited "check-square" "square"}} />
+							</td>
+							<td class="domain-table__actions-column has-text-centered">
+								<button type="button" class="button is-primary is-small m-1" {{on "click" (fn @selectSlot slot)}}>
+									<FaIcon @icon="edit" />
+								</button>
+								<button
+									type="button"
+									class="button is-danger is-small m-1"
+									disabled={{@slot.isInherited}}
+									{{on "click" (fn @deleteSlot slot)}}
+								>
+									<FaIcon @icon="trash" />
+								</button>
+							</td>
+						</DraggableObject>
+					{{/each}}
+				</SortableObjects>
+			</Provider::Filter>
+		{{else}}
+			<tbody>
+				<tr>
+					<td colspan="100">
+						<EmptyTableRow class="my-3 has-text-centered has-text-grey-light" />
+					</td>
+				</tr>
+			</tbody>
+		{{/if}}
 	</table>
 </div>

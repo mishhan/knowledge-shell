@@ -51,42 +51,52 @@
 			</tr>
 		</thead>
 		<tbody>
-			<Provider::Filter @model={{@domains}} @field="name" @query={{this.filter}} as |filteredDomains|>
-				{{#each filteredDomains as |domain index|}}
-					<tr>
-						<td class="domain-table__index-column has-text-centered">
-							{{inc index}}
-						</td>
-						<td class="domain-table__name-column">
-							{{domain.name}}
-						</td>
-						<td class="domain-table__description-column">
-							{{domain.description}}
-						</td>
-						<td class="domain-table__type-column">
-							{{domain.domainTypeName}}
-						</td>
-						<td class="domain-table__actions-column has-text-centered">
-							<button
-								type="button"
-								class="button is-warning is-small m-1"
-								disabled={{domain.isReadOnly}}
-								{{on "click" (fn @editDomain domain)}}
-							>
-								<FaIcon @icon="edit" />
-							</button>
-							<button
-								type="button"
-								class="button is-danger is-small m-1"
-								disabled={{domain.isReadOnly}}
-								{{on "click" (fn @deleteDomain domain)}}
-							>
-								<FaIcon @icon="trash" />
-							</button>
-						</td>
-					</tr>
-				{{/each}}
-			</Provider::Filter>
+			{{#if this.hasDomains}}
+				<Provider::Filter @model={{@domains}} @field="name" @query={{this.filter}} as |filteredDomains|>
+					{{#each filteredDomains as |domain index|}}
+						<tr>
+							<td class="domain-table__index-column has-text-centered">
+								{{inc index}}
+							</td>
+							<td class="domain-table__name-column">
+								{{domain.name}}
+							</td>
+							<td class="domain-table__description-column">
+								{{domain.description}}
+							</td>
+							<td class="domain-table__type-column">
+								{{domain.domainTypeName}}
+							</td>
+							<td class="domain-table__actions-column has-text-centered">
+								<button
+									type="button"
+									class="button is-warning is-small m-1"
+									aria-label={{t "common.actions.edit"}}
+									disabled={{domain.isReadOnly}}
+									{{on "click" (fn @editDomain domain)}}
+								>
+									<FaIcon @icon="edit" />
+								</button>
+								<button
+									type="button"
+									class="button is-danger is-small m-1"
+									aria-label={{t "common.actions.delete"}}
+									disabled={{domain.isReadOnly}}
+									{{on "click" (fn @deleteDomain domain)}}
+								>
+									<FaIcon @icon="trash" />
+								</button>
+							</td>
+						</tr>
+					{{/each}}
+				</Provider::Filter>
+			{{else}}
+				<tr>
+					<td colspan="100">
+						<EmptyTableRow class="my-3 has-text-centered has-text-grey-light" />
+					</td>
+				</tr>
+			{{/if}}
 		</tbody>
 	</table>
 </div>

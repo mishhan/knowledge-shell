@@ -5,14 +5,13 @@ import { DomainValue, ProductionBase } from "knowledge-shell/models";
 export default class extends Route {
 	model(): any {
 		const productionBase = this.modelFor("app.production-base") as ProductionBase;
-		const { domains, variables } = productionBase;
+		const { domains } = productionBase;
 		const domain = this.store.createRecord("domain", {
 			knowledgeBase: productionBase,
 		});
 		return {
 			domain,
 			domains,
-			variables,
 		};
 	}
 

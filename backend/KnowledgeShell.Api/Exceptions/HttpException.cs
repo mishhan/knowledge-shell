@@ -1,14 +1,14 @@
-﻿namespace KnowledgeShell.Api.Exceptions
-{
-    using System;
-    using System.Net;
+﻿using System;
+using System.Net;
 
-    public class HttpException : Exception
+namespace KnowledgeShell.Api.Exceptions;
+
+public class HttpException : Exception
+{
+    public HttpException(HttpStatusCode statusCode, string message) : base(message)
     {
-        public HttpStatusCode StatusCode { get; set; }
-        public HttpException(HttpStatusCode statusCode, string message): base(message)
-        {
-            StatusCode = statusCode;
-        }
+        StatusCode = statusCode;
     }
+
+    public HttpStatusCode StatusCode { get; set; }
 }

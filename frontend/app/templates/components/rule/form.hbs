@@ -1,51 +1,95 @@
 <form id="rule" class="box" {{did-insert this.setupForm}} {{on "submit" this.onSubmit}}>
 	<div class="field">
 		<FormInput
-			@id="name"
+			id="name"
+			placeholder={{t "models.rule.fields.name"}}
+			value={{this.name}}
 			@labelText={{t "models.rule.fields.name"}}
-			@placeholder={{t "models.rule.fields.name"}}
-			@value={{this.name}}
 			@isValid={{this.nameValidation.isValid}}
 			@isInValid={{this.nameValidation.isInValid}}
-			@onChange={{this.onNameChange}}
+			@onChange={{fn this.onFieldChange "name"}}
 			@validationErrors={{this.nameValidation.errors}}
 		/>
 	</div>
 	<div class="field">
 		<FormInput
-			@id="reason"
+			id="reason"
+			placeholder={{t "models.rule.fields.reason"}}
+			value={{this.reason}}
 			@labelText={{t "models.rule.fields.reason"}}
-			@placeholder={{t "models.rule.fields.reason"}}
-			@value={{this.reason}}
 			@isValid={{this.reasonValidation.isValid}}
 			@isInValid={{this.reasonValidation.isInValid}}
-			@onChange={{this.onReasonChange}}
+			@onChange={{fn this.onFieldChange "reason"}}
 			@validationErrors={{this.reasonValidation.errors}}
 		/>
 	</div>
 	<div class="field">
 		<FormInput
-			@id="premise"
+			id="premise"
+			placeholder={{t "models.rule.fields.premise"}}
+			value={{this.premise}}
 			@labelText={{t "models.rule.fields.premise"}}
-			@placeholder={{t "models.rule.fields.premise"}}
-			@value={{this.premise}}
 			@isValid={{this.premiseValidation.isValid}}
 			@isInValid={{this.premiseValidation.isInValid}}
-			@onChange={{this.onPremiseChange}}
+			@onChange={{fn this.onFieldChange "premise"}}
 			@validationErrors={{this.premiseValidation.errors}}
 		/>
+		<div class="buttons mt-2 mb-0">
+			{{#each @variables as |variable|}}
+				<button
+					type="button"
+					class="button is-small is-rounded {{if (eq this.premiseSelectedVariable variable) 'is-active'}}"
+					{{on "click" (fn this.selectPremiseVariable variable)}}
+				>
+					{{variable.name}}
+				</button>
+			{{/each}}
+		</div>
+		{{#if this.premiseSelectedVariable}}
+			<div class="buttons">
+				{{#each this.premiseSelectedVariable.domain.domainValues as |domainValue|}}
+					<button type="button" class="button is-small is-rounded">
+						<span class="is-italic">
+							{{domainValue.value}}
+						</span>
+					</button>
+				{{/each}}
+			</div>
+		{{/if}}
 	</div>
 	<div class="field">
 		<FormInput
-			@id="consequence"
+			id="consequence"
+			placeholder={{t "models.rule.fields.consequence"}}
+			value={{this.consequence}}
 			@labelText={{t "models.rule.fields.consequence"}}
-			@placeholder={{t "models.rule.fields.consequence"}}
-			@value={{this.consequence}}
 			@isValid={{this.consequenceValidation.isValid}}
 			@isInValid={{this.consequenceValidation.isInValid}}
-			@onChange={{this.onConsequenceChange}}
+			@onChange={{fn this.onFieldChange "consequence"}}
 			@validationErrors={{this.consequenceValidation.errors}}
 		/>
+		<div class="buttons mt-2 mb-0">
+			{{#each @variables as |variable|}}
+				<button
+					type="button"
+					class="button is-small is-rounded {{if (eq this.consequenceSelectedVariable variable) 'is-active'}}"
+					{{on "click" (fn this.selectConsequenceVariable variable)}}
+				>
+					{{variable.name}}
+				</button>
+			{{/each}}
+		</div>
+		{{#if this.consequenceSelectedVariable}}
+			<div class="buttons">
+				{{#each this.consequenceSelectedVariable.domain.domainValues as |domainValue|}}
+					<button type="button" class="button is-small is-rounded">
+						<span class="is-italic">
+							{{domainValue.value}}
+						</span>
+					</button>
+				{{/each}}
+			</div>
+		{{/if}}
 	</div>
 	<div class="field">
 		<p>

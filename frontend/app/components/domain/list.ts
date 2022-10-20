@@ -14,11 +14,15 @@ interface DomainListArgs {
 export default class DomainList extends Component<DomainListArgs> {
 	@tracked filter = "";
 
+	get hasDomains(): boolean {
+		return this.args.domains.length > 0;
+	}
+
 	@action
 	setSortParameters(event: Event): void {
 		const selectedCell = event.target as HTMLTableCellElement;
 		const { sortBy } = selectedCell.dataset;
-		if (sortBy) {
+		if (sortBy && this.hasDomains) {
 			let { sortDirection } = selectedCell.dataset;
 			const rowElement = selectedCell.parentElement as HTMLTableRowElement;
 			[...rowElement.children].forEach((cellElement: HTMLTableCellElement) => {

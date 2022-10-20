@@ -1,10 +1,79 @@
 <div class="box">
 	<Kb::List
 		@knowledgeBases={{this.knowledgeBases}}
+		@currentlyLoading={{this.currentlyLoading}}
 		@view={{this.viewKb}}
 		@play={{this.playKb}}
 		@edit={{this.editKb}}
 		@delete={{this.deleteKb}}
 		@setSortParameters={{this.setSortParameters}}
 	/>
+	<div class="is-flex is-flex-direction-column is-align-items-flex-end">
+		<div class="is-flex-direction-row buttons are-small mb-0">
+			<LinkTo
+				@route="app.knowledge-bases.index"
+				@query={{hash page=1}}
+				class="button is-link"
+				aria-label={{t "common.pagination.first_page"}}
+				@disabled={{not this.canGoBackward}}
+			>
+				<FaIcon @icon="fast-backward" />
+			</LinkTo>
+			<LinkTo
+				@route="app.knowledge-bases.index"
+				@query={{hash page=this.prevPageNumber}}
+				class="button is-link"
+				aria-label={{t "common.pagination.previous_page"}}
+				@disabled={{not this.canGoBackward}}
+			>
+				<FaIcon @icon="backward" />
+			</LinkTo>
+			<button
+				type="button"
+				class="button is-static has-text-weight-bold"
+				aria-label={{t "common.pagination.current_page"}}
+			>
+				{{this.page}}
+			</button>
+			<LinkTo
+				@route="app.knowledge-bases.index"
+				@query={{hash page=this.nextPageNumber}}
+				class="button is-link"
+				aria-label={{t "common.pagination.next_page"}}
+				@disabled={{not this.canGoForward}}
+			>
+				<FaIcon @icon="forward" />
+			</LinkTo>
+			<LinkTo
+				@route="app.knowledge-bases.index"
+				@query={{hash page=this.lastPageNumber}}
+				class="button is-link"
+				aria-label={{t "common.pagination.last_page"}}
+				@disabled={{not this.canGoForward}}
+			>
+				<FaIcon @icon="fast-forward" />
+			</LinkTo>
+		</div>
+		<div class="mb-2">
+			<PowerSelect
+				@triggerClass="input is-small"
+				@ariaLabel={{t "common.pagination.per_page_selection"}}
+				@allowClear={{false}}
+				@selected={{this.perPage}}
+				@options={{this.perPageOptions}}
+				@onChange={{this.setPerPageOption}}
+				as |perPageOption|
+			>
+				<span class="pr-6">
+					{{perPageOption}}
+				</span>
+			</PowerSelect>
+		</div>
+		<div>
+			<span class="is-italic">
+				{{t "common.pagination.total_records"}}:
+				{{this.totalRecordCount}}
+			</span>
+		</div>
+	</div>
 </div>

@@ -1,13 +1,10 @@
-﻿namespace KnowledgeShell.Api.Dto
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace KnowledgeShell.Api.Dto;
+
+public class UserAuthenticationDto
 {
-    using System.ComponentModel.DataAnnotations;
+    [Required] public string UserName { get; set; }
 
-    public class UserAuthenticationDto
-    {
-        [Required]
-        public string UserName { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-    }
+    [Required] public string Password { get; set; }
 }

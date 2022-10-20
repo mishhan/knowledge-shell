@@ -17,33 +17,44 @@
 			<span aria-hidden="true"></span>
 		</a>
 	</div>
-	<div id="burger-navbar" class="navbar-menu {{if this.isMenuOpen "is-active"}}">
+	<div id="burger-navbar" class="navbar-menu {{if this.isMenuOpen 'is-active'}}">
 		<div class="navbar-end">
 			<div class="navbar-item">
 				<div class="buttons">
 					{{#if this.session.isAuthenticated}}
-						<button type="button" class="button is-primary" {{on "click" this.invalidateSession}}>
+						<button type="button" class="button is-primary" data-test-sign-out {{on "click" this.invalidateSession}}>
 							{{t "common.actions.sign_out"}}&nbsp;
 							<FaIcon @icon="sign-out-alt" />
 						</button>
 					{{else}}
-						<LinkTo class="button is-primary" @route="sign-up">
+						<LinkTo class="button is-primary" @route="sign-up" data-test-sign-up>
 							{{t "common.actions.sign_up"}}
 						</LinkTo>
-						<LinkTo class="button is-primary" @route="sign-in">
+						<LinkTo class="button is-primary" @route="sign-in" data-test-sign-in>
 							{{t "common.actions.sign_in"}}&nbsp;
 							<FaIcon @icon="sign-in-alt" />
 						</LinkTo>
 					{{/if}}
 				</div>
 			</div>
-			<div class="navbar-item has-dropdown is-hoverable">
-				<a role="button" class="navbar-link">
+			<div
+				class="navbar-item has-dropdown {{if this.isLanguagesOpen 'is-active'}}"
+				role="button"
+				{{on "click" this.toggleLanguages}}
+			>
+				{{!template-lint-disable no-nested-interactive}}
+				<a href="javascript:;" role="button" class="navbar-link" aria-label={{t "common.language_selection"}}>
 					<FaIcon @icon="language" />
 				</a>
 				<div class="navbar-dropdown navbar-language is-right">
 					{{#each this.supportedLanguages as |language|}}
-						<a role="button" class="navbar-item" {{on "click" (fn this.setLanguage language)}}>
+						{{!template-lint-disable no-nested-interactive}}
+						<a
+							href="javascript:;"
+							role="button"
+							class="navbar-item navbar-language__item is-unselectable"
+							{{on "click" (fn this.setLanguage language)}}
+						>
 							<img class="navbar-language__icon" src="/assets/flags/{{language}}.svg" alt={{language}} />
 							<span class="navbar-language__text">
 								{{t (concat "common.language." language)}}

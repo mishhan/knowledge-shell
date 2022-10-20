@@ -8,14 +8,19 @@ import Swal, { SweetAlertResult } from "sweetalert2";
 import sort from "knowledge-shell/utils/sort";
 
 export default class AppKnowledgeBasesIndexController extends Controller {
-	queryParams = ["sortBy", "sortDirection", "page"];
+	@service intl!: IntlService;
+	queryParams = ["sortBy", "sortDirection", "page", "perPage"];
 
 	@tracked page = 1;
+	@tracked perPage = 5;
 	@tracked filter = "";
 	@tracked sortBy = "";
 	@tracked sortDirection = "";
 
-	@service intl!: IntlService;
+	@tracked totalRecordCount = 0;
+	perPageOptions = [5, 10, 50];
+
+	@tracked currentlyLoading!: boolean;
 
 	get knowledgeBases(): KnowledgeBase[] {
 		const frameBases = this.store.peekAll("frame-base");
@@ -23,6 +28,28 @@ export default class AppKnowledgeBasesIndexController extends Controller {
 		const knowledgeBases = [...frameBases.toArray(), ...productionBases.toArray()];
 		const sortedKnowledgeBases = sort(knowledgeBases, this.sortBy, this.sortDirection);
 		return sortedKnowledgeBases;
+	}
+
+	get lastPageNumber(): number {
+		return Math.ceil(this.totalRecordCount / this.perPage);
+	}
+
+	get nextPageNumber(): number {
+		const nextPageNumber = this.page === this.lastPageNumber ? this.lastPageNumber : this.page + 1;
+		return nextPageNumber;
+	}
+
+	get prevPageNumber(): number {
+		const prevPageNumber = this.page === 1 ? this.page : this.page - 1;
+		return prevPageNumber;
+	}
+
+	get canGoForward(): boolean {
+		return this.page < this.lastPageNumber;
+	}
+
+	get canGoBackward(): boolean {
+		return this.page > 1;
 	}
 
 	@action
@@ -86,5 +113,10 @@ export default class AppKnowledgeBasesIndexController extends Controller {
 	setSortParameters(sortBy: string, sortDirection: string): void {
 		this.sortBy = sortBy;
 		this.sortDirection = sortDirection;
+	}
+
+	@action
+	setPerPageOption(perPageOption: number): void {
+		this.perPage = perPageOption;
 	}
 }

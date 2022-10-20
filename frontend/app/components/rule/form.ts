@@ -1,12 +1,10 @@
-import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import { inject as service } from "@ember/service";
-import type IntlService from "ember-intl/services/intl";
-import { action } from "@ember/object";
+import { action, set } from "@ember/object";
 import { htmlSafe } from "@ember/template";
 import { Rule, Variable } from "knowledge-shell/models";
 import { create, test, enforce, only, skipWhen } from "vest";
 import ProductionInterpretter from "knowledge-shell/interpretter/production";
+import Form from "../form";
 
 const ruleFormValidator = create((data: RuleForm, changedField: string) => {
 	only(changedField);
@@ -59,11 +57,8 @@ interface RuleFormArgs {
 	onCancel: () => void;
 }
 
-export default class RuleForm extends Component<RuleFormArgs> {
-	@service intl!: IntlService;
+export default class RuleForm extends Form<RuleFormArgs> {
 	productionInterpretter = new ProductionInterpretter();
-
-	@tracked isSubmitted!: boolean;
 
 	@tracked rule!: Rule;
 	@tracked name!: string;
@@ -73,11 +68,12 @@ export default class RuleForm extends Component<RuleFormArgs> {
 
 	@tracked validator = ruleFormValidator.get();
 
+	@tracked premiseSelectedVariable!: Variable | undefined;
+	@tracked consequenceSelectedVariable!: Variable | undefined;
+
 	get fullRule(): any {
 		return htmlSafe(
-			`IF:\r\n&nbsp;&nbsp;${this.premise}\r\n` +
-				`THEN:\r\n&nbsp;&nbsp;${this.consequence}\r\n` +
-				`WHY:\r\n&nbsp;&nbsp;${this.reason}`,
+			`IF:\r\n&nbsp;&nbsp;${this.premise}\r\nTHEN:\r\n&nbsp;&nbsp;${this.consequence}\r\nWHY:\r\n&nbsp;&nbsp;${this.reason}`,
 		);
 	}
 
@@ -113,32 +109,21 @@ export default class RuleForm extends Component<RuleFormArgs> {
 		};
 	}
 
-	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
-	}
-
 	@action
 	setupForm(): void {
 		const { rule } = this.args;
 		this.rule = rule;
 		this.name = rule.name;
 		this.reason = rule.reason;
-		this.premise = rule.premise;
-		this.consequence = rule.consequence;
+		this.premise = rule.premise || "";
+		this.consequence = rule.consequence || "";
 	}
 
 	@action
 	onSubmit(event: Event): void {
 		event.preventDefault();
 		this.isSubmitted = true;
-		this.validateForm();
+		this.validateForm(ruleFormValidator);
 		const hasValidationErrors = this.validator.hasErrors();
 		if (!hasValidationErrors) {
 			const { name, reason, premise, consequence } = this;
@@ -147,30 +132,27 @@ export default class RuleForm extends Component<RuleFormArgs> {
 	}
 
 	@action
-	onNameChange(value: string): void {
-		this.name = value;
-		this.validateForm("name");
+	onFieldChange(fieldName: string, value: string): void {
+		// @ts-ignore
+		set(this, fieldName, value);
+		this.validateForm(ruleFormValidator, fieldName);
 	}
 
 	@action
-	onReasonChange(value: string): void {
-		this.reason = value;
-		this.validateForm("reason");
+	selectPremiseVariable(premiseVariable: Variable): void {
+		if (this.premiseSelectedVariable?.id === premiseVariable.id) {
+			this.premiseSelectedVariable = undefined;
+		} else {
+			this.premiseSelectedVariable = premiseVariable;
+		}
 	}
 
 	@action
-	onPremiseChange(value: string): void {
-		this.premise = value;
-		this.validateForm("premise");
-	}
-
-	@action
-	onConsequenceChange(value: string): void {
-		this.consequence = value;
-		this.validateForm("consequence");
-	}
-
-	validateForm(fieldName?: string): void {
-		this.validator = ruleFormValidator(this, fieldName);
+	selectConsequenceVariable(consequenceVariable: Variable): void {
+		if (this.consequenceSelectedVariable?.id === consequenceVariable.id) {
+			this.consequenceSelectedVariable = undefined;
+		} else {
+			this.consequenceSelectedVariable = consequenceVariable;
+		}
 	}
 }

@@ -14,6 +14,10 @@ interface SlotListArgs {
 export default class SlotList extends Component<SlotListArgs> {
 	@tracked filter = "";
 
+	get hasSlots(): boolean {
+		return this.args.slots.length > 0;
+	}
+
 	get canReorderSlots(): boolean {
 		const selectedFrameHasParent = this.args.frame.hasParent;
 		const emptyFilter = this.filter === "";

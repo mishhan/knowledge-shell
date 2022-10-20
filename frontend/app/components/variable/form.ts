@@ -1,10 +1,8 @@
-import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import { inject as service } from "@ember/service";
-import type IntlService from "ember-intl/services/intl";
-import { action } from "@ember/object";
+import { action, set } from "@ember/object";
 import { Domain, Variable, VariableType } from "knowledge-shell/models";
-import { create, test, enforce, only } from "vest";
+import { create, test, enforce, only, omitWhen } from "vest";
+import Form from "../form";
 
 const variableFormValidator = create((data: VariableForm, cnahgedField: string) => {
 	only(cnahgedField);
@@ -14,18 +12,30 @@ const variableFormValidator = create((data: VariableForm, cnahgedField: string) 
 	});
 
 	test("name", "form.validation_errors.unique_name", () => {
-		enforce(data.name).notInside(data.variableNameCollection);
+		const variableNames = data.args.variables
+			.filter((variable: Variable) => variable.id !== data.args.variable.id)
+			.map((variable: Variable) => variable.name)
+			.filter((variableName: string) => variableName !== undefined);
+		enforce(data.name).notInside(variableNames);
 	});
 
+	/* since description isn't stored in DB
 	test("description", "form.validation_errors.required_field", () => {
 		enforce(data.description).isNotEmpty();
 	});
+	*/
 
-	if (data.variableType !== VariableType.Derrivable) {
+	omitWhen(data.variableType !== VariableType.Requested, () => {
 		test("question", "form.validation_errors.required_field", () => {
 			enforce(data.question).isNotEmpty();
 		});
-	}
+	});
+
+	omitWhen(data.variableType === VariableType.Requested, () => {
+		test("question", "form.validation_errors.required_empty_field", () => {
+			enforce(data.question).isEmpty();
+		});
+	});
 
 	test("variableType", "form.validation_errors.required_field", () => {
 		enforce(data.variableType).isNumber();
@@ -45,11 +55,7 @@ interface VariableFormArgs {
 	onCancel: () => void;
 }
 
-export default class VariableForm extends Component<VariableFormArgs> {
-	@service intl!: IntlService;
-
-	@tracked isSubmitted!: boolean;
-
+export default class VariableForm extends Form<VariableFormArgs> {
 	@tracked name!: string;
 	@tracked domain!: Domain;
 	@tracked variableType!: VariableType;
@@ -57,7 +63,6 @@ export default class VariableForm extends Component<VariableFormArgs> {
 	@tracked question!: string;
 
 	@tracked validator = variableFormValidator.get();
-	variableNameCollection!: string[];
 
 	get variableTypes(): { key: number; value: string }[] {
 		return [
@@ -97,17 +102,6 @@ export default class VariableForm extends Component<VariableFormArgs> {
 		return questionValidation;
 	}
 
-	getFieldValidation(fieldName: string): { errors: string[]; isValid: boolean; isInValid: boolean } {
-		const errors = this.validator.getErrors(fieldName).map((errorKey: string) => this.intl.t(errorKey));
-		const isValid = this.isSubmitted && errors.length === 0;
-		const isInValid = this.isSubmitted && errors.length > 0;
-		return {
-			errors,
-			isValid,
-			isInValid,
-		};
-	}
-
 	@action
 	setupForm(): void {
 		const { name, description, variableType, domain, question } = this.args.variable;
@@ -116,17 +110,13 @@ export default class VariableForm extends Component<VariableFormArgs> {
 		this.variableType = variableType;
 		this.domain = domain;
 		this.question = question;
-		this.variableNameCollection = this.args.variables
-			.filter((variable: Variable) => variable.id !== this.args.variable.id)
-			.map((variable: Variable) => variable.name)
-			.filter((variableName: string) => variableName !== undefined);
 	}
 
 	@action
 	onSubmit(event: Event): void {
 		event.preventDefault();
 		this.isSubmitted = true;
-		this.validateForm();
+		this.validateForm(variableFormValidator);
 		const hasValidationErrors = this.validator.hasErrors();
 		if (!hasValidationErrors) {
 			const { name, description, question, variableType, domain } = this;
@@ -135,36 +125,15 @@ export default class VariableForm extends Component<VariableFormArgs> {
 	}
 
 	@action
-	onNameChange(value: string): void {
-		this.name = value;
-		this.validateForm("name");
-	}
-
-	@action
-	onDescriptionChange(value: string): void {
-		this.description = value;
-		this.validateForm("description");
-	}
-
-	@action
-	onQuestionChange(value: string): void {
-		this.question = value;
-		this.validateForm("question");
+	onFieldChange(fieldName: string, value: string): void {
+		// @ts-ignore
+		set(this, fieldName, value);
+		this.validateForm(variableFormValidator, fieldName);
 	}
 
 	@action
 	setVariableType(variableType: { key: VariableType; value: string }): void {
 		this.variableType = variableType.key;
-		this.validateForm("variableType");
-	}
-
-	@action
-	setDomain(domain: Domain): void {
-		this.domain = domain;
-		this.validateForm("domain");
-	}
-
-	validateForm(fieldName?: string): void {
-		this.validator = variableFormValidator(this, fieldName);
+		this.validateForm(variableFormValidator);
 	}
 }

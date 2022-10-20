@@ -44,12 +44,14 @@ export default class AppProductionBaseDomainsEditController extends Controller {
 	}
 
 	async removeDeletedDomainValues(): Promise<void> {
-		this.initialDomainValues.forEach(async (domainValue: DomainValue) => {
-			const isDeleted =
-				this.currentDomain.domainValues.find((dv: DomainValue) => dv.id === domainValue.id) === undefined;
-			if (isDeleted) {
-				await domainValue.destroyRecord();
-			}
-		});
+		if (this.initialDomainValues) {
+			this.initialDomainValues.forEach(async (domainValue: DomainValue) => {
+				const isDeleted =
+					this.currentDomain.domainValues.find((dv: DomainValue) => dv.id === domainValue.id) === undefined;
+				if (isDeleted) {
+					await domainValue.destroyRecord();
+				}
+			});
+		}
 	}
 }

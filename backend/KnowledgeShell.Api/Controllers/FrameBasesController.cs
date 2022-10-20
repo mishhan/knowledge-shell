@@ -1,22 +1,23 @@
-﻿namespace KnowledgeShell.Api.Controllers
-{
-    using System;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using JsonApiDotNetCore.Services;
-    using JsonApiDotNetCore.Controllers;
-    using JsonApiDotNetCore.Configuration;
-    using KnowledgeShell.Api.Models;
+﻿using System;
+using JsonApiDotNetCore.Configuration;
+using JsonApiDotNetCore.Controllers;
+using JsonApiDotNetCore.Services;
+using KnowledgeShell.Api.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class FrameBasesController : JsonApiController<FrameBase, Guid>
+namespace KnowledgeShell.Api.Controllers;
+
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+public class FrameBasesController : JsonApiController<FrameBase, Guid>
+{
+    public FrameBasesController(
+        IJsonApiOptions jsonApiOptions,
+        IResourceGraph resourceGraph,
+        ILoggerFactory loggerFactory,
+        IResourceService<FrameBase, Guid> resourceService)
+        : base(jsonApiOptions, resourceGraph, loggerFactory, resourceService)
     {
-        public FrameBasesController(
-IJsonApiOptions jsonApiOptions,
-ILoggerFactory loggerFactory,
-IResourceService<FrameBase, Guid> resourceService)
-: base(jsonApiOptions, loggerFactory, resourceService)
-        { }
     }
 }
