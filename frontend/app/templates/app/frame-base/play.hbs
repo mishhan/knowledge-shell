@@ -8,8 +8,10 @@
 		@addMoveObjectOnField={{this.addMoveObjectOnField}}
 	/>
 </div>
-<div class="base-editor__log">
-	<ul class="tree">
-		<TreeNode @node={{this.gameObjectLog}} @isRootNode={{true}} @isLastNode={{false}} />
-	</ul>
+<div class="container is-fluid my-2">
+	<Card @header={{t "pages.frame_editor.testing.battle.log"}}>
+		<ul class="tree base-editor__log">
+			<TreeNode @node={{this.gameObjectLog}} @isRootNode={{true}} @isLastNode={{false}} />
+		</ul>
+	</Card>
 </div>

@@ -92,12 +92,12 @@
 	}
 
 	&__game-panel {
+		align-items: center;
 		display: flex;
-		flex-direction: row;
-		margin: 5px 10%;
+		flex-direction: column;
 	}
 
 	&__log {
-		margin: 5px 10%;
+		overflow-x: auto;
 	}
 }

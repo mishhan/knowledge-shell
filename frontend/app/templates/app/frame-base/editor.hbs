@@ -1,9 +1,9 @@
 <div class="base-editor__editor">
-	<div class="base-editor__editor-tree">
+	<ul class="base-editor__editor-tree">
 		{{#each this.rootFrames as |rootFrame|}}
 			<TreeNode @node={{rootFrame}} @selectNode={{this.selectFrame}} @isRootNode={{true}} @isLastNode={{false}} />
 		{{/each}}
-	</div>
+	</ul>
 	<div class="base-editor__editor-graph">
 		<Frame::Graph
 			@frames={{this.frames}}

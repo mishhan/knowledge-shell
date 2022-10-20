@@ -1,0 +1,20 @@
+<div class="container is-fluid my-3">
+	<div class="columns is-vcentered">
+		<div class="column has-text-centered">
+			<h1 class="title">
+				{{t "pages.not_found.title"}}
+			</h1>
+			<p class="subtitle">
+				{{t "pages.not_found.suggestion"}}
+			</p>
+			<LinkTo @route="app.knowledge-bases" class="button is-link">
+				<span class="icon">
+					<FaIcon @icon="home" />
+				</span>
+				<span>
+					{{t "pages.not_found.home"}}
+				</span>
+			</LinkTo>
+		</div>
+	</div>
+</div>

@@ -34,7 +34,8 @@
 				@allowClear={{false}}
 				@selected={{this.selectedType}}
 				@disabled={{not @canEditType}}
-				@onChange={{this.setType}} as |kbType|
+				@onChange={{this.setType}}
+				as |kbType|
 			>
 				{{kbType.value}}
 			</PowerSelect>

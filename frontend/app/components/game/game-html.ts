@@ -17,8 +17,6 @@ export default class GameHtml extends Component<GameArgs> {
 
 	get fieldStyle(): string {
 		const { x, y } = this.args;
-		const cellWidth = "100px";
-		const cellHeight = "100px";
-		return `grid-template-columns: repeat(${x}, ${cellWidth}); grid-template-rows: repeat(${y}, ${cellHeight})`;
+		return `grid-template-columns: repeat(${x}, 1fr); grid-template-rows: repeat(${y}, 1fr)`;
 	}
 }

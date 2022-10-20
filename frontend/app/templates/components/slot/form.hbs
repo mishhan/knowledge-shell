@@ -19,7 +19,8 @@
 		@options={{@domains}}
 		@selected={{@slot.domain}}
 		@disabled={{not @slot.canEditDomain}}
-		@onChange={{this.setDomain}} as |domain|
+		@onChange={{this.setDomain}}
+		as |domain|
 	>
 		{{domain.name}}
 	</PowerSelect>
@@ -32,7 +33,8 @@
 		@options={{@slot.domain.domainValues}}
 		@allowClear={{true}}
 		@selected={{@slot.value}}
-		@onChange={{this.setValue}} as |domainValue|
+		@onChange={{this.setValue}}
+		as |domainValue|
 	>
 		{{domainValue.valueStr}}
 	</PowerSelect>

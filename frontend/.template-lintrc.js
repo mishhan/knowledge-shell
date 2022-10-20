@@ -9,5 +9,6 @@ module.exports = {
 		"no-nested-interactive": true,
 		"link-href-attributes": "off",
 		"require-input-label": "off",
+		"require-presentational-children": "off"
 	}
 };

@@ -25,11 +25,11 @@ public class AccountController : ControllerBase
 
     [HttpPost("/token")]
     public async Task<ActionResult<UserAuthenticationResultDto>> Token(
-        [FromForm] UserAuthenticationDto userAthenticationDto)
+        [FromForm] UserAuthenticationDto userAuthenticationDto)
     {
         var userToken =
-            await _accountService.GenerateToken(userAthenticationDto.UserName, userAthenticationDto.Password);
-        var userAuthenticationDto = new UserAuthenticationResultDto { AccessToken = userToken };
-        return Ok(userAuthenticationDto);
+            await _accountService.GenerateToken(userAuthenticationDto.UserName, userAuthenticationDto.Password);
+        var userAuthenticationResultDto = new UserAuthenticationResultDto { AccessToken = userToken };
+        return Ok(userAuthenticationResultDto);
     }
 }

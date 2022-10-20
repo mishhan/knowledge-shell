@@ -88,22 +88,42 @@
 									{{format-date kb.updatedAt}}
 								</td>
 								<td class="kb-table__actions-column has-text-centered">
-									<button type="button" class="button is-info is-small m-1" {{on "click" (fn @view kb)}}>
+									<button
+										aria-label={{t "common.actions.view"}}
+										type="button"
+										class="button is-info is-small m-1"
+										{{on "click" (fn @view kb)}}
+									>
 										<span class="icon">
 											<FaIcon @icon="eye" />
 										</span>
 									</button>
-									<button type="button" class="button is-info is-small m-1" {{on "click" (fn @play kb)}}>
+									<button
+										aria-label={{t "common.actions.test"}}
+										type="button"
+										class="button is-info is-small m-1"
+										{{on "click" (fn @play kb)}}
+									>
 										<span class="icon">
 											<FaIcon @icon="play" />
 										</span>
 									</button>
-									<button type="button" class="button is-warning is-small m-1" {{on "click" (fn @edit kb)}}>
+									<button
+										aria-label={{t "common.actions.edit"}}
+										type="button"
+										class="button is-warning is-small m-1"
+										{{on "click" (fn @edit kb)}}
+									>
 										<span class="icon">
 											<FaIcon @icon="edit" />
 										</span>
 									</button>
-									<button type="button" class="button is-danger is-small m-1" {{on "click" (fn @delete kb)}}>
+									<button
+										aria-label={{t "common.actions.delete"}}
+										type="button"
+										class="button is-danger is-small m-1"
+										{{on "click" (fn @delete kb)}}
+									>
 										<span class="icon">
 											<FaIcon @icon="trash" />
 										</span>

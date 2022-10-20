@@ -1,5 +1,6 @@
 {
 	"common": {
+		"language_selection": "Выбор языка",
 		"language": {
 			"ru-ru": "Русский",
 			"en-us": "English"
@@ -7,17 +8,33 @@
 		"logo": "Логотип",
 		"field_not_set": "Не задано",
 		"no_data": "Нет Данных",
-		"total_records": "Всего записей",
+		"stacktrace": "Трассировка стека",
 		"actions": {
 			"add": "Добавить",
 			"cancel": "Отменить",
 			"save": "Сохранить",
+			"view": "Посмотреть информацию",
+			"edit": "Редактировать",
+			"test": "Тестировать",
+			"delete": "Удалить",
+			"open": "Открыть",
+			"close": "Закрыть",
+			"select": "Выбрать",
 			"filter": "Фильтр",
 			"search": "Поиск",
 			"sign_in": "Войти",
 			"sign_out": "Выйти",
 			"sign_up": "Зарегистрироваться",
 			"actions": "Действия"
+		},
+		"pagination": {
+			"first_page": "Первая страница",
+			"previous_page": "Предыдущая страница",
+			"current_page": "Текущая страница",
+			"next_page": "Следующая страница",
+			"last_page": "Последняя страница",
+			"per_page_selection": "Выбор количества записей на странице",
+			"total_records": "Всего записей"
 		}
 	},
 	"form": {
@@ -33,14 +50,19 @@
 		}
 	},
 	"pages": {
+		"not_found": {
+			"title": "404 Страница не найдена",
+			"suggestion": "Возможно, ссылка устарела..",
+			"home": "Главная"
+		},
 		"footer": {
-			"copyright": "2020 Copyright",
+			"copyright": "2022 Copyright",
 			"licence": "MIT License",
 			"github_project": "Github Project"
 		},
 		"production_editor": {
 			"information": {
-				"title": "Описание",
+				"title": "Описание БЗ",
 				"properties": {
 					"header": "Свойста",
 					"rule_count": "Количество правил",
@@ -63,7 +85,7 @@
 		},
 		"frame_editor": {
 			"information": {
-				"title": "Описание",
+				"title": "Описание БЗ",
 				"properties": {
 					"header": "Свойста",
 					"frame_count": "Количество фреймов",
