@@ -31,17 +31,26 @@ internal class AccountService : IAccountService
         return true;
     }
 
-    public async Task<string> GenerateToken(string identification, string password)
+    public async Task<User> Authenticate(string identification, string password)
     {
         var userByLogin = await _userManager.FindByNameAsync(identification);
         var userByEmail = await _userManager.FindByEmailAsync(identification);
         if (userByLogin == null && userByEmail == null)
-            throw new HttpException(HttpStatusCode.Unauthorized, "Invalid identification");
+            return null;
 
         var user = userByLogin ?? userByEmail;
-
         var signInResult = await _signInManager.CheckPasswordSignInAsync(user, password, false);
-        if (!signInResult.Succeeded) throw new HttpException(HttpStatusCode.Unauthorized, "Invalid password");
+        if (signInResult.Succeeded)
+            return user;
+        return null;
+    }
+
+    public async Task<string> GenerateToken(string identification, string password)
+    {
+        var user = await Authenticate(identification, password);
+
+        if (user == null)
+            throw new HttpException(HttpStatusCode.Unauthorized, "Invalid credentials");
 
         var userToken = _tokenService.CreateToken(user);
         return userToken;

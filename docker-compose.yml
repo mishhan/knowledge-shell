@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - 4200:4200
+  backend:
+    build: ./backend/KnowledgeShell.Api
+    ports:
+      - 5000:80
+    depends_on:
+      - db
+  db:
+    build: ./backend/KnowledgeShell.Api/Data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=knowledge_shell
+      - POSTGRES_DB=postgres
+
+networks:
+  knowledge_shell:
+    driver: bridge

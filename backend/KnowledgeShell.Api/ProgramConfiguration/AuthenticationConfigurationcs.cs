@@ -1,5 +1,6 @@
 ﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using KnowledgeShell.Api.Filters;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -9,7 +10,9 @@ internal static class AuthenticationConfigurationcs
 {
     public static void ConfigureAuthentication(this IServiceCollection services, string secretKey)
     {
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        services.AddAuthentication()
+            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>
+                (AuthScheme.Basic, null)
             .AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
