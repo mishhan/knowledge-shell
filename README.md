@@ -13,15 +13,20 @@ based expert system shell
 * frames
 * production rules - question-answer system
 
-more examples to come
-
 ### Backend
 
-[ASP.NET Core Web API APP](https://github.com/mishhan/knowledge-shell/tree/readme/backend)
+[ASP.NET Core Web API](https://github.com/mishhan/knowledge-shell/tree/readme/backend)
 
 ### Frontend
 
-[Ember.js APP](https://github.com/mishhan/knowledge-shell/tree/readme/frontend)
+[Ember.js](https://github.com/mishhan/knowledge-shell/tree/readme/frontend)
+
+### Try it out
+
+- `docker compose up`
+- Visit app at [http://localhost:4200](http://localhost:4200)
+  - login - `admin`
+  - password - `Madmin1!`
 
 ### Licence
 

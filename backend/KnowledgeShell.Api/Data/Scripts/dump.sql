@@ -19,7 +19,7 @@ SET row_security = off;
 -- Name: knowledge_shell; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE DATABASE knowledge_shell WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Russian_Russia.1251' LC_CTYPE = 'Russian_Russia.1251';
+CREATE DATABASE knowledge_shell WITH TEMPLATE = template0 ENCODING = 'UTF8';
 
 
 ALTER DATABASE knowledge_shell OWNER TO postgres;

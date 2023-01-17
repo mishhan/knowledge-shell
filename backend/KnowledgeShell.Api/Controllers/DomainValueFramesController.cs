@@ -1,15 +1,14 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 using JsonApiDotNetCore.Configuration;
 using JsonApiDotNetCore.Controllers;
 using JsonApiDotNetCore.Services;
 using KnowledgeShell.Api.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
 
 namespace KnowledgeShell.Api.Controllers;
 
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = AuthScheme.SupportedSchemes)]
 public class DomainValueFramesController : JsonApiController<DomainValueFrame, Guid>
 {
     public DomainValueFramesController(
